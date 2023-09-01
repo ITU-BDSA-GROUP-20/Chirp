@@ -26,7 +26,7 @@ if (args[0].Equals("read"))
             timeStamp = int.Parse(splitLine[2]);
             DateTimeOffset time = DateTimeOffset.FromUnixTimeSeconds(timeStamp);
             
-            Console.WriteLine($"{author} @ {time}: {message} ");
+            Console.WriteLine($"{author} @ {time}: {message}");
         }
     }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj": {}
+    "c:\\ITU\\Semester 3\\Software Arch\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj": {}
   },
   "projects": {
-    "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj": {
+    "c:\\ITU\\Semester 3\\Software Arch\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+        "projectUniqueName": "c:\\ITU\\Semester 3\\Software Arch\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
         "projectName": "Chirp.CLI",
-        "projectPath": "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+        "projectPath": "c:\\ITU\\Semester 3\\Software Arch\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
         "packagesPath": "C:\\Users\\mikke\\.nuget\\packages\\",
-        "outputPath": "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\Chirp.CLI\\obj\\",
+        "outputPath": "c:\\ITU\\Semester 3\\Software Arch\\Chirp\\Chirp.CLI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mikke\\AppData\\Roaming\\NuGet\\NuGet.Config"

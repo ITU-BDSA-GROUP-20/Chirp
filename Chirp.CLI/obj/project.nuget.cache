@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+fGapwAw9pKTK3DO7rZw2/cn2b827ELs8XlCZaklyMsD8Tbk2eLJyEBz0d8nIyTyfZBl17WGuu986QhIU0XHPA==",
+  "dgSpecHash": "xloDkRTrSK+V/xPrXse9+wleLb0LL4tkRKSo4yg7cRhnAWA/l8cyK2ghCHAD6L7bx8xHrZdqzagt0hBOre4oMQ==",
   "success": true,
-  "projectFilePath": "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+  "projectFilePath": "c:\\ITU\\Semester 3\\Software Arch\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
