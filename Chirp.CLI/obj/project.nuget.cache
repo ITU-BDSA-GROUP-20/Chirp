@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/szLfZoIFYR3OTJ3MaGwOYDeHkafbf2qGWe2cL2DSMBEs8aabE5RrwgRgV1dOWR37m7k8gPbZNyzRxIRsODA3A==",
+  "dgSpecHash": "ryMvmll7V8RQqfO+RBkTu31L2XrXtAGNjwOsBwkne/YFPI47QJ6w77tY5Ir+TXD5cZrbkrlbX13uxsbAiuMkdA==",
   "success": true,
-  "projectFilePath": "c:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+  "projectFilePath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
