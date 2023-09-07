@@ -13,7 +13,6 @@ public class Cheep
    
         //Src: "Andrew" https://stackoverflow.com/questions/17632584/how-to-get-the-unix-timestamp-in-c-sharp 
         unixtimestamp = (long)DateTime.Now.Subtract(DateTime.UnixEpoch).TotalSeconds;
-        DateTimeOffset.
     }
     
     public string toString()
