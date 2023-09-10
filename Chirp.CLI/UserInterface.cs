@@ -3,13 +3,11 @@ using SimpleDB;
 
 static class UserInterface {
 
-    void PrintCheeps(IDatabaseRepository<Cheep> cheepDB, int amountOfMessages)
+    public static void PrintCheeps(IEnumerable<Cheep> cheeps)
     {
-        /*
-            The cheep should be printed here, which means that we need the read method to return cheeps
-            where we easily can use the .toString
-
-        */
-        cheepDB.Read(amountOfMessages);
+        foreach (Cheep cheep in cheeps)
+        {
+            Console.WriteLine(cheep.ToString());
+        }
     }
 }
