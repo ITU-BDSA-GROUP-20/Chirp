@@ -7,11 +7,15 @@ namespace SimpleDB;
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
     public string filePath;
-    List<T> cheepCollection = null;
+    List<T> cheepCollection;
 
     public CSVDatabase(string filePath)
     {
         this.filePath = filePath;
+        
+        // TODO
+        // This might not be the correct way to handle the issue of not exiting constructor with null-value
+        cheepCollection = new();
     }
 
     public IEnumerable<T> Read(int limit)
