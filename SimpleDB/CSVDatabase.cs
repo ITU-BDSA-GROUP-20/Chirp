@@ -15,12 +15,12 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         
         // TODO
         // This might not be the correct way to handle the issue of not exiting constructor with null-value
-        cheepCollection = new();
+        cheepCollection = new List<T>();
     }
 
     public IEnumerable<T> Read(int limit)
     {
-        cheepCollection = new(); 
+        cheepCollection = new List<T>(); 
         using var reader = new StreamReader(filePath);
         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
         var records = csv.GetRecords<T>();
