@@ -21,8 +21,8 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     public IEnumerable<T> Read(int limit)
     {
         cheepCollection = new List<T>(); 
-        using var reader = new StreamReader(filePath);
-        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+        using StreamReader reader = new StreamReader(filePath);
+        using CsvReader csv = new CsvReader(reader, CultureInfo.InvariantCulture);
         var records = csv.GetRecords<T>();
         foreach (var T in records)
         {
@@ -34,11 +34,14 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
     public void Store(T record)
     {
-        throw new NotImplementedException();
+        using (StreamWriter writer = new StreamWriter(filePath, true))
+        using (CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        {
+            writer.WriteLine();
+            csv.WriteRecord(record);
+        }
+        
     }
-
-    
-
 }
    
 

@@ -20,9 +20,7 @@ if (args[0].Equals("read"))
 {
     string message = args[1];
     
-    //Converting from timestamp to unixtimestamp... 
-    
-    //database.Store(new Cheep(message));
+    database.Store(new Cheep(Environment.UserName, message, (long)DateTime.Now.Subtract(DateTime.UnixEpoch).TotalSeconds));
 }
 
 
