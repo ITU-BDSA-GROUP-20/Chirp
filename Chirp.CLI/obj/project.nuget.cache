@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "l6iO3IWXVbZxlXzYLLITwy27RsJQSFz7+y/+uQPv5BB/jzPqM426ZDYrrWjaHQwhlPhGzSYeVyQ9orEYyLM8dg==",
+  "dgSpecHash": "kkAHrYQ/BAcTd1nK3r5MdxhkpNvcd29DetGrEr/f1tW8KNMopG3JWZxv4ewIdDLX7pur83GF3LD/UnD1KmTsWw==",
   "success": true,
-  "projectFilePath": "/Users/oliverlaursen/Documents/GitHub/Chirp/Chirp.CLI/Chirp.CLI.csproj",
+  "projectFilePath": "C:\\Users\\madsd\\Documents\\GitHub\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
   "expectedPackageFiles": [
-    "/Users/oliverlaursen/.nuget/packages/csvhelper/30.0.1/csvhelper.30.0.1.nupkg.sha512"
+    "C:\\Users\\madsd\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512"
   ],
   "logs": []
 }

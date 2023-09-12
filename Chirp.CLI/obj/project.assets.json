@@ -15,17 +15,17 @@
           }
         }
       },
-      "SimpleDB/1.0.0": {
+      "simpleDB/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
           "CsvHelper": "30.0.1"
         },
         "compile": {
-          "bin/placeholder/SimpleDB.dll": {}
+          "bin/placeholder/simpleDB.dll": {}
         },
         "runtime": {
-          "bin/placeholder/SimpleDB.dll": {}
+          "bin/placeholder/simpleDB.dll": {}
         }
       }
     }
@@ -55,15 +55,15 @@
         "lib/netstandard2.1/CsvHelper.xml"
       ]
     },
-    "SimpleDB/1.0.0": {
+    "simpleDB/1.0.0": {
       "type": "project",
-      "path": "../SimpleDB/SimpleDB.csproj",
-      "msbuildProject": "../SimpleDB/SimpleDB.csproj"
+      "path": "../SimpleDB/simpleDB.csproj",
+      "msbuildProject": "../SimpleDB/simpleDB.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
-      "SimpleDB >= 1.0.0"
+      "simpleDB >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -72,11 +72,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\madsd\\Documents\\GitHub\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+      "projectUniqueName": "C:\\Users\\madsd\\Documents\\GitHub\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
       "projectName": "Chirp.CLI",
-      "projectPath": "c:\\Users\\madsd\\Documents\\GitHub\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+      "projectPath": "C:\\Users\\madsd\\Documents\\GitHub\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
       "packagesPath": "C:\\Users\\madsd\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\madsd\\Documents\\GitHub\\Chirp\\Chirp.CLI\\obj\\",
+      "outputPath": "C:\\Users\\madsd\\Documents\\GitHub\\Chirp\\Chirp.CLI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\madsd\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -91,8 +91,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "c:\\Users\\madsd\\Documents\\GitHub\\Chirp\\SimpleDB\\SimpleDB.csproj": {
-              "projectPath": "c:\\Users\\madsd\\Documents\\GitHub\\Chirp\\SimpleDB\\SimpleDB.csproj"
+            "C:\\Users\\madsd\\Documents\\GitHub\\Chirp\\SimpleDB\\simpleDB.csproj": {
+              "projectPath": "C:\\Users\\madsd\\Documents\\GitHub\\Chirp\\SimpleDB\\simpleDB.csproj"
             }
           }
         }
