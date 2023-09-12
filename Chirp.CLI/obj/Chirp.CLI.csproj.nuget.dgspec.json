@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj": {}
+    "/Users/oliverlaursen/Documents/GitHub/Chirp/Chirp.CLI/Chirp.CLI.csproj": {}
   },
   "projects": {
-    "c:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj": {
+    "/Users/oliverlaursen/Documents/GitHub/Chirp/Chirp.CLI/Chirp.CLI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+        "projectUniqueName": "/Users/oliverlaursen/Documents/GitHub/Chirp/Chirp.CLI/Chirp.CLI.csproj",
         "projectName": "Chirp.CLI",
-        "projectPath": "c:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\Chirp.CLI\\obj\\",
+        "projectPath": "/Users/oliverlaursen/Documents/GitHub/Chirp/Chirp.CLI/Chirp.CLI.csproj",
+        "packagesPath": "/Users/oliverlaursen/.nuget/packages/",
+        "outputPath": "/Users/oliverlaursen/Documents/GitHub/Chirp/Chirp.CLI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/oliverlaursen/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -26,8 +26,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "c:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\SimpleDB\\SimpleDB.csproj": {
-                "projectPath": "c:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\SimpleDB\\SimpleDB.csproj"
+              "/Users/oliverlaursen/Documents/GitHub/Chirp/SimpleDB/simpleDB.csproj": {
+                "projectPath": "/Users/oliverlaursen/Documents/GitHub/Chirp/SimpleDB/simpleDB.csproj"
               }
             }
           }
@@ -57,21 +57,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.400/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "c:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\SimpleDB\\SimpleDB.csproj": {
+    "/Users/oliverlaursen/Documents/GitHub/Chirp/SimpleDB/simpleDB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\SimpleDB\\SimpleDB.csproj",
-        "projectName": "SimpleDB",
-        "projectPath": "c:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\SimpleDB\\SimpleDB.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\SimpleDB\\obj\\",
+        "projectUniqueName": "/Users/oliverlaursen/Documents/GitHub/Chirp/SimpleDB/simpleDB.csproj",
+        "projectName": "simpleDB",
+        "projectPath": "/Users/oliverlaursen/Documents/GitHub/Chirp/SimpleDB/simpleDB.csproj",
+        "packagesPath": "/Users/oliverlaursen/.nuget/packages/",
+        "outputPath": "/Users/oliverlaursen/Documents/GitHub/Chirp/SimpleDB/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/oliverlaursen/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -94,6 +94,12 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[30.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -110,7 +116,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.400/RuntimeIdentifierGraph.json"
         }
       }
     }
