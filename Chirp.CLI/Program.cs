@@ -13,15 +13,14 @@ public class Program
         {
             ReadCommand(args);
         }
-        catch (FormatException e)
+        catch (FormatException)
         {
             Console.WriteLine("Read command usage: read <integer>");
         }
-        catch (Exception e)
+        catch (Exception)
         {
             // Temporary
             Console.WriteLine("Command usage: <command> <action>");
-            return;
         }
     }
 
@@ -47,10 +46,21 @@ public class Program
 
     private static void WriteCheep(string message)
     {
-        //database.Store(new Cheep(message))
+        string username = GetUsername();
+        long dateTime = TimeStampConverter();
+        database.Store(new Cheep(username, message, dateTime));
     }
 
 
+    private static string GetUsername()
+    {
+        return Environment.UserName;
+    }
+
+    private static long TimeStampConverter()
+    {
+        return (long)DateTime.Now.Subtract(DateTime.UnixEpoch).TotalSeconds;
+    }
 }
 
 
