@@ -57,6 +57,7 @@ public class Program
 
     private static void WriteCheep(string message)
     {
+        
         string username = GetUsername();
         long dateTime = TimeStampConverter();
         database.Store(new Cheep(username, message, dateTime));

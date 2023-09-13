@@ -24,12 +24,14 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         using StreamReader reader = new StreamReader(filePath);
         using CsvReader csv = new CsvReader(reader, CultureInfo.InvariantCulture);
         var records = csv.GetRecords<T>();
+        
+        
         foreach (var T in records)
         {
             cheepCollection.Add(T);
         }
         
-        return cheepCollection;
+        return cheepCollection.GetRange(cheepCollection.Count()-limit, limit);
     }
 
     public void Store(T record)
