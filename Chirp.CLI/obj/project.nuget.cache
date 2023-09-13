@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "1wBLiKpaRnH9qmd4+mdcQPU0Z3dAuwQKHZGTOe6MGc317BGIdY58kC9zPFNcFotxgkkaMp1vAGQjYdAYj/2f2A==",
+  "dgSpecHash": "SfschcqpB/qgxWE4Lc1J/HgsXAkuiujf2wsLSv7OaZEcOPS+3RfJ25hd0OHnYY/YKTf8EbrbqWR9mLDCtZajPQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\Chirp.CLI\\Chirp.CLI.csproj",
+  "projectFilePath": "/Users/oliverlaursen/Documents/GitHub/Chirp/Chirp.CLI/Chirp.CLI.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Administrator\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512"
+    "/Users/oliverlaursen/.nuget/packages/commandlineparser/2.9.1/commandlineparser.2.9.1.nupkg.sha512",
+    "/Users/oliverlaursen/.nuget/packages/csvhelper/30.0.1/csvhelper.30.0.1.nupkg.sha512",
+    "/Users/oliverlaursen/.nuget/packages/nuget.commandline/6.7.0/nuget.commandline.6.7.0.nupkg.sha512"
   ],
   "logs": []
 }

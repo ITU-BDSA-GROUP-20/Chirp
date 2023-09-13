@@ -1,42 +1,53 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Windows.Markup;
+using CommandLine;
+
 using Chirp.CLI;
+using CommandLine.Text;
+using CsvHelper;
 using SimpleDB;
 
 public class Program
 {
+    class Options
+    {
+        //Collection of acceptable commands: 
+        
+        
+        //Read Command
+        [Option( "read", HelpText="Outputs the specified number of cheeps(NOC): read <NOC>")]
+        public int noOfCheeps { get; set; }
+        
+        //Cheap Command
+        [Option("cheep", HelpText = "Stores Message, Author and Timestamp of a cheep: cheep <message>")]
+        public string message { get; set; }
+        
+      
+    }
+    
+    
+    
     static string csvFilePath = "chirp_cli_db.csv";
     private static IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>(csvFilePath);
     
     public static void Main(string[] args)
     {
-        try
-        {
-            ReadCommand(args);
-        }
-        catch (FormatException)
-        {
-            Console.WriteLine("Read command usage: read <integer>");
-        }
-        catch (Exception)
-        {
-            // Temporary
-            Console.WriteLine("Command usage: <command> <action>");
-        }
+        Parser.Default.ParseArguments<Options>(args).WithParsed(options => ReadCommand(options));
+       
     }
 
-    private static void ReadCommand(string[] args)
+    private static void ReadCommand(Options options)
     {
-        switch (args[0])
+        if (!string.IsNullOrEmpty(options.message))
         {
-            case "read":
-                ReadCheeps(int.Parse(args[1]));
-                break;
-            case "cheep":
-                WriteCheep(args[1]);
-                break;
-            default:
-                throw new Exception();
-        }
+            WriteCheep(options.message);
+            
+        } else if (options.noOfCheeps != null)
+        {
+            ReadCheeps(options.noOfCheeps);
+        } 
+        
     }
 
     private static void ReadCheeps(int noOfLines)
