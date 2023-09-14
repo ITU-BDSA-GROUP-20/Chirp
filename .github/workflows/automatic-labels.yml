@@ -1,0 +1,75 @@
+#Credit: ChatGPT 4.0
+
+name: Issue Automation
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  process_issues:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Assign to project board and add labels
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const issueBody = context.issue.body.toLowerCase();
+          const issueNumber = context.issue.number;
+          const { Octokit } = require("@octokit/rest");
+          const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+
+          // Add to project board
+          octokit.projects.createCard({
+            column_id: '1',
+            content_id: issueNumber,
+            content_type: 'Issue',
+          });
+
+          // Check for keywords and add labels
+          if (['improvement', 'feature', 'enhancement'].some(keyword => issueBody.includes(keyword))) {
+            octokit.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              labels: ['enhancement']
+            });
+          }
+
+          if (['bug', 'not working', 'fix'].some(keyword => issueBody.includes(keyword))) {
+            octokit.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              labels: ['bug']
+            });
+          }
+
+          if (['refactor', 'change'].some(keyword => issueBody.includes(keyword))) {
+            octokit.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              labels: ['refactor']
+            });
+          }
+
+          if (issueBody.includes('test')) {
+            octokit.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              labels: ['testing']
+            });
+          }
+
+          if (issueBody.includes('documentation')) {
+            octokit.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              labels: ['documentation']
+            });
+          }
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
