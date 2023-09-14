@@ -16,7 +16,7 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-          const issueBody = context.issue.body.toLowerCase();
+          const issueBody = context.issue.body;
           const issueNumber = context.issue.number;
           const { Octokit } = require("@octokit/rest");
           const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
