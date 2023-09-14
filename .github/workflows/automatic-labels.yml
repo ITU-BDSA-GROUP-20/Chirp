@@ -10,7 +10,7 @@ jobs:
   process_issues:
     runs-on: ubuntu-latest
     permissions:
-      issues: read, write
+      issues: read
     steps:
     - name: Assign to project board and add labels
       uses: actions/github-script@v5
