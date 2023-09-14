@@ -1,5 +1,3 @@
-#Credits ChatGPT 4.0
-
 name: Issue Automation
 
 on:
@@ -18,19 +16,11 @@ jobs:
           const issueNumber = context.issue.number;
           const repo = context.repo;
 
-          const headers = {
-            Authorization: `token ${process.env.GITHUB_TOKEN}`,
-            Accept: 'application/vnd.github.v3+json'
-          };
-          
           // Add to project board
-          await fetch(`https://api.github.com/projects/columns/1/cards`, {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify({
-              content_id: issueNumber,
-              content_type: 'Issue'
-            })
+          await github.projects.createCard({
+            column_id: '1', // Adjust this as necessary
+            content_id: issueNumber,
+            content_type: 'Issue'
           });
 
           // Check for keywords and add labels
@@ -52,10 +42,11 @@ jobs:
           }
 
           if (labels.length) {
-            await fetch(`https://api.github.com/repos/${repo.owner}/${repo.repo}/issues/${issueNumber}/labels`, {
-              method: 'POST',
-              headers: headers,
-              body: JSON.stringify(labels)
+            await github.issues.addLabels({
+              owner: repo.owner,
+              repo: repo.repo,
+              issue_number: issueNumber,
+              labels: labels
             });
           }
       env:
