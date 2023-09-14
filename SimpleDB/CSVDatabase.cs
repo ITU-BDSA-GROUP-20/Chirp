@@ -25,7 +25,6 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         using CsvReader csv = new CsvReader(reader, CultureInfo.InvariantCulture);
         var records = csv.GetRecords<T>();
         
-        
         foreach (var T in records)
         {
             cheepCollection.Add(T);
@@ -42,7 +41,6 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
             writer.WriteLine();
             csv.WriteRecord(record);
         }
-        
     }
 }
    
