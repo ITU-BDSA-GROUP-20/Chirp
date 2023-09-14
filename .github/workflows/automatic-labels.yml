@@ -1,4 +1,4 @@
-#Credit: ChatGPT 4.0
+#Credits ChatGPT 4.0
 
 name: Issue Automation
 
@@ -9,8 +9,6 @@ on:
 jobs:
   process_issues:
     runs-on: ubuntu-latest
-    permissions:
-      issues: read
     steps:
     - name: Assign to project board and add labels
       uses: actions/github-script@v5
@@ -18,59 +16,46 @@ jobs:
         script: |
           const issueBody = context.issue.body;
           const issueNumber = context.issue.number;
-          const { Octokit } = require("@octokit/rest");
-          const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+          const repo = context.repo;
 
+          const headers = {
+            Authorization: `token ${process.env.GITHUB_TOKEN}`,
+            Accept: 'application/vnd.github.v3+json'
+          };
+          
           // Add to project board
-          octokit.projects.createCard({
-            column_id: '1',
-            content_id: issueNumber,
-            content_type: 'Issue',
+          await fetch(`https://api.github.com/projects/columns/1/cards`, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+              content_id: issueNumber,
+              content_type: 'Issue'
+            })
           });
 
           // Check for keywords and add labels
+          const labels = [];
           if (['improvement', 'feature', 'enhancement'].some(keyword => issueBody.includes(keyword))) {
-            octokit.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issueNumber,
-              labels: ['enhancement']
-            });
+            labels.push('enhancement');
           }
-
           if (['bug', 'not working', 'fix'].some(keyword => issueBody.includes(keyword))) {
-            octokit.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issueNumber,
-              labels: ['bug']
-            });
+            labels.push('bug');
           }
-
           if (['refactor', 'change'].some(keyword => issueBody.includes(keyword))) {
-            octokit.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issueNumber,
-              labels: ['refactor']
-            });
+            labels.push('refactor');
           }
-
           if (issueBody.includes('test')) {
-            octokit.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issueNumber,
-              labels: ['testing']
-            });
+            labels.push('testing');
+          }
+          if (issueBody.includes('documentation')) {
+            labels.push('documentation');
           }
 
-          if (issueBody.includes('documentation')) {
-            octokit.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issueNumber,
-              labels: ['documentation']
+          if (labels.length) {
+            await fetch(`https://api.github.com/repos/${repo.owner}/${repo.repo}/issues/${issueNumber}/labels`, {
+              method: 'POST',
+              headers: headers,
+              body: JSON.stringify(labels)
             });
           }
       env:
