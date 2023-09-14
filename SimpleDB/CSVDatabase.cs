@@ -6,16 +6,28 @@ namespace SimpleDB;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
-    public string filePath;
+    private static string filePath = "./chirp_cli_db.csv";
     List<T> cheepCollection;
+    private static CSVDatabase<T> instance;
 
-    public CSVDatabase(string filePath)
+    private CSVDatabase()
     {
-        this.filePath = filePath;
-        
         // TODO
         // This might not be the correct way to handle the issue of not exiting constructor with null-value
         cheepCollection = new List<T>();
+    }
+
+    public static CSVDatabase<T> Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new CSVDatabase<T>();
+            }
+
+            return instance;
+        }
     }
 
     public IEnumerable<T> Read(int limit)
