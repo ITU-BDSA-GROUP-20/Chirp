@@ -8,46 +8,50 @@ jobs:
   process_issues:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout gh
+      uses: actions/checkout@v2
+
+    - name: Setup GitHub CLI
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gh
+
     - name: Assign to project board and add labels
-      uses: actions/github-script@v5
-      with:
-        script: |
-          const issueBody = context.issue.body;
-          const issueNumber = context.issue.number;
-          const repo = context.repo;
+      run: |
+        issueNumber=${{ github.event.issue.number }}
+        issueBody="${{ github.event.issue.body }}"
+        
+        # Check for keywords and add labels
+        labels=""
+        
+        if [[ "$issueBody" == *improvement* || "$issueBody" == *feature* || "$issueBody" == *enhancement* ]]; then
+          labels="$labels,enhancement"
+        fi
+        
+        if [[ "$issueBody" == *bug* || "$issueBody" == *'not working'* || "$issueBody" == *fix* ]]; then
+          labels="$labels,bug"
+        fi
+        
+        if [[ "$issueBody" == *refactor* || "$issueBody" == *change* ]]; then
+          labels="$labels,refactor"
+        fi
+        
+        if [[ "$issueBody" == *test* ]]; then
+          labels="$labels,testing"
+        fi
+        
+        if [[ "$issueBody" == *documentation* ]]; then
+          labels="$labels,documentation"
+        fi
 
-          // Add to project board
-          await github.projects.createCard({
-            column_id: '1', // Adjust this as necessary
-            content_id: issueNumber,
-            content_type: 'Issue'
-          });
+        # Add labels
+        if [[ ! -z "$labels" ]]; then
+          gh issue label $issueNumber --add $labels
+        fi
 
-          // Check for keywords and add labels
-          const labels = [];
-          if (['improvement', 'feature', 'enhancement'].some(keyword => issueBody.includes(keyword))) {
-            labels.push('enhancement');
-          }
-          if (['bug', 'not working', 'fix'].some(keyword => issueBody.includes(keyword))) {
-            labels.push('bug');
-          }
-          if (['refactor', 'change'].some(keyword => issueBody.includes(keyword))) {
-            labels.push('refactor');
-          }
-          if (issueBody.includes('test')) {
-            labels.push('testing');
-          }
-          if (issueBody.includes('documentation')) {
-            labels.push('documentation');
-          }
+        # Add to project board
+        # This is a bit more complicated and may require additional setup or another API call
+        echo "Code to add issue to project board goes here."
 
-          if (labels.length) {
-            await github.issues.addLabels({
-              owner: repo.owner,
-              repo: repo.repo,
-              issue_number: issueNumber,
-              labels: labels
-            });
-          }
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
