@@ -41,8 +41,14 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         {
             cheepCollection.Add(T);
         }
-        
-        return cheepCollection.GetRange(cheepCollection.Count()-limit, limit);
+
+        if (limit >= cheepCollection.Count)
+        {
+            return cheepCollection;
+        }
+        {
+            return cheepCollection.GetRange(cheepCollection.Count()-limit, limit);
+        }
     }
 
     public void Store(T record)
