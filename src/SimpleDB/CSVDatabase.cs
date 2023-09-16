@@ -41,7 +41,9 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         {
             cheepCollection.Add(T);
         }
-
+        
+        // returns entire collection if 'limit' is greater than amount of records in cheepCollection,
+        // returns 'limit' newest cheeps otherwise.
         if (limit >= cheepCollection.Count)
         {
             return cheepCollection;
