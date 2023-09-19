@@ -44,6 +44,10 @@ $RECYCLE.BIN/
 # Rider specific files
 .idea/
 
+# .DS_STORE
+
+.DS_STORE
+
 # Windows thumbnail cache files
 Thumbs.db
 ehthumbs.db
