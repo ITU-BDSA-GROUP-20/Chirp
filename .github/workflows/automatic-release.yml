@@ -11,20 +11,8 @@ on:
 
 jobs:
   build-and-release:
-    name: Build on ubuntu-latest and Release
+    name: Cross-Compile on ubuntu-latest and Release
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        kind: [ubuntu-latest, windows-latest, macos-latest, macos-latest]
-        include:
-          - os: macos-latest
-            dotnet-runtime: osx-arm64
-          - os: macos-latest
-            dotnet-runtime: osx-x64
-          - os: windows-latest
-            dotnet-runtime: win-x64
-          - os: ubuntu-latest
-            dotnet-runtime: linux-x64
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
@@ -33,26 +21,31 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '7.0.x'
-        runtime: ${{ matrix.dotnet-runtime }}
 
     - name: Restore Dependencies
       run: dotnet restore
 
     - name: Build
       run: |
-
           tag=$(git describe --tags --abbrev=0)
-          release_name="Chirp.CLI-$tag-${{ matrix.target }}"
 
-          dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --c Release --framework net7.0 -output "$release_name"
+          # Declare an array of runtime targets
+          targets=("osx-arm64" "osx-x64" "win-x64" "linux-x64")
+          
+          # Iterate through the targets and create executables for each
+          for target in "${targets[@]}"
+          do
+            release_name="Chirp.CLI-$tag-$target"
+            dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --c Release --framework net7.0 --runtime $target -o "$release_name"
+            
+            if [ "$target" == "win-x64" ]; then
+              7z a -tzip "${release_name}.zip" "./${release_name}/*"
+            else
+              tar czvf "${release_name}.tar.gz" "$release_name"
+            fi
 
-          if [ "${{ matrix.target }}" == "win-x64" ]; then
-            7z a -tzip "${release_name}.zip" "./${release_name}/*"
-          else
-            tar czvf "${release_name}.tar.gz" "$release_name"
-          fi
-        
-          rm -r "$release_name"
+            rm -r "$release_name"
+          done
 
     - name: Publish
       uses: softprops/action-gh-release@v1
@@ -60,4 +53,3 @@ jobs:
         files: "Chirp.CLI*"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-           
