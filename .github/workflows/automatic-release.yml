@@ -1,0 +1,57 @@
+#Sources: ChatGPT 4.0, https://patriksvensson.se/posts/2020/03/creating-release-artifacts-with-github-actions
+
+name: .NET Build and Release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-and-release:
+    name: Cross-Compile on ubuntu-latest and Release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: |
+          tag=$(git describe --tags --abbrev=0)
+
+          # Declare an array of runtime targets
+          targets=("osx-arm64" "osx-x64" "win-x64" "linux-x64")
+          
+          # Iterate through the targets and create executables for each
+          for target in "${targets[@]}"
+          do
+            release_name="Chirp.CLI-$tag-$target"
+            dotnet publish src/Chirp.CLI/Chirp.CLI.csproj -c Release --framework net7.0 --runtime $target -o "$release_name"
+            
+            if [ "$target" == "win-x64" ]; then
+              7z a -tzip "${release_name}.zip" "./${release_name}/*"
+            else
+              tar czvf "${release_name}.tar.gz" "$release_name"
+            fi
+
+            rm -r "$release_name"
+          done
+
+    - name: Publish
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          Chirp.CLI*.zip
+          Chirp.CLI*.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
