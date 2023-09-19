@@ -37,7 +37,7 @@ public class Program
         } 
     }
 
-    private static void ReadCheeps(int noOfLines)
+    protected static void ReadCheeps(int noOfLines)
     {
         UserInterface.PrintCheeps(database.Read(noOfLines));
     }
