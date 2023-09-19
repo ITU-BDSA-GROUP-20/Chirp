@@ -1,11 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Windows.Markup;
-using CommandLine;
+﻿using CommandLine;
 
 using Chirp.CLI;
-using CommandLine.Text;
-using CsvHelper;
 using SimpleDB;
 
 public class Program

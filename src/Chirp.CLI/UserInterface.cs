@@ -1,5 +1,4 @@
 using Chirp.CLI;
-using SimpleDB;
 
 static class UserInterface {
 
