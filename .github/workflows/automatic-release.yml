@@ -2,12 +2,18 @@
 
 name: .NET Build and Release
 
+permissions:
+      contents: write
+      packages: write
+      deployments: write
+      releases: write
+
 on:
   push:
     branches:
       - main
     tags:
-      - 'v*.*.*'
+      - 'v*.*.*
 
 jobs:
   build-and-release:
