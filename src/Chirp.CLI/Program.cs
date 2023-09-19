@@ -23,8 +23,7 @@ public class Program
         public string message { get; set; }
     }
     
-    static string csvFilePath = "chirp_cli_db.csv";
-    private static IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>(csvFilePath);
+    private static IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.Instance;
     
     public static void Main(string[] args)
     {
