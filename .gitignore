@@ -1,6 +1,5 @@
 ## C# and .NET Core/5+ related ##
 bin/
-obj/
 *.user
 *.suo
 *.userprefs
