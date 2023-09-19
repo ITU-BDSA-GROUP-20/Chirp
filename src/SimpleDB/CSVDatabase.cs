@@ -42,7 +42,17 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
             cheepCollection.Add(T);
         }
         
-        return cheepCollection.GetRange(cheepCollection.Count()-limit, limit);
+        // returns entire collection if 'limit' is greater than amount of records in cheepCollection,
+        // returns 'limit' newest cheeps otherwise.
+        if (limit >= cheepCollection.Count)
+        {
+            Console.WriteLine($"{limit} exceeds the amount of cheeps in the database. Showing all {cheepCollection.Count()} cheeps on record instead.");
+            return cheepCollection;
+        }
+        {
+            Console.WriteLine($"Showing {limit} newest cheeps out of {cheepCollection.Count()} cheeps on record.");
+            return cheepCollection.GetRange(cheepCollection.Count()-limit, limit);
+        }
     }
 
     public void Store(T record)
