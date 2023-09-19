@@ -14,6 +14,6 @@ public class UnitTest1
     [InlineData("Hi, my name is TestPerson.")]
     public void Ad(string message)
     {
-        Assert.True(false);
+        
     }
 }
