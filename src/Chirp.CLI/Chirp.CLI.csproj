@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="src/SimpleDB/SimpleDB.csproj" />
+    <ProjectReference Include="..\SimpleDB\simpleDB.csproj" />
     <ProjectReference Include="..\..\test\Chirp.CLI.Tests\Chirp.CLI.Tests.csproj" />
   </ItemGroup>
 

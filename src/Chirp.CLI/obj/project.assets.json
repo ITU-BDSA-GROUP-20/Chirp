@@ -15,6 +15,19 @@
           }
         }
       },
+      "CsvHelper/30.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/CsvHelper.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/CsvHelper.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.CodeCoverage/17.7.2": {
         "type": "package",
         "compile": {
@@ -1716,6 +1729,34 @@
         "runtime": {
           "bin/placeholder/Chirp.CLI.Tests.dll": {}
         }
+      },
+      "Chirp.SimpleDB.Tests/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "Microsoft.NET.Test.Sdk": "17.7.2",
+          "xunit": "2.5.1"
+        },
+        "compile": {
+          "bin/placeholder/Chirp.SimpleDB.Tests.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Chirp.SimpleDB.Tests.dll": {}
+        }
+      },
+      "SimpleDB/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "Chirp.SimpleDB.Tests": "1.0.0",
+          "CsvHelper": "30.0.1"
+        },
+        "compile": {
+          "bin/placeholder/SimpleDB.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SimpleDB.dll": {}
+        }
       }
     }
   },
@@ -1740,6 +1781,30 @@
         "lib/net461/CommandLine.xml",
         "lib/netstandard2.0/CommandLine.dll",
         "lib/netstandard2.0/CommandLine.xml"
+      ]
+    },
+    "CsvHelper/30.0.1": {
+      "sha512": "rcZtgbWR+As4G3Vpgx0AMNmShGuQLFjkHAPIIflzrfkJCx8/AOd4m96ZRmiU1Wi39qS5UVjV0P8qdgqOo5Cwyg==",
+      "type": "package",
+      "path": "csvhelper/30.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "csvhelper.30.0.1.nupkg.sha512",
+        "csvhelper.nuspec",
+        "lib/net45/CsvHelper.dll",
+        "lib/net45/CsvHelper.xml",
+        "lib/net47/CsvHelper.dll",
+        "lib/net47/CsvHelper.xml",
+        "lib/net5.0/CsvHelper.dll",
+        "lib/net5.0/CsvHelper.xml",
+        "lib/net6.0/CsvHelper.dll",
+        "lib/net6.0/CsvHelper.xml",
+        "lib/netstandard2.0/CsvHelper.dll",
+        "lib/netstandard2.0/CsvHelper.xml",
+        "lib/netstandard2.1/CsvHelper.dll",
+        "lib/netstandard2.1/CsvHelper.xml"
       ]
     },
     "Microsoft.CodeCoverage/17.7.2": {
@@ -5471,14 +5536,24 @@
       "type": "project",
       "path": "../../test/Chirp.CLI.Tests/Chirp.CLI.Tests.csproj",
       "msbuildProject": "../../test/Chirp.CLI.Tests/Chirp.CLI.Tests.csproj"
+    },
+    "Chirp.SimpleDB.Tests/1.0.0": {
+      "type": "project",
+      "path": "../../test/Chirp.SimpleDB.Tests/Chirp.SimpleDB.Tests.csproj",
+      "msbuildProject": "../../test/Chirp.SimpleDB.Tests/Chirp.SimpleDB.Tests.csproj"
+    },
+    "SimpleDB/1.0.0": {
+      "type": "project",
+      "path": "../SimpleDB/SimpleDB.csproj",
+      "msbuildProject": "../SimpleDB/SimpleDB.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
-      "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\Chirp.CLI\\src\\SimpleDB\\SimpleDB.csproj",
       "Chirp.CLI.Tests >= 1.0.0",
       "CommandLineParser >= 2.9.1",
-      "NuGet.CommandLine >= 6.7.0"
+      "NuGet.CommandLine >= 6.7.0",
+      "SimpleDB >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -5506,8 +5581,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\Chirp.CLI\\src\\SimpleDB\\SimpleDB.csproj": {
-              "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\Chirp.CLI\\src\\SimpleDB\\SimpleDB.csproj"
+            "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\SimpleDB\\simpleDB.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\SimpleDB\\simpleDB.csproj"
             },
             "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\test\\Chirp.CLI.Tests\\Chirp.CLI.Tests.csproj": {
               "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\test\\Chirp.CLI.Tests\\Chirp.CLI.Tests.csproj"
@@ -5555,16 +5630,5 @@
         "runtimeIdentifierGraphPath": "C:\\Users\\Administrator\\.dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "Unable to find project 'C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\Chirp.CLI\\src\\SimpleDB\\SimpleDB.csproj'. Check that the project reference is valid and that the project file exists.",
-      "libraryId": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\Chirp.CLI\\src\\SimpleDB\\SimpleDB.csproj",
-      "targetGraphs": [
-        "net7.0"
-      ]
-    }
-  ]
+  }
 }
