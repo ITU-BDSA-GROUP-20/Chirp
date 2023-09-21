@@ -22,11 +22,6 @@ jobs:
           dotnet-version: '7.x'
           include-prerelease: true
 
-      - name: see folder content
-        run: |
-          cd ${{env.DOTNET_ROOT}}/src/
-          ls
-
       - name: Build with dotnet
         run: dotnet build -c Release -o /src/CSVDBService
 
