@@ -23,11 +23,8 @@ jobs:
           include-prerelease: true
 
       - name: see folder content
-        run: | 
-          ls
+        run: |
           cd ${{env.DOTNET_ROOT}}/src/
-          ls
-          cd SVDBService
           ls
 
       - name: Build with dotnet
