@@ -12,6 +12,9 @@ public class UnitTest1
         var output = cheep.ToString();
 
         // Assert
-        Assert.Equal("test @ 19-09-2023 09:36:38 test", output);
+        Assert.Equal("test" + " @ " +
+                     DateTimeOffset.FromUnixTimeSeconds(1695108998).LocalDateTime + " "
+                     + "test", output);
+        
     }
 }

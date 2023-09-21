@@ -95,3 +95,11 @@ C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.SimpleDB.Tests\obj\Debu
 C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.SimpleDB.Tests\obj\Debug\net7.0\Chirp.SimpleDB.Tests.pdb
 C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.SimpleDB.Tests\obj\Debug\net7.0\Chirp.SimpleDB.Tests.genruntimeconfig.cache
 C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.SimpleDB.Tests\obj\Debug\net7.0\ref\Chirp.SimpleDB.Tests.dll
+C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.SimpleDB.Tests\bin\Debug\net7.0\CoverletSourceRootsMapping_Chirp.SimpleDB.Tests
+C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.SimpleDB.Tests\bin\Debug\net7.0\Chirp.CLI.deps.json
+C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.SimpleDB.Tests\bin\Debug\net7.0\Chirp.CLI.runtimeconfig.json
+C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.SimpleDB.Tests\bin\Debug\net7.0\Chirp.CLI.exe
+C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.SimpleDB.Tests\bin\Debug\net7.0\CommandLine.dll
+C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.SimpleDB.Tests\bin\Debug\net7.0\CsvHelper.dll
+C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.SimpleDB.Tests\bin\Debug\net7.0\Chirp.CLI.dll
+C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.SimpleDB.Tests\bin\Debug\net7.0\SimpleDB.dll
