@@ -103,6 +103,3 @@ C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.CLI.Tests\bin\Debug\net
 C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.CLI.Tests\bin\Debug\net7.0\CsvHelper.dll
 C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.CLI.Tests\bin\Debug\net7.0\Chirp.CLI.dll
 C:\Users\Administrator\Documents\GitHub\Chirp\test\Chirp.CLI.Tests\bin\Debug\net7.0\SimpleDB.dll
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\test\Chirp.CLI.Tests\obj\Debug\net7.0\Chirp.CLI.Tests.dll
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\test\Chirp.CLI.Tests\obj\Debug\net7.0\refint\Chirp.CLI.Tests.dll
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\test\Chirp.CLI.Tests\obj\Debug\net7.0\Chirp.CLI.Tests.pdb

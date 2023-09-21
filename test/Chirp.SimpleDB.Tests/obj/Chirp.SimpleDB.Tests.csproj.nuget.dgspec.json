@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\test\\Chirp.SimpleDB.Tests\\Chirp.SimpleDB.Tests.csproj": {}
+    "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\test\\Chirp.SimpleDB.Tests\\Chirp.SimpleDB.Tests.csproj": {}
   },
   "projects": {
-    "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj": {
+    "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj",
+        "projectUniqueName": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj",
         "projectName": "Chirp.CLI",
-        "projectPath": "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj",
-        "packagesPath": "C:\\Users\\madsd\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\Chirp.CLI\\obj\\",
+        "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\Chirp.CLI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\madsd\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -26,8 +26,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj": {
-                "projectPath": "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj"
+              "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj"
               }
             }
           }
@@ -73,17 +73,17 @@
         }
       }
     },
-    "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj": {
+    "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj",
+        "projectUniqueName": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj",
         "projectName": "SimpleDB",
-        "projectPath": "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj",
-        "packagesPath": "C:\\Users\\madsd\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\SimpleDB\\obj\\",
+        "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\SimpleDB\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\madsd\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -132,17 +132,17 @@
         }
       }
     },
-    "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\test\\Chirp.SimpleDB.Tests\\Chirp.SimpleDB.Tests.csproj": {
+    "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\test\\Chirp.SimpleDB.Tests\\Chirp.SimpleDB.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\test\\Chirp.SimpleDB.Tests\\Chirp.SimpleDB.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\test\\Chirp.SimpleDB.Tests\\Chirp.SimpleDB.Tests.csproj",
         "projectName": "Chirp.SimpleDB.Tests",
-        "projectPath": "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\test\\Chirp.SimpleDB.Tests\\Chirp.SimpleDB.Tests.csproj",
-        "packagesPath": "C:\\Users\\madsd\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\test\\Chirp.SimpleDB.Tests\\obj\\",
+        "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\test\\Chirp.SimpleDB.Tests\\Chirp.SimpleDB.Tests.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\test\\Chirp.SimpleDB.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\madsd\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -154,11 +154,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj": {
-                "projectPath": "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj"
+              "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj"
               },
-              "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj": {
-                "projectPath": "c:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj"
+              "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj"
               }
             }
           }

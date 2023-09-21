@@ -8,13 +8,3 @@ C:\Users\Administrator\Documents\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\Simp
 C:\Users\Administrator\Documents\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.dll
 C:\Users\Administrator\Documents\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\refint\SimpleDB.dll
 C:\Users\Administrator\Documents\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\ref\SimpleDB.dll
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\SimpleDB\bin\Debug\net7.0\SimpleDB.deps.json
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\SimpleDB\bin\Debug\net7.0\SimpleDB.dll
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.csproj.AssemblyReference.cache
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.GeneratedMSBuildEditorConfig.editorconfig
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.AssemblyInfoInputs.cache
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.AssemblyInfo.cs
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.csproj.CoreCompileInputs.cache
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.dll
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\refint\SimpleDB.dll
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\ref\SimpleDB.dll
