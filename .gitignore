@@ -74,3 +74,5 @@ ScaffoldingReadMe.txt
 *.editorconfig
 *.cache
 *.props
+
+obj/
