@@ -1,11 +1,10 @@
 
-
-using CSVDBService;
-
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.Instance;
+IDatabaseRepository<Cheep> database = new CSVDatabase();
+
+
 app.MapGet("/cheeps", () => database.Read(10));
 
 app.Run();
