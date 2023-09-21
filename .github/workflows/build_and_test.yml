@@ -15,6 +15,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build -o ${{env.DOTNET_ROOT}}/src/Chirp.CLI --no-restore
+      run: dotnet build src/Chirp.CLI --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test src/Chirp.CLI --no-build --verbosity normal
