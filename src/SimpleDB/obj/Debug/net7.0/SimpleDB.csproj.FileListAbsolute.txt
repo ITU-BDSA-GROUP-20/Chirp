@@ -8,3 +8,13 @@ C:\Users\Administrator\Documents\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\Simp
 C:\Users\Administrator\Documents\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.dll
 C:\Users\Administrator\Documents\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\refint\SimpleDB.dll
 C:\Users\Administrator\Documents\GitHub\Chirp\src\SimpleDB\obj\Debug\net7.0\ref\SimpleDB.dll
+C:\ITU\Semester 3\Software Arch\Chirp\src\SimpleDB\bin\Debug\net7.0\SimpleDB.deps.json
+C:\ITU\Semester 3\Software Arch\Chirp\src\SimpleDB\bin\Debug\net7.0\SimpleDB.dll
+C:\ITU\Semester 3\Software Arch\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.csproj.AssemblyReference.cache
+C:\ITU\Semester 3\Software Arch\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.GeneratedMSBuildEditorConfig.editorconfig
+C:\ITU\Semester 3\Software Arch\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.AssemblyInfoInputs.cache
+C:\ITU\Semester 3\Software Arch\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.AssemblyInfo.cs
+C:\ITU\Semester 3\Software Arch\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.csproj.CoreCompileInputs.cache
+C:\ITU\Semester 3\Software Arch\Chirp\src\SimpleDB\obj\Debug\net7.0\SimpleDB.dll
+C:\ITU\Semester 3\Software Arch\Chirp\src\SimpleDB\obj\Debug\net7.0\refint\SimpleDB.dll
+C:\ITU\Semester 3\Software Arch\Chirp\src\SimpleDB\obj\Debug\net7.0\ref\SimpleDB.dll
