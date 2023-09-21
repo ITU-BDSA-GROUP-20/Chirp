@@ -1,7 +1,5 @@
 ﻿using CommandLine;
-
 using Chirp.CLI;
-using SimpleDB;
 
 public class Program
 {
