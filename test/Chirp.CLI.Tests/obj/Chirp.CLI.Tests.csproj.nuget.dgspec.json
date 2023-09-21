@@ -25,7 +25,11 @@
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\Chirp\\src\\SimpleDB\\SimpleDB.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
