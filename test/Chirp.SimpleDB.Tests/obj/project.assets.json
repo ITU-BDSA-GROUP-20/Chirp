@@ -1739,8 +1739,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
-          "CommandLineParser": "2.9.1",
-          "SimpleDB": "1.0.0"
+          "CommandLineParser": "2.9.1"
         },
         "compile": {
           "bin/placeholder/Chirp.CLI.dll": {}
