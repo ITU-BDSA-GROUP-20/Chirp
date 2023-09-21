@@ -35,11 +35,8 @@ jobs:
           do
             release_name="Chirp.CLI-$tag-$target"
             dotnet publish src/Chirp.CLI/Chirp.CLI.csproj -c Release --framework net7.0 --runtime $target -o "$release_name"
-            
-            if [ "$target" == "win-x64" ]; then
-              7z a -tzip "${release_name}.zip" "./${release_name}/*"
-            else
-              tar czvf "${release_name}.tar.gz" "$release_name"
+        
+            7z a -tzip "${release_name}.zip" "./${release_name}/*"
             fi
 
             rm -r "$release_name"
