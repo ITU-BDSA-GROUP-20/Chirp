@@ -15,7 +15,7 @@ public class Program
         public string message { get; set; }
     }
     
-    private static IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.Instance;
+    private static IRESTConnection<Cheep> database = new RESTConnection<Cheep>("http://localhost:5191");
     
     public static void Main(string[] args)
     {
@@ -36,14 +36,16 @@ public class Program
 
     private static void ReadCheeps(int noOfLines)
     {
-        UserInterface.PrintCheeps(database.Read(noOfLines));
+        List<Cheep> cheeps = database.getRequest("cheeps");
+        
+        UserInterface.PrintCheeps(cheeps);
     }
 
     private static void WriteCheep(string message)
     {
         string username = GetUsername();
         long dateTime = TimeStampConverter();
-        database.Store(new Cheep(username, message, dateTime));
+        database.postRequest("/cheep", new Cheep(username, message, dateTime));
     }
 
     private static string GetUsername()
