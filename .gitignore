@@ -76,3 +76,5 @@ ScaffoldingReadMe.txt
 *.props
 
 obj/
+
+!.assets.json
