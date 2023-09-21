@@ -1,15 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-    <DebugType>None</DebugType>
-    <DebugSymbols>False</DebugSymbols>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <SelfContained>false</SelfContained>
-    <PublishSingleFile>true</PublishSingleFile>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DebugType>None</DebugType>
+        <DebugSymbols>False</DebugSymbols>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="CsvHelper" Version="30.0.1" />
