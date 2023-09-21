@@ -1,6 +1,5 @@
 ﻿using CommandLine;
 using Chirp.CLI;
-
 public class Program
 {
     class Options
