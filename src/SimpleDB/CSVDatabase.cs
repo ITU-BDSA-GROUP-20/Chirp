@@ -1,11 +1,12 @@
 ﻿using System.Globalization;
 using CsvHelper;
 
-namespace CSVDBService;
+
+namespace SimpleDB;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
-    private static string filePath = @"data/cheeps.csv";
+    private static string filePath = @"../../data/chirp_cli_db.csv";
     List<T> cheepCollection;
     private static CSVDatabase<T> instance;
 
@@ -64,3 +65,5 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         }
     }
 }
+   
+
