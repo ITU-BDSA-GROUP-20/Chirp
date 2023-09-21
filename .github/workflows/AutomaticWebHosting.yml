@@ -28,10 +28,10 @@ jobs:
           ls
 
       - name: Build with dotnet
-        run: dotnet build CSVDBService.csproj -c Release -o ${{env.DOTNET_ROOT}}/src/CSVDBService
+        run: dotnet build -c Release -o /src/CSVDBService
 
       - name: dotnet publish
-        run: dotnet publish CSVDBService.csproj -c Release -o ${{env.DOTNET_ROOT}}/src/CSVDBService
+        run: dotnet publish -c Release -o /src/CSVDBService
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
