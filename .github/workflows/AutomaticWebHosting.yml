@@ -29,7 +29,7 @@ jobs:
           dotnet build CSVDBService.csproj -c Release -o src/CSVDBService
 
       - name: dotnet publish
-        run: dotnet publish CSVDBService.csproj -c Release -o src/CSVDBService
+        run: dotnet publish -c Release -o src/CSVDBService
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
