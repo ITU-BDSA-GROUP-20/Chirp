@@ -5,7 +5,7 @@ namespace CSVDBService;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
-    private static string filePath = @"data/cheeps.csv";
+    private static string filePath = @"./data/cheeps.csv";
     List<T> cheepCollection;
     private static CSVDatabase<T> instance;
 
