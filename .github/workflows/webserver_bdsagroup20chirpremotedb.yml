@@ -23,16 +23,16 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build -c Release src/CSVDBService
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/src/CSVDBService
+        run: dotnet publish -c Release src/CSVDBService
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/src/CSVDBService
+          path: src/CSVDBService
 
   deploy:
     runs-on: ubuntu-latest
