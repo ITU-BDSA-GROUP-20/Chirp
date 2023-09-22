@@ -13,10 +13,19 @@ C:\Users\Administrator\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chi
 C:\Users\Administrator\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\refint\Chirp.CLI.dll
 C:\Users\Administrator\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.genruntimeconfig.cache
 C:\Users\Administrator\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\ref\Chirp.CLI.dll
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.csproj.AssemblyReference.cache
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.GeneratedMSBuildEditorConfig.editorconfig
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.AssemblyInfoInputs.cache
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.AssemblyInfo.cs
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.csproj.CoreCompileInputs.cache
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.dll
-c:\Users\madsd\OneDrive\Dokumenter\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\refint\Chirp.CLI.dll
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.exe
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.deps.json
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.runtimeconfig.json
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.dll
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\bin\Debug\net7.0\CommandLine.dll
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\bin\Debug\net7.0\CsvHelper.dll
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.csproj.AssemblyReference.cache
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.GeneratedMSBuildEditorConfig.editorconfig
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.AssemblyInfoInputs.cache
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.AssemblyInfo.cs
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.csproj.CoreCompileInputs.cache
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.csproj.CopyComplete
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.dll
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\refint\Chirp.CLI.dll
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.genruntimeconfig.cache
+C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\ref\Chirp.CLI.dll
