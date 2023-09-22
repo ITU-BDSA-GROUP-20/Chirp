@@ -68,19 +68,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mikke\\.nuget\\packages\\": {}
+    "C:\\Users\\madsd\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj",
+      "projectUniqueName": "C:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj",
       "projectName": "Chirp.CLI",
-      "projectPath": "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj",
-      "packagesPath": "C:\\Users\\mikke\\.nuget\\packages\\",
-      "outputPath": "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\src\\Chirp.CLI\\obj\\",
+      "projectPath": "C:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj",
+      "packagesPath": "C:\\Users\\madsd\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\madsd\\OneDrive\\Dokumenter\\GitHub\\Chirp\\src\\Chirp.CLI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\mikke\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\madsd\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -131,7 +131,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\Administrator\\.dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }
