@@ -6,7 +6,19 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.Instance;
-app.MapGet("/cheeps", () => new Cheep("Mads", "Hello World!", 5485489798799));//database.Read(10));
+app.MapGet("/cheeps", () =>
+{
+    try
+    {
+        return database.Read(10);
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
+    }
+
+    return null;
+});
 
 app.Run();
 
