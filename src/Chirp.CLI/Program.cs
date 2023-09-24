@@ -15,7 +15,7 @@ public class Program
         public string message { get; set; }
     }
     
-    private static IRESTConnection<Cheep> database = new RESTConnection<Cheep>("http://localhost:5191");
+    private static IRESTConnection<Cheep> database = new RESTConnection<Cheep>("https://bdsagroup20chirpremotedb.azurewebsites.net");
     
     public static void Main(string[] args)
     {

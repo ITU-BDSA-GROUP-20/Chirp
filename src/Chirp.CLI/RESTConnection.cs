@@ -5,13 +5,11 @@ namespace Chirp.CLI;
 
 public class RESTConnection<T> : IRESTConnection<T>
 {
-
-    private string url;
+    
     private HttpClient client;
 
     public RESTConnection(string url)
     {
-        this.url = url;
         client = new HttpClient();
         
         client.DefaultRequestHeaders.Accept.Clear();
@@ -26,6 +24,11 @@ public class RESTConnection<T> : IRESTConnection<T>
 
     public void postRequest(string endpoint, T record)
     {
-        throw new NotImplementedException();
+        var response = client.PostAsJsonAsync(endpoint, record).Result;
+    
+        if(!response.IsSuccessStatusCode)
+        {
+            throw new HttpRequestException($"Failed to post record. Status code: {response.StatusCode}");
+        }
     }
 }
