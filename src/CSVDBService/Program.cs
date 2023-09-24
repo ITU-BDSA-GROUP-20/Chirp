@@ -22,7 +22,7 @@ app.MapGet("/cheeps", () =>
 
 app.MapPost("/cheep", (Cheep cheep) => { database.Store(cheep); });
 
-app.Map("/", () => "You have reached Group 20's Chirp Server");
+app.Map("/", () => "You have reached Group 20's Chirp Server, TEST COMMIT");
 
 app.Run();
 
