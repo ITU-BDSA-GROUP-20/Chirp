@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Globalization;
+﻿using System.Globalization;
 using CsvHelper;
 
 namespace CSVDBService;
@@ -11,13 +10,21 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
     private CSVDatabase()
     {
+        // Extract directory path from the file path
+        string directoryPath = Path.GetDirectoryName(filePath);
+    
+        // Check if directory exists, if not, create it
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+    
+        // Check if file exists, if not, create it and write the header
         if (!File.Exists(filePath))
         {
             using StreamWriter writer = new StreamWriter(filePath, true);
             writer.WriteLine("Author,Message,Timestamp");
         }
-        // TODO
-        // This might not be the correct way to handle the issue of not exiting constructor with null-value
     }
 
     public static CSVDatabase<T> Instance

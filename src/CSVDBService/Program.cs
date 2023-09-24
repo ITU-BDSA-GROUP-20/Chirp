@@ -20,6 +20,8 @@ app.MapGet("/cheeps", () =>
     return null;
 });
 
+app.Map("/", () => "You have reached Group 20's Chirp Server");
+
 app.Run();
 
 
