@@ -20,7 +20,7 @@ app.MapGet("/cheeps", () =>
     return null;
 });
 
-app.MapGet("/cheep", (Cheep cheep) => { database.Store(cheep); });
+app.MapPost("/cheep", (Cheep cheep) => { database.Store(cheep); });
 
 app.Map("/", () => "You have reached Group 20's Chirp Server");
 
