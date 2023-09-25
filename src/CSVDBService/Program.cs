@@ -6,11 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.Instance;
-app.MapGet("/cheeps", () =>
+app.MapGet("/cheeps", (int limit) =>
 {
     try
     {
-        return database.Read(10);
+        return database.Read(limit);
     }
     catch (Exception e)
     {

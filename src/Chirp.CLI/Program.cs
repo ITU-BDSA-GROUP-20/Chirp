@@ -7,7 +7,7 @@ public class Program
         //Collection of acceptable commands: 
         
         //Read Command
-        [Option( "read", HelpText="Outputs the specified number of cheeps(NOC): read <NOC>")]
+        [Option("read", HelpText="Outputs the specified number of cheeps(NOC): read <NOC>")]
         public int noOfCheeps { get; set; }
         
         //Cheep Command
@@ -36,9 +36,21 @@ public class Program
 
     private static void ReadCheeps(int noOfLines)
     {
-        List<Cheep> cheeps = database.getRequest("cheeps");
+        List<Cheep> cheeps = database.getRequest("cheeps"); 
         
-        UserInterface.PrintCheeps(cheeps);
+        // takes the noOfLines of the last cheeps in the 'cheeps' list and stores them in a new list
+        // Needs to be refactored to only read noOfLines from the database
+        if (noOfLines >= cheeps.Count())
+        {
+            Console.WriteLine($"{noOfLines} exceeds the amount of cheeps in the database. Showing all {cheeps.Count()} cheeps on record instead.");
+            UserInterface.PrintCheeps(cheeps);
+        }
+        else
+        {
+            Console.WriteLine($"Showing {noOfLines} newest cheeps out of {cheeps.Count()} cheeps on record.");
+            List<Cheep>limitedCheeps = cheeps.GetRange(cheeps.Count()-noOfLines, noOfLines);
+            UserInterface.PrintCheeps(limitedCheeps);
+        }
     }
 
     private static void WriteCheep(string message)

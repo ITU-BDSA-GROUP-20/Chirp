@@ -14,6 +14,12 @@ public class UnitTest1
         _testOutputHelper = testOutputHelper;
     }
 
+    public void InitDatabase()
+    {
+        // clear database
+        // add test data
+    }
+
     [Fact]
     public void TestCheepToString()
     {
@@ -53,7 +59,7 @@ public class UnitTest1
         
         // Assert
         Assert.StartsWith("mikke", fstCheep);
-        Assert.EndsWith("Hello World", fstCheep);
+        Assert.EndsWith("Hello There good Sir", fstCheep);
     }
     
     [Fact]
@@ -80,6 +86,6 @@ public class UnitTest1
         
         // Assert
         Assert.StartsWith("mikke", fstCheep);
-        Assert.EndsWith("Hello World", fstCheep);
+        Assert.EndsWith("Hello There good Sir", fstCheep);
     }
 }

@@ -53,6 +53,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
             Console.WriteLine($"{limit} exceeds the amount of cheeps in the database. Showing all {records.Count()} cheeps on record instead.");
             return records;
         }
+        else
         {
             Console.WriteLine($"Showing {limit} newest cheeps out of {records.Count()} cheeps on record.");
             return records.GetRange(records.Count()-limit, limit);
