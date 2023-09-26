@@ -67,4 +67,25 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         csv.WriteRecord(record);
         writer.WriteLine();
     }
+
+    public void SetFilePath(string filePath)
+    {
+        CSVDatabase<T>.filePath = filePath;
+        
+        // Extract directory path from the file path
+        string directoryPath = Path.GetDirectoryName(filePath);
+    
+        // Check if directory exists, if not, create it
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+    
+        // Check if file exists, if not, create it and write the header
+        if (!File.Exists(filePath))
+        {
+            using StreamWriter writer = new StreamWriter(filePath, true);
+            writer.WriteLine("Author,Message,Timestamp");
+        }
+    }
 }
