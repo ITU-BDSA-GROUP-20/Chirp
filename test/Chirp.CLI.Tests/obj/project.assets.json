@@ -21,19 +21,6 @@
           "build/netstandard1.0/coverlet.collector.targets": {}
         }
       },
-      "CsvHelper/30.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/net6.0/CsvHelper.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/CsvHelper.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "Microsoft.CodeCoverage/17.7.2": {
         "type": "package",
         "compile": {
@@ -1747,19 +1734,6 @@
         "runtime": {
           "bin/placeholder/Chirp.CLI.dll": {}
         }
-      },
-      "SimpleDB/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v7.0",
-        "dependencies": {
-          "CsvHelper": "30.0.1"
-        },
-        "compile": {
-          "bin/placeholder/SimpleDB.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SimpleDB.dll": {}
-        }
       }
     }
   },
@@ -1837,30 +1811,6 @@
         "coverlet-icon.png",
         "coverlet.collector.6.0.0.nupkg.sha512",
         "coverlet.collector.nuspec"
-      ]
-    },
-    "CsvHelper/30.0.1": {
-      "sha512": "rcZtgbWR+As4G3Vpgx0AMNmShGuQLFjkHAPIIflzrfkJCx8/AOd4m96ZRmiU1Wi39qS5UVjV0P8qdgqOo5Cwyg==",
-      "type": "package",
-      "path": "csvhelper/30.0.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "csvhelper.30.0.1.nupkg.sha512",
-        "csvhelper.nuspec",
-        "lib/net45/CsvHelper.dll",
-        "lib/net45/CsvHelper.xml",
-        "lib/net47/CsvHelper.dll",
-        "lib/net47/CsvHelper.xml",
-        "lib/net5.0/CsvHelper.dll",
-        "lib/net5.0/CsvHelper.xml",
-        "lib/net6.0/CsvHelper.dll",
-        "lib/net6.0/CsvHelper.xml",
-        "lib/netstandard2.0/CsvHelper.dll",
-        "lib/netstandard2.0/CsvHelper.xml",
-        "lib/netstandard2.1/CsvHelper.dll",
-        "lib/netstandard2.1/CsvHelper.xml"
       ]
     },
     "Microsoft.CodeCoverage/17.7.2": {
@@ -5596,37 +5546,31 @@
       "type": "project",
       "path": "../../src/Chirp.CLI/Chirp.CLI.csproj",
       "msbuildProject": "../../src/Chirp.CLI/Chirp.CLI.csproj"
-    },
-    "SimpleDB/1.0.0": {
-      "type": "project",
-      "path": "../../src/SimpleDB/SimpleDB.csproj",
-      "msbuildProject": "../../src/SimpleDB/SimpleDB.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
       "Chirp.CLI >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.7.2",
-      "SimpleDB >= 1.0.0",
       "coverlet.collector >= 6.0.0",
       "xunit >= 2.5.1",
       "xunit.runner.visualstudio >= 2.5.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mikke\\.nuget\\packages\\": {}
+    "C:\\Users\\madsd\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\test\\Chirp.CLI.Tests\\Chirp.CLI.Tests.csproj",
+      "projectUniqueName": "c:\\Users\\madsd\\Documents\\GitHub\\Chirp\\test\\Chirp.CLI.Tests\\Chirp.CLI.Tests.csproj",
       "projectName": "Chirp.CLI.Tests",
-      "projectPath": "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\test\\Chirp.CLI.Tests\\Chirp.CLI.Tests.csproj",
-      "packagesPath": "C:\\Users\\mikke\\.nuget\\packages\\",
-      "outputPath": "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\test\\Chirp.CLI.Tests\\obj\\",
+      "projectPath": "c:\\Users\\madsd\\Documents\\GitHub\\Chirp\\test\\Chirp.CLI.Tests\\Chirp.CLI.Tests.csproj",
+      "packagesPath": "C:\\Users\\madsd\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\madsd\\Documents\\GitHub\\Chirp\\test\\Chirp.CLI.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\mikke\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\madsd\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -5638,11 +5582,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj": {
-              "projectPath": "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj"
-            },
-            "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\src\\SimpleDB\\SimpleDB.csproj": {
-              "projectPath": "C:\\ITU\\Semester 3\\Software Arch\\Chirp\\src\\SimpleDB\\SimpleDB.csproj"
+            "c:\\Users\\madsd\\Documents\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj": {
+              "projectPath": "c:\\Users\\madsd\\Documents\\GitHub\\Chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj"
             }
           }
         }
@@ -5694,7 +5635,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\Administrator\\.dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }
