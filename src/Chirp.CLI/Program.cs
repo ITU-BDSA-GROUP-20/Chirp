@@ -36,7 +36,7 @@ public class Program
 
     private static void ReadCheeps(int noOfLines)
     {
-        List<Cheep> cheeps = database.getRequest("cheeps"); 
+        List<Cheep> cheeps = database.getRequest("cheeps?limit=" + noOfLines); 
         
         // takes the noOfLines of the last cheeps in the 'cheeps' list and stores them in a new list
         // Needs to be refactored to only read noOfLines from the database
