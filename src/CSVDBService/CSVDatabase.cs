@@ -48,9 +48,14 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         
         // returns entire collection if 'limit' is greater than amount of records in cheepCollection,
         // returns 'limit' newest cheeps otherwise.
-        if (limit >= records.Count)
+        if (limit > records.Count)
         {
             Console.WriteLine($"{limit} exceeds the amount of cheeps in the database. Showing all {records.Count()} cheeps on record instead.");
+            return records;
+        } 
+        else if (limit <= 0)
+        {
+            Console.WriteLine($"Invalid limit. Showing all {records.Count()} cheeps on record instead.");
             return records;
         }
         else
