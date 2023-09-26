@@ -3,7 +3,7 @@ using CSVDBService;
 
 namespace Chirp.CSVDBService.Tests;
 
-public class UnitTest1
+public class UnitTestCSVDBS
 {
     
     private IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.Instance;
@@ -37,19 +37,21 @@ public class UnitTest1
         TearDown();
     }
 
-    // [Fact]
-    // public void Store_ShouldStoreExactNumberOfCheeps(Cheep cheep1, Cheep cheep2)
-    // {
-    //     SetUp();
-    //     database.Store(new Cheep("Auth1", "Message1", 1695728248));
-    //     database.Store(new Cheep("Auth2", "Message2", 1695728260));
+    [Fact]
+    public void Store_ShouldStoreExactNumberOfCheeps()
+    {
+        SetUp();
 
-    //     List<Cheep> output =new(database.Read(3));
-        
-    //     Assert.Equal(2, output.Count);
-    //     TearDown();
-    // }
+        database.Store(new Cheep("Auth1", "Message1", 1695728248));
+        database.Store(new Cheep("Auth2", "Message2", 1695728260));
 
+        List<Cheep> output =new(database.Read(2));
+        Assert.Equal(2, output.Count);
+
+        TearDown();
+    }
+
+   
     
 
 
