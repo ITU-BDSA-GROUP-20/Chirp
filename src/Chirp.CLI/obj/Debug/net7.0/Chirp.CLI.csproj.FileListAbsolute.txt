@@ -29,3 +29,18 @@ C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.d
 C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\refint\Chirp.CLI.dll
 C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.genruntimeconfig.cache
 C:\ITU\Semester 3\Software Arch\Chirp\src\Chirp.CLI\obj\Debug\net7.0\ref\Chirp.CLI.dll
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.exe
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.deps.json
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.runtimeconfig.json
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.dll
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\bin\Debug\net7.0\CommandLine.dll
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.csproj.AssemblyReference.cache
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.AssemblyInfoInputs.cache
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.AssemblyInfo.cs
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.csproj.CoreCompileInputs.cache
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.csproj.CopyComplete
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.dll
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\refint\Chirp.CLI.dll
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.genruntimeconfig.cache
+C:\Users\mikke\Documents\GitHub\Chirp\src\Chirp.CLI\obj\Debug\net7.0\ref\Chirp.CLI.dll

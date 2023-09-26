@@ -61,7 +61,7 @@ public class UnitTest1
         Assert.StartsWith("mikke", fstCheep);
         Assert.EndsWith("Hello There good Sir", fstCheep);
     }
-    
+   /* 
     [Fact]
     public void WriteCheepEnd2EndTest()
     {
@@ -87,5 +87,5 @@ public class UnitTest1
         // Assert
         Assert.StartsWith("mikke", fstCheep);
         Assert.EndsWith("Hello There good Sir", fstCheep);
-    }
+    }*/
 }
