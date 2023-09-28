@@ -45,6 +45,11 @@ public class Program
             Console.WriteLine($"{noOfLines} exceeds the amount of cheeps in the database. Showing all {cheeps.Count()} cheeps on record instead.");
             UserInterface.PrintCheeps(cheeps);
         }
+        else if (noOfLines <= 0)
+        {
+            Console.WriteLine($"Showing all {cheeps.Count()} cheeps on record.");
+            UserInterface.PrintCheeps(cheeps);
+        }
         else
         {
             Console.WriteLine($"Showing {noOfLines} newest cheeps out of {cheeps.Count()} cheeps on record.");
