@@ -21,7 +21,7 @@ jobs:
         dotnet-version: '7.0.x'
 
     - name: Restore Dependencies
-      run: dotnet restore
+      run: dotnet restore src/Chirp.CLI/
 
     - name: Build
       run: |
