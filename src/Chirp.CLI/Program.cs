@@ -47,8 +47,13 @@ public class Program
         }
         else if (noOfLines <= 0)
         {
-            Console.WriteLine($"Showing all {cheeps.Count()} cheeps on record.");
-            UserInterface.PrintCheeps(cheeps);
+            // The user could use some help text for if the following code is executed
+            
+            var defaultLimit = 5;
+            var limit = Math.Min(defaultLimit, cheeps.Count());
+            Console.WriteLine($"Showing {limit} cheeps from {cheeps.Count()} cheeps on record.");
+            List<Cheep>limitedCheeps = cheeps.GetRange(cheeps.Count()-limit, limit);
+            UserInterface.PrintCheeps(limitedCheeps);
         }
         else
         {
