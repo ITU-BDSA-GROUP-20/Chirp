@@ -13,10 +13,10 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Restore dependencies
-      run: dotnet restore src/Chirp.CLI
+      run: dotnet restore src/Chirp.Razor
     - name: Build
-      run: dotnet build src/Chirp.CLI --no-restore
+      run: dotnet build src/Chirp.Razor --no-restore
     - name: Test
       run: |
-        dotnet test test/Chirp.CLI.Tests
-        dotnet test test/Chirp.CSVDBService.Tests
+        dotnet test test/Chirp.Razor.Tests
+        dotnet test test/Chirp.SQLite.Tests
