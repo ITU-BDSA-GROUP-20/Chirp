@@ -11,12 +11,12 @@ public class UnitTestCSVDBS
     
     public void SetUp()
     {
-        database.SetFilePath("./data/cheep-test");
+        database.SetFilePath("./data/cheep-test-unit");
         
     }
     public void TearDown()
     {
-        File.Delete("./data/cheep-test");
+        File.Delete("./data/cheep-test-unit");
     }
     
     //Methods to test:

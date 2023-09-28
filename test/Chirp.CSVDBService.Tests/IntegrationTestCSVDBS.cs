@@ -20,21 +20,21 @@ public class IntegrationTestCSVDBS
     }
     
     //Stored cheep should be outputted correctly.. eh
-    [Theory]
-    [InlineData("Hermione", "Ron sucks", 1695756366)]
-    [InlineData("Ron", "Hermione sucks", 1695756333)]
-    public void Store_Read_ToStringOutput(string author, string message, long timestamp)
+    [Fact]
+    public void Store_Read_ToStringOutput()
     {
         SetUp();
-        database.Store(new Cheep(author, message, timestamp));
 
-        //DateTime time = DateTimeOffset.FromUnixTimeSeconds(timestamp).LocalDateTime;
-        //string timeFormatted = time.ToString();
+        Cheep cheep1 = new Cheep("Hermione", "Ron sucks", 1695756366);
+        Cheep cheep2 = new Cheep("Ron", "Hermione sucks", 1695756333);
         
-        Cheep cheep = database.Read(1).First();
-        // "Cheep { Author = {author}, Message = {message}, Timestamp = {timestamp} }"
+        database.Store(cheep1);
+        database.Store(cheep2);
         
-        Assert.Equal($"Cheep {{ Author = {author}, Message = {message}, Timestamp = {timestamp} }}", cheep.ToString());
+        List<Cheep> cheeps = new List<Cheep>(database.Read(2));
+        
+        Assert.Equal(cheeps[0].ToString(), cheep1.ToString());
+        Assert.Equal(cheeps[1].ToString(), cheep2.ToString());
         /*
         @TODO:
         Due to Cheep.ToString() not being implemented, it is not possible to use the correctly formatted string,
