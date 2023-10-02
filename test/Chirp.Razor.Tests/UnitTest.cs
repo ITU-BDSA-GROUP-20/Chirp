@@ -8,7 +8,7 @@ public class UnitTest
         // Arrange
 
         // Act
-        List<CheepViewModel> cheeps = new CheepService().GetCheeps();
+        List<CheepViewModel> cheeps = new CheepService().GetCheeps(2);
         
         // Assert
         Assert.Equal(2, cheeps.Count);
@@ -22,7 +22,7 @@ public class UnitTest
         // Arrange
 
         // Act
-        List<CheepViewModel> cheeps = new CheepService().GetCheepsFromAuthor("Helge");
+        List<CheepViewModel> cheeps = new CheepService().GetCheepsFromAuthor("Helge", 1);
         
         // Assert
         Assert.Equal("Helge", cheeps[0].Author);
