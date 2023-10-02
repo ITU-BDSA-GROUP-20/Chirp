@@ -28,7 +28,7 @@ public class CheepService : ICheepService
     }
     private List<CheepViewModel> FormatCheeps(List<Object> unformattedList){
         var _cheeps = new List<CheepViewModel>();
-        for(int i = 0; i<unformattedList.Count-3; i+=3){
+        for(int i = 0; i<unformattedList.Count-2; i+=3){
 
             _cheeps.Add(new CheepViewModel(
                 //Needs to conform to order of how we retrieve data from the query

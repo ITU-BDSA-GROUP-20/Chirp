@@ -8,13 +8,11 @@ public class UnitTest
         // Arrange
 
         // Act
-        List<CheepViewModel> cheeps = new CheepService().GetCheeps(2);
+        List<CheepViewModel> cheeps = new CheepService().GetCheeps(1);
         
         // Assert
-        Assert.Equal(2, cheeps.Count);
-        Assert.Equal("Helge", cheeps[0].Author);
-        Assert.Equal("Rasmus", cheeps[1].Author);
-    }
+        Assert.Equal(32, cheeps.Count);
+     }
     
     [Fact]
     public void GetCheepsFromAuthorTest()

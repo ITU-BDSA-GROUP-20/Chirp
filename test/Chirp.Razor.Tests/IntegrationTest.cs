@@ -19,7 +19,7 @@ public class IntegrationTest : IClassFixture<WebApplicationFactory<Program>>
     [Fact]
     public async void CanSeePublicTimeline() 
     {
-        var response = await _client.GetAsync("/public");
+        var response = await _client.GetAsync("/");
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
 
@@ -32,7 +32,7 @@ public class IntegrationTest : IClassFixture<WebApplicationFactory<Program>>
     [InlineData("Rasmus")]
     public async void CanSeeUserTimeline(string author)
     {
-        var response = await _client.GetAsync($"/user/{author}");
+        var response = await _client.GetAsync($"/{author}");
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
 
