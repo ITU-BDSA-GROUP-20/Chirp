@@ -19,4 +19,8 @@
     <InteralsVisisbleTo Include="../../test/Chirp.Razor.Tests" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Chirp.SQLite\Chirp.SQLite.csproj" />
+  </ItemGroup>
+
 </Project>
