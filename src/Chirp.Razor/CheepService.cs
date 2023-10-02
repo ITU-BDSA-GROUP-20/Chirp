@@ -6,20 +6,22 @@ public record CheepViewModel(string Author, string Message, string Timestamp);
 
 public interface ICheepService
 {
-    public List<CheepViewModel> GetCheeps();
-    public List<CheepViewModel> GetCheepsFromAuthor(string author);
+    public List<CheepViewModel> GetCheeps(int page);
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page);
 }
 
 public class CheepService : ICheepService
 {
     DBFacade DB = new();
+    
 
-
-    public List<CheepViewModel> GetCheeps()
+    public List<CheepViewModel> GetCheeps(int page)
     {
         //query ran:
         //SELECT user.username, message.text, message.pub_date FROM message JOIN user on message.author_id = user.user_id ORDER by message.pub_date desc
-        List<Object> unrefinedList = DB.GetAllMessages();
+        
+
+        List<Object> unrefinedList = DB.GetAllMessages(page);
 
         return FormatCheeps(unrefinedList);
         
@@ -38,12 +40,12 @@ public class CheepService : ICheepService
         return _cheeps;
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author)
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page)
     {
         //query ran:
         //SELECT user.username, message.text, message.pub_date FROM message JOIN user ON message.author_id = user.user_id WHERE user.username = @Author ORDER by message.pub_date desc
        
-        List<Object> unformattedList = DB.getAuthorsMessages(author);
+        List<Object> unformattedList = DB.getAuthorsMessages(author, page);
         // filter by the provided author name
         return FormatCheeps(unformattedList);
     }

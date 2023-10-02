@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.VisualBasic;
 
 namespace Chirp.Razor.Pages;
 
@@ -15,7 +16,13 @@ public class PublicModel : PageModel
 
     public ActionResult OnGet()
     {
-        Cheeps = _service.GetCheeps();
+        int page;
+       if(Request.Query.ContainsKey("page")){
+            page = int.Parse(Request.Query["page"]);
+       } else{
+            page = 1;
+       }
+        Cheeps = _service.GetCheeps(page);
         return Page();
     }
 }
