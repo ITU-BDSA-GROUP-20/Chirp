@@ -29,13 +29,13 @@ jobs:
         run: dotnet build -c Release src/Chirp.Razor
 
       - name: dotnet publish
-        run: dotnet publish -c Release src/Chirp.Razor
+        run: dotnet publish -c Release src/Chirp.Razor -o src/Chirp.Razor.Publish
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: Chirp.Razor
-          path: src/Chirp.Razor
+          path: src/Chirp.Razor.Publish
 
   deploy:
     runs-on: ubuntu-latest
