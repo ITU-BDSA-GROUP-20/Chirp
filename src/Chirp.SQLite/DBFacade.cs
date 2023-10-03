@@ -5,9 +5,6 @@ using System.Reflection;
 using Microsoft.Data.Sqlite;
 using Microsoft.VisualBasic;
 
-
-
-
 public class DBFacade{
     //TODO: Consider adding the connection as a field, so the connections stays open for the duration of the program
     //Should these paths be hardcoded?
@@ -97,21 +94,11 @@ public class DBFacade{
                 for (int i = 0; i < fieldCount; i++)
                     //messages.Add($"{reader.GetName(i)}: {values[i]}");
                     messages.Add($"{values[i]}");
-         }
+        }
         return messages;
     }
     //Main is only there so I can test the fucntionality via dotnet run.
     public static void Main(){
-        DBFacade db = new DBFacade();
-        List<Object> messages = db.GetAllMessages(1);
-         foreach (Object message in messages){
-            Console.WriteLine(message);
-        }
-        List<Object> authorsMessages = db.getAuthorsMessages("Helge", 1);
-        foreach (Object message in authorsMessages){
-            Console.WriteLine(message);
-        }
-        Console.WriteLine("-----------------");
     }
 }
 
