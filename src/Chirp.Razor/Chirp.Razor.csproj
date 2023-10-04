@@ -6,7 +6,6 @@
     <DebugSymbols>False</DebugSymbols>
     <ImplicitUsings>enable</ImplicitUsings>
     <SelfContained>false</SelfContained>
-    <PublishSingleFile>true</PublishSingleFile>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
