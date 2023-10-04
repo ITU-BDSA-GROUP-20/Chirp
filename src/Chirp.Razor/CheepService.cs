@@ -35,7 +35,6 @@ public class CheepService : ICheepService
                 unformattedList[i].ToString()!,
                 unformattedList[i+1].ToString()!,
                 UnixTimeStampToDateTimeString(Convert.ToDouble(unformattedList[i+2]))));
-    
         }
         return _cheeps;
     }

@@ -26,5 +26,4 @@ public class UnitTest
         Assert.Equal("Helge", cheeps[0].Author);
         Assert.Equal("Hello, BDSA students!", cheeps[0].Message);
     }
-   
 }
