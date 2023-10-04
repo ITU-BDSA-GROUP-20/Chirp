@@ -49,13 +49,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: Chirp.Razor
-          path: ./Chirp.Razor
 
       - name: dotnet publish
-        run: |
-          ls
-          cd ./Chirp.Razor
-          ls
+        run: ls
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -64,4 +60,4 @@ jobs:
           app-name: 'bdsagroup20chirpremotedb'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_232A4EC93A1A4F64A5BD43986B651475 }}
-          package: ./Chirp.Razor
+          package: .
