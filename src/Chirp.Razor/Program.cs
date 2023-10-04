@@ -28,6 +28,7 @@ public class Program
 
         app.MapRazorPages();
 
+        Console.WriteLine("Main method is running");
         app.Run(); 
     }
 }
