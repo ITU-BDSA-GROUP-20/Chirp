@@ -35,6 +35,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Chirp.Razor
+          path: src/Chirp.Razor.Publish
 
   deploy:
     runs-on: ubuntu-latest
