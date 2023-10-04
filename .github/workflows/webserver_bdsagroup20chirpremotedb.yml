@@ -51,7 +51,7 @@ jobs:
           name: Chirp.Razor
 
       - name: Inspect downloaded artifact structure
-        run: ls -R ./Chirp.Razor
+        run: ls
 
 
       - name: Deploy to Azure Web App
@@ -61,4 +61,4 @@ jobs:
           app-name: 'bdsagroup20chirpremotedb'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_232A4EC93A1A4F64A5BD43986B651475 }}
-          package: ./Chirp.Razor/src/Chirp.Razor.Publish
+          package: ./Chirp.Razor
