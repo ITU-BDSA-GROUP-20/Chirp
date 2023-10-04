@@ -10,65 +10,15 @@ public class DBFacade
 {
     //TODO: Consider adding the connection as a field, so the connections stays open for the duration of the program
     //Should these paths be hardcoded?
-    readonly string sqlDBFilePath = "/tmp/chirp.db";
-    readonly string environmentDBPath = Environment.GetEnvironmentVariable("CHIRPDBPATH")!;
-
-    public DBFacade()
-    {
-        
-        string activeDBPath = ChooseDBPath();
-        
-        var query = @"drop table if exists user;
-create table user (
-  user_id integer primary key autoincrement,
-  username string not null,
-  email string not null,
-  pw_hash string not null
-);
-
-drop table if exists message;
-create table message (
-  message_id integer primary key autoincrement,
-  author_id integer not null,
-  text string not null,
-  pub_date integer
-);";
-        
-        using (var connection = new SqliteConnection($"Data Source = {activeDBPath}"))
-        {
-            //Connecting to db, and executing query against it
-            connection.Open();
-            var command = connection.CreateCommand();
-            command.CommandText = query;
-            using var reader = command.ExecuteReader();
-        }
-        
-        
-    }
-
-    private string ChooseDBPath()
-    {
-        //Chose environment variable or default path
-        string activeDBPath;
-
-        if (environmentDBPath != null)
-        {
-            activeDBPath = environmentDBPath;
-        }
-        else
-        {
-            activeDBPath = sqlDBFilePath;
-        }
-
-        return activeDBPath;
-    }
+    
+    private static readonly string assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+    readonly string sqlDBFilePath = Path.Combine(assemblyDirectory, "data", "chirp.db");
 
     private List<Object> ConnectAndQuery(string query, int page)
     {
         //Establishing connection and executing query against db
-        string activeDBPath = ChooseDBPath();
 
-        using (var connection = new SqliteConnection($"Data Source = {activeDBPath}"))
+        using (var connection = new SqliteConnection($"Data Source = {sqlDBFilePath}"))
         {
             //Connecting to db, and executing query against it
             connection.Open();
@@ -108,9 +58,8 @@ create table message (
                     ORDER by message.pub_date 
                     desc 
                     LIMIT 32 OFFSET (@PAGE -1) * 32";
-
-        string activeDBPath = ChooseDBPath();
-        using (var connection = new SqliteConnection($"Data Source = {activeDBPath}"))
+        
+        using (var connection = new SqliteConnection($"Data Source = {sqlDBFilePath}"))
         {
             //Connecting to db, and executing query against it
             connection.Open();

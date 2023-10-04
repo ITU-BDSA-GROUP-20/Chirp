@@ -5,6 +5,7 @@
     <DebugType>None</DebugType>
     <DebugSymbols>False</DebugSymbols>
     <ImplicitUsings>enable</ImplicitUsings>
+    <PublishSinglefile>true</PublishSinglefile>
     <SelfContained>false</SelfContained>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -12,9 +13,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.11" />
     <Content Include="data/**/*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts/initDB.sh">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.11" />
