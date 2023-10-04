@@ -29,13 +29,13 @@ jobs:
         run: dotnet build -c Release src/Chirp.Razor
 
       - name: dotnet publish
-        run: dotnet publish -c Release src/Chirp.Razor
+        run: dotnet publish -c Release src/Chirp.Razor -o src/Chirp.Razor.Publish
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: Chirp.Razor
-          path: src/Chirp.Razor
+          path: src/Chirp.Razor.Publish
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,6 +49,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: Chirp.Razor
+          path: ./Chirp.Razor
+
+      - name: Inspect downloaded artifact structure
+        run: ls
+
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -57,4 +62,4 @@ jobs:
           app-name: 'bdsagroup20chirpremotedb'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_232A4EC93A1A4F64A5BD43986B651475 }}
-          package: .
+          package: Chirp.Razor
