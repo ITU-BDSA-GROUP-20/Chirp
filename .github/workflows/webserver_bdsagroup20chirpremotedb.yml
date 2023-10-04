@@ -49,6 +49,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: Chirp.Razor
+          path: /Chirp.Razor
 
       - name: Inspect downloaded artifact structure
         run: ls
