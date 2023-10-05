@@ -61,5 +61,5 @@ jobs:
         with:
           app-name: 'bdsagroup20chirprazor'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_232A4EC93A1A4F64A5BD43986B651475 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3C715B6F309145D2A489CCA05C6FA214 }}
           package: Chirp.Razor
