@@ -38,12 +38,12 @@ public class CheepRepository : ICheepRepository
     {
         db.Cheeps.Add(cheep);
     }
-    
+
     private String GetAuthorById(int authorId)
     {
-        return db.Authors
-            .Where(a => a.AuthorId == authorId)
-            .Select(a => a.Name)
-            .FirstOrDefault()!;
+        AuthorRepository authorRepository = new();
+        return authorRepository.GetAuthorById(authorId);
     }
+    
+    
 }
