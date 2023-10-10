@@ -23,4 +23,8 @@
     <EmbeddedResource Include="data/**/*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
+
 </Project>
