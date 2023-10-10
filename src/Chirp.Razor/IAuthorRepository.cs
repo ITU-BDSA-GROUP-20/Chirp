@@ -1,3 +1,5 @@
+using Chirp.Razor.Models;
+
 namespace Chirp.Razor;
 
 public interface IAuthorRepository
