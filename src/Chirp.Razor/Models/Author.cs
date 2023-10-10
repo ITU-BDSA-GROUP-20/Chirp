@@ -1,4 +1,4 @@
-namespace Chirp.Razor.Models{
+namespace Chirp.Razor.Models;
     public class Author
     {
     public int AuthorId {get; set;}
@@ -6,4 +6,4 @@ namespace Chirp.Razor.Models{
     public string Email {get; set;}
     public ICollection<Cheep> Cheeps {get; set;}
     }
-}
+
