@@ -27,7 +27,7 @@ public class CheepRepository : ICheepRepository
 
     public void AddCheep(Cheep cheep)
     {
-        throw new NotImplementedException();
+        db.Cheeps.Add(cheep);
     }
     
     private String GetAuthorById(int authorId)
