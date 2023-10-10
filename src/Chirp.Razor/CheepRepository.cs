@@ -2,11 +2,8 @@ using Chirp.Razor.Models;
 
 namespace Chirp.Razor;
 
-public class CheepRepository : ICheepRepository
+public class CheepRepository : BaseRepository, ICheepRepository
 {
-    // use chirpDbContext
-    private ChirpDbContext db;
-    private const int PageSize = 32;
 
     public IEnumerable<CheepViewModel> GetCheepsByPage(int page)
     {

@@ -2,11 +2,8 @@ using Chirp.Razor.Models;
 
 namespace Chirp.Razor;
 
-public class AuthorRepository : IAuthorRepository
+public class AuthorRepository : BaseRepository, IAuthorRepository
 {
-    // use chirpDbContext
-    private ChirpDbContext db;
-    private const int PageSize = 32;
     
     public IEnumerable<CheepViewModel> GetCheepsByAuthor(Author author)
     {
