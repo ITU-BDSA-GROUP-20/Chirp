@@ -11,8 +11,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.11" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <InteralsVisisbleTo Include="../../test/Chirp.Razor.Tests" />
   </ItemGroup>
@@ -20,6 +21,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Chirp.SQLite\Chirp.SQLite.csproj" />
     <EmbeddedResource Include="data/**/*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
   </ItemGroup>
 
 </Project>
