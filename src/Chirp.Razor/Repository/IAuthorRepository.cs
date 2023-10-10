@@ -1,6 +1,6 @@
 using Chirp.Razor.Models;
 
-namespace Chirp.Razor;
+namespace Chirp.Razor.Repository;
 
 public interface IAuthorRepository
 {
