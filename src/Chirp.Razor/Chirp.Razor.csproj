@@ -19,8 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Chirp.SQLite\Chirp.SQLite.csproj" />
-    <EmbeddedResource Include="data/**/*" />
+    <Content Include="data/**/*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
+  
 
 </Project>
