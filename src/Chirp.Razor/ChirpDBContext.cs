@@ -1,14 +1,14 @@
 using Chirp.Razor.Models;
 using Microsoft.EntityFrameworkCore;
+
 //This file holds the datamodel consisting of Author, Cheep, and ChirpDbContext
 //EF Core will use the properties of these classes to create and control
 //the database, without having the application directly interact with the database. 
 
+namespace Chirp.Razor;
+
 public class ChirpDBContext : DbContext
 {
-    public ChirpDBContext(DbContextOptions<ChirpDBContext> options) : base(options)
-    {
-    }
     public DbSet<Author> Authors {get; set;}
     public DbSet<Cheep> Cheeps {get; set;}
     //Source for methods:
@@ -33,8 +33,9 @@ public class ChirpDBContext : DbContext
             Entity.HasKey(e => e.CheepId);
             Entity.Property(e => e.Text).IsRequired();
             Entity.Property(e => e.TimeStamp).IsRequired();
-            Entity.HasOne(e => e.Author).HasForeignKey(e => e.AuthorId);
-            Entity.Property(e => e.AuthorId).IsRequired();
+            Entity.HasOne(e => e.Author)
+                .WithMany(author => author.Cheeps)
+                .HasForeignKey(e => e.AuthorId);
         });
     }
 
