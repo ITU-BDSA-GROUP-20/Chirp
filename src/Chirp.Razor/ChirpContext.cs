@@ -10,6 +10,7 @@ public class ChirpDBContext : DbContext
     {
     }
     public DbSet<Author> Authors {get; set;}
+    public DbSet<Cheep> Cheeps {get; set;}
     //Source for methods:
     //https://www.c-sharpcorner.com/article/get-started-with-entity-framework-core-using-sqlite/
 
@@ -24,10 +25,18 @@ public class ChirpDBContext : DbContext
             Entity.HasKey(e => e.AuthorId);
             Entity.Property(e => e.Name).IsRequired();
             Entity.Property(e => e.Email).IsRequired();
-            Entity.HasMany(e => e.Cheeps).WithOne(e => e.Author).HasForeignKey(e => e.AuthorId);
+            Entity.HasMany(e => e.Cheeps);
         });
-        OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Cheep>(Entity =>
+        {
+            Entity.HasKey(e => e.CheepId);
+            Entity.Property(e => e.Text).IsRequired();
+            Entity.Property(e => e.TimeStamp).IsRequired();
+            Entity.HasOne(e => e.Author).HasForeignKey(e => e.AuthorId);
+            Entity.Property(e => e.AuthorId).IsRequired();
+        });
     }
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
 
 }
