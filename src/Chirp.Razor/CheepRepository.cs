@@ -22,7 +22,16 @@ public class CheepRepository : ICheepRepository
 
     public void DeleteCheepById(int cheepId)
     {
-        throw new NotImplementedException();
+        //Delete the specified cheep from the database
+        Cheep cheep = db.Cheeps.Find(cheepId);
+        if (cheep != null)
+        {
+            db.Cheeps.Remove(cheep);
+        }
+        else
+        {
+            throw new Exception("Cheep with id " + cheepId + " not found");
+        }
     }
 
     public void AddCheep(Cheep cheep)
