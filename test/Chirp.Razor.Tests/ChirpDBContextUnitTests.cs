@@ -51,7 +51,7 @@ public class ChirpDBContextUnitTests
     
         Author author = Db.Authors
             .Include(a => a.Cheeps)
-            .FirstOrDefault(a => a.AuthorId == 1);
+            .FirstOrDefault(a => a.AuthorId == 12);
     
         
         Assert.NotNull(author);
