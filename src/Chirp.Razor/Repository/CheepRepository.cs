@@ -12,7 +12,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
             .OrderByDescending(c => c.CheepId)
             .Skip(PageSize * page)
             .Take(PageSize)
-            .Select(c => new CheepViewModel(GetAuthorById(c.AuthorId), c.Message, c.Timestamp))
+            .Select(c => new CheepViewModel(GetAuthorById(c.AuthorId), c.Text, c.TimeStamp.ToString()))
             .ToList();
         return cheeps;
     }

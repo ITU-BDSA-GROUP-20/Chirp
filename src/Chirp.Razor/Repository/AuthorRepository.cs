@@ -16,7 +16,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         //Get cheeps by Author object
         return db.Cheeps
             .Where(c => c.AuthorId == author.AuthorId)
-            .Select(c => new CheepViewModel(author.Name, c.Message, c.Timestamp))
+            .Select(c => new CheepViewModel(author.Name, c.Text, c.TimeStamp.ToString()))
             .ToList();
     }
     
