@@ -38,6 +38,4 @@ public class ChirpDBContext : DbContext
                 .HasForeignKey(e => e.AuthorId);
         });
     }
-
-
 }
