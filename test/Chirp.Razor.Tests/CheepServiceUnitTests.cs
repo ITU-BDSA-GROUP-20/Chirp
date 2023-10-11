@@ -1,6 +1,6 @@
-namespace Chirp.Razor.Tests;
+﻿namespace Chirp.Razor.Tests;
 
-public class UnitTest
+public class CheepServiceUnitTests
 {
     [Fact]
     public void GetCheepsTest()
@@ -12,7 +12,18 @@ public class UnitTest
         
         // Assert
         Assert.Equal(32, cheeps.Count);
-     }
+    }
+
+    [Fact]
+    public void GetCheepsContainsAnExpectedCheep()
+    {
+        List<CheepViewModel> cheeps = new CheepService().GetCheeps(1);
+        CheepViewModel cheep = cheeps[0];
+        
+        Assert.Equal(cheep.Author, "Quintin Sitts");
+        Assert.Equal(cheep.Message, "For then, more whales the less to her, as you very much.");
+        Assert.Equal(cheep.Timestamp, "2023-08-01 13:14:07");
+    }
     
     [Fact]
     public void GetCheepsFromAuthorTest()

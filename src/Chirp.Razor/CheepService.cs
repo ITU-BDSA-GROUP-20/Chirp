@@ -27,6 +27,10 @@ public class CheepService : ICheepService
     public List<CheepViewModel> GetCheeps(int page)
     {
         return _Cheep.GetCheepsByPage(page);;
+        //query ran:
+        //SELECT user.username, message.text, message.pub_date FROM message JOIN user on message.author_id = user.user_id ORDER by message.pub_date desc
+     
+        return _Cheep.GetCheepsByPage(page);
     }
     /* private List<CheepViewModel> FormatCheeps(List<Cheep> unformattedList){
 
@@ -44,7 +48,7 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author, int page)
     {
-        var _author = _Author.GetAuthorByName(author);
+        //var _author = _Author.GetAuthorByName(author);
         return new List<CheepViewModel>();
     }
 
