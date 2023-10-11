@@ -28,32 +28,11 @@ public class CheepService : ICheepService
     {
         return _Cheep.GetCheepsByPage(page);;
     }
-    /* private List<CheepViewModel> FormatCheeps(List<Cheep> unformattedList){
-
-       var _cheeps = new List<CheepViewModel>();
-
-       for(int i = 0; i<unformattedList.Count; i++){
-           var cheep = unformattedList[i];
-           _cheeps.Add(new CheepViewModel(
-              cheep.Author.Name,
-                cheep.Text,
-                UnixTimeStampToDateTimeString(Convert.ToDouble(cheep.TimeStamp))));
-        }
-        return _cheeps;
-     }*/
+    
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author, int page)
     {
-        var _author = _Author.GetAuthorByName(author);
-        return new List<CheepViewModel>();
+        var _author = _Author.GetCheepsByAuthor(author, page);
+        return _author;
     }
-
-   /* private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
-    {
-        // Unix timestamp is seconds past epoch
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        dateTime = dateTime.AddSeconds(unixTimeStamp);
-        return dateTime.ToString("MM/dd/yy H:mm:ss");
-    }
-   */
 }

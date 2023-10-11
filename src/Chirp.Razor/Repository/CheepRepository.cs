@@ -14,7 +14,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
             .Take(PageSize)
             .Select(c => new CheepViewModel(c.Author.Name, c.Text, c.TimeStamp.ToString()))
             .ToList();
-        db.Dispose();
+
         return cheeps;
     }
 
@@ -30,13 +30,11 @@ public class CheepRepository : BaseRepository, ICheepRepository
         {
             throw new Exception("Cheep with id " + cheepId + " not found");
         }
-        db.Dispose();
     }
 
     public void AddCheep(Cheep cheep)
     {
         db.Cheeps.Add(cheep);
-        db.Dispose();
     }
 
     private String GetAuthorById(int authorId)
@@ -45,7 +43,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
             .Where(a => a.AuthorId == authorId)
             .Select(a => a.Name)
             .FirstOrDefault()!;
-        db.Dispose();
+        
         return authorName;
     }
     
