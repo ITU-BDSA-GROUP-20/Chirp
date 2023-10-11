@@ -4,7 +4,7 @@ namespace Chirp.Razor.Repository;
 
 public interface IAuthorRepository
 {
-    public IEnumerable<CheepViewModel> GetCheepsByAuthor(Author author);
+    public ICollection<Cheep> GetCheepsByAuthor(Author author);
     public String GetAuthorById(int authorId);
     
 }
