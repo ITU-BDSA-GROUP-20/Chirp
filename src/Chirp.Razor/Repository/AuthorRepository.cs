@@ -1,4 +1,5 @@
 using Chirp.Razor.Models;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace Chirp.Razor.Repository;
 
@@ -12,17 +13,23 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
             .FirstOrDefault()!;
     }
 
-    public ICollection<Cheep> GetCheepsByAuthor(Author author)
+    public List<CheepViewModel> GetCheepsByAuthor(Author author)
     {
         //Check that author has cheeps
         if (!db.Cheeps.Any(c => c.AuthorId == author.AuthorId))
         {
             throw new Exception("Author " + author.Name + " has no cheeps");
         }
+        var cheepList = new List<CheepViewModel>();
         
-        // select Authors entire iCollection of Cheeps
-        return db.Authors
+        var cheepCollection = db.Authors
             .Where(a => a.AuthorId == author.AuthorId)
             .Select(a => a.Cheeps).FirstOrDefault()!;
+        foreach(var Cheep in cheepCollection)
+        {
+            cheepList.Add(new CheepViewModel(Cheep.Author.Name, Cheep.Text, Cheep.TimeStamp.ToString()));
+        }
+        // select Authors entire iCollection of Cheeps
+        return cheepList;
     }
 }
