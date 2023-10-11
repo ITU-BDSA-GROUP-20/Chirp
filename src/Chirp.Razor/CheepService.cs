@@ -44,7 +44,7 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author, int page)
     {
-        
+        var _author = _Author.GetAuthorByName(author);
         return new List<CheepViewModel>();
     }
 

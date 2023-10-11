@@ -7,10 +7,14 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 {
     public String GetAuthorById(int authorId)
     {
-        return db.Authors
+        string authorName = db.Authors
             .Where(a => a.AuthorId == authorId)
             .Select(a => a.Name)
             .FirstOrDefault()!;
+
+        db.Dispose();
+            
+        return authorName;
     }
 
     public List<CheepViewModel> GetCheepsByAuthor(Author author)
@@ -29,6 +33,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         {
             cheepList.Add(new CheepViewModel(Cheep.Author.Name, Cheep.Text, Cheep.TimeStamp.ToString()));
         }
+        db.Dispose();
         // select Authors entire iCollection of Cheeps
         return cheepList;
     }
