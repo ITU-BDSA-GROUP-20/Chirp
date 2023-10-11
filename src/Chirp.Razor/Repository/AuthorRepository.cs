@@ -11,14 +11,20 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
             .Where(a => a.AuthorId == authorId)
             .Select(a => a.Name)
             .FirstOrDefault()!;
-
-        db.Dispose();
             
         return authorName;
     }
-
-    public List<CheepViewModel> GetCheepsByAuthor(Author author)
+    private Author GetAuthorByName(string Name)
     {
+        Author author = db.Authors
+            .Where(a => a.Name == Name).FirstOrDefault()!;
+            
+        return author;
+    }
+
+    public List<CheepViewModel> GetCheepsByAuthor(string name, int page)
+    {
+        Author author = GetAuthorByName(name);
         //Check that author has cheeps
         if (!db.Cheeps.Any(c => c.AuthorId == author.AuthorId))
         {
@@ -28,12 +34,16 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         
         var cheepCollection = db.Authors
             .Where(a => a.AuthorId == author.AuthorId)
-            .Select(a => a.Cheeps).FirstOrDefault()!;
+            .Select(a => a.Cheeps)
+            .Skip(PageSize * page)
+            .Take(PageSize)
+            .FirstOrDefault()!;
+        
         foreach(var Cheep in cheepCollection)
         {
             cheepList.Add(new CheepViewModel(Cheep.Author.Name, Cheep.Text, Cheep.TimeStamp.ToString()));
         }
-        db.Dispose();
+        
         // select Authors entire iCollection of Cheeps
         return cheepList;
     }
