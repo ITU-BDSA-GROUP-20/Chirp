@@ -38,8 +38,10 @@ public class CheepRepository : BaseRepository, ICheepRepository
 
     private String GetAuthorById(int authorId)
     {
-        AuthorRepository authorRepository = new();
-        return authorRepository.GetAuthorById(authorId);
+        return db.Authors
+            .Where(a => a.AuthorId == authorId)
+            .Select(a => a.Name)
+            .FirstOrDefault()!;
     }
     
     
