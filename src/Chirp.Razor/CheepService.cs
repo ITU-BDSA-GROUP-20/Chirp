@@ -1,6 +1,7 @@
 using System.Data.SqlTypes;
 using Chirp.Razor;
 using Chirp.Razor.Models;
+using Chirp.Razor.Repository;
 
 public record CheepViewModel(string Author, string Message, string Timestamp);
 
@@ -13,21 +14,22 @@ public interface ICheepService
 
 public class CheepService : ICheepService
 {
-    private ChirpDBContext db = new ChirpDBContext();
+    
+    private IAuthorRepository _Author = new AuthorRepository();
+    private readonly ICheepRepository _Cheep = new CheepRepository();
 
     public CheepService()
     {
-        DbInitializer.SeedDatabase(db);
+       
     }
     
     public List<CheepViewModel> GetCheeps(int page)
     {
         //query ran:
         //SELECT user.username, message.text, message.pub_date FROM message JOIN user on message.author_id = user.user_id ORDER by message.pub_date desc
-
-        var dbAuthors = db.Authors;
-
-        return new List<CheepViewModel>();
+        
+     
+        return _Cheep.GetCheepsByPage(page);
         
     }
     private List<CheepViewModel> FormatCheeps(List<Object> unformattedList){
@@ -59,5 +61,5 @@ public class CheepService : ICheepService
         dateTime = dateTime.AddSeconds(unixTimeStamp);
         return dateTime.ToString("MM/dd/yy H:mm:ss");
     }
-
+   
 }
