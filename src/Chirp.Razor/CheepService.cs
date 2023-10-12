@@ -16,12 +16,13 @@ public interface ICheepService
 public class CheepService : ICheepService
 {
     
-    private IAuthorRepository _Author = new AuthorRepository();
-    private readonly ICheepRepository _Cheep = new CheepRepository();
+    private readonly IAuthorRepository _Author;
+    private readonly ICheepRepository _Cheep;
 
-    public CheepService()
+    public CheepService(ChirpDBContext db)
     {
-       
+        _Author = new AuthorRepository(db);
+        _Cheep = new CheepRepository(db);
     }
     
     public List<CheepViewModel> GetCheeps(int page)
@@ -32,7 +33,7 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author, int page)
     {
-        var _author = _Author.GetCheepsByAuthor(author, page);
-        return _author;
+        var authorCheeps = _Author.GetCheepsByAuthor(author, page);
+        return authorCheeps;
     }
 }

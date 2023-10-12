@@ -14,10 +14,10 @@ public class ChirpDBContext : DbContext
     //Source for methods:
     //https://www.c-sharpcorner.com/article/get-started-with-entity-framework-core-using-sqlite/
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public ChirpDBContext(DbContextOptions<ChirpDBContext> dbContextOptions) : base(dbContextOptions)
     {
-        optionsBuilder.UseSqlite("Data Source=./data/ChirpDBContext.db");
     }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Author>(Entity =>

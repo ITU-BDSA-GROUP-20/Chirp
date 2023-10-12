@@ -4,7 +4,10 @@ namespace Chirp.Razor.Repository;
 
 public class CheepRepository : BaseRepository, ICheepRepository
 {
-
+    public CheepRepository(ChirpDBContext chirpDbContext) : base(chirpDbContext)
+    {
+    }
+    
     public List<CheepViewModel> GetCheepsByPage(int page)
     {
         //Use EF to get the specified page of cheeps from the database
@@ -51,6 +54,4 @@ public class CheepRepository : BaseRepository, ICheepRepository
         
         return authorName;
     }
-    
-    
 }

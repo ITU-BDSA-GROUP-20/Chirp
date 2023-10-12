@@ -7,33 +7,32 @@ namespace a;
 public class ChirpDBContextUnitTests
 {
     private ChirpDBContext Db;
-    
-    private void setUp()
+        
+    public ChirpDBContextUnitTests()
     {
-        Db = new ChirpDBContext();
+        // Set up DbContextOptions for an in-memory SQLite database
+        var options = new DbContextOptionsBuilder<ChirpDBContext>()
+            .UseSqlite("Data Source=./data/ChirpDBContext.db")
+            .Options;
+
+        Db = new ChirpDBContext(options);
     }
     
     [Fact]
     public void DBContextContainsCheeps()
     {
-        setUp();
-        
         Assert.True(Db.Cheeps.Any());
     }
 
     [Fact]
     public void DBContextContainsAuthors()
     {
-        setUp();
-        
         Assert.True(Db.Authors.Any());
     }
 
     [Fact]
     public void QueryByCheepIdReturnsCheep()
     {
-        setUp();
-
         Cheep cheep = Db.Cheeps.Find(1);
         
         Assert.NotNull(cheep);
@@ -46,9 +45,6 @@ public class ChirpDBContextUnitTests
     [Fact]
     public void QueryByAuthorIdReturnsAuthor()
     {
-        
-        setUp();
-    
         Author author = Db.Authors
             .Include(a => a.Cheeps)
             .FirstOrDefault(a => a.AuthorId == 12);
