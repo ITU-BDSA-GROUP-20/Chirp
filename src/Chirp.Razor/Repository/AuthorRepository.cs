@@ -5,6 +5,11 @@ namespace Chirp.Razor.Repository;
 
 public class AuthorRepository : BaseRepository, IAuthorRepository
 {
+    
+    public void AddAuthor(Author author)
+    {
+        db.Authors.Add(author);
+    }
     public String GetAuthorById(int authorId)
     {
         string authorName = db.Authors
@@ -14,10 +19,18 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
             
         return authorName;
     }
-    private Author GetAuthorByName(string Name)
+    public Author GetAuthorByName(string name)
     {
         Author author = db.Authors
-            .Where(a => a.Name == Name).FirstOrDefault()!;
+            .Where(a => a.Name == name).FirstOrDefault()!;
+            
+        return author;
+    }
+    
+    public Author GetAuthorByEmail(string email)
+    {
+        Author author = db.Authors
+            .Where(a => a.Email == email).FirstOrDefault()!;
             
         return author;
     }
