@@ -4,8 +4,7 @@ namespace Chirp.Razor.Repository;
 
 public interface ICheepRepository
 {
-    public IEnumerable<CheepViewModel> GetCheepsByPage(int page);
-    public void DeleteCheepById(int cheepId);
+    public List<CheepViewModel> GetCheepsByPage(int page);
     public void AddCheep(Cheep cheep);
     
 

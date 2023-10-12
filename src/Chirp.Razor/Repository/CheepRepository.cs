@@ -4,16 +4,20 @@ namespace Chirp.Razor.Repository;
 
 public class CheepRepository : BaseRepository, ICheepRepository
 {
-
-    public IEnumerable<CheepViewModel> GetCheepsByPage(int page)
+    public CheepRepository(ChirpDBContext chirpDbContext) : base(chirpDbContext)
+    {
+    }
+    
+    public List<CheepViewModel> GetCheepsByPage(int page)
     {
         //Use EF to get the specified page of cheeps from the database
         List<CheepViewModel> cheeps = db.Cheeps
             .OrderByDescending(c => c.CheepId)
             .Skip(PageSize * page)
             .Take(PageSize)
-            .Select(c => new CheepViewModel(GetAuthorById(c.AuthorId), c.Text, c.TimeStamp.ToString()))
+            .Select(c => new CheepViewModel(c.Author.Name, c.Text, c.TimeStamp.ToString()))
             .ToList();
+
         return cheeps;
     }
 
@@ -33,14 +37,21 @@ public class CheepRepository : BaseRepository, ICheepRepository
 
     public void AddCheep(Cheep cheep)
     {
+        //Check if author is in database, if not add them too
+        if (!db.Authors.Any(a => a.AuthorId == cheep.AuthorId))
+        {
+            db.Authors.Add(cheep.Author);
+        }
         db.Cheeps.Add(cheep);
     }
 
     private String GetAuthorById(int authorId)
     {
-        AuthorRepository authorRepository = new();
-        return authorRepository.GetAuthorById(authorId);
+        String authorName = db.Authors
+            .Where(a => a.AuthorId == authorId)
+            .Select(a => a.Name)
+            .FirstOrDefault()!;
+        
+        return authorName;
     }
-    
-    
 }
