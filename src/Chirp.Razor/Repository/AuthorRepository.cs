@@ -5,6 +5,11 @@ namespace Chirp.Razor.Repository;
 
 public class AuthorRepository : BaseRepository, IAuthorRepository
 {
+    
+    public void AddAuthor(Author author)
+    {
+        db.Authors.Add(author);
+    }
     public String GetAuthorById(int authorId)
     {
         string authorName = db.Authors
