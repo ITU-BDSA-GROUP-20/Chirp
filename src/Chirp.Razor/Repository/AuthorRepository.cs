@@ -26,6 +26,14 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
             
         return author;
     }
+    
+    public Author GetAuthorByEmail(string email)
+    {
+        Author author = db.Authors
+            .Where(a => a.Email == email).FirstOrDefault()!;
+            
+        return author;
+    }
 
     public List<CheepViewModel> GetCheepsByAuthor(string name, int page)
     {
