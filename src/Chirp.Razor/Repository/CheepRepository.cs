@@ -34,6 +34,11 @@ public class CheepRepository : BaseRepository, ICheepRepository
 
     public void AddCheep(Cheep cheep)
     {
+        //Check if author is in database, if not add them too
+        if (!db.Authors.Any(a => a.AuthorId == cheep.AuthorId))
+        {
+            db.Authors.Add(cheep.Author);
+        }
         db.Cheeps.Add(cheep);
     }
 
