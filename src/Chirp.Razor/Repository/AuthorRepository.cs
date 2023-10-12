@@ -14,10 +14,10 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
             
         return authorName;
     }
-    private Author GetAuthorByName(string Name)
+    public Author GetAuthorByName(string name)
     {
         Author author = db.Authors
-            .Where(a => a.Name == Name).FirstOrDefault()!;
+            .Where(a => a.Name == name).FirstOrDefault()!;
             
         return author;
     }
