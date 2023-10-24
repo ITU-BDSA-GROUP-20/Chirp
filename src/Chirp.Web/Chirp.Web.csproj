@@ -15,10 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InteralsVisisbleTo Include="../../test/Chirp.Razor.Tests" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Folder Include="..\..\test\">
+      <Link>test</Link>
+    </Folder>
     <Folder Include="Exceptions\" />
   </ItemGroup>
 

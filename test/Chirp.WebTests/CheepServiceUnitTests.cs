@@ -1,4 +1,5 @@
-﻿using Chirp.Infrastructure;
+﻿
+using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Razor.Tests;
