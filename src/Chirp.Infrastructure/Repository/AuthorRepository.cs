@@ -46,13 +46,15 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         AuthorDTO author = GetAuthorByName(name);
         
         //Check that author has cheeps
-        if (!db.Cheeps.Any(c => c.AuthorId == author.AuthorId))
+        if (author.Cheeps.Count == 0)
         {
             throw new Exception("Author " + author.Name + " has no cheeps");
         }
-        
-        //TODO Paginate list :)
-        return author.Cheeps;
 
+        if(page==0){
+            page=1;
+        }
+        return author.Cheeps.ToList<CheepDTO>().GetRange((page-1)*PageSize,PageSize);
     }
+  
 }
