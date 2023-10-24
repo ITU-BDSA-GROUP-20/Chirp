@@ -1,9 +1,9 @@
 ﻿using Chirp.Core.Entities;
 using Chirp.Infrastructure;
-using Chirp.Razor;
+
 using Microsoft.EntityFrameworkCore;
 
-namespace a;
+namespace Chirp.Razor.Tests;
 
 public class ChirpDBContextUnitTests
 {
