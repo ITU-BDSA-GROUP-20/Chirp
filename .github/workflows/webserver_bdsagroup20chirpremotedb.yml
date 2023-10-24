@@ -49,6 +49,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: Chirp.Web
+          path: ./Chirp.Web
 
       - name: Inspect downloaded artifact structure
         run: ls
