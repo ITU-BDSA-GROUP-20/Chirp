@@ -1,5 +1,6 @@
 ﻿
 using Chirp.Infrastructure;
+using Chirp.Web;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Razor.Tests;

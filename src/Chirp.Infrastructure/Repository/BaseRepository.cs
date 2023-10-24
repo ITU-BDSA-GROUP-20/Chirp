@@ -3,10 +3,12 @@ namespace Chirp.Infrastructure.Repository;
 public abstract class BaseRepository
 {
     protected ChirpDbContext db;
-    protected const int PageSize = 32;
+    protected int PageSize {get; set;}
 
-    public BaseRepository(ChirpDbContext chirpDbContext)
+    public BaseRepository(ChirpDbContext chirpDbContext, int pageSize)
     {
         db = chirpDbContext;
+        PageSize = pageSize;
     }
+
 }

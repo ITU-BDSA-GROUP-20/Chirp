@@ -6,7 +6,7 @@ namespace Chirp.Infrastructure.Repository;
 
 public class AuthorRepository : BaseRepository, IAuthorRepository
 {
-    public AuthorRepository(ChirpDbContext chirpDbContext) : base(chirpDbContext)
+    public AuthorRepository(ChirpDbContext chirpDbContext, int pageSize) : base(chirpDbContext, pageSize)
     {
     }
 

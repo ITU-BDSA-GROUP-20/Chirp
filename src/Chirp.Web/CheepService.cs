@@ -3,11 +3,11 @@ using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
-using Chirp.Razor;
 using Microsoft.EntityFrameworkCore;
 
-public record CheepViewModel(string Author, string Message, string Timestamp);
+namespace Chirp.Web;
 
+public record CheepViewModel(string Author, string Message, string Timestamp);
 
 public interface ICheepService
 {
@@ -20,13 +20,14 @@ public class CheepService : ICheepService
     
     private readonly IAuthorRepository _Author;
     private readonly ICheepRepository _Cheep;
+    private const int PageSize = 32;
 
     public CheepService(ChirpDbContext db)
     {
         DbInitializer.SeedDatabase(db);
         db.Cheeps.Include(c => c.AuthorDto).ToList();
-        _Author = new AuthorRepository(db);
-        _Cheep = new CheepRepository(db);
+        _Author = new AuthorRepository(db, PageSize);
+        _Cheep = new CheepRepository(db, PageSize);
     }
     
     public ICollection<CheepViewModel> GetCheeps(int page)
