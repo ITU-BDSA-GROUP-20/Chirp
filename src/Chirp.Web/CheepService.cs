@@ -3,11 +3,11 @@ using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
-using Chirp.Razor;
 using Microsoft.EntityFrameworkCore;
 
-public record CheepViewModel(string Author, string Message, string Timestamp);
+namespace Chirp.Web;
 
+public record CheepViewModel(string Author, string Message, string Timestamp);
 
 public interface ICheepService
 {
