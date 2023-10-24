@@ -23,6 +23,7 @@ public class CheepService : ICheepService
 
     public CheepService(ChirpDbContext db)
     {
+        DbInitializer.SeedDatabase(db);
         db.Cheeps.Include(c => c.AuthorDto).ToList();
         _Author = new AuthorRepository(db);
         _Cheep = new CheepRepository(db);
