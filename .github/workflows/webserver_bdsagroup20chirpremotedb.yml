@@ -59,7 +59,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'bdsagroup20chirpWeb'
+          app-name: 'bdsagroup20chirprazor'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3C715B6F309145D2A489CCA05C6FA214 }}
           package: Chirp.Web
