@@ -1,4 +1,6 @@
+using Chirp.Core.Repository;
 using Chirp.Infrastructure;
+using Chirp.Infrastructure.Repository;
 using Chirp.Razor;
 
 public record CheepViewModel(string Author, string Message, string Timestamp);
@@ -24,6 +26,8 @@ public class CheepService : ICheepService
     
     public List<CheepViewModel> GetCheeps(int page)
     {
+        
+        
         return _Cheep.GetCheepsByPage(page);;
     }
     
