@@ -35,12 +35,14 @@ public class CheepServiceUnitTests
     [Fact]
     public void GetCheepsContainsAnExpectedCheep()
     {
+        Assert.Fail("WIP");
+        /*
         ICollection<CheepViewModel> cheeps = service.GetCheeps(1);
         CheepViewModel cheep = cheeps[0];
         
         Assert.Equal(cheep.Author, "Quintin Sitts");
         Assert.Equal(cheep.Message, "For then, more whales the less to her, as you very much.");
-        Assert.Equal(cheep.Timestamp, "2023-08-01 13:14:07");
+        Assert.Equal(cheep.Timestamp, "2023-08-01 13:14:07");*/
     }
     
     [Fact]
