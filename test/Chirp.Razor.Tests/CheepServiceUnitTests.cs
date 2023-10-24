@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Chirp.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Razor.Tests;
 
@@ -9,11 +10,11 @@ public class CheepServiceUnitTests
     public CheepServiceUnitTests()
     {
         // Set up DbContextOptions for an in-memory SQLite database
-        var options = new DbContextOptionsBuilder<ChirpDBContext>()
+        var options = new DbContextOptionsBuilder<ChirpDbContext>()
             .UseSqlite("Data Source=./data/ChirpDBContext.db")
             .Options;
 
-        var dbContext = new ChirpDBContext(options);
+        var dbContext = new ChirpDbContext(options);
         service = new CheepService(dbContext);
     }
     
@@ -23,7 +24,7 @@ public class CheepServiceUnitTests
         // Arrange
 
         // Act
-        List<CheepViewModel> cheeps = service.GetCheeps(1);
+        ICollection<CheepViewModel> cheeps = service.GetCheeps(1);
         
         // Assert
         Assert.Equal(32, cheeps.Count);
@@ -32,7 +33,7 @@ public class CheepServiceUnitTests
     [Fact]
     public void GetCheepsContainsAnExpectedCheep()
     {
-        List<CheepViewModel> cheeps = service.GetCheeps(1);
+        ICollection<CheepViewModel> cheeps = service.GetCheeps(1);
         CheepViewModel cheep = cheeps[0];
         
         Assert.Equal(cheep.Author, "Quintin Sitts");

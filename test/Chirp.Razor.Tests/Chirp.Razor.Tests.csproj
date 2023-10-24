@@ -28,7 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Chirp.Razor\Chirp.Razor.csproj"/>
+        <ProjectReference Include="..\..\src\Chirp.Web\Chirp.Web.csproj" />
         <EmbeddedResource Include="data/**/*" />
     </ItemGroup>
 
