@@ -24,7 +24,7 @@ public class CheepServiceUnitTests
         // Arrange
 
         // Act
-        List<CheepViewModel> cheeps = service.GetCheeps(1);
+        ICollection<CheepViewModel> cheeps = service.GetCheeps(1);
         
         // Assert
         Assert.Equal(32, cheeps.Count);
@@ -33,7 +33,7 @@ public class CheepServiceUnitTests
     [Fact]
     public void GetCheepsContainsAnExpectedCheep()
     {
-        List<CheepViewModel> cheeps = service.GetCheeps(1);
+        ICollection<CheepViewModel> cheeps = service.GetCheeps(1);
         CheepViewModel cheep = cheeps[0];
         
         Assert.Equal(cheep.Author, "Quintin Sitts");
