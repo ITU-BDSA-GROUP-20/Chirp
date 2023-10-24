@@ -11,10 +11,10 @@ public class CheepRepository : BaseRepository, ICheepRepository
     {
     }
     
-    public List<CheepDTO> GetCheepsByPage(int page)
+    public ICollection<CheepDTO> GetCheepsByPage(int page)
     {
         //Use EF to get the specified page of cheeps from the database
-        List<CheepDTO> cheeps = db.Cheeps
+        ICollection<CheepDTO> cheeps = db.Cheeps
             .OrderByDescending(c => c.CheepId)
             .Skip(PageSize * page)
             .Take(PageSize)

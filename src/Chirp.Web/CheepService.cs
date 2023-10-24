@@ -1,3 +1,5 @@
+using System.Globalization;
+using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
@@ -8,8 +10,8 @@ public record CheepViewModel(string Author, string Message, string Timestamp);
 
 public interface ICheepService
 {
-    public List<CheepViewModel> GetCheeps(int page);
-    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page);
+    public ICollection<CheepViewModel> GetCheeps(int page);
+    public ICollection<CheepViewModel> GetCheepsFromAuthor(string author, int page);
 }
 
 public class CheepService : ICheepService
@@ -24,17 +26,30 @@ public class CheepService : ICheepService
         _Cheep = new CheepRepository(db);
     }
     
-    public List<CheepViewModel> GetCheeps(int page)
+    public ICollection<CheepViewModel> GetCheeps(int page)
     {
+        ICollection<CheepDTO> cheepDtos = _Cheep.GetCheepsByPage(page);
+        List<CheepViewModel> cheeps = new List<CheepViewModel>();
+
+        foreach (CheepDTO cheepDto in cheepDtos)
+        {
+            cheeps.Add(new CheepViewModel(cheepDto.AuthorDto.Name, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture)));
+        }
         
-        
-        return _Cheep.GetCheepsByPage(page);;
+        return cheeps;
     }
     
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page)
+    public ICollection<CheepViewModel> GetCheepsFromAuthor(string author, int page)
     {
-        var authorCheeps = _Author.GetCheepsByAuthor(author, page);
-        return authorCheeps;
+        ICollection<CheepDTO> cheepDtos = _Author.GetCheepsByAuthor(author, page);
+        ICollection<CheepViewModel> cheeps = new List<CheepViewModel>();
+
+        foreach (CheepDTO cheepDto in cheepDtos)
+        {
+            cheeps.Add(new CheepViewModel(cheepDto.AuthorDto.Name, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture)));
+        }
+        
+        return cheeps;
     }
 }
