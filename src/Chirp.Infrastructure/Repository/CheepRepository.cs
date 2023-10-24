@@ -24,7 +24,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
 
     public void DeleteCheepById(int cheepId)
     {
-        /*//Delete the specified cheep from the database
+        //Delete the specified cheep from the database
         CheepDTO cheep = db.Cheeps.Find(cheepId);
         if (cheep != null)
         {
@@ -33,7 +33,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
         else
         {
             throw new Exception("Cheep with id " + cheepId + " not found");
-        }*/
+        }
     }
 
     public void AddCheep(CheepDTO cheep)
