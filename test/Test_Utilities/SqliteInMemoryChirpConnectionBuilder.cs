@@ -1,4 +1,6 @@
-﻿namespace Test_Utilities;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Test_Utilities;
 
 
 public class SqliteInMemoryChirpConnectionBuilder
@@ -7,9 +9,11 @@ public class SqliteInMemoryChirpConnectionBuilder
         .UseInMemoryDatabase(databaseName: "Chirp")
         .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
         .Options;
+
     using var context = new ChirpDbContext(_contextOptions);
 
-	public SqliteInMemoryChirpConnectionBuilder(){
+	public SqliteInMemoryChirpConnectionBuilder()
+    {
 		context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
     }
