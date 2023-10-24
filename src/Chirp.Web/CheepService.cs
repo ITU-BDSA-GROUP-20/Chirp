@@ -20,14 +20,13 @@ public class CheepService : ICheepService
     
     private readonly IAuthorRepository _Author;
     private readonly ICheepRepository _Cheep;
-    private const int PageSize = 32;
 
-    public CheepService(ChirpDbContext db)
+    public CheepService(ChirpDbContext db, int pageSize)
     {
         DbInitializer.SeedDatabase(db);
         db.Cheeps.Include(c => c.AuthorDto).ToList();
-        _Author = new AuthorRepository(db, PageSize);
-        _Cheep = new CheepRepository(db, PageSize);
+        _Author = new AuthorRepository(db, pageSize);
+        _Cheep = new CheepRepository(db, pageSize);
     }
     
     public ICollection<CheepViewModel> GetCheeps(int page)
