@@ -4,6 +4,7 @@ using Chirp.Core.Repository;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
 using Chirp.Razor;
+using Microsoft.EntityFrameworkCore;
 
 public record CheepViewModel(string Author, string Message, string Timestamp);
 
@@ -22,6 +23,7 @@ public class CheepService : ICheepService
 
     public CheepService(ChirpDbContext db)
     {
+        db.Cheeps.Include(c => c.AuthorDto).ToList();
         _Author = new AuthorRepository(db);
         _Cheep = new CheepRepository(db);
     }

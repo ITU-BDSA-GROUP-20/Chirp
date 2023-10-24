@@ -42,6 +42,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
     public ICollection<CheepDTO> GetCheepsByAuthor(string name, int page)
     {
+        
         AuthorDTO author = GetAuthorByName(name);
         
         //Check that author has cheeps
