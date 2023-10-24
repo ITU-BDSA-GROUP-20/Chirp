@@ -1,5 +1,3 @@
-using Chirp.Razor;
-
 namespace Chirp.Infrastructure.Repository;
 
 public abstract class BaseRepository

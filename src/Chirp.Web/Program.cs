@@ -11,7 +11,7 @@
         builder.Services.AddRazorPages();
         
         builder.Services.AddDbContext<ChirpDbContext>(options => 
-            options.UseSqlite("Data Source=./data/ChirpDBContext.db"));
+            options.UseSqlite("Data Source=../Chirp.Infrastructure/data/ChirpDBContext.db"));
 
         builder.Services.AddScoped<ICheepService, CheepService>();
 
