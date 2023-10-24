@@ -22,21 +22,19 @@ public class CheepRepository : BaseRepository, ICheepRepository
         return cheeps;
     }
 
-    private CheepDTO findCheep(int cheepId)
+    public void DeleteCheepById(int cheepId)
     {
+        //Delete the specified cheep from the database
         CheepDTO cheep = db.Cheeps.Find(cheepId);
         if (cheep != null)
         {
-            return cheep;
+            db.Cheeps.Remove(cheep);
         }
         else
         {
             throw new Exception("Cheep with id " + cheepId + " not found");
         }
     }
-    public void removeCheepById(int cheepId){
-        db.Cheeps.remove(findCheep(cheepId));
-   }
 
     public void AddCheep(CheepDTO cheep)
     {
