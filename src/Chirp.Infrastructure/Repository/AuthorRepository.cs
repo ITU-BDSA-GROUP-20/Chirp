@@ -54,7 +54,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         if(page==0){
             page=1;
         }
-        return author.Cheeps.ToList<CheepDTO>().GetRange((page-1)*32,32);
+        return author.Cheeps.ToList<CheepDTO>().GetRange((page-1)*PageSize,PageSize);
     }
   
 }
