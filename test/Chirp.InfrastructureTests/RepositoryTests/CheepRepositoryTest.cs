@@ -55,9 +55,6 @@ public class CheepRepositoryTest{
         Assert.Equal("TestCheep", cheepRepository.GetCheepsByPage(1).Text);
         Assert.Equal(2, cheepRepository.GetCheepsByPage(2).AuthorId);
     }
-    
-    
-    
 }
 
     
