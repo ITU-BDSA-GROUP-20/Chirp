@@ -2,6 +2,7 @@
 
 
 using Chirp.Infrastructure.Repository;
+using Chirp.Core; 
 using Test_Utilities;
 
 namespace Chirp.InfrastructureTests.RepositoryTests;
@@ -35,8 +36,26 @@ public class CheepRepositoryTest{
         cheepRepository.DeleteCheepById(1);
         
         //Assert
-        Assert.Equal(1, cheepRepository.GetCheepsByPage(1).Count)
+        Assert.Equal(1, cheepRepository.GetCheepsByPage(1).Count);
+        Assert.Equal(2, cheepRepository.GetCheepsByPage(1).CheepId);
     }
+
+    [Fact]
+    public void addCheep_ShouldAddACheep()
+    {
+        //Arrange
+        var context =SqliteInMemoryChirpConnectionBuilder.GetContext();
+        var cheepRepository = new CheepRepository(context, 32);
+        //Act
+        cheepRepository.addCheep(new CheepDTO { CheepId = 1, AuthorId = 2, Message = "TestCheep" });
+        
+        //Assert
+        Assert.Equal(1, cheepRepository.GetCheepsByPage(1).Count);
+        Assert.Equal(1, cheepRepository.GetCheepsByPage(1).CheepId);
+        Assert.Equal("TestCheep", cheepRepository.GetCheepsByPage(1).Text);
+        Assert.Equal(2, cheepRepository.GetCheepsByPage(2).AuthorId);
+    }
+    
     
     
 }
