@@ -51,7 +51,6 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
             throw new Exception("Author " + author.Name + " has no cheeps");
         }
         
-        
         //TODO Paginate list :)
         return author.Cheeps;
 

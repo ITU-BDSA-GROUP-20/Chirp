@@ -14,11 +14,10 @@ public class CheepRepository : BaseRepository, ICheepRepository
     public List<CheepDTO> GetCheepsByPage(int page)
     {
         //Use EF to get the specified page of cheeps from the database
-        List<CheepViewModel> cheeps = db.Cheeps
+        List<CheepDTO> cheeps = db.Cheeps
             .OrderByDescending(c => c.CheepId)
             .Skip(PageSize * page)
             .Take(PageSize)
-            .Select(c => new CheepViewModel(c.AuthorDto.Name, c.Text, c.TimeStamp.ToString(CultureInfo.InvariantCulture)))
             .ToList();
 
         return cheeps;
