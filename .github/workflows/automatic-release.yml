@@ -1,9 +1,9 @@
-#Sources: ChatGPT 4.0, https://patriksvensson.se/posts/2020/03/creating-release-artifacts-with-github-actions
-
 name: .NET Build and Release
 
 on:
   push:
+    branches:
+      - 'main'
     tags:
       - 'v*.*.*'
 
@@ -11,6 +11,13 @@ jobs:
   build-and-release:
     name: Cross-Compile on ubuntu-latest and Release
     runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'push' &&
+      startsWith(github.ref, 'refs/tags/v') &&
+      github.ref_type == 'tag' &&
+      github.event.head_commit != null &&
+      github.event.head_commit.id == github.event.before
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
