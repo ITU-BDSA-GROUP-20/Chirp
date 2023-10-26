@@ -18,6 +18,7 @@ public class ChirpDbContext : DbContext
     public ChirpDbContext(DbContextOptions<ChirpDbContext> dbContextOptions) : base(dbContextOptions)
     {
         DbInitializer.SeedDatabase(this);
+        Cheeps.Include(c => c.AuthorDto).ToList();
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)

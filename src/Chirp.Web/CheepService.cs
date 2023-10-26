@@ -18,20 +18,18 @@ public interface ICheepService
 public class CheepService : ICheepService
 {
     
-    private readonly IAuthorRepository _Author;
-    private readonly ICheepRepository _Cheep;
+    private readonly IAuthorRepository _authorRepository;
+    private readonly ICheepRepository _cheepRepository;
 
-    public CheepService(ChirpDbContext db)
+    public CheepService(ChirpDbContext db, ICheepRepository cheepRepositoryRepository, IAuthorRepository authorRepositoryRepository)
     {
-        DbInitializer.SeedDatabase(db);
-        db.Cheeps.Include(c => c.AuthorDto).ToList();
-        _Author = new AuthorRepository(db);
-        _Cheep = new CheepRepository(db);
+        _cheepRepository = cheepRepositoryRepository;
+        _authorRepository = authorRepositoryRepository;
     }
     
     public ICollection<CheepViewModel> GetCheeps(int page)
     {
-        ICollection<CheepDTO> cheepDtos = _Cheep.GetCheepsByPage(page);
+        ICollection<CheepDTO> cheepDtos = _cheepRepository.GetCheepsByPage(page);
         List<CheepViewModel> cheeps = new List<CheepViewModel>();
 
         foreach (CheepDTO cheepDto in cheepDtos)
@@ -45,7 +43,7 @@ public class CheepService : ICheepService
 
     public ICollection<CheepViewModel> GetCheepsFromAuthor(string author, int page)
     {
-        ICollection<CheepDTO> cheepDtos = _Author.GetCheepsByAuthor(author, page);
+        ICollection<CheepDTO> cheepDtos = _authorRepository.GetCheepsByAuthor(author, page);
         ICollection<CheepViewModel> cheeps = new List<CheepViewModel>();
 
         foreach (CheepDTO cheepDto in cheepDtos)
