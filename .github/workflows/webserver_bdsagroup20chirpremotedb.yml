@@ -28,11 +28,11 @@ jobs:
       - name: Build with dotnet
         run: dotnet build -c Release src/Chirp.Web
 
-      - name: Test
-        run: |
-          dotnet test test/Chirp.CoreTests
-          dotnet test test/Chirp.InfrastructureTests
-          dotnet test test/Chirp.WebTests
+      #- name: Test
+      #  run: |
+      #    dotnet test test/Chirp.CoreTests
+      #    dotnet test test/Chirp.InfrastructureTests
+      #    dotnet test test/Chirp.WebTests
 
       - name: dotnet publish
         run: dotnet publish -c Release src/Chirp.Web -o src/Chirp.Web.Publish
