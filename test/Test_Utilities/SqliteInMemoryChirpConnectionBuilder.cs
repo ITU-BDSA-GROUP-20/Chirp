@@ -1,39 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Chirp.Core;
+using Chirp.Infrastructure;
+using Microsoft.VisualBasic;
+using Microsoft.Data.Sqlite;
 
-namespace Test_Utilities;
-
-
+namespace Test_Utilities{
 public class SqliteInMemoryChirpConnectionBuilder
-{
-    var _contextOptions = new DbContextOptionsBuilder<ChirpDbContext>()
-        .UseInMemoryDatabase(databaseName: "Chirp")
-        .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
-        .Options;
-
-    using var context = new ChirpDbContext(_contextOptions);
-
-	public SqliteInMemoryChirpConnectionBuilder()
-    {
+{   
+   
+    public SqliteInMemoryChirpConnectionBuilder()
+    {   var context = GetContext();
 		context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
     }
-    
-    public void AddAuthor(AuthorDTO author)
+    public static ChirpDbContext GetContext()
     {
-        context.Authors.Add(author);
-        context.SaveChanges();
-    }
-    
-    public void AddCheep(CheepDTO cheep)
-    {
-        context.Cheeps.Add(cheep);
-        context.SaveChanges();
-	}
-    
-    public ChirpDbContext GetContext()
-    {
-		context.Database.EnsureDeleted();
+        var connection = new SqliteConnection("Filename=:memory:");
+        connection.Open();
+        var builder = new DbContextOptionsBuilder<ChirpDbContext>().UseSqlite(connection);
+        var context = new ChirpDbContext(builder.Options);
         context.Database.EnsureCreated();
         return context;
     }
+	
+    
+}
 }
