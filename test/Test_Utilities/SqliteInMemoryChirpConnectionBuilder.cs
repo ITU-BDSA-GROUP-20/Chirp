@@ -7,6 +7,9 @@ using Microsoft.Data.Sqlite;
 namespace Test_Utilities{
 public class SqliteInMemoryChirpConnectionBuilder
 {   
+    //This class is used to create an in memory database for testing purposes
+    //Create a new instance of this class in your test class,
+    //then call the GetContext() method to get a new instance of the ChirpDbContext
    
     public SqliteInMemoryChirpConnectionBuilder()
     {   var context = GetContext();
