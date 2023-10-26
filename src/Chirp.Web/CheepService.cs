@@ -21,12 +21,10 @@ public class CheepService : ICheepService
     private readonly IAuthorRepository _Author;
     private readonly ICheepRepository _Cheep;
 
-    public CheepService(ChirpDbContext db)
+    public CheepService(ChirpDbContext db, ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
-        DbInitializer.SeedDatabase(db);
-        db.Cheeps.Include(c => c.AuthorDto).ToList();
-        _Author = new AuthorRepository(db);
-        _Cheep = new CheepRepository(db);
+        _Cheep = cheepRepository;
+        _Author = authorRepository;
     }
     
     public ICollection<CheepViewModel> GetCheeps(int page)
