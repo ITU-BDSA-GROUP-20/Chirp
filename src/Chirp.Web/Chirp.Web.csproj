@@ -7,7 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <SelfContained>false</SelfContained>
     <Nullable>enable</Nullable>
-    <RootNamespace>Chirp.Razor</RootNamespace>
+    <RootNamespace>Chirp.Web</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,7 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InteralsVisisbleTo Include="../../test/Chirp.Razor.Tests" />
+    <InteralsVisisbleTo Include="../../test/Chirp.CoreTests" />
+    <InteralsVisisbleTo Include="../../test/Chirp.InfrastructureTests" />
+    <InteralsVisisbleTo Include="../../test/Chirp.WebTests" />
   </ItemGroup>
 
   <ItemGroup>
