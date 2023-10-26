@@ -12,11 +12,11 @@ public class AuthorDTO {
     
     [StringLength(50)]
     [Required]
-    public string Name {get; set;}
+    public required string Name {get; set;}
     
     [StringLength(50)]
     [Required]
-    public string Email {get; set;}
-    
-    public ICollection<CheepDTO> Cheeps {get; set;}
+    public required string Email {get; set;}
+
+    public ICollection<CheepDTO> Cheeps { get; set; } = new List<CheepDTO>();
 }

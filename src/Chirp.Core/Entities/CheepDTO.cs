@@ -13,7 +13,7 @@ public class CheepDTO
     public Guid AuthorId {get; set;}
     
     [Required]
-    public AuthorDTO AuthorDto {get; set;}
+    public required AuthorDTO AuthorDto {get; set;}
 
     [StringLength(128)] [Required] 
     public string Text { get; set; } = "";
