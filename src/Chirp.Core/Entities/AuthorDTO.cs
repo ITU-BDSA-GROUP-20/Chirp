@@ -7,16 +7,16 @@ namespace Chirp.Core.Entities;
 
 [Index(nameof(AuthorId), IsUnique = true)]
 public class AuthorDTO {
-    
-    [Unicode]
-    public int AuthorId {get; set;}
-    
-    [StringLength(50)]
-    [Required]
-    public string Name {get; set;}
+
+    public Guid AuthorId {get; set;}
     
     [StringLength(50)]
     [Required]
-    public string Email {get; set;}
-    public ICollection<CheepDTO> Cheeps {get; set;}
+    public required string Name {get; set;}
+    
+    [StringLength(50)]
+    [Required]
+    public required string Email {get; set;}
+
+    public ICollection<CheepDTO> Cheeps { get; set; } = new List<CheepDTO>();
 }

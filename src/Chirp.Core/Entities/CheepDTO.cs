@@ -7,13 +7,13 @@ namespace Chirp.Core.Entities;
 public class CheepDTO 
 {
     [Required]
-    public int CheepId {get; set;}
+    public Guid CheepId {get; set;}
     
     [Required]
-    public int AuthorId {get; set;}
+    public Guid AuthorId {get; set;}
     
     [Required]
-    public AuthorDTO AuthorDto {get; set;}
+    public required AuthorDTO AuthorDto {get; set;}
 
     [StringLength(128)] [Required] 
     public string Text { get; set; } = "";

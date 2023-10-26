@@ -21,7 +21,7 @@ public class CheepService : ICheepService
     private readonly IAuthorRepository _authorRepository;
     private readonly ICheepRepository _cheepRepository;
 
-    public CheepService(ChirpDbContext db, ICheepRepository cheepRepositoryRepository, IAuthorRepository authorRepositoryRepository)
+    public CheepService(ICheepRepository cheepRepositoryRepository, IAuthorRepository authorRepositoryRepository)
     {
         _cheepRepository = cheepRepositoryRepository;
         _authorRepository = authorRepositoryRepository;

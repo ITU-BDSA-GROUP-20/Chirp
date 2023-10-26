@@ -46,10 +46,10 @@ public class CheepRepository : BaseRepository, ICheepRepository
         db.Cheeps.Add(cheep);
     }
 
-    private String GetAuthorById(int authorId)
+    private String GetAuthorById(string authorId)
     {
         String authorName = db.Authors
-            .Where(a => a.AuthorId == authorId)
+            .Where(a => a.AuthorId == Guid.Parse(authorId))
             .Select(a => a.Name)
             .FirstOrDefault()!;
         
