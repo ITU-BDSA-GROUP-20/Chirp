@@ -40,4 +40,10 @@ public class ChirpDbContext : DbContext
                 .HasForeignKey(e => e.AuthorId);
         });
     }
+
+    public void initializeDb() 
+    {
+        Database.EnsureCreated();
+        DbInitializer.SeedDatabase(this);
+    }
 }
