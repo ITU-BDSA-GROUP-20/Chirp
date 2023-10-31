@@ -85,12 +85,16 @@ public class CheepRepositoryTest{
         
         //Act
         int initialCheepCount = context.Cheeps.Count();
-        Guid someId = context.Cheeps.First().CheepId;
+        CheepDTO bob = context.Cheeps.FirstOrDefault();
+        Guid cheepId = bob.CheepId;
+        
 
-        cheepRepository.DeleteCheepById(someId);
+        cheepRepository.DeleteCheepById(cheepId);
+
+        int updatedCheepCount = context.Cheeps.Count();
         
         //Assert
-        Assert.Equal(initialCheepCount - 1, context.Cheeps.Count());
+        Assert.Equal(initialCheepCount - 1, updatedCheepCount);
 
     }
 
