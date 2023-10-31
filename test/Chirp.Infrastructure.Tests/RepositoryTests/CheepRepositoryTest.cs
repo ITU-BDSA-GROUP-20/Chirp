@@ -21,9 +21,10 @@ public class CheepRepositoryTest{
     [Fact]
     public void GetCheepsByPage_ShouldSkipFirst32Cheeps_ReturnXAmountOfCheeps()
     {
+        //Arrange
         var cheepRepository = new CheepRepository(context);
 
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 34; i++)
         {
 
             AuthorDTO authorDto = new AuthorDTO
@@ -57,9 +58,10 @@ public class CheepRepositoryTest{
     [Fact]
     public void DeleteCheepById_ShouldOnlyDeleteSpecifiedCheep(){
         
+        //Arrange
         var cheepRepository = new CheepRepository(context);
         
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 3; i++)
         {
             AuthorDTO authorDto = new AuthorDTO
             { 
@@ -100,7 +102,6 @@ public class CheepRepositoryTest{
     [Fact]
     public void addCheep_ShouldAddACheep()
     {
-        
         //Arrange
         var cheepRepository = new CheepRepository(context);
         
