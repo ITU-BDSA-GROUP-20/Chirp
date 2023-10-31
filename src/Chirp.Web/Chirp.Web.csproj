@@ -20,6 +20,7 @@
     <InteralsVisisbleTo Include="../../test/Chirp.WebTests" />
   </ItemGroup>
 
+
   <ItemGroup>
     <Folder Include="Exceptions\" />
   </ItemGroup>
