@@ -30,7 +30,7 @@ public class CheepRepositoryTest{
             { 
                 AuthorId = Guid.NewGuid(), 
                 Name = "TestAuthor" + i, 
-                Email = "mock@email.com" 
+                Email = "mock" + i + "@email.com" 
             };
             
             CheepDTO cheepDto = new CheepDTO
@@ -66,7 +66,7 @@ public class CheepRepositoryTest{
             { 
                 AuthorId = Guid.NewGuid(), 
                 Name = "TestAuthor" + i, 
-                Email = "mock@email.com" 
+                Email = "mock" + i + "@email.com" 
             };
             
             CheepDTO cheepDto = new CheepDTO
@@ -132,7 +132,7 @@ public class CheepRepositoryTest{
         { 
             AuthorId = Guid.NewGuid(), 
             Name = "TestAuthor", 
-            Email = "mock@email.com" 
+            Email = "mock1@email.com" 
         };
             
         CheepDTO cheepDto2 = new CheepDTO
