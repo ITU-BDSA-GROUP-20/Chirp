@@ -1,6 +1,8 @@
 using Chirp.Core.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 //This file holds the datamodel consisting of Author, Cheep, and ChirpDbContext
 //EF Core will use the properties of these classes to create and control
@@ -8,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure;
 
-public class ChirpDbContext : IdentityDbContext
+public class ChirpDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<AuthorDTO> Authors {get; set;} = null!;
 
@@ -18,6 +20,7 @@ public class ChirpDbContext : IdentityDbContext
 
     public ChirpDbContext(DbContextOptions<ChirpDbContext> dbContextOptions) : base(dbContextOptions)
     {
+        Cheeps.Include(c => c.AuthorDto).ToList();
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -39,5 +42,9 @@ public class ChirpDbContext : IdentityDbContext
                 .WithMany(author => author.Cheeps)
                 .HasForeignKey(e => e.AuthorId);
         });
+
+        modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(e => e.UserId);
+        modelBuilder.Entity<IdentityUserRole<string>>().HasKey(e => e.RoleId);
+        modelBuilder.Entity<IdentityUserToken<string>>().HasKey(e => e.UserId);
     }
 }

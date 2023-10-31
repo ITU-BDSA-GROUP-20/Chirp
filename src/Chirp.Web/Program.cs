@@ -4,6 +4,7 @@ using Chirp.Core.Repository;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
 using Chirp.Web;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,7 +34,6 @@ builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();        
 builder.Services.AddScoped<ICheepService, CheepService>();
 
-
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -42,7 +42,6 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<ChirpDbContext>();
 
     DbInitializer.SeedDatabase(context);
-    context.Cheeps.Include(c => c.AuthorDto).ToList();
 }
 
 // Configure the HTTP request pipeline.
