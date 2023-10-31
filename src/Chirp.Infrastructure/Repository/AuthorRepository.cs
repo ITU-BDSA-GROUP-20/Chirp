@@ -15,14 +15,12 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         db.Authors.Add(author);
     }
 
-    public String GetAuthorById(string authorId)
+    public AuthorDTO GetAuthorById(Guid authorId)
     {
-        string authorName = db.Authors
-            .Where(a => a.AuthorId == Guid.Parse(authorId))
-            .Select(a => a.Name)
-            .FirstOrDefault()!;
+        AuthorDTO author = db.Authors
+            .Where(a => a.AuthorId == authorId).FirstOrDefault()!;
             
-        return authorName;
+        return author;
     }
     public AuthorDTO GetAuthorByName(string name)
     {
