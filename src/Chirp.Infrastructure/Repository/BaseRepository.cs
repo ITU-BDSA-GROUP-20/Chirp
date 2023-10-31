@@ -5,10 +5,10 @@ public abstract class BaseRepository
     protected ChirpDbContext db;
     protected int PageSize {get; set;}
 
-    public BaseRepository(ChirpDbContext chirpDbContext, int pageSize)
+    public BaseRepository(ChirpDbContext chirpDbContext)
     {
         db = chirpDbContext;
-        PageSize = pageSize;
+        PageSize = 32;
     }
 
 }

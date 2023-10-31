@@ -6,7 +6,7 @@ namespace Chirp.Infrastructure.Repository;
 
 public class CheepRepository : BaseRepository, ICheepRepository
 {
-    public CheepRepository(ChirpDbContext chirpDbContext, int pageSize) : base(chirpDbContext, pageSize)
+    public CheepRepository(ChirpDbContext chirpDbContext) : base(chirpDbContext)
     {
     }
     
