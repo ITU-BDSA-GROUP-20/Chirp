@@ -4,7 +4,8 @@ using Chirp.Infrastructure.Repository;
 using Chirp.Core.Entities; 
 using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Chirp.Test.Test_Utilities;
+using Microsoft.Data.Sqlite;
+using Test_Utilities;
 
 namespace Chirp.InfrastructureTests.RepositoryTests;
 public class CheepRepositoryTest{
@@ -17,10 +18,9 @@ public class CheepRepositoryTest{
         //Arrange
         using var connection = new SqliteConnection("Filename=:memory:");
         connection.Open();
-        var builder = new 
         var builder = new DbContextOptionsBuilder<ChirpDbContext>().UseSqlite(connection);
         using var context = new ChirpDbContext(builder.Options);
-        await context.Database.EnsureCreatedAsync; // Applies the schema to the database
+        context.Database.EnsureCreatedAsync(); // Applies the schema to the database
 
         var cheepRepository = new CheepRepository(context, 32);
 
