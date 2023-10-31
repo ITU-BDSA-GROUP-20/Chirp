@@ -154,4 +154,56 @@ public class AuthorRepositoryTest
         // Assert
         Assert.Equal(initialAuthorCount + 1, updatedAuthorCount);
     }
+
+    [Fact]
+    public void GetAuthorById_ShouldReturnCorrectAuthor()
+    {
+        var authorRepository = new AuthorRepository(context);
+
+        AuthorDTO theAuthor = null;
+        Guid theAuthorId = new Guid();
+        for (int i = 0; i < 34; i++)
+        {
+
+            if (i == 5)
+            {
+                theAuthor = new AuthorDTO
+                {
+                    AuthorId = Guid.NewGuid(),
+                    Name = "TestAuthor" + i,
+                    Email = "mock@email.com"
+                };
+                context.Authors.Add(theAuthor);
+                theAuthorId = theAuthor.AuthorId;
+                continue;
+            }
+
+            AuthorDTO authorDto = new AuthorDTO
+            {
+                AuthorId = Guid.NewGuid(),
+                Name = "TestAuthor" + i,
+                Email = "mock@email.com"
+            };
+
+            CheepDTO cheepDto = new CheepDTO
+            {
+                CheepId = Guid.NewGuid(),
+                AuthorId = authorDto.AuthorId,
+                Text = "TestCheep" + i,
+                AuthorDto = authorDto
+            };
+
+            context.Authors.Add(authorDto);
+            context.Cheeps.Add(cheepDto);
+        }
+
+        context.SaveChanges();
+
+        //Act
+        AuthorDTO expectedAuthor = theAuthor;
+        AuthorDTO returnedAuthor = authorRepository.GetAuthorById(theAuthorId);
+
+        //Assert
+        Assert.Equal(expectedAuthor, returnedAuthor);
+    }
 }
