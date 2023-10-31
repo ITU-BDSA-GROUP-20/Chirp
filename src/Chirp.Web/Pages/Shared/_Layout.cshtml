@@ -1,4 +1,9 @@
-﻿﻿<!DOCTYPE html>
+﻿@using Chirp.Core.Entities
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>@ViewData["Title"]</title>
@@ -8,7 +13,26 @@
 <body>
 <div class=page>
     <h1><img src="/images/icon1.png" alt="Icon1"/>Chirp!</h1>
-
+    <div class=navigation>
+        <!-- Code given in README_PROJECT.md of session 8. -->
+        
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <div>
+                <a href="/@(User.Identity.Name)">my timeline</a> |
+                <a href="/">public timeline</a> |
+                <a ...>logout [@(User.Identity.Name)]</a>
+            </div>
+        }
+        else
+        {
+            <div>
+                <a href="/">public timeline</a> |
+                <a ...>register</a>
+                <a ...>login</a>
+            </div>
+        }
+    </div>
     <div class=body>
         @RenderBody()
     </div>
