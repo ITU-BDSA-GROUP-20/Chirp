@@ -1,4 +1,5 @@
 
+using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
@@ -39,6 +40,7 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<ChirpDbContext>();
 
     DbInitializer.SeedDatabase(context);
+    context.Cheeps.Include(c => c.AuthorDto).ToList();
 }
 
 // Configure the HTTP request pipeline.

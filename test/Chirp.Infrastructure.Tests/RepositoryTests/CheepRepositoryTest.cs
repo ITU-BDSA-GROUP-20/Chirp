@@ -10,42 +10,47 @@ using Test_Utilities;
 namespace Chirp.InfrastructureTests.RepositoryTests;
 public class CheepRepositoryTest{
 
-    private ChirpDbContext context;
+    private readonly ChirpDbContext context;
+
+    public CheepRepositoryTest()
+    {
+        context = SqliteInMemoryBuilder.GetContext();
+    }
 
     [Fact]
     public void GetCheepsByPage_ShouldSkipFirst32Cheeps_ReturnXAmountOfCheeps()
     {
-        //Arrange
-        using var connection = new SqliteConnection("Filename=:memory:");
-        connection.Open();
-        var builder = new DbContextOptionsBuilder<ChirpDbContext>().UseSqlite(connection);
-        using var context = new ChirpDbContext(builder.Options);
-        context.Database.EnsureCreatedAsync(); // Applies the schema to the database
+        var cheepRepository = new CheepRepository(context);
 
-        var cheepRepository = new CheepRepository(context, 32);
+        for(int i = 0; i < 34; i++)
+        {
 
-        for(int i = 0; i < 34; i++){
-            context.Authors.Add(new AuthorDTO { AuthorId = i, Name = "TestAuthor" + i });
-        }
-        for(int i = 0; i < 34; i++){
-            context.Cheeps.AddCheep(new CheepDTO { CheepId = i, AuthorId = i, Text = "TestCheep" + i });
+            AuthorDTO authorDto = new AuthorDTO
+                { AuthorId = Guid.NewGuid(), Name = "TestAuthor" + i, Email = "mock@email.com" };
+            CheepDTO cheepDto = new CheepDTO
+            {
+                CheepId = Guid.NewGuid(),
+                AuthorId = authorDto.AuthorId,
+                Text = "TestCheep" + i,
+                AuthorDto = authorDto
+            };
+            
+            context.Authors.Add(authorDto);
+            context.Cheeps.Add(cheepDto);
         }
 
         context.SaveChanges();
 
         //Act
-        ICollection<CheepDTO> cheeps = cheepRepository.GetCheepsByPage(2);
+        ICollection<CheepDTO> cheeps = cheepRepository.GetCheepsByPage(1);
 
         //Assert
-        Assert.Equal(3, cheeps.Count);
+        Assert.Equal(2, cheeps.Count);
     }
 
     [Fact]
     public void DeleteCheepById_ShouldOnlyDeleteSpecifiedCheep(){
         
-        //Arrange
-        Db = SqliteInMemoryChirpConnectionBuilder.GetContext();
-
         // seed database with authors
         for(int i = 0; i < 34; i++){
             Db.Authors.Add(new AuthorDTO { AuthorId = i, Name = "TestAuthor" + i, Email = "bob@bob.dk" + 1, Cheeps = new List<CheepDTO>()});
@@ -68,6 +73,7 @@ public class CheepRepositoryTest{
         Assert.Equal(initialDbCount - 1, Db.Cheeps.Count());
         //Assert.Equal(1, cheepRepository.GetCheepsByPage(1).Count);
         //Assert.Equal(2, cheepRepository.GetCheepsByPage(1).First().CheepId);
+        
     }
 
     [Fact]

@@ -22,7 +22,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
         return cheeps;
     }
 
-    public void DeleteCheepById(int cheepId)
+    public void DeleteCheepById(Guid cheepId)
     {
         //Delete the specified cheep from the database
         CheepDTO cheep = db.Cheeps.Find(cheepId);
