@@ -8,7 +8,27 @@
 <body>
 <div class=page>
     <h1><img src="/images/icon1.png" alt="Icon1"/>Chirp!</h1>
-
+    <div class=navigation>
+        <!-- Code given in README_PROJECT.md of session 8. -->
+        
+        @if (ApplicationUser.Identity.IsAuthenticated)
+        {
+            <!-- @TODO We should update the <a> links in logout, register and login-->
+            <div>
+                <a href="/@(ApplicationUser.Identity.Name)">my timeline</a> |
+                <a href="/">public timeline</a> |
+                <a ...>logout [@(ApllicationUser.Identity.Name)]</a>
+            </div>
+        }
+        else
+        {
+            <div>
+                <a href="/">public timeline</a> |
+                <a ...>register</a>
+                <a ...>login</a>
+            </div>
+        }
+    </div>
     <div class=body>
         @RenderBody()
     </div>
