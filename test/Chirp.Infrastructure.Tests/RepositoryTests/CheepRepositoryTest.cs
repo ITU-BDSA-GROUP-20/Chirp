@@ -6,6 +6,7 @@ using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
 using Test_Utilities;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Chirp.InfrastructureTests.RepositoryTests;
 public class CheepRepositoryTest{
@@ -26,7 +27,12 @@ public class CheepRepositoryTest{
         {
 
             AuthorDTO authorDto = new AuthorDTO
-                { AuthorId = Guid.NewGuid(), Name = "TestAuthor" + i, Email = "mock@email.com" };
+            { 
+                AuthorId = Guid.NewGuid(), 
+                Name = "TestAuthor" + i, 
+                Email = "mock@email.com" 
+            };
+            
             CheepDTO cheepDto = new CheepDTO
             {
                 CheepId = Guid.NewGuid(),
@@ -51,29 +57,41 @@ public class CheepRepositoryTest{
     [Fact]
     public void DeleteCheepById_ShouldOnlyDeleteSpecifiedCheep(){
         
-        // seed database with authors
-        for(int i = 0; i < 34; i++){
-            Db.Authors.Add(new AuthorDTO { AuthorId = i, Name = "TestAuthor" + i, Email = "bob@bob.dk" + 1, Cheeps = new List<CheepDTO>()});
+        var cheepRepository = new CheepRepository(context);
+        
+        for(int i = 0; i < 34; i++)
+        {
+
+            AuthorDTO authorDto = new AuthorDTO
+            { 
+                AuthorId = Guid.NewGuid(), 
+                Name = "TestAuthor" + i, 
+                Email = "mock@email.com" 
+            };
+            
+            CheepDTO cheepDto = new CheepDTO
+            {
+                CheepId = Guid.NewGuid(),
+                AuthorId = authorDto.AuthorId,
+                Text = "TestCheep" + i,
+                AuthorDto = authorDto
+            };
+            
+            context.Authors.Add(authorDto);
+            context.Cheeps.Add(cheepDto);
         }
 
-        for(int i = 0; i < 34; i++){
-            Db.Cheeps.Add(new CheepDTO { CheepId = i, AuthorId = i, Text = "TestCheep" + i });
-        }
-        
-        Db.SaveChanges();
+        context.SaveChanges();
         
         //Act
-        int initialDbCount = Db.Cheeps.Count();
-        int someId = Db.Cheeps.First().CheepId;
+        int initialCheepCount = context.Cheeps.Count();
+        Guid someId = context.Cheeps.First().CheepId;
 
-        var cheepRepository = new CheepRepository(Db, 32);
         cheepRepository.DeleteCheepById(someId);
         
         //Assert
-        Assert.Equal(initialDbCount - 1, Db.Cheeps.Count());
-        //Assert.Equal(1, cheepRepository.GetCheepsByPage(1).Count);
-        //Assert.Equal(2, cheepRepository.GetCheepsByPage(1).First().CheepId);
-        
+        Assert.Equal(initialCheepCount - 1, context.Cheeps.Count());
+
     }
 
     [Fact]
