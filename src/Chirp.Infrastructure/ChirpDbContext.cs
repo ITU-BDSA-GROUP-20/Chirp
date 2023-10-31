@@ -1,4 +1,5 @@
 using Chirp.Core.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 //This file holds the datamodel consisting of Author, Cheep, and ChirpDbContext
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure;
 
-public class ChirpDbContext : DbContext
+public class ChirpDbContext : IdentityDbContext
 {
     public DbSet<AuthorDTO> Authors {get; set;} = null!;
 

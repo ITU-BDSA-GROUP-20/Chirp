@@ -26,7 +26,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ChirpDbContext>(options => 
     options.UseSqlite($"Data Source={dbPath}"));
 
-builder.Services.AddDefaultIdentity<ApplicationUser>
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true )
+    .AddEntityFrameworkStores<ChirpDbContext>();
 
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();        
