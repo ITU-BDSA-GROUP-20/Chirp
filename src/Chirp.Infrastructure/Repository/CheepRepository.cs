@@ -34,6 +34,8 @@ public class CheepRepository : BaseRepository, ICheepRepository
         {
             throw new Exception("Cheep with id " + cheepId + " not found");
         }
+
+        db.SaveChanges();
     }
 
     public void AddCheep(CheepDTO cheep)
@@ -44,6 +46,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
             db.Authors.Add(cheep.AuthorDto);
         }
         db.Cheeps.Add(cheep);
+        db.SaveChanges();
     }
 
     private String GetAuthorById(string authorId)
