@@ -23,7 +23,7 @@ public class AuthorRepositoryTest
         AuthorDTO theAuthor = null;
         for (int i = 0; i < 34; i++)
         {
-            
+
             if (i == 5)
             {
                 theAuthor = new AuthorDTO
@@ -60,10 +60,10 @@ public class AuthorRepositoryTest
         //Act
         AuthorDTO expectedAuthor = theAuthor;
         AuthorDTO returnedAuthor = authorRepository.GetAuthorByName("TestAuthor5");
-        
+
         //Assert
         Assert.Equal(expectedAuthor, returnedAuthor);
-        
+
     }
 
     [Fact]
@@ -95,9 +95,9 @@ public class AuthorRepositoryTest
         //Act
         ICollection<CheepDTO> expectedCheep = new List<CheepDTO>();
         expectedCheep.Add(cheepDto1);
-        
+
         ICollection<CheepDTO> returnedCheep = authorRepository.GetCheepsByAuthor(authorDto1.Name, 0);
-        
+
         //Assert
         Assert.Equal(expectedCheep, returnedCheep);
     }
@@ -129,7 +129,7 @@ public class AuthorRepositoryTest
 
         // Act
         int initialAuthorCount = context.Authors.Count();
-        
+
         AuthorDTO authorDto2 = new AuthorDTO
         {
             AuthorId = Guid.NewGuid(),
@@ -143,14 +143,14 @@ public class AuthorRepositoryTest
             Text = "TestCheep2",
             AuthorDto = authorDto2
         };
-        
+
         authorRepository.AddAuthor(authorDto2);
         context.Cheeps.Add(cheepDto2);
-        
+
         context.SaveChanges();
-        
+
         int updatedAuthorCount = context.Authors.Count();
-        
+
         // Assert
         Assert.Equal(initialAuthorCount + 1, updatedAuthorCount);
     }
@@ -202,6 +202,58 @@ public class AuthorRepositoryTest
         //Act
         AuthorDTO expectedAuthor = theAuthor;
         AuthorDTO returnedAuthor = authorRepository.GetAuthorById(theAuthorId);
+
+        //Assert
+        Assert.Equal(expectedAuthor, returnedAuthor);
+    }
+
+    [Fact]
+    public void GetAuthorByEmail_ShouldReturnCorrectAuthor()
+    {
+        var authorRepository = new AuthorRepository(context);
+
+        AuthorDTO theAuthor = null;
+        String theAuthorEmail = null;
+        for (int i = 0; i < 34; i++)
+        {
+
+            if (i == 5)
+            {
+                theAuthor = new AuthorDTO
+                {
+                    AuthorId = Guid.NewGuid(),
+                    Name = "TestAuthor" + i,
+                    Email = "TheAuthorEmail@ShouldWork.com"
+                };
+                context.Authors.Add(theAuthor);
+                theAuthorEmail = theAuthor.Email;
+                continue;
+            }
+
+            AuthorDTO authorDto = new AuthorDTO
+            {
+                AuthorId = Guid.NewGuid(),
+                Name = "TestAuthor" + i,
+                Email = "mock@email.com"
+            };
+
+            CheepDTO cheepDto = new CheepDTO
+            {
+                CheepId = Guid.NewGuid(),
+                AuthorId = authorDto.AuthorId,
+                Text = "TestCheep" + i,
+                AuthorDto = authorDto
+            };
+
+            context.Authors.Add(authorDto);
+            context.Cheeps.Add(cheepDto);
+        }
+
+        context.SaveChanges();
+
+        //Act
+        AuthorDTO expectedAuthor = theAuthor;
+        AuthorDTO returnedAuthor = authorRepository.GetAuthorByEmail(theAuthorEmail);
 
         //Assert
         Assert.Equal(expectedAuthor, returnedAuthor);
