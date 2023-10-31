@@ -13,6 +13,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     public void AddAuthor(AuthorDTO author)
     {
         db.Authors.Add(author);
+        db.SaveChanges();
     }
 
     public String GetAuthorById(string authorId)
