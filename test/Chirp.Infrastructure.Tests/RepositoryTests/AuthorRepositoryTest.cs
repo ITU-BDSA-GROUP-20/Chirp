@@ -16,12 +16,25 @@ public class AuthorRepositoryTest
     }
 
     [Fact]
-    public void GetCheepsByPage_ShouldSkipFirst32Cheeps_ReturnXAmountOfCheeps()
+    public void GetAuthorByName_ShouldReturnCorrectAuthorDTO()
     {
-        var cheepRepository = new CheepRepository(context);
+        var authorRepository = new AuthorRepository(context);
 
+        AuthorDTO theAuthor = null;
         for (int i = 0; i < 34; i++)
         {
+            
+            if (i == 5)
+            {
+                theAuthor = new AuthorDTO
+                {
+                    AuthorId = Guid.NewGuid(),
+                    Name = "TestAuthor" + i,
+                    Email = "mock@email.com"
+                };
+                context.Authors.Add(theAuthor);
+                continue;
+            }
 
             AuthorDTO authorDto = new AuthorDTO
             {
@@ -45,9 +58,11 @@ public class AuthorRepositoryTest
         context.SaveChanges();
 
         //Act
+        AuthorDTO expectedAuthor = theAuthor;
+        AuthorDTO returnedAuthor = authorRepository.GetAuthorByName("TestAuthor5");
         
-
         //Assert
+        Assert.Equal(expectedAuthor, returnedAuthor);
         
     }
 
