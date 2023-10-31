@@ -30,7 +30,7 @@ public class AuthorRepositoryTest
                 {
                     AuthorId = Guid.NewGuid(),
                     Name = "TestAuthor" + i,
-                    Email = "mock@email.com"
+                    Email = "mock" + i + "@email.com"
                 };
                 context.Authors.Add(theAuthor);
                 continue;
@@ -40,7 +40,7 @@ public class AuthorRepositoryTest
             {
                 AuthorId = Guid.NewGuid(),
                 Name = "TestAuthor" + i,
-                Email = "mock@email.com"
+                Email = "mock" + i + "@email.com"
             };
 
             CheepDTO cheepDto = new CheepDTO
@@ -77,7 +77,7 @@ public class AuthorRepositoryTest
         {
             AuthorId = Guid.NewGuid(),
             Name = "TestAuthor",
-            Email = "Bob@Marley.com"
+            Email = "mock@email.com"
         };
         CheepDTO cheepDto1 = new CheepDTO
         {
@@ -112,7 +112,7 @@ public class AuthorRepositoryTest
         {
             AuthorId = Guid.NewGuid(),
             Name = "TestAuthor",
-            Email = "Bob@Marley.com"
+            Email = "mock@email.com"
         };
         CheepDTO cheepDto1 = new CheepDTO
         {
@@ -134,7 +134,7 @@ public class AuthorRepositoryTest
         {
             AuthorId = Guid.NewGuid(),
             Name = "TestAuthor2",
-            Email = ""
+            Email = "TestEmail2@test.com"
         };
         CheepDTO cheepDto2 = new CheepDTO
         {
@@ -171,7 +171,7 @@ public class AuthorRepositoryTest
                 {
                     AuthorId = Guid.NewGuid(),
                     Name = "TestAuthor" + i,
-                    Email = "mock@email.com"
+                    Email = "mock" + i + "@email.com"
                 };
                 context.Authors.Add(theAuthor);
                 theAuthorId = theAuthor.AuthorId;
@@ -182,7 +182,7 @@ public class AuthorRepositoryTest
             {
                 AuthorId = Guid.NewGuid(),
                 Name = "TestAuthor" + i,
-                Email = "mock@email.com"
+                Email = "mock" + i + "@email.com"
             };
 
             CheepDTO cheepDto = new CheepDTO
@@ -234,7 +234,7 @@ public class AuthorRepositoryTest
             {
                 AuthorId = Guid.NewGuid(),
                 Name = "TestAuthor" + i,
-                Email = "mock@email.com"
+                Email = "mock" + i + "@email.com"
             };
 
             CheepDTO cheepDto = new CheepDTO
