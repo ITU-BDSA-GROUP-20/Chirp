@@ -48,7 +48,8 @@ public class CheepRepository : BaseRepository, ICheepRepository
         db.Cheeps.Add(cheep);
         db.SaveChanges();
     }
-
+    
+    // TODO Should CheepRepo contain this method? If yes, why? If not, delete.
     private String GetAuthorById(string authorId)
     {
         String authorName = db.Authors
