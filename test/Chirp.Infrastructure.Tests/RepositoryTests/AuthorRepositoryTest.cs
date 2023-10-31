@@ -52,41 +52,39 @@ public class AuthorRepositoryTest
     }
 
     [Fact]
-    public void DeleteCheepById_ShouldOnlyDeleteSpecifiedCheep()
+    public void GetCheepsByAuthor_ShouldReturnCorrectCheeps()
     {
 
-        // Arrange
-        var cheepRepository = new CheepRepository(context);
+        //Arrange
+        var authorRepository = new AuthorRepository(context);
 
-        for (int i = 0; i < 34; i++)
+        AuthorDTO authorDto1 = new AuthorDTO
         {
+            AuthorId = Guid.NewGuid(),
+            Name = "TestAuthor",
+            Email = "Bob@Marley.com"
+        };
+        CheepDTO cheepDto1 = new CheepDTO
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = authorDto1.AuthorId,
+            Text = "TestCheep",
+            AuthorDto = authorDto1
+        };
 
-            AuthorDTO authorDto = new AuthorDTO
-            {
-                AuthorId = Guid.NewGuid(),
-                Name = "TestAuthor" + i,
-                Email = "mock@email.com"
-            };
-
-            CheepDTO cheepDto = new CheepDTO
-            {
-                CheepId = Guid.NewGuid(),
-                AuthorId = authorDto.AuthorId,
-                Text = "TestCheep" + i,
-                AuthorDto = authorDto
-            };
-
-            context.Authors.Add(authorDto);
-            context.Cheeps.Add(cheepDto);
-        }
+        context.Authors.Add(authorDto1);
+        context.Cheeps.Add(cheepDto1);
 
         context.SaveChanges();
 
         //Act
+        ICollection<CheepDTO> expectedCheep = new List<CheepDTO>();
+        expectedCheep.Add(cheepDto1);
         
-
+        ICollection<CheepDTO> returnedCheep = authorRepository.GetCheepsByAuthor(authorDto1.Name, 0);
+        
         //Assert
-        
+        Assert.Equal(expectedCheep, returnedCheep);
     }
 
     [Fact]
