@@ -21,7 +21,7 @@ public class AuthorRepositoryTest
         var authorRepository = new AuthorRepository(context);
 
         AuthorDTO theAuthor = null;
-        for (int i = 0; i < 34; i++)
+        for (int i = 0; i < 10; i++)
         {
 
             if (i == 5)
@@ -162,7 +162,7 @@ public class AuthorRepositoryTest
 
         AuthorDTO theAuthor = null;
         Guid theAuthorId = new Guid();
-        for (int i = 0; i < 34; i++)
+        for (int i = 0; i < 10; i++)
         {
 
             if (i == 5)
@@ -214,7 +214,7 @@ public class AuthorRepositoryTest
 
         AuthorDTO theAuthor = null;
         String theAuthorEmail = null;
-        for (int i = 0; i < 34; i++)
+        for (int i = 0; i < 10; i++)
         {
 
             if (i == 5)

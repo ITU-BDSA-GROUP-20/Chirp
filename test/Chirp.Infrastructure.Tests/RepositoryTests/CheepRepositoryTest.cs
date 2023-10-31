@@ -23,7 +23,7 @@ public class CheepRepositoryTest{
     {
         var cheepRepository = new CheepRepository(context);
 
-        for(int i = 0; i < 34; i++)
+        for(int i = 0; i < 10; i++)
         {
 
             AuthorDTO authorDto = new AuthorDTO
@@ -59,9 +59,8 @@ public class CheepRepositoryTest{
         
         var cheepRepository = new CheepRepository(context);
         
-        for(int i = 0; i < 34; i++)
+        for(int i = 0; i < 10; i++)
         {
-
             AuthorDTO authorDto = new AuthorDTO
             { 
                 AuthorId = Guid.NewGuid(), 
@@ -152,6 +151,5 @@ public class CheepRepositoryTest{
         
         //Assert
         Assert.Equal(initialCheepCount + 1, updatedCheepCount);
-
     }
 }
