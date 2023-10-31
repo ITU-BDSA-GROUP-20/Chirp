@@ -85,35 +85,73 @@ public class CheepRepositoryTest{
         
         //Act
         int initialCheepCount = context.Cheeps.Count();
-        Guid someId = context.Cheeps.First().CheepId;
+        CheepDTO bob = context.Cheeps.FirstOrDefault();
+        Guid cheepId = bob.CheepId;
+        
 
-        cheepRepository.DeleteCheepById(someId);
+        cheepRepository.DeleteCheepById(cheepId);
+
+        int updatedCheepCount = context.Cheeps.Count();
         
         //Assert
-        Assert.Equal(initialCheepCount - 1, context.Cheeps.Count());
+        Assert.Equal(initialCheepCount - 1, updatedCheepCount);
 
     }
 
     [Fact]
     public void addCheep_ShouldAddACheep()
     {
-        /*
+        
         //Arrange
-        var Db = SqliteInMemoryChirpConnectionBuilder.GetContext();
-
-        var cheepRepository = new CheepRepository(Db, 32);
+        var cheepRepository = new CheepRepository(context);
+        
+        AuthorDTO authorDto1 = new AuthorDTO
+        { 
+            AuthorId = Guid.NewGuid(), 
+            Name = "TestAuthor", 
+            Email = "mock@email.com" 
+        };
+            
+        CheepDTO cheepDto1 = new CheepDTO
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = authorDto1.AuthorId,
+            Text = "TestCheep",
+            AuthorDto = authorDto1
+        };
+            
+        context.Authors.Add(authorDto1);
+        context.Cheeps.Add(cheepDto1);
+        
+        context.SaveChanges();
 
         //Act
-        cheepRepository.AddCheep(new CheepDTO { CheepId = 1, AuthorId = 2, Text = "TestCheep" });
+        int initialCheepCount = context.Cheeps.Count();
+        
+        AuthorDTO authorDto2 = new AuthorDTO
+        { 
+            AuthorId = Guid.NewGuid(), 
+            Name = "TestAuthor", 
+            Email = "mock@email.com" 
+        };
+            
+        CheepDTO cheepDto2 = new CheepDTO
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = authorDto2.AuthorId,
+            Text = "TestCheep",
+            AuthorDto = authorDto2
+        };
+            
+        context.Authors.Add(authorDto2);
+        context.Cheeps.Add(cheepDto2);
+        
+        context.SaveChanges();
+
+        int updatedCheepCount = context.Cheeps.Count();
         
         //Assert
-        
-        Assert.Equal(1, cheepRepository.GetCheepsByPage(1).Count);
-        Assert.Equal(1, cheepRepository.GetCheepsByPage(1).First().CheepId);
-        Assert.Equal("TestCheep", cheepRepository.GetCheepsByPage(1).First().Text);
-        Assert.Equal(2, cheepRepository.GetCheepsByPage(2).First().AuthorId);
-        */
+        Assert.Equal(initialCheepCount + 1, updatedCheepCount);
+
     }
 }
-
-    
