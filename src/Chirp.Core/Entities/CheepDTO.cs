@@ -20,5 +20,4 @@ public class CheepDTO
     
     [Required]
     public DateTime TimeStamp {get; set;}
-
 }

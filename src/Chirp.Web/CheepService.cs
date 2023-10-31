@@ -1,10 +1,8 @@
 using System.Globalization;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
-using Chirp.Infrastructure;
-using Chirp.Infrastructure.Repository;
-using Chirp.Razor;
-using Microsoft.EntityFrameworkCore;
+
+namespace Chirp.Web;
 
 public record CheepViewModel(string Author, string Message, string Timestamp);
 
