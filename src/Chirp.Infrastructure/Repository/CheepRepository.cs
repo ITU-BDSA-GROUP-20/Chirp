@@ -6,10 +6,8 @@ namespace Chirp.Infrastructure.Repository;
 
 public class CheepRepository : BaseRepository, ICheepRepository
 {
-    private ChirpDbContext context;
-    public CheepRepository(ChirpDbContext chirpDbContext, int pageSize) : base(chirpDbContext, pageSize)
+    public CheepRepository(ChirpDbContext chirpDbContext) : base(chirpDbContext)
     {
-        this.context = chirpDbContext;
     }
     
     public ICollection<CheepDTO> GetCheepsByPage(int page)
@@ -41,17 +39,17 @@ public class CheepRepository : BaseRepository, ICheepRepository
     public void AddCheep(CheepDTO cheep)
     {
         //Check if author is in database, if not add them too
-        if (!context.Authors.Any(a => a.AuthorId == cheep.AuthorId))
+        if (!db.Authors.Any(a => a.AuthorId == cheep.AuthorId))
         {
-            context.Authors.Add(cheep.AuthorDto);
+            db.Authors.Add(cheep.AuthorDto);
         }
-        context.Cheeps.Add(cheep);
+        db.Cheeps.Add(cheep);
     }
 
-    private String GetAuthorById(int authorId)
+    private String GetAuthorById(string authorId)
     {
-        String authorName = context.Authors
-            .Where(a => a.AuthorId == authorId)
+        String authorName = db.Authors
+            .Where(a => a.AuthorId == Guid.Parse(authorId))
             .Select(a => a.Name)
             .FirstOrDefault()!;
         

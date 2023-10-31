@@ -6,21 +6,19 @@ namespace Chirp.Infrastructure.Repository;
 
 public class AuthorRepository : BaseRepository, IAuthorRepository
 {
-    private ChirpDbContext context;
-    public AuthorRepository(ChirpDbContext chirpDbContext, int pageSize) : base(chirpDbContext, pageSize)
+    public AuthorRepository(ChirpDbContext chirpDbContext) : base(chirpDbContext)
     {
-        this.context = chirpDbContext;
     }
 
     public void AddAuthor(AuthorDTO author)
     {
-        context.Authors.Add(author);
+        db.Authors.Add(author);
     }
 
-    public String GetAuthorById(int authorId)
+    public String GetAuthorById(string authorId)
     {
-        string authorName = context.Authors
-            .Where(a => a.AuthorId == authorId)
+        string authorName = db.Authors
+            .Where(a => a.AuthorId == Guid.Parse(authorId))
             .Select(a => a.Name)
             .FirstOrDefault()!;
             
@@ -28,7 +26,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     }
     public AuthorDTO GetAuthorByName(string name)
     {
-        AuthorDTO author = context.Authors
+        AuthorDTO author = db.Authors
             .Where(a => a.Name == name).FirstOrDefault()!;
             
         return author;
@@ -36,7 +34,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     
     public AuthorDTO GetAuthorByEmail(string email)
     {
-        AuthorDTO author = context.Authors
+        AuthorDTO author = db.Authors
             .Where(a => a.Email == email).FirstOrDefault()!;
             
         return author;
