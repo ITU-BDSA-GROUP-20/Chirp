@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace Chirp.Infrastructure;
 
-public class ChirpDbContext : IdentityDbContext<ApplicationUser>
+public class ChirpDbContext : IdentityDbContext<IdentityUser>
 {
     public DbSet<AuthorDTO> Authors {get; set;} = null!;
 
