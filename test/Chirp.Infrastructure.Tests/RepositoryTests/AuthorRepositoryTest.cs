@@ -19,29 +19,25 @@ public class AuthorRepositoryTest
     public void GetAuthorByName_ShouldReturnCorrectAuthorDTO()
     {
         var authorRepository = new AuthorRepository(context);
-
+        
+        // Created to test for the correct author
         AuthorDTO theAuthor = null;
-        for (int i = 0; i < 10; i++)
+        
+        // Create 3 authors
+        for (int i = 0; i < 3; i++)
         {
-
-            if (i == 5)
-            {
-                theAuthor = new AuthorDTO
-                {
-                    AuthorId = Guid.NewGuid(),
-                    Name = "TestAuthor" + i,
-                    Email = "mock" + i + "@email.com"
-                };
-                context.Authors.Add(theAuthor);
-                continue;
-            }
-
             AuthorDTO authorDto = new AuthorDTO
             {
                 AuthorId = Guid.NewGuid(),
                 Name = "TestAuthor" + i,
                 Email = "mock" + i + "@email.com"
             };
+            
+            // Set theAuthor to the middle author
+            if (i == 1)
+            {
+                theAuthor = authorDto;
+            }
 
             CheepDTO cheepDto = new CheepDTO
             {
@@ -107,7 +103,7 @@ public class AuthorRepositoryTest
     {
         //Arrange
         var authorRepository = new AuthorRepository(context);
-
+        
         AuthorDTO authorDto1 = new AuthorDTO
         {
             AuthorId = Guid.NewGuid(),
@@ -143,7 +139,7 @@ public class AuthorRepositoryTest
             Text = "TestCheep2",
             AuthorDto = authorDto2
         };
-
+        
         authorRepository.AddAuthor(authorDto2);
         context.Cheeps.Add(cheepDto2);
 
@@ -159,31 +155,26 @@ public class AuthorRepositoryTest
     public void GetAuthorById_ShouldReturnCorrectAuthor()
     {
         var authorRepository = new AuthorRepository(context);
-
+        
+        // Created to test for the correct author
         AuthorDTO theAuthor = null;
         Guid theAuthorId = new Guid();
-        for (int i = 0; i < 10; i++)
+        
+        // Create 3 authors
+        for (int i = 0; i < 3; i++)
         {
-
-            if (i == 5)
-            {
-                theAuthor = new AuthorDTO
-                {
-                    AuthorId = Guid.NewGuid(),
-                    Name = "TestAuthor" + i,
-                    Email = "mock" + i + "@email.com"
-                };
-                context.Authors.Add(theAuthor);
-                theAuthorId = theAuthor.AuthorId;
-                continue;
-            }
-
             AuthorDTO authorDto = new AuthorDTO
             {
                 AuthorId = Guid.NewGuid(),
                 Name = "TestAuthor" + i,
                 Email = "mock" + i + "@email.com"
             };
+            
+            // Set theAuthor to the middle author
+            if (i == 1)
+            {
+                theAuthor = authorDto;
+            }
 
             CheepDTO cheepDto = new CheepDTO
             {
@@ -211,31 +202,26 @@ public class AuthorRepositoryTest
     public void GetAuthorByEmail_ShouldReturnCorrectAuthor()
     {
         var authorRepository = new AuthorRepository(context);
-
+        
+        // Created to test for the correct author
         AuthorDTO theAuthor = null;
         String theAuthorEmail = null;
-        for (int i = 0; i < 10; i++)
+        
+        // Create 3 authors
+        for (int i = 0; i < 3; i++)
         {
-
-            if (i == 5)
-            {
-                theAuthor = new AuthorDTO
-                {
-                    AuthorId = Guid.NewGuid(),
-                    Name = "TestAuthor" + i,
-                    Email = "TheAuthorEmail@ShouldWork.com"
-                };
-                context.Authors.Add(theAuthor);
-                theAuthorEmail = theAuthor.Email;
-                continue;
-            }
-
             AuthorDTO authorDto = new AuthorDTO
             {
                 AuthorId = Guid.NewGuid(),
                 Name = "TestAuthor" + i,
                 Email = "mock" + i + "@email.com"
             };
+            
+            // Set theAuthor to the middle author
+            if (i == 1)
+            {
+                theAuthor = authorDto;
+            }
 
             CheepDTO cheepDto = new CheepDTO
             {
