@@ -11,36 +11,44 @@ public class CheepDTOTests
     [Fact]
         public void CheepDTO_CheepId_ShouldHaveRequiredAttribute()
         {
+            // Arrange and Act
             var propertyInfo = typeof(CheepDTO).GetProperty("CheepId");
             var requiredAttribute = propertyInfo.GetCustomAttributes(typeof(RequiredAttribute), true).FirstOrDefault() as RequiredAttribute;
 
+            // Assert
             Assert.NotNull(requiredAttribute);
         }
 
         [Fact]
         public void CheepDTO_AuthorId_ShouldHaveRequiredAttribute()
         {
+            // Arrange and Act
             var propertyInfo = typeof(CheepDTO).GetProperty("AuthorId");
             var requiredAttribute = propertyInfo.GetCustomAttributes(typeof(RequiredAttribute), true).FirstOrDefault() as RequiredAttribute;
-
+            
+            // Assert
             Assert.NotNull(requiredAttribute);
         }
 
         [Fact]
         public void CheepDTO_AuthorDto_ShouldHaveRequiredAttribute()
         {
+            // Arrange and Act
             var propertyInfo = typeof(CheepDTO).GetProperty("AuthorDto");
             var requiredAttribute = propertyInfo.GetCustomAttributes(typeof(RequiredAttribute), true).FirstOrDefault() as RequiredAttribute;
-
+            
+            // Assert
             Assert.NotNull(requiredAttribute);
         }
 
         [Fact]
         public void CheepDTO_Text_ShouldHaveStringLengthAttributeWithMinMax()
         {
+            // Arrange and Act
             var propertyInfo = typeof(CheepDTO).GetProperty("Text");
             var stringLengthAttribute = propertyInfo.GetCustomAttributes(typeof(StringLengthAttribute), true).FirstOrDefault() as StringLengthAttribute;
-
+            
+            // Assert
             Assert.NotNull(stringLengthAttribute);
             Assert.Equal(5, stringLengthAttribute.MinimumLength);
             Assert.Equal(128, stringLengthAttribute.MaximumLength);
