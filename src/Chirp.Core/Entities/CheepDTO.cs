@@ -15,7 +15,7 @@ public class CheepDTO
     [Required]
     public required AuthorDTO AuthorDto {get; set;}
 
-    [StringLength(128)] [Required] 
+    [StringLength(128, MinimumLength = 5)] [Required] 
     public string Text { get; set; } = "";
     
     [Required]
