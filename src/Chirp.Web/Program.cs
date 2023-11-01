@@ -1,12 +1,12 @@
-
-using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
 using Chirp.Web;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 
 string currentDirectory = Directory.GetCurrentDirectory();
 string dbPath;
@@ -26,11 +26,12 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ChirpDbContext>(options => 
     options.UseSqlite($"Data Source={dbPath}"));
 
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false )
+    .AddEntityFrameworkStores<ChirpDbContext>();
 
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();        
 builder.Services.AddScoped<ICheepService, CheepService>();
-
 
 var app = builder.Build();
 
@@ -40,7 +41,6 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<ChirpDbContext>();
 
     DbInitializer.SeedDatabase(context);
-    context.Cheeps.Include(c => c.AuthorDto).ToList();
 }
 
 // Configure the HTTP request pipeline.
@@ -55,6 +55,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorPages();
 
