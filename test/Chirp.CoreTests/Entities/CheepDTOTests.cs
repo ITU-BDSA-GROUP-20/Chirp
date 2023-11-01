@@ -1,44 +1,74 @@
-﻿using Chirp.Core.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using Chirp.Core.Entities;
+using Microsoft.EntityFrameworkCore;
 
-//Co-authored by ChatGPT-4.0
+//Co-authored by ChatGPT-3.5
 
 namespace Chirp.CoreTests.Entities;
 
 public class CheepDTOTests
 {
     [Fact]
-    public void CheepDTO_DefaultConstructor_SetsPropertiesToDefault()
-    {
-        // Arrange & Act
-        var cheep = new CheepDTO();
+        public void CheepDTO_CheepId_ShouldHaveRequiredAttribute()
+        {
+            // Arrange and Act
+            var propertyInfo = typeof(CheepDTO).GetProperty("CheepId");
+            var requiredAttribute = propertyInfo.GetCustomAttributes(typeof(RequiredAttribute), true).FirstOrDefault() as RequiredAttribute;
 
-        // Assert
-        Assert.Equal(0, cheep.CheepId);
-        Assert.Equal(0, cheep.AuthorId);
-        Assert.Null(cheep.AuthorDto);
-        Assert.Null(cheep.Text);
-        Assert.Equal(default(DateTime), cheep.TimeStamp);
-    }
+            // Assert
+            Assert.NotNull(requiredAttribute);
+        }
 
-    [Fact]
-    public void CheepDTO_SetProperties_PropertiesAreSet()
-    {
-        // Arrange
-        var cheep = new CheepDTO();
-        var author = new AuthorDTO { AuthorId = 1, Name = "Test Author" };
+        [Fact]
+        public void CheepDTO_AuthorId_ShouldHaveRequiredAttribute()
+        {
+            // Arrange and Act
+            var propertyInfo = typeof(CheepDTO).GetProperty("AuthorId");
+            var requiredAttribute = propertyInfo.GetCustomAttributes(typeof(RequiredAttribute), true).FirstOrDefault() as RequiredAttribute;
+            
+            // Assert
+            Assert.NotNull(requiredAttribute);
+        }
 
-        // Act
-        cheep.CheepId = 1;
-        cheep.AuthorId = 1;
-        cheep.AuthorDto = author;
-        cheep.Text = "Test Cheep";
-        cheep.TimeStamp = new DateTime(2023, 10, 24);
+        [Fact]
+        public void CheepDTO_AuthorDto_ShouldHaveRequiredAttribute()
+        {
+            // Arrange and Act
+            var propertyInfo = typeof(CheepDTO).GetProperty("AuthorDto");
+            var requiredAttribute = propertyInfo.GetCustomAttributes(typeof(RequiredAttribute), true).FirstOrDefault() as RequiredAttribute;
+            
+            // Assert
+            Assert.NotNull(requiredAttribute);
+        }
 
-        // Assert
-        Assert.Equal(1, cheep.CheepId);
-        Assert.Equal(1, cheep.AuthorId);
-        Assert.Equal(author, cheep.AuthorDto);
-        Assert.Equal("Test Cheep", cheep.Text);
-        Assert.Equal(new DateTime(2023, 10, 24), cheep.TimeStamp);
-    }
+        [Fact]
+        public void CheepDTO_Text_ShouldHaveStringLengthAttributeWithMinMax()
+        {
+            // Arrange and Act
+            var propertyInfo = typeof(CheepDTO).GetProperty("Text");
+            var stringLengthAttribute = propertyInfo.GetCustomAttributes(typeof(StringLengthAttribute), true).FirstOrDefault() as StringLengthAttribute;
+            
+            // Assert
+            Assert.NotNull(stringLengthAttribute);
+            Assert.Equal(5, stringLengthAttribute.MinimumLength);
+            Assert.Equal(128, stringLengthAttribute.MaximumLength);
+        }
+
+        [Fact]
+        public void CheepDTO_TimeStamp_ShouldHaveRequiredAttribute()
+        {
+            var propertyInfo = typeof(CheepDTO).GetProperty("TimeStamp");
+            var requiredAttribute = propertyInfo.GetCustomAttributes(typeof(RequiredAttribute), true).FirstOrDefault() as RequiredAttribute;
+
+            Assert.NotNull(requiredAttribute);
+        }
+
+        [Fact]
+        public void CheepDTO_IndexAttribute_ShouldBeUnique()
+        {
+            var indexAttribute = typeof(CheepDTO).GetCustomAttributes(typeof(IndexAttribute), true).FirstOrDefault() as IndexAttribute;
+
+            Assert.NotNull(indexAttribute);
+            Assert.True(indexAttribute.IsUnique);
+        }
 }

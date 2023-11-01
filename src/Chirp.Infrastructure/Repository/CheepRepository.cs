@@ -34,6 +34,8 @@ public class CheepRepository : BaseRepository, ICheepRepository
         {
             throw new Exception("Cheep with id " + cheepId + " not found");
         }
+
+        db.SaveChanges();
     }
 
     public void AddCheep(CheepDTO cheep)
@@ -44,8 +46,10 @@ public class CheepRepository : BaseRepository, ICheepRepository
             db.Authors.Add(cheep.AuthorDto);
         }
         db.Cheeps.Add(cheep);
+        db.SaveChanges();
     }
-
+    
+    // TODO Should CheepRepo contain this method? If yes, why? If not, delete.
     private String GetAuthorById(string authorId)
     {
         String authorName = db.Authors

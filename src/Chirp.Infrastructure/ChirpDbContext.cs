@@ -25,7 +25,11 @@ public class ChirpDbContext : DbContext
         {
             Entity.HasKey(e => e.AuthorId);
             Entity.Property(e => e.Name).IsRequired();
+            
+            // Email should be required and unique
             Entity.Property(e => e.Email).IsRequired();
+            Entity.HasIndex(e => e.Email).IsUnique();
+            
             Entity.HasMany(e => e.Cheeps);
         });
 

@@ -15,14 +15,13 @@ public interface ICheepService
 
 public class CheepService : ICheepService
 {
-    
     private readonly IAuthorRepository _authorRepository;
     private readonly ICheepRepository _cheepRepository;
 
-    public CheepService(ICheepRepository cheepRepositoryRepository, IAuthorRepository authorRepositoryRepository)
+    public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
-        _cheepRepository = cheepRepositoryRepository;
-        _authorRepository = authorRepositoryRepository;
+        _cheepRepository = cheepRepository;
+        _authorRepository = authorRepository;
     }
     
     public ICollection<CheepViewModel> GetCheeps(int page)
@@ -38,7 +37,6 @@ public class CheepService : ICheepService
         return cheeps;
     }
     
-
     public ICollection<CheepViewModel> GetCheepsFromAuthor(string author, int page)
     {
         ICollection<CheepDTO> cheepDtos = _authorRepository.GetCheepsByAuthor(author, page);
