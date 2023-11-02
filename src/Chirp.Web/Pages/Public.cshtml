@@ -1,5 +1,6 @@
 ﻿@page "/"
 @model Chirp.Web.Pages.PublicModel
+@inject SignInManager<IdentityUser> SignInManager
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
@@ -7,7 +8,14 @@
 
 <div>
     <h2> Public Timeline </h2>
-
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div class="cheepbox">
+            <label>Write new cheep</label>
+            <textarea ></textarea>
+            <input />
+        </div>
+    }
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">

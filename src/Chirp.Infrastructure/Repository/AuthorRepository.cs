@@ -65,9 +65,9 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return author.Cheeps;
     }
 
-    public void CreateCheep(cheepDTO cheepDto)
+    public void CreateCheep(CheepDTO cheepDto)
     {
-        
+        db.Add(cheepDto);
     }
   
 }

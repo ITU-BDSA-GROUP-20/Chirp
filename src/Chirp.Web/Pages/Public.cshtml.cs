@@ -24,4 +24,5 @@ public class PublicModel : PageModel
         Cheeps = _service.GetCheeps(page);
         return Page();
     }
+    
 }
