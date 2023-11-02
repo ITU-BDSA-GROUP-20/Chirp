@@ -20,7 +20,6 @@ public class ChirpDbContext : IdentityDbContext<IdentityUser>
 
     public ChirpDbContext(DbContextOptions<ChirpDbContext> dbContextOptions) : base(dbContextOptions)
     {
-        Cheeps.Include(c => c.AuthorDto).ToList();
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,7 +42,7 @@ public class ChirpDbContext : IdentityDbContext<IdentityUser>
             Entity.Property(e => e.Text).IsRequired();
             Entity.Property(e => e.TimeStamp).IsRequired();
             Entity.HasOne(e => e.AuthorDto)
-                .WithMany(author => author.Cheeps)
+                .WithMany(e => e.Cheeps)
                 .HasForeignKey(e => e.AuthorId);
         });
 

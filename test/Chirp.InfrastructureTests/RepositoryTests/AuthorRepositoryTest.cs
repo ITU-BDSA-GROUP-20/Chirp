@@ -66,7 +66,8 @@ public class AuthorRepositoryTest
         {
             AuthorId = Guid.NewGuid(),
             Name = "TestAuthor",
-            Email = "mock@email.com"
+            Email = "mock@email.com",
+            Cheeps = new List<CheepDTO>()
         };
         CheepDTO cheepDto1 = new CheepDTO
         {
