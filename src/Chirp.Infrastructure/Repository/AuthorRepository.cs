@@ -45,7 +45,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         AuthorDTO author = GetAuthorByName(name);
         
         //Check that author has cheeps
-        if (author.Cheeps.Count == 0)
+        if (author.Cheeps.Count == 0 || author.Cheeps == null)
         {
             throw new Exception("Author " + author.Name + " has no cheeps");
         }
