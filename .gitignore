@@ -8,6 +8,7 @@ bin/
 *.bak
 *.swp
 *.vscode
+*.vs
 packages/
 
 # Rider specific files
@@ -79,4 +80,5 @@ obj/
 
 !.assets.json
 
-.fake
+# Visual Studio cache/options directory
+.vs/
