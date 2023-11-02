@@ -18,6 +18,5 @@ jobs:
       run: dotnet build src/Chirp.Web --no-restore
     - name: Test
       run: |
-        dotnet test test/Chirp.CoreTests
-        dotnet test test/Chirp.InfrastructureTests
-        dotnet test test/Chirp.WebTests
+        dotnet test test/*
+        dotnet test test/*/*
