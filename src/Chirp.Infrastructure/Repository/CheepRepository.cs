@@ -1,6 +1,7 @@
 using System.Globalization;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.Repository;
 
@@ -13,7 +14,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
     public ICollection<CheepDTO> GetCheepsByPage(int page)
     {
         //Use EF to get the specified page of cheeps from the database
-        ICollection<CheepDTO> cheeps = db.Cheeps
+        ICollection<CheepDTO> cheeps = db.Cheeps.Include(e => e.AuthorDto)
             .OrderByDescending(c => c.CheepId)
             .Skip(PageSize * page)
             .Take(PageSize)
@@ -53,6 +54,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
     private String GetAuthorById(string authorId)
     {
         String authorName = db.Authors
+            .Include(e => e.Cheeps)
             .Where(a => a.AuthorId == Guid.Parse(authorId))
             .Select(a => a.Name)
             .FirstOrDefault()!;

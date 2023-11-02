@@ -1,6 +1,7 @@
 using System.Globalization;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.Repository;
 
@@ -19,6 +20,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     public AuthorDTO GetAuthorById(Guid authorId)
     {
         AuthorDTO author = db.Authors
+            .Include(e => e.Cheeps)
             .Where(a => a.AuthorId == authorId).FirstOrDefault()!;
             
         return author;
@@ -26,6 +28,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     public AuthorDTO GetAuthorByName(string name)
     {
         AuthorDTO author = db.Authors
+            .Include(e => e.Cheeps)
             .Where(a => a.Name == name).FirstOrDefault()!;
             
         return author;
@@ -34,6 +37,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     public AuthorDTO GetAuthorByEmail(string email)
     {
         AuthorDTO author = db.Authors
+            .Include(e => e.Cheeps)
             .Where(a => a.Email == email).FirstOrDefault()!;
             
         return author;
