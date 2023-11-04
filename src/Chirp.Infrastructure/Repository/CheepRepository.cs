@@ -7,8 +7,10 @@ namespace Chirp.Infrastructure.Repository;
 
 public class CheepRepository : BaseRepository, ICheepRepository
 {
-    public CheepRepository(ChirpDbContext chirpDbContext) : base(chirpDbContext)
+    
+    public CheepRepository(ChirpDbContext chirpDbContext, CheepCreateValidator cheepCreateValidator) : base(chirpDbContext)
     {
+      
     }
     
     public ICollection<CheepDTO> GetCheepsByPage(int page)
@@ -51,14 +53,18 @@ public class CheepRepository : BaseRepository, ICheepRepository
     }
     
     // TODO Should CheepRepo contain this method? If yes, why? If not, delete.
-    private String GetAuthorById(string authorId)
+    private string GetAuthorById(string authorId)
     {
-        String authorName = db.Authors
+        string authorName = db.Authors
             .Include(e => e.Cheeps)
             .Where(a => a.AuthorId == Guid.Parse(authorId))
             .Select(a => a.Name)
             .FirstOrDefault()!;
         
         return authorName;
+    }
+    public async void CreateCheep(CreateCheepDTO cheepDto)
+    {
+       
     }
 }

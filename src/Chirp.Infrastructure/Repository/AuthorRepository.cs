@@ -64,10 +64,6 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         if(author.Cheeps.Count > 32) return author.Cheeps.ToList<CheepDTO>().GetRange(pageSizeIndex,PageSize);
         return author.Cheeps;
     }
-
-    public void CreateCheep(CheepDTO cheepDto)
-    {
-        db.Add(cheepDto);
-    }
+    
   
 }

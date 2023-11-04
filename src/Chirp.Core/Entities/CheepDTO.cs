@@ -16,7 +16,7 @@ public class CheepDTO
     public required AuthorDTO AuthorDto {get; set;}
 
     [StringLength(128, MinimumLength = 5)] [Required] 
-    public string Text { get; set; } = "";
+    public string Text { get; set; }
     
     [Required]
     public DateTime TimeStamp {get; set;}

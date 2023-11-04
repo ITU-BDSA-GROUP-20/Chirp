@@ -10,5 +10,5 @@ public interface IAuthorRepository
     public AuthorDTO GetAuthorByEmail(string email);
     public void AddAuthor(AuthorDTO authorDto);
 
-    public void CreateCheep(CheepDTO cheepDto);
+    
 }

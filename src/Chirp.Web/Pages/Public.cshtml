@@ -8,14 +8,17 @@
 
 <div>
     <h2> Public Timeline </h2>
+    
     @if (SignInManager.IsSignedIn(User))
     {
         <div class="cheepbox">
-            <label>Write new cheep</label>
-            <textarea ></textarea>
-            <input />
+            <form method="post">
+                <input asp-for="NewCheep.Text" />
+                <input type="submit" value="Cheep" />
+            </form>
         </div>
     }
+    
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
