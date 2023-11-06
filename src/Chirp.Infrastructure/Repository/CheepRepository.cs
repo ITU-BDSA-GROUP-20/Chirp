@@ -1,18 +1,22 @@
-using System.Globalization;
+using System.ComponentModel.DataAnnotations;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace Chirp.Infrastructure.Repository;
 
 public class CheepRepository : BaseRepository, ICheepRepository
 {
-    
-    public CheepRepository(ChirpDbContext chirpDbContext, CheepCreateValidator cheepCreateValidator) : base(chirpDbContext)
+    private CheepCreateValidator _validator;
+    private ChirpDbContext chirpDbContext;
+
+    public CheepRepository(ChirpDbContext DbContext, CheepCreateValidator validator) : base(DbContext)
     {
-      
+        _validator = validator;
+        chirpDbContext = DbContext;
+
     }
-    
     public ICollection<CheepDTO> GetCheepsByPage(int page)
     {
         //Use EF to get the specified page of cheeps from the database
@@ -53,18 +57,42 @@ public class CheepRepository : BaseRepository, ICheepRepository
     }
     
     // TODO Should CheepRepo contain this method? If yes, why? If not, delete.
-    private string GetAuthorById(string authorId)
+    private AuthorDTO GetAuthorById(string authorId)
     {
-        string authorName = db.Authors
-            .Include(e => e.Cheeps)
-            .Where(a => a.AuthorId == Guid.Parse(authorId))
-            .Select(a => a.Name)
-            .FirstOrDefault()!;
+        AuthorDTO author = (AuthorDTO) db.Authors.Include(e => e.Cheeps)
+            .Where(a => a.AuthorId == Guid.Parse(authorId));
+            
+        // string authorName = db.Authors
+        //     .Include(e => e.Cheeps)
+        //     .Where(a => a.AuthorId == Guid.Parse(authorId))
+        //     .Select(a => a.Name)
+        //     .FirstOrDefault()!;
         
-        return authorName;
+        return author;
     }
-    public async void CreateCheep(CreateCheepDTO cheepDto)
+    public async Task CreateCheep(CreateCheepDTO cheepDto)
     {
+        var validationResult = await _validator.ValidateAsync(cheepDto);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException();
+        }
+
+        var user = await chirpDbContext.Users.SingleAsync(u => u.UserName == cheepDto.Author);
+
+        var entity = new CheepDTO()
+        {
+            Text = cheepDto.Text,
+            TimeStamp = DateTime.UtcNow,
+            //Not sure what to do here, as our CheepDTO takes a guid
+            AuthorDto = GetAuthorById(user.Id)
+        };
+
+
+        chirpDbContext.Cheeps.Add(entity);
+        
        
+        db.SaveChanges();
     }
+    
 }

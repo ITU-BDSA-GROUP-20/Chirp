@@ -1,4 +1,5 @@
-﻿using System.Net.Mime;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mime;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +52,8 @@ public class PublicModel : PageModel
 
 public class NewCheep
 {
+    [Required]
+    [StringLength(128, MinimumLength = 5)]
     public string Text { get; set; } = "";
     
 }
