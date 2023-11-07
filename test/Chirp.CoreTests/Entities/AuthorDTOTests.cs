@@ -13,7 +13,7 @@ public class AuthorDTOTests
     public void AuthorDTO_Name_ShouldHaveRequiredAttribute()
     {
         // Arrange and Act
-        var propertyInfo = typeof(AuthorDTO).GetProperty("Name");
+        var propertyInfo = typeof(Author).GetProperty("Name");
         var attribute = propertyInfo.GetCustomAttribute<RequiredAttribute>();
         
         // Assert
@@ -24,7 +24,7 @@ public class AuthorDTOTests
     public void AuthorDTO_Name_ShouldHaveStringLengthAttributeWithMax50()
     {
         // Arrange and Act
-        var propertyInfo = typeof(AuthorDTO).GetProperty("Name");
+        var propertyInfo = typeof(Author).GetProperty("Name");
         var stringLengthAttribute = propertyInfo.GetCustomAttributes(typeof(StringLengthAttribute), true).FirstOrDefault() as StringLengthAttribute;
         
         // Assert
@@ -36,7 +36,7 @@ public class AuthorDTOTests
     public void AuthorDTO_Email_ShouldHaveRequiredAttribute()
     {
         // Arrange and Act
-        var propertyInfo = typeof(AuthorDTO).GetProperty("Email");
+        var propertyInfo = typeof(Author).GetProperty("Email");
         var requiredAttribute = propertyInfo.GetCustomAttributes(typeof(RequiredAttribute), true).FirstOrDefault() as RequiredAttribute;
 
         // Assert
@@ -47,7 +47,7 @@ public class AuthorDTOTests
     public void AuthorDTO_Email_ShouldHaveStringLengthAttributeWithMax50()
     {
         // Arrange and Act
-        var propertyInfo = typeof(AuthorDTO).GetProperty("Email");
+        var propertyInfo = typeof(Author).GetProperty("Email");
         var stringLengthAttribute = propertyInfo.GetCustomAttributes(typeof(StringLengthAttribute), true).FirstOrDefault() as StringLengthAttribute;
 
         // Assert
@@ -59,7 +59,7 @@ public class AuthorDTOTests
     public void AuthorDTO_IndexAttribute_ShouldBeUnique()
     {
         // Arrange and Act
-        var indexAttribute = typeof(AuthorDTO).GetCustomAttributes(typeof(IndexAttribute), true).FirstOrDefault() as IndexAttribute;
+        var indexAttribute = typeof(Author).GetCustomAttributes(typeof(IndexAttribute), true).FirstOrDefault() as IndexAttribute;
 
         // Assert
         Assert.NotNull(indexAttribute);
@@ -70,10 +70,10 @@ public class AuthorDTOTests
     public void AuthorDTO_Cheeps_ShouldBeInitialized()
     {
         // Arrange and Act
-        AuthorDTO author = new AuthorDTO
+        Author author = new Author
         { 
             AuthorId = Guid.NewGuid(), 
-            Name = "TestAuthor", 
+            UserName = "TestAuthor", 
             Email = "mock@email.com" 
         };
         
