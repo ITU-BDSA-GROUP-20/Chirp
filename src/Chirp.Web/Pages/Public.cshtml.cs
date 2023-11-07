@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NuGet.Protocol.Core.Types;
 using SQLitePCL;
+using ValidationException = FluentValidation.ValidationException;
 
 namespace Chirp.Web.Pages;
 
@@ -57,7 +58,7 @@ public class PublicModel : PageModel
         var validationResult = await _validator.ValidateAsync(newCheepDto);
         if (!validationResult.IsValid)
         {
-            Console.Out.WriteLine("hello"); //throw new ValidationException();
+            throw new ValidationException("The message can be no longer than 128 characters.");
         }
 
         var author = _authrepository.GetAuthorByName(newCheepDto.Author);
@@ -70,9 +71,7 @@ public class PublicModel : PageModel
         };
         
         _cheeprepository.AddCheep(entity);
-
     }
-
 }
 
 public class NewCheep
