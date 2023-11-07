@@ -2,6 +2,7 @@
 using System.Net.Mime;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NuGet.Protocol.Core.Types;
@@ -12,15 +13,19 @@ namespace Chirp.Web.Pages;
 public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
-    private readonly ICheepRepository _repository;
+    private readonly ICheepRepository _cheeprepository;
+    private readonly IAuthorRepository _authrepository;
+    private readonly IValidator<CreateCheepDTO> _validator;
 
     public ICollection<CheepViewModel> Cheeps { get; set; }
     
    
-    public PublicModel(ICheepService service, ICheepRepository repository)
+    public PublicModel(ICheepService service, ICheepRepository cheeprepository, IAuthorRepository authrepository, IValidator<CreateCheepDTO> validator)
     {
         _service = service;
-        _repository = repository;
+        _cheeprepository = cheeprepository;
+        _authrepository = authrepository;
+        _validator = validator; 
     }
 
     public ActionResult OnGet()
@@ -42,11 +47,31 @@ public class PublicModel : PageModel
     {
         var cheep = new CreateCheepDTO(User.Identity.Name, NewCheep.Text);
 
-        await _repository.CreateCheep(cheep);
+        await CreateCheep(cheep);
 
         RedirectToPage("/@User.Name");
     }
+    
+    public async Task CreateCheep(CreateCheepDTO newCheepDto)
+    {
+        var validationResult = await _validator.ValidateAsync(newCheepDto);
+        if (!validationResult.IsValid)
+        {
+            Console.Out.WriteLine("hello"); //throw new ValidationException();
+        }
 
+        var author = _authrepository.GetAuthorByName(newCheepDto.Author);
+
+        var entity = new CheepDTO()
+        {
+            Text = newCheepDto.Text,
+            TimeStamp = DateTime.UtcNow,
+            AuthorDto = author
+        };
+        
+        _cheeprepository.AddCheep(entity);
+
+    }
 
 }
 
