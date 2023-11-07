@@ -8,16 +8,6 @@ namespace Chirp.Razor.Tests;
 public class ChirpDBContextUnitTests
 {
     private ChirpDbContext Db;
-        
-    public ChirpDBContextUnitTests()
-    {
-        // Set up DbContextOptions for an in-memory SQLite database
-        var options = new DbContextOptionsBuilder<ChirpDbContext>()
-            .UseSqlite("Data Source=./data/ChirpDBContext.db")
-            .Options;
-
-        Db = new ChirpDbContext(options);
-    }
     
     /*
     
