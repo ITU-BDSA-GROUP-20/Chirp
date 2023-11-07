@@ -18,6 +18,7 @@
     <div class=navigation>
         @User.Identity.Name
         @User.Identity.IsAuthenticated
+        @SignInManager.IsSignedIn(User)
         @if (SignInManager.IsSignedIn(User))
         {
             <div>
