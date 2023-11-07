@@ -26,8 +26,8 @@
 
   <ItemGroup>
     <InteralsVisisbleTo Include="../../test/Chirp.CoreTests" />
-    <InteralsVisisbleTo Include="../../test/Chirp.InfrastructureTests" />
     <InteralsVisisbleTo Include="../../test/Chirp.WebTests" />
+    <InteralsVisisbleTo Include="../../test/Chirp.InfrastructureTests" />
   </ItemGroup>
 
 
