@@ -11,10 +11,10 @@ public class CheepRepository : BaseRepository, ICheepRepository
     {
     }
     
-    public ICollection<CheepDTO> GetCheepsByPage(int page)
+    public ICollection<Cheep> GetCheepsByPage(int page)
     {
         //Use EF to get the specified page of cheeps from the database
-        ICollection<CheepDTO> cheeps = db.Cheeps.Include(e => e.AuthorDto)
+        ICollection<Cheep> cheeps = db.Cheeps.Include(e => e.Author)
             .OrderByDescending(c => c.CheepId)
             .Skip(PageSize * page)
             .Take(PageSize)
@@ -26,7 +26,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
     public void DeleteCheepById(Guid cheepId)
     {
         //Delete the specified cheep from the database
-        CheepDTO? cheep = db.Cheeps.Find(cheepId);
+        Cheep? cheep = db.Cheeps.Find(cheepId);
         if (cheep != null)
         {
             db.Cheeps.Remove(cheep);
@@ -39,12 +39,12 @@ public class CheepRepository : BaseRepository, ICheepRepository
         db.SaveChanges();
     }
 
-    public void AddCheep(CheepDTO cheep)
+    public void AddCheep(Cheep cheep)
     {
         //Check if author is in database, if not add them too
-        if (!db.Authors.Any(a => a.AuthorId == cheep.AuthorId))
+        if (!db.Users.Any(a => a.Id == cheep.Author.Id))
         {
-            db.Authors.Add(cheep.AuthorDto);
+            db.Users.Add(cheep.Author);
         }
         db.Cheeps.Add(cheep);
         db.SaveChanges();
@@ -53,10 +53,10 @@ public class CheepRepository : BaseRepository, ICheepRepository
     // TODO Should CheepRepo contain this method? If yes, why? If not, delete.
     private String GetAuthorById(string authorId)
     {
-        String authorName = db.Authors
+        String authorName = db.Users
             .Include(e => e.Cheeps)
-            .Where(a => a.AuthorId == Guid.Parse(authorId))
-            .Select(a => a.Name)
+            .Where(a => a.Id == Guid.Parse(authorId))
+            .Select(a => a.UserName)
             .FirstOrDefault()!;
         
         return authorName;
