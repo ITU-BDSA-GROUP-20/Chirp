@@ -62,22 +62,22 @@ public class CheepRepositoryTest{
         
         for(int i = 0; i < 3; i++)
         {
-            Author authorDto = new Author
+            Author author = new Author
             { 
                 UserName = "TestAuthor" + i, 
                 Email = "mock" + i + "@email.com" 
             };
             
-            Cheep cheepDto = new Cheep
+            Cheep cheep = new Cheep
             {
                 CheepId = Guid.NewGuid(),
-                AuthorId = authorDto.Id,
+                AuthorId = author.Id,
                 Text = "TestCheep" + i,
-                Author = authorDto
+                Author = author
             };
             
-            context.Users.Add(authorDto);
-            context.Cheeps.Add(cheepDto);
+            context.Users.Add(author);
+            context.Cheeps.Add(cheep);
         }
 
         context.SaveChanges();

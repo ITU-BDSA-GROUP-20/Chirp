@@ -17,12 +17,12 @@ public class PublicModel : PageModel
     private readonly ICheepService _service;
     private readonly ICheepRepository _cheeprepository;
     private readonly IAuthorRepository _authrepository;
-    private readonly IValidator<CreateCheepDTO> _validator;
+    private readonly IValidator<CreateCheep> _validator;
 
     public ICollection<CheepViewModel> Cheeps { get; set; }
     
    
-    public PublicModel(ICheepService service, ICheepRepository cheeprepository, IAuthorRepository authrepository, IValidator<CreateCheepDTO> validator)
+    public PublicModel(ICheepService service, ICheepRepository cheeprepository, IAuthorRepository authrepository, IValidator<CreateCheep> validator)
     {
         _service = service;
         _cheeprepository = cheeprepository;
@@ -48,7 +48,7 @@ public class PublicModel : PageModel
     public async Task OnPost()
     {
       
-            var cheep = new CreateCheepDTO(User.Identity!.Name!, NewCheep.Text);
+            var cheep = new CreateCheep(User.Identity!.Name!, NewCheep.Text);
 
             await CreateCheep(cheep);
         
@@ -56,21 +56,21 @@ public class PublicModel : PageModel
         RedirectToPage("/@User.Name");
     }
     
-    public async Task CreateCheep(CreateCheepDTO newCheepDto)
+    public async Task CreateCheep(CreateCheep newCheep)
     {
-        var validationResult = await _validator.ValidateAsync(newCheepDto);
+        var validationResult = await _validator.ValidateAsync(newCheep);
         if (!validationResult.IsValid)
         {
             throw new ValidationException("The message can be no longer than 128 characters.");
         }
 
-        var author = _authrepository.GetAuthorByName(newCheepDto.Author);
+        var author = _authrepository.GetAuthorByName(newCheep.Author);
 
-        var entity = new CheepDTO()
+        var entity = new Cheep()
         {
-            Text = newCheepDto.Text,
+            Text = newCheep.Text,
             TimeStamp = DateTime.UtcNow,
-            AuthorDto = author
+            Author = author
         };
         
         _cheeprepository.AddCheep(entity);

@@ -18,10 +18,10 @@ public class CheepRepository : BaseRepository, ICheepRepository
         chirpDbContext = DbContext;
 
     }
-    public ICollection<CheepDTO> GetCheepsByPage(int page)
+    public ICollection<Cheep> GetCheepsByPage(int page)
     {
         //Use EF to get the specified page of cheeps from the database
-        ICollection<CheepDTO> cheeps = db.Cheeps.Include(e => e.AuthorDto)
+        ICollection<Cheep> cheeps = db.Cheeps.Include(e => e.Author)
             .OrderByDescending(c => c.CheepId)
             .Skip(PageSize * page)
             .Take(PageSize)
@@ -33,7 +33,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
     public void DeleteCheepById(Guid cheepId)
     {
         //Delete the specified cheep from the database
-        CheepDTO? cheep = db.Cheeps.Find(cheepId);
+        Cheep? cheep = db.Cheeps.Find(cheepId);
         if (cheep != null)
         {
             db.Cheeps.Remove(cheep);
@@ -46,21 +46,22 @@ public class CheepRepository : BaseRepository, ICheepRepository
         db.SaveChanges();
     }
 
-    public void AddCheep(CheepDTO cheep)
+    public void AddCheep(Cheep cheep)
     {
         //Check if author is in database, if not add them too
         if (!db.Authors.Any(a => a.AuthorId == cheep.AuthorId))
         {
-            db.Authors.Add(cheep.AuthorDto);
+            db.Authors.Add(cheep.Author);
         }
+
         db.Cheeps.Add(cheep);
         db.SaveChanges();
     }
     
     // TODO Should CheepRepo contain this method? If yes, why? If not, delete.
-    private AuthorDTO GetAuthorDTOById(string authorId)
+    private Author GetAuthorById(string authorId)
     {
-        var author = (AuthorDTO) db.Authors.Include(e => e.Cheeps)
+        var author = (Author) db.Authors.Include(e => e.Cheeps)
             .Where(a => a.AuthorId == Guid.Parse(authorId));
         
         return author;

@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Chirp.Infrastructure.Repository;
 
-public class CheepCreateValidator : AbstractValidator<CreateCheepDTO>
+public class CheepCreateValidator : AbstractValidator<CreateCheep>
 {
     public CheepCreateValidator()
     {

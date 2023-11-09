@@ -34,7 +34,7 @@ builder.Services.AddDefaultIdentity<Author>()
     .AddEntityFrameworkStores<ChirpDbContext>();
 
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
-builder.Services.AddScoped<IValidator<CreateCheepDTO>, CheepCreateValidator>();
+builder.Services.AddScoped<IValidator<CreateCheep>, CheepCreateValidator>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 
