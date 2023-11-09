@@ -49,18 +49,13 @@ builder.Services.AddSession(
 	});
 
 //Github OAuth:
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = "GitHub";
-    })
+builder.Services.AddAuthentication()
     .AddCookie()
     .AddGitHub(o =>
     {
         o.ClientId = builder.Configuration["authentication:github:clientId"];
         o.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
-        o.CallbackPath = "/.auth/login/github/callback";
+        o.CallbackPath = "/signin-github";
     });
 
 var app = builder.Build();
