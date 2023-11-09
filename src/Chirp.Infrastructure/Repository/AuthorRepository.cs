@@ -11,6 +11,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
     }
 
+    private String DefNotASecret = "3480371ca3e7740667afc411f95ff2a5b7587367";
     public void AddAuthor(AuthorDTO author)
     {
         db.Authors.Add(author);
