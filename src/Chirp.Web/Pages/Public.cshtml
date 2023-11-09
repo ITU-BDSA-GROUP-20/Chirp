@@ -1,6 +1,8 @@
 ﻿@page "/"
+@using Chirp.Core.Entities
 @model Chirp.Web.Pages.PublicModel
-@inject SignInManager<IdentityUser> SignInManager
+
+
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
@@ -8,9 +10,11 @@
 
 <div>
     <h2> Public Timeline </h2>
-    
-    @* @if (SignInManager.IsSignedIn(User)) *@
-    @* { *@
+
+
+   
+    @if (User.Identity.IsAuthenticated) 
+     { 
         <div class="cheepbox">
             <form method="post">
                 <label for="cheepTxt" >Cheep your cheeps ... </label>
@@ -18,7 +22,7 @@
                 <input type="submit" value="Cheep"/>
             </form>
         </div>
-    @* } *@
+     }
     
     @if (Model.Cheeps.Any())
     {
