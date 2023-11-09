@@ -13,7 +13,7 @@ public class AuthorDTOTests
     public void AuthorDTO_Name_ShouldHaveRequiredAttribute()
     {
         // Arrange and Act
-        var propertyInfo = typeof(Author).GetProperty("Name");
+        var propertyInfo = typeof(Author).GetProperty("UserName");
         var attribute = propertyInfo.GetCustomAttribute<RequiredAttribute>();
         
         // Assert
@@ -24,7 +24,7 @@ public class AuthorDTOTests
     public void AuthorDTO_Name_ShouldHaveStringLengthAttributeWithMax50()
     {
         // Arrange and Act
-        var propertyInfo = typeof(Author).GetProperty("Name");
+        var propertyInfo = typeof(Author).GetProperty("UserName");
         var stringLengthAttribute = propertyInfo.GetCustomAttributes(typeof(StringLengthAttribute), true).FirstOrDefault() as StringLengthAttribute;
         
         // Assert
@@ -71,8 +71,7 @@ public class AuthorDTOTests
     {
         // Arrange and Act
         Author author = new Author
-        { 
-            AuthorId = Guid.NewGuid(), 
+        {
             UserName = "TestAuthor", 
             Email = "mock@email.com" 
         };
