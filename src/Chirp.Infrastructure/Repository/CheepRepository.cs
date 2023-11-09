@@ -49,9 +49,9 @@ public class CheepRepository : BaseRepository, ICheepRepository
     public void AddCheep(Cheep cheep)
     {
         //Check if author is in database, if not add them too
-        if (!db.Authors.Any(a => a.AuthorId == cheep.AuthorId))
+        if (!db.Users.Any(a => a.Id == cheep.AuthorId))
         {
-            db.Authors.Add(cheep.Author);
+            db.Users.Add(cheep.Author);
         }
 
         db.Cheeps.Add(cheep);
@@ -61,8 +61,8 @@ public class CheepRepository : BaseRepository, ICheepRepository
     // TODO Should CheepRepo contain this method? If yes, why? If not, delete.
     private Author GetAuthorById(string authorId)
     {
-        var author = (Author) db.Authors.Include(e => e.Cheeps)
-            .Where(a => a.AuthorId == Guid.Parse(authorId));
+        var author = (Author) db.Users.Include(e => e.Cheeps)
+            .Where(a => a.Id == Guid.Parse(authorId));
         
         return author;
     }
