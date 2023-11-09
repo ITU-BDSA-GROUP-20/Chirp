@@ -27,29 +27,28 @@ public class CheepRepositoryTest{
         for(int i = 0; i < 34; i++)
         {
 
-            AuthorDTO authorDto = new AuthorDTO
+            Author authorDto = new Author
             { 
-                AuthorId = Guid.NewGuid(), 
-                Name = "TestAuthor" + i, 
+                UserName = "TestAuthor" + i, 
                 Email = "mock" + i + "@email.com" 
             };
             
-            CheepDTO cheepDto = new CheepDTO
+            Cheep cheepDto = new Cheep
             {
                 CheepId = Guid.NewGuid(),
-                AuthorId = authorDto.AuthorId,
+                AuthorId = authorDto.Id,
                 Text = "TestCheep" + i,
-                AuthorDto = authorDto
+                Author = authorDto
             };
             
-            context.Authors.Add(authorDto);
+            context.Users.Add(authorDto);
             context.Cheeps.Add(cheepDto);
         }
 
         context.SaveChanges();
 
         //Act
-        ICollection<CheepDTO> cheeps = cheepRepository.GetCheepsByPage(1);
+        ICollection<Cheep> cheeps = cheepRepository.GetCheepsByPage(1);
 
         //Assert
         Assert.Equal(2, cheeps.Count);
@@ -63,22 +62,21 @@ public class CheepRepositoryTest{
         
         for(int i = 0; i < 3; i++)
         {
-            AuthorDTO authorDto = new AuthorDTO
+            Author authorDto = new Author
             { 
-                AuthorId = Guid.NewGuid(), 
-                Name = "TestAuthor" + i, 
+                UserName = "TestAuthor" + i, 
                 Email = "mock" + i + "@email.com" 
             };
             
-            CheepDTO cheepDto = new CheepDTO
+            Cheep cheepDto = new Cheep
             {
                 CheepId = Guid.NewGuid(),
-                AuthorId = authorDto.AuthorId,
+                AuthorId = authorDto.Id,
                 Text = "TestCheep" + i,
-                AuthorDto = authorDto
+                Author = authorDto
             };
             
-            context.Authors.Add(authorDto);
+            context.Users.Add(authorDto);
             context.Cheeps.Add(cheepDto);
         }
 
@@ -86,7 +84,7 @@ public class CheepRepositoryTest{
         
         //Act
         int initialCheepCount = context.Cheeps.Count();
-        CheepDTO bob = context.Cheeps.FirstOrDefault();
+        Cheep bob = context.Cheeps.FirstOrDefault();
         Guid cheepId = bob.CheepId;
         
 
@@ -105,22 +103,21 @@ public class CheepRepositoryTest{
         //Arrange
         var cheepRepository = new CheepRepository(context);
         
-        AuthorDTO authorDto1 = new AuthorDTO
+        Author authorDto1 = new Author
         { 
-            AuthorId = Guid.NewGuid(), 
-            Name = "TestAuthor", 
+            UserName = "TestAuthor", 
             Email = "mock@email.com" 
         };
             
-        CheepDTO cheepDto1 = new CheepDTO
+        Cheep cheepDto1 = new Cheep
         {
             CheepId = Guid.NewGuid(),
-            AuthorId = authorDto1.AuthorId,
+            AuthorId = authorDto1.Id,
             Text = "TestCheep",
-            AuthorDto = authorDto1
+            Author = authorDto1
         };
             
-        context.Authors.Add(authorDto1);
+        context.Users.Add(authorDto1);
         context.Cheeps.Add(cheepDto1);
         
         context.SaveChanges();
@@ -128,22 +125,21 @@ public class CheepRepositoryTest{
         //Act
         int initialCheepCount = context.Cheeps.Count();
         
-        AuthorDTO authorDto2 = new AuthorDTO
+        Author authorDto2 = new Author
         { 
-            AuthorId = Guid.NewGuid(), 
-            Name = "TestAuthor", 
+            UserName = "TestAuthor", 
             Email = "mock1@email.com" 
         };
             
-        CheepDTO cheepDto2 = new CheepDTO
+        Cheep cheepDto2 = new Cheep
         {
             CheepId = Guid.NewGuid(),
-            AuthorId = authorDto2.AuthorId,
+            AuthorId = authorDto2.Id,
             Text = "TestCheep",
-            AuthorDto = authorDto2
+            Author = authorDto2
         };
             
-        context.Authors.Add(authorDto2);
+        context.Users.Add(authorDto2);
         context.Cheeps.Add(cheepDto2);
         
         context.SaveChanges();

@@ -1,7 +1,7 @@
 ﻿@using Chirp.Core.Entities
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +16,9 @@
     <h1><img src="/images/icon1.png" alt="Icon1"/>Chirp!</h1>
     
     <div class=navigation>
+        @User.Identity.Name
+        @User.Identity.IsAuthenticated
+        @SignInManager.IsSignedIn(User)
         @if (SignInManager.IsSignedIn(User))
         {
             <div>
@@ -23,7 +26,7 @@
                 <a href="/">public timeline</a> |
                 <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
                     <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
-                    </form>
+                </form>
             </div>
         }
         else

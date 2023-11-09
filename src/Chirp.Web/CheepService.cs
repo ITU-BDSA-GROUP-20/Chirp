@@ -26,12 +26,12 @@ public class CheepService : ICheepService
     
     public ICollection<CheepViewModel> GetCheeps(int page)
     {
-        ICollection<CheepDTO> cheepDtos = _cheepRepository.GetCheepsByPage(page);
+        ICollection<Cheep> cheepDtos = _cheepRepository.GetCheepsByPage(page);
         List<CheepViewModel> cheeps = new List<CheepViewModel>();
 
-        foreach (CheepDTO cheepDto in cheepDtos)
+        foreach (Cheep cheepDto in cheepDtos)
         {
-            cheeps.Add(new CheepViewModel(cheepDto.AuthorDto.Name, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture)));
+            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture)));
         }
         
         return cheeps;
@@ -39,12 +39,12 @@ public class CheepService : ICheepService
     
     public ICollection<CheepViewModel> GetCheepsFromAuthor(string author, int page)
     {
-        ICollection<CheepDTO> cheepDtos = _authorRepository.GetCheepsByAuthor(author, page);
+        ICollection<Cheep> cheepDtos = _authorRepository.GetCheepsByAuthor(author, page);
         ICollection<CheepViewModel> cheeps = new List<CheepViewModel>();
 
-        foreach (CheepDTO cheepDto in cheepDtos)
+        foreach (Cheep cheepDto in cheepDtos)
         {
-            cheeps.Add(new CheepViewModel(cheepDto.AuthorDto.Name, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture)));
+            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture)));
         }
         
         return cheeps;

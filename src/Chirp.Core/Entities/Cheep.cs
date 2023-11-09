@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Chirp.Core.Entities;
 
 [Index(nameof(CheepId), IsUnique = true)]
-public class CheepDTO 
+public class Cheep 
 {
     [Required]
     public Guid CheepId {get; set;}
@@ -13,7 +13,7 @@ public class CheepDTO
     public Guid AuthorId {get; set;}
     
     [Required]
-    public required AuthorDTO AuthorDto {get; set;}
+    public required Author Author {get; set;}
 
     [StringLength(128, MinimumLength = 5)] [Required] 
     public string Text { get; set; }

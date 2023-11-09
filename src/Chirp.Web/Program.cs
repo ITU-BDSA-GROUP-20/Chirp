@@ -29,7 +29,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ChirpDbContext>(options => 
     options.UseSqlite($"Data Source={dbPath}"));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false )
+builder.Services.AddDefaultIdentity<Author>()
+    .AddRoles<IdentityRole<Guid>>()
     .AddEntityFrameworkStores<ChirpDbContext>();
 
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -37,28 +38,25 @@ builder.Services.AddScoped<IValidator<CreateCheepDTO>, CheepCreateValidator>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 
-builder.Services.AddDistributedMemoryCache();
+//builder.Services.AddDistributedMemoryCache();
+
+
 builder.Services.AddSession(
 	options =>
 	{
 		options.Cookie.Name = ".Chirp.Session";
     	options.IdleTimeout = TimeSpan.FromMinutes(10);
-    	options.Cookie.HttpOnly = true;
+    	options.Cookie.HttpOnly = false;
     	options.Cookie.IsEssential = true;
 	});
 
 //Github OAuth:
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = "GitHub";
-    })
+builder.Services.AddAuthentication()
     .AddCookie()
     .AddGitHub(o =>
     {
-        o.ClientId = builder.Configuration["authentication:github:clientId"];
-        o.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
+        o.ClientId = builder.Configuration["authenticationGithubClientId"];
+        o.ClientSecret = builder.Configuration["authenticationGithubClientSecret"];
         o.CallbackPath = "/signin-github";
     });
 
@@ -72,11 +70,9 @@ using (var scope = app.Services.CreateScope())
     DbInitializer.SeedDatabase(context);
 }
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -88,6 +84,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 app.MapRazorPages();
-
-Console.WriteLine("Main method is running");
 app.Run();
