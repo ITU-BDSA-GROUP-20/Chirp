@@ -11,47 +11,47 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
     }
 
-    public void AddAuthor(AuthorDTO author)
+    public void AddAuthor(Author author)
     {
-        db.Authors.Add(author);
+        db.Users.Add(author);
         db.SaveChanges();
     }
 
-    public AuthorDTO GetAuthorById(Guid authorId)
+    public Author GetAuthorById(Guid authorId)
     {
-        AuthorDTO author = db.Authors
+        Author author = db.Users
             .Include(e => e.Cheeps)
-            .Where(a => a.AuthorId == authorId).FirstOrDefault()!;
+            .Where(a => a.Id == authorId).FirstOrDefault()!;
             
         return author;
     }
-    public AuthorDTO GetAuthorByName(string name)
+    public Author GetAuthorByName(string name)
     {
-        AuthorDTO author = db.Authors
+        Author author = db.Users
             .Include(e => e.Cheeps)
-            .Where(a => a.Name == name).FirstOrDefault()!;
+            .Where(a => a.UserName == name).FirstOrDefault()!;
             
         return author;
     }
     
-    public AuthorDTO GetAuthorByEmail(string email)
+    public Author GetAuthorByEmail(string email)
     {
-        AuthorDTO author = db.Authors
+        Author author = db.Users
             .Include(e => e.Cheeps)
             .Where(a => a.Email == email).FirstOrDefault()!;
             
         return author;
     }
 
-    public ICollection<CheepDTO> GetCheepsByAuthor(string name, int page)
+    public ICollection<Cheep> GetCheepsByAuthor(string name, int page)
     {
         
-        AuthorDTO author = GetAuthorByName(name);
+        Author author = GetAuthorByName(name);
         
         //Check that author has cheeps
         if (author.Cheeps == null || !(author.Cheeps.Any()))
         {
-            throw new Exception("Author " + author.Name + " has no cheeps");
+            throw new Exception("Author " + author.UserName + " has no cheeps");
         }
 
         if(page==0){
@@ -60,8 +60,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
         int pageSizeIndex = (page - 1) * PageSize;
         
-        if(author.Cheeps.Count < pageSizeIndex + PageSize) return author.Cheeps.ToList<CheepDTO>().GetRange(pageSizeIndex,author.Cheeps.Count - pageSizeIndex);
-        if(author.Cheeps.Count > 32) return author.Cheeps.ToList<CheepDTO>().GetRange(pageSizeIndex,PageSize);
+        if(author.Cheeps.Count < pageSizeIndex + PageSize) return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex,author.Cheeps.Count - pageSizeIndex);
+        if(author.Cheeps.Count > 32) return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize);
         return author.Cheeps;
     }
   
