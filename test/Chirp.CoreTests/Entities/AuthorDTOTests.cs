@@ -71,8 +71,7 @@ public class AuthorDTOTests
     {
         // Arrange and Act
         Author author = new Author
-        { 
-            AuthorId = Guid.NewGuid(), 
+        {
             UserName = "TestAuthor", 
             Email = "mock@email.com" 
         };
