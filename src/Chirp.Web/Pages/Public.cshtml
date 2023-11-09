@@ -9,15 +9,16 @@
 <div>
     <h2> Public Timeline </h2>
     
-    @if (SignInManager.IsSignedIn(User))
-    {
+    @* @if (SignInManager.IsSignedIn(User)) *@
+    @* { *@
         <div class="cheepbox">
             <form method="post">
-                <input asp-for="NewCheep.Text" />
-                <input type="submit" value="Cheep" />
+                <label for="cheepTxt" >Cheep your cheeps ... </label>
+                <input id="cheepTxt" asp-for="NewCheep.Text"/>
+                <input type="submit" value="Cheep"/>
             </form>
         </div>
-    }
+    @* } *@
     
     @if (Model.Cheeps.Any())
     {

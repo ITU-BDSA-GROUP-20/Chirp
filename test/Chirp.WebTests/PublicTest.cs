@@ -27,6 +27,14 @@ public class PublicTest
         var cheepService = new CheepService(cheepRepository, authorRepository);
         var validator = new CheepCreateValidator();
         PublicModel publicModel = new PublicModel(cheepService, cheepRepository, authorRepository, validator);
+
+        authorRepository.AddAuthor(new AuthorDTO()
+        {
+            AuthorId = Guid.NewGuid(), Name = "OliBolli",
+            Email = "Olibol@gmail.com", Cheeps = new List<CheepDTO>()
+        }); 
+        
+        
         
         // Act
         CreateCheepDTO cheepDto = new CreateCheepDTO("OliBolli", "Test text");

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Net.Mime;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
@@ -33,7 +34,7 @@ public class PublicModel : PageModel
     {
         int page;
        if(Request.Query.ContainsKey("page")){
-            page = int.Parse(Request.Query["page"]);
+            page = int.Parse(Request.Query["page"]! );
        } else{
             page = 1;
        }
@@ -46,9 +47,11 @@ public class PublicModel : PageModel
 
     public async Task OnPost()
     {
-        var cheep = new CreateCheepDTO(User.Identity.Name, NewCheep.Text);
+      
+            var cheep = new CreateCheepDTO(User.Identity!.Name!, NewCheep.Text);
 
-        await CreateCheep(cheep);
+            await CreateCheep(cheep);
+        
 
         RedirectToPage("/@User.Name");
     }
