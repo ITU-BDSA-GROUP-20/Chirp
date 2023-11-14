@@ -1,13 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Net.Mime;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using NuGet.Protocol.Core.Types;
-using SQLitePCL;
 using ValidationException = FluentValidation.ValidationException;
 
 namespace Chirp.Web.Pages;
@@ -18,16 +15,18 @@ public class PublicModel : PageModel
     private readonly ICheepRepository _cheeprepository;
     private readonly IAuthorRepository _authrepository;
     private readonly IValidator<CreateCheep> _validator;
-
+    
+    private readonly UserManager<Author> _userManager;
     public ICollection<CheepViewModel> Cheeps { get; set; }
     
    
-    public PublicModel(ICheepService service, ICheepRepository cheeprepository, IAuthorRepository authrepository, IValidator<CreateCheep> validator)
+    public PublicModel(ICheepService service, ICheepRepository cheeprepository, IAuthorRepository authrepository, IValidator<CreateCheep> validator , UserManager<Author> userManager)
     {
         _service = service;
         _cheeprepository = cheeprepository;
         _authrepository = authrepository;
-        _validator = validator; 
+        _validator = validator;
+        _userManager = userManager;
     }
 
     public ActionResult OnGet()
@@ -46,11 +45,12 @@ public class PublicModel : PageModel
     public NewCheep NewCheep { get; set; }
 
     public async Task OnPost()
-    {
-      
-            var cheep = new CreateCheep(User.Identity!.Name!, NewCheep.Text);
+    {   
+       
+        var author = await _userManager.GetUserAsync(User);
+        var cheep = new CreateCheep(author, NewCheep.Text);
 
-            await CreateCheep(cheep);
+        await CreateCheep(cheep);
         
 
         RedirectToPage("/@User.Name");
@@ -63,14 +63,12 @@ public class PublicModel : PageModel
         {
             throw new ValidationException("The message can be no longer than 128 characters.");
         }
-
-        var author = _authrepository.GetAuthorByName(newCheep.Author);
-
+        
         var entity = new Cheep()
         {
             Text = newCheep.Text,
             TimeStamp = DateTime.UtcNow,
-            Author = author
+            Author = newCheep.Author
         };
         
         _cheeprepository.AddCheep(entity);
