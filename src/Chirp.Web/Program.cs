@@ -3,6 +3,7 @@ using Chirp.Core.Repository;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
 using Chirp.Web;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +34,8 @@ builder.Services.AddDefaultIdentity<Author>()
     .AddEntityFrameworkStores<ChirpDbContext>();
 
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
-builder.Services.AddScoped<ICheepRepository, CheepRepository>();        
+builder.Services.AddScoped<IValidator<CreateCheep>, CheepCreateValidator>();
+builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 
 //builder.Services.AddDistributedMemoryCache();

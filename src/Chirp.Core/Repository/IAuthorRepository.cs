@@ -8,6 +8,7 @@ public interface IAuthorRepository
     public Author GetAuthorById(Guid authorId);
     public Author GetAuthorByName(string name);
     public Author GetAuthorByEmail(string email);
-    public void AddAuthor(Author author);
+    public void AddAuthor(Author authorDto);
+
     
 }
