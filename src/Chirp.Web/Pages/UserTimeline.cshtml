@@ -8,19 +8,21 @@
     Layout = "Shared/_Layout";
     var routeName = HttpContext.GetRouteValue("author");
 }
+@if (SignInManager.IsSignedIn(User))
+{
+    <div>
+        <h2> @routeName's Timeline </h2>
 
-<div>
-    <h2> @routeName's Timeline </h2>
-
-    @if (!Model.Cheeps.Any())
-    {
-        <div>
-            <p>@Model.Authorname has no cheeps so far.</p>
-        </div>
-    }
+        @if (!Model.Cheeps.Any())
+        {
+            <div>
+                <p>@Model.Authorname has no cheeps so far.</p>
+            </div>
+        }
     
-    else
-    {
-        @await Html.PartialAsync("Shared/_CheepList", Model)
-    }
-</div>
+        else
+        {
+            @await Html.PartialAsync("Shared/_CheepList", Model)
+        }
+    </div>
+}

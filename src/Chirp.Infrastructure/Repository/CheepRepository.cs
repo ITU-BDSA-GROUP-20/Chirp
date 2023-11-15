@@ -10,13 +10,10 @@ namespace Chirp.Infrastructure.Repository;
 public class CheepRepository : BaseRepository, ICheepRepository
 {
    
-    private readonly ChirpDbContext chirpDbContext;
+
 
     public CheepRepository(ChirpDbContext DbContext) : base(DbContext)
     {
-    
-        chirpDbContext = DbContext;
-
     }
     public ICollection<Cheep> GetCheepsByPage(int page)
     {
