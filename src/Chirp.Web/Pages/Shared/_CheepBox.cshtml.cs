@@ -5,6 +5,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
 using ValidationException = FluentValidation.ValidationException;
 
 namespace Chirp.Web.Pages.Shared;
@@ -22,17 +23,21 @@ public class CheepBoxModel : PageModel
         _cheepRepository = cheepRepository;
     }
 
-    [BindProperty] 
-    public NewCheep NewCheep { get; set; }
+    [BindProperty] public NewCheep NewCheep { get; set; } = new();
 
-    public async Task OnPost()
+    public async Task<IActionResult> OnPost()
     {   
+        if (!ModelState.IsValid)
+        {
+            RedirectToPage("/");
+        }
        
         var author = await _userManager.GetUserAsync(User);
         var cheep = new CreateCheep(author!, NewCheep.Text);
 
         await CreateCheep(cheep);
-        RedirectToPage("/@User.Name");
+        
+        return RedirectToPage("/" + User.Identity?.Name);
     }
     
     public async Task CreateCheep(CreateCheep newCheep)
@@ -40,7 +45,7 @@ public class CheepBoxModel : PageModel
         var validationResult = await _validator.ValidateAsync(newCheep);
         if (!validationResult.IsValid)
         {
-            throw new ValidationException("The message can be no longer than 128 characters.");
+            throw new ValidationException("The message must be between 5 and 128 characters.");
         }
         
         var entity = new Cheep()

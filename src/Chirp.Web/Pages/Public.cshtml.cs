@@ -38,7 +38,7 @@ public class PublicModel : PageModel
        } else{
             page = 1;
        }
-        Cheeps = _service.GetCheeps(page);
+        Cheeps = _service.GetCheeps(page) ?? new List<CheepViewModel>();
         return Page();
     }
     

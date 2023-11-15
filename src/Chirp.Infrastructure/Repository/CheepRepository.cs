@@ -56,13 +56,13 @@ public class CheepRepository : BaseRepository, ICheepRepository
     }
     
     // TODO Should CheepRepo contain this method? If yes, why? If not, delete.
-    private Author GetAuthorById(string authorId)
-    {
-        var author = (Author) db.Users.Include(e => e.Cheeps)
-            .Where(a => a.Id == Guid.Parse(authorId));
-        
-        return author;
-    }
+    // private Author GetAuthorById(string authorId)
+    // {
+    //     var author = (Author) db.Users.Include(e => e.Cheeps)
+    //         .Where(a => a.Id == Guid.Parse(authorId));
+    //     
+    //     return author;
+    // }
     
     
 }
