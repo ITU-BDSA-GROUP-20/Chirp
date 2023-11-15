@@ -17,9 +17,10 @@ public class PublicModel : PageModel
     private readonly IValidator<CreateCheep> _validator;
     
     private readonly UserManager<Author> _userManager;
-    public ICollection<CheepViewModel> Cheeps { get; set; }
-    
+    public required ICollection<CheepViewModel> Cheeps { get; set; }
    
+
+
     public PublicModel(ICheepService service, ICheepRepository cheeprepository, IAuthorRepository authrepository, IValidator<CreateCheep> validator , UserManager<Author> userManager)
     {
         _service = service;
@@ -41,46 +42,8 @@ public class PublicModel : PageModel
         return Page();
     }
     
-    [BindProperty]
-    public NewCheep NewCheep { get; set; }
-
-    public async Task OnPost()
-    {   
-       
-        var author = await _userManager.GetUserAsync(User);
-        var cheep = new CreateCheep(author, NewCheep.Text);
-
-        await CreateCheep(cheep);
-        
-
-        RedirectToPage("/@User.Name");
-    }
-    
-    public async Task CreateCheep(CreateCheep newCheep)
-    {
-        var validationResult = await _validator.ValidateAsync(newCheep);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException("The message can be no longer than 128 characters.");
-        }
-        
-        var entity = new Cheep()
-        {
-            Text = newCheep.Text,
-            TimeStamp = DateTime.UtcNow,
-            Author = newCheep.Author
-        };
-        
-        _cheeprepository.AddCheep(entity);
-    }
+   
 }
 
-public class NewCheep
-{
-    [Required]
-    [StringLength(128, MinimumLength = 5)]
-    public string Text { get; set; } = "";
-    
-}
 
 

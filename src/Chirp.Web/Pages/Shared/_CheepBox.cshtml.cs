@@ -1,23 +1,25 @@
+using System.ComponentModel.DataAnnotations;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ValidationException = FluentValidation.ValidationException;
 
 namespace Chirp.Web.Pages.Shared;
 
-public class _CheepBox_cshtml : PageModel
+public class CheepBoxModel : PageModel
 {
     private readonly UserManager<Author> _userManager;
     private readonly IValidator<CreateCheep> _validator;
-    private readonly ICheepRepository _cheeprepository;
-    
-    _CheepBox_cshtml(UserManager<Author> userManager, IValidator<CreateCheep> validator, ICheepRepository cheeprepository)
+    private readonly ICheepRepository _cheepRepository;
+
+    public CheepBoxModel(UserManager<Author> userManager, IValidator<CreateCheep> validator, ICheepRepository cheepRepository)
     {
         _userManager = userManager;
         _validator = validator;
-        _cheeprepository = cheeprepository;
+        _cheepRepository = cheepRepository;
     }
 
     [BindProperty] 
@@ -27,11 +29,9 @@ public class _CheepBox_cshtml : PageModel
     {   
        
         var author = await _userManager.GetUserAsync(User);
-        var cheep = new CreateCheep(author, NewCheep.Text);
+        var cheep = new CreateCheep(author!, NewCheep.Text);
 
         await CreateCheep(cheep);
-        
-
         RedirectToPage("/@User.Name");
     }
     
@@ -50,6 +50,13 @@ public class _CheepBox_cshtml : PageModel
             Author = newCheep.Author
         };
         
-        _cheeprepository.AddCheep(entity);
+        _cheepRepository.AddCheep(entity);
     }
+}
+
+public class NewCheep
+{
+    [Required]
+    [StringLength(128, MinimumLength = 5)]
+    public string Text { get; set; } = "";
 }
