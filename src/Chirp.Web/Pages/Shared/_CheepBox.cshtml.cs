@@ -3,10 +3,11 @@ using Chirp.Core.Repository;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.Pages.Shared;
 
-public class _CheepBox_cshtml
+public class _CheepBox_cshtml : PageModel
 {
     private readonly UserManager<Author> _userManager;
     private readonly IValidator<CreateCheep> _validator;
