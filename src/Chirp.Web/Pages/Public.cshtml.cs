@@ -1,13 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Net.Mime;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using NuGet.Protocol.Core.Types;
-using SQLitePCL;
 using ValidationException = FluentValidation.ValidationException;
 
 namespace Chirp.Web.Pages;
