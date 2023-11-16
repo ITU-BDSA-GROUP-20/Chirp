@@ -1,26 +1,36 @@
 ﻿@page "/{author}"
 @using Chirp.Core.Entities
+@using Chirp.Core.Repository
+@using Chirp.Web.Pages.Shared
+@using FluentValidation
 @model Chirp.Razor.Pages.UserTimelineModel
 @inject SignInManager<Author> SignInManager
 @inject UserManager<Author> UserManager
+@inject IValidator<CreateCheep> Validator
+@inject ICheepRepository CheepRepository
+
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
     var routeName = HttpContext.GetRouteValue("author");
 }
+@if (SignInManager.IsSignedIn(User))
+{
+    <div>
+        <h2> @routeName's Timeline </h2>
+        
+     @await Html.PartialAsync("Shared/_CheepBox", new CheepBoxModel(UserManager, Validator, CheepRepository))
 
-<div>
-    <h2> @routeName's Timeline </h2>
-
-    @if (!Model.Cheeps.Any())
-    {
-        <div>
-            <p>@Model.Authorname has no cheeps so far.</p>
-        </div>
-    }
+        @if (!Model.Cheeps.Any())
+        {
+            <div>
+                <p>@Model.Authorname has no cheeps so far.</p>
+            </div>
+        }
     
-    else
-    {
-        @await Html.PartialAsync("Shared/_CheepList", Model)
-    }
-</div>
+        else
+        {
+            @await Html.PartialAsync("Shared/_CheepList", Model)
+        }
+    </div>
+}

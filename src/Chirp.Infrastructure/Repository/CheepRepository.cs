@@ -1,16 +1,20 @@
-using System.Globalization;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
+
 
 namespace Chirp.Infrastructure.Repository;
 
 public class CheepRepository : BaseRepository, ICheepRepository
 {
-    public CheepRepository(ChirpDbContext chirpDbContext) : base(chirpDbContext)
+   
+
+
+    public CheepRepository(ChirpDbContext DbContext) : base(DbContext)
     {
     }
-    
     public ICollection<Cheep> GetCheepsByPage(int page)
     {
         //Use EF to get the specified page of cheeps from the database
@@ -42,23 +46,23 @@ public class CheepRepository : BaseRepository, ICheepRepository
     public void AddCheep(Cheep cheep)
     {
         //Check if author is in database, if not add them too
-        if (!db.Users.Any(a => a.Id == cheep.Author.Id))
+        if (!db.Users.Any(a => a.Id == cheep.AuthorId))
         {
             db.Users.Add(cheep.Author);
         }
+
         db.Cheeps.Add(cheep);
         db.SaveChanges();
     }
     
     // TODO Should CheepRepo contain this method? If yes, why? If not, delete.
-    private String GetAuthorById(string authorId)
+    private Author GetAuthorById(string authorId)
     {
-        String authorName = db.Users
-            .Include(e => e.Cheeps)
-            .Where(a => a.Id == Guid.Parse(authorId))
-            .Select(a => a.UserName)
-            .FirstOrDefault()!;
+        var author = (Author) db.Users.Include(e => e.Cheeps)
+            .Where(a => a.Id == Guid.Parse(authorId));
         
-        return authorName;
+        return author;
     }
+    
+    
 }
