@@ -1,4 +1,3 @@
-using FluentValidation;
 
 namespace Chirp.Core.Entities;
 

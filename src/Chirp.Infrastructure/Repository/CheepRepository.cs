@@ -43,18 +43,26 @@ public class CheepRepository : BaseRepository, ICheepRepository
         db.SaveChanges();
     }
 
-    public void AddCheep(Cheep cheep)
+    public async Task AddCheep(CreateCheep cheep)
     {
+        var entity = new Cheep()
+        {
+            Text = cheep.Text,
+            TimeStamp = DateTime.UtcNow,
+            Author = cheep.Author
+        };
+        
+        Console.WriteLine("Hello");
         //Check if author is in database, if not add them too
-        if (!db.Users.Any(a => a.Id == cheep.AuthorId))
+        if (!db.Users.Any(a => a.Id == entity.Author.Id))
         {
             
-            db.Users.Add(cheep.Author);
+           db.Users.Add(cheep.Author);
             
         }
 
-        db.Cheeps.Add(cheep);
-        db.SaveChanges();
+        db.Cheeps.Add(entity);
+        await db.SaveChangesAsync();
     }
     
 
