@@ -60,10 +60,16 @@ public class CheepRepository : BaseRepository, ICheepRepository
         db.Cheeps.Add(entity);
         await db.SaveChangesAsync();
     }
-    
-    
-    
 
-    
-    
+    public Cheep CreateCheep2Cheep(CreateCheep cheep)
+    {
+        var entity = new Cheep()
+        {
+            Text = cheep.Text,
+            TimeStamp = DateTime.Now,
+            Author = cheep.Author,
+            AuthorId = cheep.Author.Id
+        };
+        return entity;
+    }
 }
