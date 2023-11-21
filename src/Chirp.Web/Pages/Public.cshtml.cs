@@ -58,7 +58,7 @@ public class PublicModel : PageModel
 
         await CreateCheep(cheep);
         
-        return RedirectToPage("Public");
+        return RedirectToPage("/UserTimeline", new { author = User.Identity.Name });;
         
     }
     
