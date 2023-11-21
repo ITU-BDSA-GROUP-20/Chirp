@@ -15,7 +15,7 @@ public class Cheep
     [Required]
     public required Author Author {get; set;}
 
-    [StringLength(128, MinimumLength = 5)] [Required] 
+    [StringLength(160, MinimumLength = 5)] [Required] 
     public string Text { get; set; }
     
     [Required]
