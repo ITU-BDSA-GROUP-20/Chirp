@@ -47,6 +47,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
     {
         var entity = new Cheep()
         {
+            CheepId = new Guid(),
             Text = cheep.Text,
             TimeStamp = DateTime.Now,
             Author = cheep.Author,
