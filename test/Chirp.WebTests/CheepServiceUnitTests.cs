@@ -4,13 +4,13 @@ using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
 using Chirp.Web;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using Test_Utilities;
 
 namespace Chirp.WebTests.CheepServiceTests;
 
 public class CheepServiceUnitTests
 {
-    /*
     private readonly ChirpDbContext context;
     private ICheepRepository _cheepRepository;
     private IAuthorRepository _authorRepository;
@@ -29,20 +29,24 @@ public class CheepServiceUnitTests
         ICheepService service = new CheepService(_cheepRepository, _authorRepository);
         
         // Mock data
-        var author1 = new AuthorDTO { AuthorId = new Guid(), Name = "Author1", Email = "email1" };
-        var author2 = new AuthorDTO { AuthorId = new Guid(), Name = "Author2", Email = "email2" };
+        var author1 = new Author { Id = Guid.NewGuid(), UserName = "Author1", Email = "email1" };
+        var author2 = new Author { Id = Guid.NewGuid(), UserName = "Author2", Email = "email2" };
         
-        var cheepDtos = new List<CheepDTO>
+        var cheepDtos = new List<Cheep>
         {
-            new CheepDTO
+            new Cheep
             {
-                AuthorDto = author1 ,
+                CheepId = Guid.NewGuid(),
+                Author = author1 ,
+                AuthorId = author1.Id,
                 Text = "Cheep 1",
                 TimeStamp = DateTime.Now
             },
-            new CheepDTO
+            new Cheep
             {
-                AuthorDto = author2,
+                CheepId = Guid.NewGuid(),
+                Author = author2,
+                AuthorId = author2.Id,
                 Text = "Cheep 2",
                 TimeStamp = DateTime.Now
             }
@@ -61,6 +65,8 @@ public class CheepServiceUnitTests
         // Act
         List<CheepViewModel> result = service.GetCheeps(0).ToList();
 
+        result.Sort((a, b) => String.Compare(a.Author, b.Author, StringComparison.Ordinal));
+            
         // Assert
         Assert.Equal(2, result.Count);
         Assert.Equal("Author1", result[0].Author);
@@ -68,7 +74,7 @@ public class CheepServiceUnitTests
         Assert.NotNull(result[0].Timestamp);
     }
     
-    /*
+    
     [Fact]
     public void GetCheepsFromAuthor_ReturnsCheepViewModels()
     {
@@ -76,35 +82,37 @@ public class CheepServiceUnitTests
         var cheepRepositoryMock = new Mock<ICheepRepository>();
         var authorRepositoryMock = new Mock<IAuthorRepository>();
         var cheepService = new CheepService(cheepRepositoryMock.Object, authorRepositoryMock.Object);
-
-        // Mock data
-        var authorName = "Author1";
-        var cheepDtos = new List<CheepDTO>
+        
+        var author1 = new Author { Id = Guid.NewGuid(), UserName = "Author1", Email = "email1" };
+        var author2 = new Author { Id = Guid.NewGuid(), UserName = "Author2", Email = "email2" };
+        
+        var cheeps = new List<Cheep>
         {
-            new CheepDTO
+            new Cheep
             {
-                AuthorDto = new AuthorDTO { Name = authorName },
+                Author = author1,
                 Text = "Cheep 1",
                 TimeStamp = DateTime.Now
             },
-            new CheepDTO
+            new Cheep
             {
-                AuthorDto = new AuthorDTO { Name = authorName },
+                Author = author2,
                 Text = "Cheep 2",
                 TimeStamp = DateTime.Now
             }
         };
 
-        authorRepositoryMock.Setup(repo => repo.GetCheepsByAuthor(authorName, It.IsAny<int>())).Returns(cheepDtos);
+        authorRepositoryMock.Setup(repo => repo.GetCheepsByAuthor(author1.UserName, It.IsAny<int>())).Returns(cheeps);
 
         // Act
-        var result = cheepService.GetCheepsFromAuthor(authorName, 1);
+        ICollection<CheepViewModel> result = cheepService.GetCheepsFromAuthor(author1.UserName, 1);
 
+        CheepViewModel returnedCheep = result.ElementAt(0);
+        
         // Assert
         Assert.Equal(2, result.Count);
-        Assert.Equal(authorName, result[0].Author);
-        Assert.Equal("Cheep 1", result[0].Message);
-        Assert.NotNull(result[0].Timestamp);
+        Assert.Equal(author1.UserName, returnedCheep.Author);
+        Assert.Equal("Cheep 1", returnedCheep.Message);
+        Assert.NotNull(returnedCheep.Timestamp);
     }
-    */
 }

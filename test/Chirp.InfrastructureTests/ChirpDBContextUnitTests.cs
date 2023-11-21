@@ -1,15 +1,51 @@
 ﻿using Chirp.Core.Entities;
+using Chirp.Core.Repository;
 using Chirp.Infrastructure;
-
+using Chirp.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
+using Test_Utilities;
 
 namespace Chirp.Razor.Tests;
 
 public class ChirpDBContextUnitTests
 {
-    private ChirpDbContext Db;
+
+    private readonly ChirpDbContext Db;
+    private readonly Author Author1;
+    private readonly Author Author2;
+    private readonly Cheep Cheep1;
+    private readonly Cheep Cheep2;
+
+    public ChirpDBContextUnitTests()
+    {
+        Db = SqliteInMemoryBuilder.GetContext();
+        IAuthorRepository authorRepository = new AuthorRepository(Db);
+        ICheepRepository cheepRepository = new CheepRepository(Db);
+
+        // Mock data
+        Author1 = new Author { Id = Guid.NewGuid(), UserName = "Author1", Email = "email1" };
+        Author2 = new Author { Id = Guid.NewGuid(), UserName = "Author2", Email = "email2" };
+
+        Cheep1 = new Cheep
+        {
+            CheepId = Guid.NewGuid(),
+            Author = Author1,
+            AuthorId = Author1.Id,
+            Text = "Cheep 1",
+            TimeStamp = DateTime.Now
+        };
+        Cheep2 = new Cheep
+        {
+            CheepId = Guid.NewGuid(), Author = Author2, AuthorId = Author2.Id, Text = "Cheep 2",
+            TimeStamp = DateTime.Now
+        };
+        
+        authorRepository.AddAuthor(Author1);
+        authorRepository.AddAuthor(Author2);
+        cheepRepository.AddCheep(Cheep1);
+        cheepRepository.AddCheep(Cheep2);
+    }
     
-    /*
     
     [Fact]
     public void DBContextContainsCheeps()
@@ -20,32 +56,32 @@ public class ChirpDBContextUnitTests
     [Fact]
     public void DBContextContainsAuthors()
     {
-        Assert.True(Db.Authors.Any());
+        Assert.True(Db.Users.Any());
     }
 
     [Fact]
     public void QueryByCheepIdReturnsCheep()
     {
         
-        CheepDTO cheepDto = Db.Cheeps.Find(1);
+        Cheep returnedCheep = Db.Cheeps.Find(Cheep1.CheepId);
         
-        Assert.NotNull(cheepDto);
-        Assert.Equal(cheepDto.CheepId, 1);
-        Assert.Equal(cheepDto.AuthorId, 10);
-        Assert.Equal(cheepDto.Text, "They were married in Chicago, with old Smith, and was expected aboard every day; meantime, the two went past me.");
-        Assert.Equal(cheepDto.TimeStamp, DateTime.Parse("2023-08-01 13:14:37"));
+        Assert.NotNull(returnedCheep);
+        Assert.Equal(Cheep1.CheepId, returnedCheep.CheepId);
+        Assert.Equal(Cheep1.AuthorId, returnedCheep.AuthorId);
+        Assert.Equal(Cheep1.Text, returnedCheep.Text);
+        Assert.Equal(Cheep1.TimeStamp, returnedCheep.TimeStamp);
     }
 
     [Fact]
     public void QueryByAuthorIdReturnsAuthor()
     {
-        AuthorDTO authorDto = Db.Authors
-            .Include(a => a.Cheeps)
-            .FirstOrDefault(a => a.AuthorId == 12);
-    
+
+        Db.Cheeps.Include(e => e.Author);
         
-        Assert.NotNull(authorDto);
-        Assert.Equal(authorDto.AuthorId, 12);
-        Assert.True(authorDto.Cheeps.Any(a => a.CheepId.Equals(657)));
-    }*/
+        Author returnedAuthor = Db.Users.Find(Author1.Id);
+        
+        Assert.NotNull(returnedAuthor);
+        Assert.Equal(returnedAuthor.Id, Author1.Id);
+        Assert.True(returnedAuthor.Cheeps.Any());
+    }
 }
