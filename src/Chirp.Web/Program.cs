@@ -57,8 +57,13 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ChirpDbContext>();
-
-    DbInitializer.SeedDatabase(context);
+    try {
+        DbInitializer.SeedDatabase(context);
+    } catch (Exception ex) {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred seeding the DB.");
+    }
+    
 }
 
 if (!app.Environment.IsDevelopment())
