@@ -49,7 +49,8 @@ public class CheepRepository : BaseRepository, ICheepRepository
         {
             Text = cheep.Text,
             TimeStamp = DateTime.Now,
-            Author = cheep.Author
+            Author = cheep.Author,
+            AuthorId = cheep.Author.Id
         };
         
         //Check if author is in database, if not add them too
@@ -59,6 +60,8 @@ public class CheepRepository : BaseRepository, ICheepRepository
         db.Cheeps.Add(entity);
         await db.SaveChangesAsync();
     }
+    
+    
     
 
     
