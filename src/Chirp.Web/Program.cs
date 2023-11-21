@@ -1,3 +1,4 @@
+using System.Configuration;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Chirp.Infrastructure;
@@ -12,22 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 
 string currentDirectory = Directory.GetCurrentDirectory();
-string dbPath;
-
-if (Directory.Exists(Path.Combine(currentDirectory, "..", "Chirp.Infrastructure", "data")))
-{
-    dbPath = Path.Combine(currentDirectory, "..", "Chirp.Infrastructure", "data", "ChirpDBContext.db"); //Build directory
-}
-else 
-{
-    dbPath = Path.Combine(currentDirectory, "data", "ChirpDBContext.db"); //Publish directory
-}
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<ChirpDbContext>(options => 
-    options.UseSqlite($"Data Source={dbPath}"));
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<Author>()
     .AddRoles<IdentityRole<Guid>>()
@@ -66,8 +57,13 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<ChirpDbContext>();
-
-    DbInitializer.SeedDatabase(context);
+    try {
+        DbInitializer.SeedDatabase(context);
+    } catch (Exception ex) {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred seeding the DB.");
+    }
+    
 }
 
 if (!app.Environment.IsDevelopment())
