@@ -54,11 +54,11 @@ public class PublicModel : PageModel
         }
        
         var author = await _userManager.GetUserAsync(User);
-        var cheep = new CreateCheep(author!, NewCheep.Text);
+        var cheep = new CreateCheep(author!, NewCheep.Text!);
 
         await CreateCheep(cheep);
         
-        return RedirectToPage("/UserTimeline", new { author = User.Identity.Name });;
+        return RedirectToPage("/UserTimeline", new { author = User.Identity?.Name });;
         
     }
     
