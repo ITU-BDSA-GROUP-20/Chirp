@@ -43,26 +43,24 @@ public class CheepRepository : BaseRepository, ICheepRepository
         db.SaveChanges();
     }
 
-    public void AddCheep(Cheep cheep)
+    public async Task AddCheep(CreateCheep cheep)
     {
-        //Check if author is in database, if not add them too
-        if (!db.Users.Any(a => a.Id == cheep.AuthorId))
+        var entity = new Cheep()
         {
-            db.Users.Add(cheep.Author);
-        }
+            Text = cheep.Text,
+            TimeStamp = DateTime.Now,
+            Author = cheep.Author
+        };
+        
+        //Check if author is in database, if not add them too
+        if (!db.Users.Any(a => a.Id == entity.Author.Id)) db.Users.Add(cheep.Author);
+        
 
-        db.Cheeps.Add(cheep);
-        db.SaveChanges();
+        db.Cheeps.Add(entity);
+        await db.SaveChangesAsync();
     }
     
-    // TODO Should CheepRepo contain this method? If yes, why? If not, delete.
-    private Author GetAuthorById(string authorId)
-    {
-        var author = (Author) db.Users.Include(e => e.Cheeps)
-            .Where(a => a.Id == Guid.Parse(authorId));
-        
-        return author;
-    }
+
     
     
 }
