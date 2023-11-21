@@ -32,25 +32,12 @@ public class CheepServiceUnitTests
         var author1 = new Author { Id = Guid.NewGuid(), UserName = "Author1", Email = "email1" };
         var author2 = new Author { Id = Guid.NewGuid(), UserName = "Author2", Email = "email2" };
         
-        var cheepDtos = new List<Cheep>
-        {
-            new Cheep
-            {
-                CheepId = Guid.NewGuid(),
-                Author = author1 ,
-                AuthorId = author1.Id,
-                Text = "Cheep 1",
-                TimeStamp = DateTime.Now
-            },
-            new Cheep
-            {
-                CheepId = Guid.NewGuid(),
-                Author = author2,
-                AuthorId = author2.Id,
-                Text = "Cheep 2",
-                TimeStamp = DateTime.Now
-            }
-        };
+        CreateCheep cheep1 = new CreateCheep(author1, "Cheep 1");
+        CreateCheep cheep2 = new CreateCheep(author2, "Cheep 2");
+
+        var cheepDtos = new List<CreateCheep>();
+        cheepDtos.Add(cheep1);
+        cheepDtos.Add(cheep2);
         
         // Add authors to database
         _authorRepository.AddAuthor(author1);
