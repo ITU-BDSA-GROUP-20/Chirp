@@ -1,8 +1,9 @@
-﻿@model dynamic
+﻿@using Chirp.Web
+@model dynamic
 
  
 <ul id="messagelist" class="cheeps">
-    @foreach (var cheep in Model.Cheeps)
+    @foreach (CheepViewModel cheep in Model.Cheeps)
     {
         <li>
             <p>
@@ -12,6 +13,12 @@
                 @cheep.Message
                 <small>&mdash; @cheep.Timestamp</small>
             </p>
+            <div style="display: flex; flex-direction: row;">
+            @foreach (var reaction in cheep.Reactions)
+            {
+                <p style="margin: 0 10px 0 10px"><u>@reaction.reactionType:  @reaction.count</u></p>
+            }
+            </div>
         </li>
     }
 </ul>

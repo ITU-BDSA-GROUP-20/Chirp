@@ -4,7 +4,7 @@ using Chirp.Core.Repository;
 
 namespace Chirp.Web;
 
-public record CheepViewModel(string Author, string Message, string Timestamp);
+public record CheepViewModel(string Author, string Message, string Timestamp, ICollection<ReactionDTO> Reactions);
 
 
 public interface ICheepService
@@ -31,7 +31,22 @@ public class CheepService : ICheepService
 
         foreach (Cheep cheepDto in cheepDtos)
         {
-            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture)));
+            List<ReactionDTO> reactionTypeCounts = new List<ReactionDTO>();
+                
+            Console.WriteLine("VI PRINTER CHEEPs");
+                
+            foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
+            {
+                    
+                Console.WriteLine(reactionType);
+                    
+                int count = cheepDto.Reactions
+                    .Where(r => r.ReactionType == reactionType)
+                    .Count();
+                    
+                reactionTypeCounts.Add(new ReactionDTO(reactionType, count));                
+            }
+            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
         }
         
         return cheeps;
@@ -42,12 +57,26 @@ public class CheepService : ICheepService
         ICollection<Cheep> cheepDtos = _authorRepository.GetCheepsByAuthor(author, page);
         ICollection<CheepViewModel> cheeps = new List<CheepViewModel>();
 
-        foreach (Cheep cheepDto in cheepDtos)
-        {
-            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture)));
-        }
+            foreach (Cheep cheepDto in cheepDtos)
+            {
+                List<ReactionDTO> reactionTypeCounts = new List<ReactionDTO>();
+                
+                Console.WriteLine("VI PRINTER CHEEPs");
+                
+                foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
+                {
+                    
+                    Console.WriteLine(reactionType);
+                    
+                    int count = cheepDto.Reactions
+                        .Where(r => r.ReactionType == reactionType)
+                        .Count();
+                    
+                    reactionTypeCounts.Add(new ReactionDTO(reactionType, count));                
+                }
+                cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
+            }
         
         return cheeps;
     }
-    
 }

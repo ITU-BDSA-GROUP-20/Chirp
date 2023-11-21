@@ -31,7 +31,7 @@ public class PublicModel : PageModel
     }
 
     public ActionResult OnGet()
-    {
+    { 
         int page;
        if(Request.Query.ContainsKey("page")){
             page = int.Parse(Request.Query["page"]! );

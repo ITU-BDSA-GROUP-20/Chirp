@@ -104,6 +104,30 @@ namespace Chirp.Infrastructure.Migrations
                     b.ToTable("Cheeps");
                 });
 
+            modelBuilder.Entity("Chirp.Core.Entities.Reaction", b =>
+                {
+                    b.Property<Guid>("ChirpId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("CheepId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReactionType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ChirpId", "AuthorId");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("CheepId");
+
+                    b.ToTable("Reactions");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("Id")
@@ -229,9 +253,33 @@ namespace Chirp.Infrastructure.Migrations
                     b.Navigation("Author");
                 });
 
+            modelBuilder.Entity("Chirp.Core.Entities.Reaction", b =>
+                {
+                    b.HasOne("Chirp.Core.Entities.Author", "Author")
+                        .WithMany("Reactions")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Chirp.Core.Entities.Cheep", "Cheep")
+                        .WithMany("Reactions")
+                        .HasForeignKey("CheepId");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Cheep");
+                });
+
             modelBuilder.Entity("Chirp.Core.Entities.Author", b =>
                 {
                     b.Navigation("Cheeps");
+
+                    b.Navigation("Reactions");
+                });
+
+            modelBuilder.Entity("Chirp.Core.Entities.Cheep", b =>
+                {
+                    b.Navigation("Reactions");
                 });
 #pragma warning restore 612, 618
         }
