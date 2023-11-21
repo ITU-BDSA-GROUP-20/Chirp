@@ -66,10 +66,11 @@ public class PublicModel : PageModel
     {
          var validationResult = await _validator.ValidateAsync(newCheep);
          
-         if (!validationResult.IsValid)
-         {
-             Console.WriteLine(validationResult);
-             throw new ValidationException("The message must be between 5 and 160 characters.");
+          if (!validationResult.IsValid)
+          {
+              Console.WriteLine(validationResult);
+              throw new ValidationException("The Cheep must be between 5 and 160 characters.(CreateCheep)");
+             
          }
 
          await _cheepRepository.AddCheep(newCheep);
@@ -79,7 +80,8 @@ public class PublicModel : PageModel
 
 public record NewCheep
 {
-    [Required] 
+    [Required(ErrorMessage = "The Text field is required.")]
+    [StringLength(160, MinimumLength = 5, ErrorMessage = "The Cheep must be between 5 and 160 characters(NewCheep).")]
     public string? Text { get; set; }
 }
 

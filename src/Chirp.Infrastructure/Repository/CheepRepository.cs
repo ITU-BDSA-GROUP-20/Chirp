@@ -52,14 +52,9 @@ public class CheepRepository : BaseRepository, ICheepRepository
             Author = cheep.Author
         };
         
-        Console.WriteLine("Hello");
         //Check if author is in database, if not add them too
-        if (!db.Users.Any(a => a.Id == entity.Author.Id))
-        {
-            
-           db.Users.Add(cheep.Author);
-            
-        }
+        if (!db.Users.Any(a => a.Id == entity.Author.Id)) db.Users.Add(cheep.Author);
+        
 
         db.Cheeps.Add(entity);
         await db.SaveChangesAsync();
