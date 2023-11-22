@@ -19,6 +19,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
     {
         //Use EF to get the specified page of cheeps from the database
         ICollection<Cheep> cheeps = db.Cheeps.Include(e => e.Author)
+            .Include(e => e.Reactions)
             .OrderByDescending(c => c.TimeStamp)
             .Skip(PageSize * page)
             .Take(PageSize)

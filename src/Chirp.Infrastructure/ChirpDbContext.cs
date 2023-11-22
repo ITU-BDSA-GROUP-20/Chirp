@@ -13,6 +13,9 @@ namespace Chirp.Infrastructure;
 public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid>
 {
     public DbSet<Cheep> Cheeps {get; set;} = null!;
+    
+    
+    public DbSet<Reaction> Reactions { get; set; }
     //Source for methods:
     //https://www.c-sharpcorner.com/article/get-started-with-entity-framework-core-using-sqlite/
 
@@ -45,8 +48,12 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
                 .WithMany(a => a.Cheeps)
                 .HasForeignKey(c => c.AuthorId); 
         });
-
-
+        
+        modelBuilder.Entity<Reaction>().Property(m => m.ReactionType)
+            .HasConversion<string>();
+        
+        modelBuilder.Entity<Reaction>().HasKey(r => new { r.ChirpId, r.AuthorId} );
+        
         modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(e => e.UserId);
         modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(e => e.RoleId);
         modelBuilder.Entity<IdentityUserToken<Guid>>().HasKey(e => e.UserId);
