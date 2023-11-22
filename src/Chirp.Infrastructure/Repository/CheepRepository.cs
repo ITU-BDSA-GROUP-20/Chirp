@@ -57,6 +57,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
 
         db.Cheeps.Add(entity);
         await db.SaveChangesAsync();
+        Console.WriteLine("Cheep added async");
     }
 
     public Cheep CreateCheep2Cheep(CreateCheep cheep)
