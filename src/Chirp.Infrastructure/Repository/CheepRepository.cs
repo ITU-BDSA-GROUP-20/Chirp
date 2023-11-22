@@ -8,10 +8,7 @@ using ValidationException = System.ComponentModel.DataAnnotations.ValidationExce
 namespace Chirp.Infrastructure.Repository;
 
 public class CheepRepository : BaseRepository, ICheepRepository
-{
-   
-
-
+{ 
     public CheepRepository(ChirpDbContext DbContext) : base(DbContext)
     {
     }

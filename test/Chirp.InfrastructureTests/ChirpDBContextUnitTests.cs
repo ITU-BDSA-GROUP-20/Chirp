@@ -13,32 +13,23 @@ public class ChirpDBContextUnitTests
     private readonly ChirpDbContext Db;
     private readonly Author Author1;
     private readonly Author Author2;
-    private readonly Cheep Cheep1;
-    private readonly Cheep Cheep2;
+    private readonly CreateCheep Cheep1;
+    private readonly CreateCheep Cheep2;
+    private IAuthorRepository authorRepository;
+    private ICheepRepository cheepRepository;
 
     public ChirpDBContextUnitTests()
     {
         Db = SqliteInMemoryBuilder.GetContext();
-        IAuthorRepository authorRepository = new AuthorRepository(Db);
-        ICheepRepository cheepRepository = new CheepRepository(Db);
+        authorRepository = new AuthorRepository(Db);
+        cheepRepository = new CheepRepository(Db);
 
         // Mock data
         Author1 = new Author { Id = Guid.NewGuid(), UserName = "Author1", Email = "email1" };
         Author2 = new Author { Id = Guid.NewGuid(), UserName = "Author2", Email = "email2" };
 
-        Cheep1 = new Cheep
-        {
-            CheepId = Guid.NewGuid(),
-            Author = Author1,
-            AuthorId = Author1.Id,
-            Text = "Cheep 1",
-            TimeStamp = DateTime.Now
-        };
-        Cheep2 = new Cheep
-        {
-            CheepId = Guid.NewGuid(), Author = Author2, AuthorId = Author2.Id, Text = "Cheep 2",
-            TimeStamp = DateTime.Now
-        };
+        Cheep1 = new CreateCheep(Author1, "Cheep 1");
+        Cheep2 = new CreateCheep(Author2, "Cheep 2");
         
         authorRepository.AddAuthor(Author1);
         authorRepository.AddAuthor(Author2);
@@ -62,14 +53,14 @@ public class ChirpDBContextUnitTests
     [Fact]
     public void QueryByCheepIdReturnsCheep()
     {
-        
-        Cheep returnedCheep = Db.Cheeps.Find(Cheep1.CheepId);
+        Cheep cheep = cheepRepository.CreateCheep2Cheep(Cheep1);
+        Cheep returnedCheep = Db.Cheeps.Find(cheep.CheepId);
         
         Assert.NotNull(returnedCheep);
-        Assert.Equal(Cheep1.CheepId, returnedCheep.CheepId);
-        Assert.Equal(Cheep1.AuthorId, returnedCheep.AuthorId);
-        Assert.Equal(Cheep1.Text, returnedCheep.Text);
-        Assert.Equal(Cheep1.TimeStamp, returnedCheep.TimeStamp);
+        Assert.Equal(cheep.CheepId, returnedCheep.CheepId);
+        Assert.Equal(cheep.AuthorId, returnedCheep.AuthorId);
+        Assert.Equal(cheep.Text, returnedCheep.Text);
+        Assert.Equal(cheep.TimeStamp, returnedCheep.TimeStamp);
     }
 
     [Fact]
