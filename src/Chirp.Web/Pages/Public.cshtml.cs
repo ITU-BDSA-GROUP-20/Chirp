@@ -50,8 +50,7 @@ public class PublicModel : PageModel
     {   
         
          if (!ModelState.IsValid)
-         {
-            //Should return the same page with the same data, and displaying and error message
+         { 
             return Page();
          }
        
@@ -84,7 +83,6 @@ public class NewCheep
 {
     [Required(ErrorMessage = "The Text field is required.")]
     [StringLength(160, MinimumLength = 5, ErrorMessage = "The Cheep must be between 5 and 160 characters(NewCheep).")]
-    [Display(Name = "Insert great Cheep here")]
     public string? Text { get; set; }
 
 }
