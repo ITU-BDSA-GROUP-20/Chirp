@@ -81,7 +81,7 @@ public class PublicModel : PageModel
 
 public class NewCheep
 {
-    [Required(ErrorMessage = "The Text field is required.")]
+    [Required]
     [StringLength(160, MinimumLength = 5, ErrorMessage = "The Cheep must be between 5 and 160 characters(NewCheep).")]
     public string? Text { get; set; }
 

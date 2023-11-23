@@ -2,11 +2,10 @@
 
 <div class="cheepbox" >
     <h3>What's on your mind @(User.Identity?.Name)?</h3>
-    
     <form method="post"  asp-page-handler="CreateCheep" asp-page="Public" >
-        <label asp-for="Text" for = "NewCheep.Text">Write your text here</label>
-        <input class="form-control" asp-for="Text" id="NewCheep.Text" name="NewCheep.Text" />
-        <span asp-validation-for="Text" class="text-danger"> </span>
+        <label asp-for="Text" >Write your text here</label>
+        <input class="form-control" asp-for="Text"/>
+        <span asp-validation-for="Text" ></span>
         <input type="submit" value="Cheep" />
     </form>
 </div>
