@@ -46,7 +46,7 @@ public class CheepServiceUnitTests
         // Add cheeps to database
         foreach (var cheep in cheepDtos)
         {
-            _cheepRepository.AddCheep(cheep);
+            _cheepRepository.AddCreateCheep(cheep);
         }
 
         // Act
