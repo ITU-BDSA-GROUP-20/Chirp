@@ -3,11 +3,10 @@ using Chirp.Core.Repository;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
 using Chirp.Web;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using Test_Utilities;
 
-namespace Chirp.WebTests.CheepServiceTests;
+namespace Chirp.WebTests;
 
 public class CheepServiceUnitTests
 {

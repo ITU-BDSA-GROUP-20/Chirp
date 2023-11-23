@@ -1,14 +1,13 @@
-﻿using System.Net;
-using Chirp.Core.Entities;
+﻿using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Test_Utilities;
 
-namespace Chirp.Razor.Tests;
+namespace Chirp.InfrastructureTest;
 
-public class ChirpDBContextUnitTests
+public class ChirpDbContextUnitTests
 {
 
     private readonly ChirpDbContext Db;
@@ -19,7 +18,7 @@ public class ChirpDBContextUnitTests
     private IAuthorRepository authorRepository;
     private ICheepRepository cheepRepository;
 
-    public ChirpDBContextUnitTests()
+    public ChirpDbContextUnitTests()
     {
         Db = SqliteInMemoryBuilder.GetContext();
         authorRepository = new AuthorRepository(Db);
