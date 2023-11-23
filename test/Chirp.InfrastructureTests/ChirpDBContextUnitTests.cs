@@ -39,10 +39,10 @@ public class ChirpDBContextUnitTests
     
     
     [Fact]
-    public void DBContextContainsCheeps()
+    public async void DBContextContainsCheeps()
     {
-        cheepRepository.AddCheep(Cheep1);
-        cheepRepository.AddCheep(Cheep2);
+        await cheepRepository.AddCreateCheep(Cheep1);
+        await cheepRepository.AddCreateCheep(Cheep2);
         Assert.True(Db.Cheeps.Any());
     }
 
@@ -58,7 +58,7 @@ public class ChirpDBContextUnitTests
         Db.Cheeps.RemoveRange(Db.Cheeps);
         
         // Add Cheep1 to the repository, and let the repository generate the Id
-        await cheepRepository.AddCheep(Cheep1);
+        await cheepRepository.AddCreateCheep(Cheep1);
         
         Cheep cheep = Db.Cheeps.FirstOrDefault();
 
@@ -77,8 +77,8 @@ public class ChirpDBContextUnitTests
     [Fact]
     public void QueryByAuthorIdReturnsAuthor()
     {
-        cheepRepository.AddCheep(Cheep1);
-        cheepRepository.AddCheep(Cheep2);
+        cheepRepository.AddCreateCheep(Cheep1);
+        cheepRepository.AddCreateCheep(Cheep2);
         
         Db.Cheeps.Include(e => e.Author);
         
