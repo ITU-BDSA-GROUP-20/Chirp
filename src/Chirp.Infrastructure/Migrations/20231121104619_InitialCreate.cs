@@ -140,6 +140,31 @@ namespace Chirp.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Reactions",
+                columns: table => new
+                {
+                    ChirpId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CheepId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    ReactionType = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reactions", x => new { x.ChirpId, x.AuthorId });
+                    table.ForeignKey(
+                        name: "FK_Reactions_Cheeps_CheepId",
+                        column: x => x.CheepId,
+                        principalTable: "Cheeps",
+                        principalColumn: "CheepId");
+                    table.ForeignKey(
+                        name: "FK_Reactions_Users_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Cheeps_AuthorId",
                 table: "Cheeps",
@@ -152,6 +177,16 @@ namespace Chirp.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reactions_AuthorId",
+                table: "Reactions",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reactions_CheepId",
+                table: "Reactions",
+                column: "CheepId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_Id",
                 table: "Users",
                 column: "Id",
@@ -162,7 +197,7 @@ namespace Chirp.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cheeps");
+                name: "Reactions");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");
@@ -181,6 +216,9 @@ namespace Chirp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Cheeps");
 
             migrationBuilder.DropTable(
                 name: "Users");

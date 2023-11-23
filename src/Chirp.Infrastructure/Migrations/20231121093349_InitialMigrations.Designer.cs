@@ -4,6 +4,7 @@ using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDbContext))]
-    partial class ChirpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231121093349_InitialMigrations")]
+    partial class InitialMigrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,8 +96,8 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasMaxLength(160)
-                        .HasColumnType("nvarchar(160)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("datetime2");
@@ -107,30 +110,6 @@ namespace Chirp.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Cheeps");
-                });
-
-            modelBuilder.Entity("Chirp.Core.Entities.Reaction", b =>
-                {
-                    b.Property<Guid>("ChirpId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("CheepId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ReactionType")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ChirpId", "AuthorId");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("CheepId");
-
-                    b.ToTable("Reactions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -262,33 +241,9 @@ namespace Chirp.Infrastructure.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("Chirp.Core.Entities.Reaction", b =>
-                {
-                    b.HasOne("Chirp.Core.Entities.Author", "Author")
-                        .WithMany("Reactions")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Chirp.Core.Entities.Cheep", "Cheep")
-                        .WithMany("Reactions")
-                        .HasForeignKey("CheepId");
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Cheep");
-                });
-
             modelBuilder.Entity("Chirp.Core.Entities.Author", b =>
                 {
                     b.Navigation("Cheeps");
-
-                    b.Navigation("Reactions");
-                });
-
-            modelBuilder.Entity("Chirp.Core.Entities.Cheep", b =>
-                {
-                    b.Navigation("Reactions");
                 });
 #pragma warning restore 612, 618
         }

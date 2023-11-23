@@ -51,7 +51,7 @@ public class CheepDTOTests
             // Assert
             Assert.NotNull(stringLengthAttribute);
             Assert.Equal(5, stringLengthAttribute.MinimumLength);
-            Assert.Equal(128, stringLengthAttribute.MaximumLength);
+            Assert.Equal(160, stringLengthAttribute.MaximumLength);
         }
 
         [Fact]
