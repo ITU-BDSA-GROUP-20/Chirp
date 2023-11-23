@@ -5,7 +5,7 @@ namespace Chirp.Core.Repository;
 public interface ICheepRepository
 {
     public ICollection<Cheep> GetCheepsByPage(int page);
-    public Task AddCheep(CreateCheep cheepDto);
-    public Cheep CreateCheep2Cheep(CreateCheep cheep);
+    public Task AddCheep(Cheep cheepDto);
+    public Task AddCreateCheep(CreateCheep cheep);
 
 }

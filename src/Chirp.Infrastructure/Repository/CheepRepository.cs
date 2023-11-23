@@ -40,27 +40,19 @@ public class CheepRepository : BaseRepository, ICheepRepository
         db.SaveChanges();
     }
 
-    public async Task AddCheep(CreateCheep cheep)
+    public async Task AddCheep(Cheep cheep)
     {
-        var entity = new Cheep()
-        {
-            CheepId = new Guid(),
-            Text = cheep.Text,
-            TimeStamp = DateTime.Now,
-            Author = cheep.Author,
-            AuthorId = cheep.Author.Id
-        };
-        
+      
         //Check if author is in database, if not add them too
-        if (!db.Users.Any(a => a.Id == entity.Author.Id)) db.Users.Add(cheep.Author);
+        if (!db.Users.Any(a => a.Id == cheep.Author.Id)) db.Users.Add(cheep.Author);
         
 
-        db.Cheeps.Add(entity);
+        db.Cheeps.Add(cheep);
         await db.SaveChangesAsync();
         Console.WriteLine("Cheep added async");
     }
 
-    public Cheep CreateCheep2Cheep(CreateCheep cheep)
+    public async Task AddCreateCheep(CreateCheep cheep)
     {
         var entity = new Cheep()
         {
@@ -70,6 +62,6 @@ public class CheepRepository : BaseRepository, ICheepRepository
             Author = cheep.Author,
             AuthorId = cheep.Author.Id
         };
-        return entity;
+        await AddCheep(entity);
     }
 }
