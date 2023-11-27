@@ -3,11 +3,10 @@ using Chirp.Core.Repository;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
 using Chirp.Web;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using Test_Utilities;
 
-namespace Chirp.WebTests.CheepServiceTests;
+namespace Chirp.WebTests;
 
 public class CheepServiceUnitTests
 {
@@ -32,25 +31,12 @@ public class CheepServiceUnitTests
         var author1 = new Author { Id = Guid.NewGuid(), UserName = "Author1", Email = "email1" };
         var author2 = new Author { Id = Guid.NewGuid(), UserName = "Author2", Email = "email2" };
         
-        var cheepDtos = new List<Cheep>
-        {
-            new Cheep
-            {
-                CheepId = Guid.NewGuid(),
-                Author = author1 ,
-                AuthorId = author1.Id,
-                Text = "Cheep 1",
-                TimeStamp = DateTime.Now
-            },
-            new Cheep
-            {
-                CheepId = Guid.NewGuid(),
-                Author = author2,
-                AuthorId = author2.Id,
-                Text = "Cheep 2",
-                TimeStamp = DateTime.Now
-            }
-        };
+        CreateCheep cheep1 = new CreateCheep(author1, "Cheep 1");
+        CreateCheep cheep2 = new CreateCheep(author2, "Cheep 2");
+
+        var cheepDtos = new List<CreateCheep>();
+        cheepDtos.Add(cheep1);
+        cheepDtos.Add(cheep2);
         
         // Add authors to database
         _authorRepository.AddAuthor(author1);
@@ -59,7 +45,7 @@ public class CheepServiceUnitTests
         // Add cheeps to database
         foreach (var cheep in cheepDtos)
         {
-            _cheepRepository.AddCheep(cheep);
+            _cheepRepository.AddCreateCheep(cheep);
         }
 
         // Act
@@ -91,12 +77,14 @@ public class CheepServiceUnitTests
             new Cheep
             {
                 Author = author1,
+                AuthorId = author1.Id,
                 Text = "Cheep 1",
                 TimeStamp = DateTime.Now
             },
             new Cheep
             {
                 Author = author2,
+                AuthorId = author2.Id,
                 Text = "Cheep 2",
                 TimeStamp = DateTime.Now
             }
