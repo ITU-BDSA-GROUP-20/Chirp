@@ -8,7 +8,10 @@ using ValidationException = System.ComponentModel.DataAnnotations.ValidationExce
 namespace Chirp.Infrastructure.Repository;
 
 public class CheepRepository : BaseRepository, ICheepRepository
-{ 
+{
+   
+
+
     public CheepRepository(ChirpDbContext DbContext) : base(DbContext)
     {
     }
@@ -41,28 +44,24 @@ public class CheepRepository : BaseRepository, ICheepRepository
         db.SaveChanges();
     }
 
-    public async Task AddCheep(Cheep cheep)
-    {
-      
-        //Check if author is in database, if not add them too
-        if (!db.Users.Any(a => a.Id == cheep.Author.Id)) db.Users.Add(cheep.Author);
-        
-
-        db.Cheeps.Add(cheep);
-        await db.SaveChangesAsync();
-        Console.WriteLine("Cheep added async");
-    }
-
-    public async Task AddCreateCheep(CreateCheep cheep)
+    public async Task AddCheep(CreateCheep cheep)
     {
         var entity = new Cheep()
         {
-            CheepId = new Guid(),
             Text = cheep.Text,
             TimeStamp = DateTime.Now,
-            Author = cheep.Author,
-            AuthorId = cheep.Author.Id
+            Author = cheep.Author
         };
-        await AddCheep(entity);
+        
+        //Check if author is in database, if not add them too
+        if (!db.Users.Any(a => a.Id == entity.Author.Id)) db.Users.Add(cheep.Author);
+        
+
+        db.Cheeps.Add(entity);
+        await db.SaveChangesAsync();
     }
+    
+
+    
+    
 }
