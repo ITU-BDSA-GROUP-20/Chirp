@@ -1,6 +1,7 @@
 ﻿@page "/{author}"
 @using Chirp.Core.Entities
 @using Chirp.Core.Repository
+@using Chirp.Web.Pages
 
 @using FluentValidation
 @model Chirp.Razor.Pages.UserTimelineModel
@@ -19,7 +20,7 @@
     <div>
         <h2> @routeName's Timeline </h2>
         
-     @await Html.PartialAsync("Shared/_CheepBox")
+     @await Html.PartialAsync("Shared/_CheepBox", new NewCheep {Text = ""})
 
         @if (!Model.Cheeps.Any())
         {
@@ -33,4 +34,7 @@
             @await Html.PartialAsync("Shared/_CheepList", Model)
         }
     </div>
+}
+@section Scripts {
+    <partial name="/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml" />
 }
