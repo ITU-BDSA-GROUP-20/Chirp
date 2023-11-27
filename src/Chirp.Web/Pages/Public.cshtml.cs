@@ -73,7 +73,7 @@ public class PublicModel : PageModel
              
          }
 
-         await _cheepRepository.AddCheep(newCheep);
+         await _cheepRepository.AddCreateCheep(newCheep);
     }
    
 }

@@ -67,12 +67,16 @@ public class CheepService : ICheepService
                 {
                     
                     Console.WriteLine(reactionType);
+
+                    int count = 0;
                     
-                    int count = cheepDto.Reactions
-                        .Where(r => r.ReactionType == reactionType)
-                        .Count();
-                    
-                    reactionTypeCounts.Add(new ReactionDTO(reactionType, count));                
+                    if (cheepDto.Reactions != null)
+                    {
+                        count = cheepDto.Reactions
+                            .Where(r => r.ReactionType == reactionType)
+                            .Count();
+                        reactionTypeCounts.Add(new ReactionDTO(reactionType, count));       
+                    }
                 }
                 cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
             }

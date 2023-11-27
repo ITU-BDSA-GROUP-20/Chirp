@@ -1,9 +1,9 @@
-using Chirp.Infrastructure.Repository;
-using Chirp.Core.Entities; 
+using Chirp.Core.Entities;
 using Chirp.Infrastructure;
+using Chirp.Infrastructure.Repository;
 using Test_Utilities;
 
-namespace Chirp.InfrastructureTests.RepositoryTests;
+namespace Chirp.InfrastructureTest.RepositoryTests;
 
 public class AuthorRepositoryTest
 {
