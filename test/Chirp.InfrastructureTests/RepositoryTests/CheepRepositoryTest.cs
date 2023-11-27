@@ -1,14 +1,11 @@
 //Test of cheep repository methods using Test_Utilites in-memory database
 
-using Chirp.Infrastructure.Repository;
-using Chirp.Core.Entities; 
+using Chirp.Core.Entities;
 using Chirp.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.Sqlite;
+using Chirp.Infrastructure.Repository;
 using Test_Utilities;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Chirp.InfrastructureTests.RepositoryTests;
+namespace Chirp.InfrastructureTest.RepositoryTests;
 public class CheepRepositoryTest{
 
     private readonly ChirpDbContext context;
