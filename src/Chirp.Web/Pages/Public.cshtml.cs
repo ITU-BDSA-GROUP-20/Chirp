@@ -74,7 +74,7 @@ public class PublicModel : PageModel
               throw new ValidationException("The Cheep must be between 5 and 160 characters.(CreateCheep)");
          }
 
-         await _cheepRepository.AddCheep(newCheep);
+         await _cheepRepository.AddCreateCheep(newCheep);
     }
    
 }

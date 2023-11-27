@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Chirp.Core;
+using Chirp.Core.Entities;
 using Chirp.Infrastructure;
 using Microsoft.VisualBasic;
 using Microsoft.Data.Sqlite;
@@ -21,6 +22,14 @@ public class SqliteInMemoryBuilder
         var builder = new DbContextOptionsBuilder<ChirpDbContext>().UseSqlite(connection);
         var context = new ChirpDbContext(builder.Options);
         context.Database.EnsureCreated();
+        
+        /*
+        foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
+        {
+            context.Add(reactionType);
+            context.SaveChanges();
+        }*/
+        
         return context;
     }
 	
