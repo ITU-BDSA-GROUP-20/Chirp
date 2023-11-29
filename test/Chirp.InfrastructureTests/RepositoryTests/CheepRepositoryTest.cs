@@ -3,7 +3,6 @@
 using Chirp.Core.Entities;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
-using Microsoft.EntityFrameworkCore;
 using Test_Utilities;
 
 namespace Chirp.InfrastructureTest.RepositoryTests;
@@ -95,5 +94,21 @@ public class CheepRepositoryTest{
         
         //Assert
         Assert.True(updatedCheeps.Contains(cheepDto));
+    }
+    
+    [Fact]
+    public void CreateCheepCreatesCheep()
+    {
+        Author author = new Author
+        { 
+            UserName = "TestAuthor", 
+            Email = "mock@email.com" 
+        };
+
+        CreateCheep createCheep = new CreateCheep(author, "TestCheep");
+
+        Cheep cheep = CheepRepository.AddCreateCheep(createCheep).Result;
+        
+        Assert.True(CheepRepository.GetCheepsByPage(0).Contains(cheep));
     }
 }
