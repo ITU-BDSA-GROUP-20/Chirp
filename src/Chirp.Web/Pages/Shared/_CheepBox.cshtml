@@ -5,7 +5,7 @@
     <form method="post"  asp-page-handler="CreateCheep" asp-page="Public" >
         <label asp-for="Text" >Write your text here</label>
         <input class="form-control" asp-for="Text"/>
-        <span asp-validation-for="Text" ></span>
-        <input type="submit" value="Cheep" />
+        <span asp-validation-for="Text" style="display: flex; color: red;"></span>
+        <input type="submit" value="Cheep" style="margin: 10px 0"/>
     </form>
 </div>
