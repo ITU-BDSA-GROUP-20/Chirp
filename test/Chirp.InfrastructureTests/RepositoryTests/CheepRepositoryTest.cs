@@ -44,7 +44,7 @@ public class CheepRepositoryTest{
     public void GetCheepsByPage_ShouldSkipFirst32Cheeps_ReturnXAmountOfCheeps()
     {
         //Act
-        ICollection<Cheep> cheeps = CheepRepository.GetCheepsByPage(1);
+        ICollection<Cheep> cheeps = CheepRepository.GetCheepsByPage(2);
 
         //Assert
         Assert.Equal(2, cheeps.Count);
@@ -53,13 +53,13 @@ public class CheepRepositoryTest{
     [Fact]
     public void DeleteCheepById_ShouldOnlyDeleteSpecifiedCheep()
     {
-        ICollection<Cheep> initialCheeps = CheepRepository.GetCheepsByPage(0);
+        ICollection<Cheep> initialCheeps = CheepRepository.GetCheepsByPage(1);
         Cheep cheep = initialCheeps.First();
         Guid cheepId = cheep.CheepId;
         
         CheepRepository.DeleteCheepById(cheepId);
 
-        ICollection<Cheep> updatedCheeps = CheepRepository.GetCheepsByPage(0);
+        ICollection<Cheep> updatedCheeps = CheepRepository.GetCheepsByPage(1);
         
         //Assert
         Assert.True(initialCheeps.Contains(cheep));
