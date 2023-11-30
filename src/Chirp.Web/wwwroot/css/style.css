@@ -233,4 +233,5 @@ li.topic {
 
 .reactions-display{
   margin: 0 10px 0 10px;
+  max-width: fit-content;
 }
