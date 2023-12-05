@@ -1,0 +1,53 @@
+﻿@page "/{author}/AboutMe"
+@using Chirp.Core.Entities
+@model Chirp.Web.Pages.AboutMeModel
+@{
+    ViewData["Title"] = "About Me";
+}
+@inject SignInManager<Author> SignInManager
+
+<h2>About Me</h2>
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="cheepbox">
+        <div>
+            <span class="">Username:</span> 
+            <span class="">@Model.UserModel.Username</span>
+        </div>
+    
+        <div class="form-group">
+            <span>Email:</span>
+            <span class="">@Model.UserModel.Email</span>
+        </div>
+   
+        <!-- TODO Create a red "Forget Me" button -->
+    </div>
+
+    <hr/>
+
+    <div class="cheepbox">
+        <div>
+            
+        </div>
+    </div>
+
+    <hr/>
+    
+    <h3>My Cheeps</h3>
+
+    @if (Model.Cheeps == null || !Model.Cheeps.Any())
+    {
+        <div>
+            <p>You have no cheeps so far.</p>
+        </div>
+    }
+    else 
+    {
+        @await Html.PartialAsync("Shared/_CheepList", Model)
+    }
+}
+
+
+
+

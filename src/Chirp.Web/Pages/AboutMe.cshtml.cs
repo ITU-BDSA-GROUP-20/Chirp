@@ -12,14 +12,14 @@ public class AboutMeModel : PageModel
 {
     private readonly UserManager<Author> _userManager;
     private readonly ICheepService _service;
+    public UserModel UserModel { get; set; }
+    public ICollection<CheepViewModel> Cheeps { get; set; }
 
     public AboutMeModel(UserManager<Author> userManager, ICheepService service)
     {
         _userManager = userManager;
         _service = service;
     }
-
-    public UserModel UserModel { get; set; }
 
     public async Task<IActionResult> OnGetAsync()
     {
@@ -43,11 +43,11 @@ public class AboutMeModel : PageModel
         
         try
         {
-            UserModel.Cheeps = _service.GetCheepsFromAuthor(UserModel.Username, 1);
+            Cheeps = _service.GetCheepsFromAuthor(UserModel.Username, 1);
         }
         catch (Exception e)
         {
-            UserModel.Cheeps = new List<CheepViewModel>();
+            Cheeps = new List<CheepViewModel>();
         }
 
         return Page();
