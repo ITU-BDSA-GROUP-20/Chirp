@@ -11,10 +11,13 @@ namespace Chirp.Web.Pages;
 public class AboutMeModel : PageModel
 {
     private readonly UserManager<Author> _userManager;
+    private readonly ICheepService _service;
+    public ICollection<CheepViewModel> Cheeps { get; set; }
 
-    public AboutMeModel(UserManager<Author> userManager)
+    public AboutMeModel(UserManager<Author> userManager, ICheepService service)
     {
         _userManager = userManager;
+        _service = service;
     }
 
     public UserModel UserModel { get; set; }
@@ -31,6 +34,22 @@ public class AboutMeModel : PageModel
 
         // Create a UserModel based on the Author entity
         UserModel = new UserModel(authorEntity);
+        
+        int page;
+        if(Request.Query.ContainsKey("page")){
+            page = int.Parse(Request.Query["page"]);
+        } else{
+            page = 1;
+        }
+        
+        try
+        {
+            UserModel.Cheeps = _service.GetCheepsFromAuthor(UserModel.Username, page);
+        }
+        catch (Exception e)
+        {
+            UserModel.Cheeps = new List<CheepViewModel>();
+        }
 
         return Page();
     }
