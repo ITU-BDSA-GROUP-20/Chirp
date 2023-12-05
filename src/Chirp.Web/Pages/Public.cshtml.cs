@@ -15,6 +15,7 @@ public class PublicModel : PageModel
     private readonly ICheepService _service;
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authrepository;
+    private readonly IReactionRepository _reactionRepository;
     private readonly IValidator<CreateCheep> _validator;
     public required Author user { get; set; }
     
@@ -24,13 +25,14 @@ public class PublicModel : PageModel
    
 
 
-    public PublicModel(ICheepService service, ICheepRepository cheeprepository, IAuthorRepository authrepository, IValidator<CreateCheep> validator , UserManager<Author> userManager)
+    public PublicModel(ICheepService service, ICheepRepository cheeprepository, IAuthorRepository authrepository, IValidator<CreateCheep> validator , UserManager<Author> userManager, IReactionRepository reactionRepository)
     {
         _service = service;
         _cheepRepository = cheeprepository;
         _authrepository = authrepository;
         _validator = validator;
         _userManager = userManager;
+        _reactionRepository = reactionRepository;
     }
 
     public ActionResult OnGet()
@@ -80,6 +82,18 @@ public class PublicModel : PageModel
 
          await _cheepRepository.AddCreateCheep(newCheep);
     }
+    [BindProperty] public NewReaction NewReaction { get; set; }
+    public async Task<IActionResult> OnPostReaction(Guid cheepId, ReactionType reactionType)
+    {
+        Author? author = await _userManager.GetUserAsync(User);
+        if (author == null) return Page();
+        
+        await _reactionRepository.AddReaction(NewReaction.ReactionType, NewReaction.CheepId, author!.Id);
+        
+        return Page();
+    }
+ 
+    
     
     [BindProperty] public string Author2FollowInput { get; set; }
     public async Task<IActionResult> OnPostFollow()
@@ -122,5 +136,11 @@ public class NewCheep
 
 }
 
+public class NewReaction
+{
+    [Required]
+    public Guid CheepId { get; set; }
+    public ReactionType ReactionType { get; set; }
+}
 
 

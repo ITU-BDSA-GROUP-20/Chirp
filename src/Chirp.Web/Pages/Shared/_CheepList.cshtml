@@ -26,7 +26,11 @@
                 <div class="reaction-box">
                     @foreach (var reaction in cheep.Reactions)
                     {
-                        <u class="reactions-display">@reaction.reactionType: @reaction.count</u>
+                        <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@reaction.reactionType">
+                            <u class="reactions-display">@reaction.reactionType: @reaction.count</u>
+                            <input type="hidden" id="reactionId" name="ReactionIdInput" value="@reaction.reactionType" />
+                        </form>
+                        
                     }
                 </div>
                                 @if (SigninManager.IsSignedIn(User) || cheep.Author == User.Identity?.Name){

@@ -4,7 +4,7 @@ using Chirp.Core.Repository;
 
 namespace Chirp.Web;
 
-public record CheepViewModel(string Author, string Message, string Timestamp, ICollection<ReactionDTO> Reactions);
+public record CheepViewModel(string Author, string Message, string Timestamp, ICollection<ReactionDTO> Reactions, Guid CheepId);
 
 
 public interface ICheepService
@@ -17,11 +17,13 @@ public class CheepService : ICheepService
 {
     private readonly IAuthorRepository _authorRepository;
     private readonly ICheepRepository _cheepRepository;
-
-    public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
+    private readonly IReactionRepository _reactionRepository;
+    
+    public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IReactionRepository reactionRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
+        _reactionRepository = reactionRepository;
     }
     
     public ICollection<CheepViewModel> GetCheeps(int page)
@@ -32,21 +34,16 @@ public class CheepService : ICheepService
         foreach (Cheep cheepDto in cheepDtos)
         {
             List<ReactionDTO> reactionTypeCounts = new List<ReactionDTO>();
-                
-            Console.WriteLine("VI PRINTER CHEEPs");
-                
+            
             foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
             {
-                    
-                Console.WriteLine(reactionType);
-                    
                 int count = cheepDto.Reactions
                     .Where(r => r.ReactionType == reactionType)
                     .Count();
                     
                 reactionTypeCounts.Add(new ReactionDTO(reactionType, count));                
             }
-            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
+            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts, cheepDto.CheepId));
         }
         
         return cheeps;
@@ -61,13 +58,9 @@ public class CheepService : ICheepService
             {
                 List<ReactionDTO> reactionTypeCounts = new List<ReactionDTO>();
                 
-                Console.WriteLine("VI PRINTER CHEEPs");
                 
                 foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
                 {
-                    
-                    Console.WriteLine(reactionType);
-
                     int count = 0;
                     
                     if (cheepDto.Reactions != null)
@@ -78,7 +71,7 @@ public class CheepService : ICheepService
                         reactionTypeCounts.Add(new ReactionDTO(reactionType, count));       
                     }
                 }
-                cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
+                cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts, cheepDto.CheepId));
             }
         
         return cheeps;

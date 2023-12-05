@@ -52,7 +52,6 @@ public class ReactionRepository: BaseRepository, IReactionRepository
            {
                throw new Exception("Cheep with id " + cheepId + " not found");
            }
-
             return count;
     }
 }
