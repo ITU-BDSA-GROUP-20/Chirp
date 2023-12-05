@@ -21,6 +21,15 @@
     
     @if (SignInManager.IsSignedIn(User))  
     {
+        Author userAuthor = UserManager.GetUserAsync(User).Result;
+        <h2>User follows these authors:</h2>
+        <p>Following Count: @userAuthor.Following.Count</p>
+        <div>
+            @foreach (Author author in userAuthor.Following)
+            {
+                <p>@author.UserName</p>
+            }
+        </div>
         @await Html.PartialAsync("Shared/_CheepBox", new NewCheep { Text = "" } )
     } 
     

@@ -14,7 +14,7 @@ public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
     private readonly ICheepRepository _cheepRepository;
-    private readonly IAuthorRepository _authrepository;
+    private readonly IAuthorRepository _autherrepository;
     private readonly IValidator<CreateCheep> _validator;
     public required Author user { get; set; }
     
@@ -24,11 +24,11 @@ public class PublicModel : PageModel
    
 
 
-    public PublicModel(ICheepService service, ICheepRepository cheeprepository, IAuthorRepository authrepository, IValidator<CreateCheep> validator , UserManager<Author> userManager)
+    public PublicModel(ICheepService service, ICheepRepository cheeprepository, IAuthorRepository autherrepository, IValidator<CreateCheep> validator , UserManager<Author> userManager)
     {
         _service = service;
         _cheepRepository = cheeprepository;
-        _authrepository = authrepository;
+        _autherrepository = autherrepository;
         _validator = validator;
         _userManager = userManager;
     }
@@ -43,7 +43,7 @@ public class PublicModel : PageModel
        }
         Cheeps = _service.GetCheeps(page);
 
-        user = _userManager.GetUserAsync(User).Result;
+        user = _autherrepository.GetAuthorByName(_userManager.GetUserAsync(User).Result.UserName);
         
         return Page();
     }
@@ -86,14 +86,13 @@ public class PublicModel : PageModel
     {
         Guid author2FollowId = Guid.Parse(Author2FollowInput);
         Author? author = await _userManager.GetUserAsync(User);
-        Author authorToFollow = await _authrepository.GetAuthorByIdAsync(author2FollowId);
-
+        Author authorToFollow = await _autherrepository.GetAuthorByIdAsync(author2FollowId);
 
         if (author == null) return Page();
         if (author.Following.Contains(authorToFollow)) return Page();
 
 
-        await _authrepository.AddFollowing(author, authorToFollow);
+        await _autherrepository.AddFollowing(author, authorToFollow);
         return Page();
     }
 
@@ -102,12 +101,12 @@ public class PublicModel : PageModel
     {
         Guid author2UnfollowId = Guid.Parse(Author2UnfollowInput);
         Author author = await _userManager.GetUserAsync(User);
-        Author authorToUnfollow = await _authrepository.GetAuthorByIdAsync(author2UnfollowId);
+        Author authorToUnfollow = await _autherrepository.GetAuthorByIdAsync(author2UnfollowId);
 
         if (authorToUnfollow == null || author == null) return Page();
         if (!author.Following.Contains(authorToUnfollow)) return Page();
 
-        await _authrepository.RemoveFollowing(author!, authorToUnfollow);
+        await _autherrepository.RemoveFollowing(author!, authorToUnfollow);
         return Page();
     }
    
