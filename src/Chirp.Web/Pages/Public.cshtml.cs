@@ -16,6 +16,7 @@ public class PublicModel : PageModel
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authrepository;
     private readonly IValidator<CreateCheep> _validator;
+    public required Author user { get; set; }
     
     private readonly UserManager<Author> _userManager;
     
@@ -41,6 +42,9 @@ public class PublicModel : PageModel
             page = 1;
        }
         Cheeps = _service.GetCheeps(page);
+
+        user = _userManager.GetUserAsync(User).Result;
+        
         return Page();
     }
     
@@ -76,6 +80,37 @@ public class PublicModel : PageModel
 
          await _cheepRepository.AddCreateCheep(newCheep);
     }
+    
+    [BindProperty] public string Author2FollowInput { get; set; }
+    public async Task<IActionResult> OnPostFollow()
+    {
+        Guid author2FollowId = Guid.Parse(Author2FollowInput);
+        Author? author = await _userManager.GetUserAsync(User);
+        Author authorToFollow = await _authrepository.GetAuthorByIdAsync(author2FollowId);
+
+
+        if (author == null) return Page();
+        if (author.Following.Contains(authorToFollow)) return Page();
+
+
+        await _authrepository.AddFollowing(author, authorToFollow);
+        return Page();
+    }
+
+    [BindProperty] public string Author2UnfollowInput { get; set; }
+    public async Task<IActionResult> OnPostUnfollow()
+    {
+        Guid author2UnfollowId = Guid.Parse(Author2UnfollowInput);
+        Author author = await _userManager.GetUserAsync(User);
+        Author authorToUnfollow = await _authrepository.GetAuthorByIdAsync(author2UnfollowId);
+
+        if (authorToUnfollow == null || author == null) return Page();
+        if (!author.Following.Contains(authorToUnfollow)) return Page();
+
+        await _authrepository.RemoveFollowing(author!, authorToUnfollow);
+        return Page();
+    }
+   
    
 }
 
