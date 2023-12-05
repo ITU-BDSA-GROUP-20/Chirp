@@ -28,11 +28,24 @@ public class ReactionRepository: BaseRepository, IReactionRepository
         }
         else
         {
+            //
             throw new Exception("Cheep with id " + cheepId + " not found");
         }
     }
     public async Task RemoveReaction(ReactionType reaction, Guid cheepId, Guid authorId)
     {
+        try
+        {
+            Reaction? entity = await db.Reactions.FindAsync(cheepId, reaction, authorId);
+            if (entity != null) db.Reactions.Remove(entity);
+            await db.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("ReactionRepository: "+ e);
+            throw;
+        }
+       
         
     }
 }
