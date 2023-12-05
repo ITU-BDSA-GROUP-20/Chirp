@@ -28,13 +28,13 @@ public class CheepServiceUnitTests
         ICheepService service = new CheepService(_cheepRepository, _authorRepository);
         
         // Mock data
-        var author1 = new Author { Id = Guid.NewGuid(), UserName = "Author1", Email = "email1" };
-        var author2 = new Author { Id = Guid.NewGuid(), UserName = "Author2", Email = "email2" };
+        Author author1 = new Author { Id = Guid.NewGuid(), UserName = "Author1", Email = "email1" };
+        Author author2 = new Author { Id = Guid.NewGuid(), UserName = "Author2", Email = "email2" };
         
         CreateCheep cheep1 = new CreateCheep(author1, "Cheep 1");
         CreateCheep cheep2 = new CreateCheep(author2, "Cheep 2");
 
-        var cheepDtos = new List<CreateCheep>();
+        List<CreateCheep> cheepDtos = new List<CreateCheep>();
         cheepDtos.Add(cheep1);
         cheepDtos.Add(cheep2);
         
@@ -43,7 +43,7 @@ public class CheepServiceUnitTests
         _authorRepository.AddAuthor(author2);
         
         // Add cheeps to database
-        foreach (var cheep in cheepDtos)
+        foreach (CreateCheep cheep in cheepDtos)
         {
             _cheepRepository.AddCreateCheep(cheep);
         }

@@ -9,6 +9,11 @@ public interface IAuthorRepository
     public Author GetAuthorByName(string name);
     public Author GetAuthorByEmail(string email);
     public void AddAuthor(Author authorDto);
+    public ICollection<Author> GetFollowersByAuthor(string name);
+    public ICollection<Author> GetFollowingByAuthor(string name);
+    public Task AddFollowing(Author author, Author author2Follow);
+    public Task RemoveFollowing(Author author, Author author2remove);
+    public Task<Author> GetAuthorByIdAsync(Guid authorId);
 
     
 }

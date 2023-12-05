@@ -20,4 +20,7 @@ public class Author : IdentityUser<Guid> {
     public ICollection<Cheep> Cheeps { get; set; } = new List<Cheep>();
     
     public ICollection<Reaction>? Reactions { get; set; }
+    
+    public ICollection<Author> Followers { get; set; } = new List<Author>();
+    public ICollection<Author> Following { get; set; } = new List<Author>();
 }
