@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDbContext))]
-    [Migration("20231121095712_UpdatedMigrations")]
-    partial class UpdatedMigrations
+    [Migration("20231123203356_InitialMigrations")]
+    partial class InitialMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -110,6 +110,30 @@ namespace Chirp.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Cheeps");
+                });
+
+            modelBuilder.Entity("Chirp.Core.Entities.Reaction", b =>
+                {
+                    b.Property<Guid>("ChirpId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CheepId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ReactionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ChirpId", "AuthorId");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("CheepId");
+
+                    b.ToTable("Reactions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -241,9 +265,33 @@ namespace Chirp.Infrastructure.Migrations
                     b.Navigation("Author");
                 });
 
+            modelBuilder.Entity("Chirp.Core.Entities.Reaction", b =>
+                {
+                    b.HasOne("Chirp.Core.Entities.Author", "Author")
+                        .WithMany("Reactions")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Chirp.Core.Entities.Cheep", "Cheep")
+                        .WithMany("Reactions")
+                        .HasForeignKey("CheepId");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Cheep");
+                });
+
             modelBuilder.Entity("Chirp.Core.Entities.Author", b =>
                 {
                     b.Navigation("Cheeps");
+
+                    b.Navigation("Reactions");
+                });
+
+            modelBuilder.Entity("Chirp.Core.Entities.Cheep", b =>
+                {
+                    b.Navigation("Reactions");
                 });
 #pragma warning restore 612, 618
         }
