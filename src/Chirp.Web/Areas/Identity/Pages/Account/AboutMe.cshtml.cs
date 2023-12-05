@@ -12,7 +12,6 @@ public class AboutMeModel : PageModel
 {
     private readonly UserManager<Author> _userManager;
     private readonly ICheepService _service;
-    public ICollection<CheepViewModel> Cheeps { get; set; }
 
     public AboutMeModel(UserManager<Author> userManager, ICheepService service)
     {
@@ -44,7 +43,7 @@ public class AboutMeModel : PageModel
         
         try
         {
-            UserModel.Cheeps = _service.GetCheepsFromAuthor(UserModel.Username, page);
+            UserModel.Cheeps = _service.GetCheepsFromAuthor(UserModel.Username, 1);
         }
         catch (Exception e)
         {
