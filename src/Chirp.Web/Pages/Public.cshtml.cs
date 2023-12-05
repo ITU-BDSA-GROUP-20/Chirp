@@ -100,11 +100,11 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnPostUnfollow()
     {
         Guid author2UnfollowId = Guid.Parse(Author2UnfollowInput);
-        Author author = await _userManager.GetUserAsync(User);
+        Author author = _autherrepository.GetAuthorByName(_userManager.GetUserAsync(User).Result.UserName);
         Author authorToUnfollow = await _autherrepository.GetAuthorByIdAsync(author2UnfollowId);
 
         if (authorToUnfollow == null || author == null) return Page();
-        if (!author.Following.Contains(authorToUnfollow)) return Page();
+        //if (!author.Following.Contains(authorToUnfollow)) return Page();
 
         await _autherrepository.RemoveFollowing(author!, authorToUnfollow);
         return Page();

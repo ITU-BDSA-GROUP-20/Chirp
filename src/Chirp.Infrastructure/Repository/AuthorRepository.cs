@@ -30,7 +30,10 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     
     public async Task<Author> GetAuthorByIdAsync(Guid authorId)
     {
-        Author author = await db.Users.Include( e => e.Cheeps)
+        Author author = await db.Users
+            .Include( e => e.Cheeps)
+            .Include(e => e.Following)
+            .Include(e => e.Followers)
             .Where(a => a.Id == authorId).FirstOrDefaultAsync()!;
          
          
