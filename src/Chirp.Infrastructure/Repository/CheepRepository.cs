@@ -18,7 +18,7 @@ public class CheepRepository : BaseRepository, ICheepRepository
         ICollection<Cheep> cheeps = db.Cheeps.Include(e => e.Author)
             .Include(e => e.Reactions)
             .OrderByDescending(c => c.TimeStamp)
-            .Skip(PageSize * page)
+            .Skip(PageSize * (page - 1))
             .Take(PageSize)
             .ToList();
 
@@ -53,9 +53,9 @@ public class CheepRepository : BaseRepository, ICheepRepository
         Console.WriteLine("Cheep added async");
     }
 
-    public async Task AddCreateCheep(CreateCheep cheep)
+    public async Task<Cheep> AddCreateCheep(CreateCheep cheep)
     {
-        var entity = new Cheep()
+        Cheep entity = new Cheep()
         {
             CheepId = new Guid(),
             Text = cheep.Text,
@@ -63,6 +63,9 @@ public class CheepRepository : BaseRepository, ICheepRepository
             Author = cheep.Author,
             AuthorId = cheep.Author.Id
         };
+        
         await AddCheep(entity);
+
+        return entity;
     }
 }

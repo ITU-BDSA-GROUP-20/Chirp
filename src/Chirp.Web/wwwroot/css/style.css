@@ -226,3 +226,12 @@ li.topic {
   -webkit-border-radius: 5px;
   min-height: 20px;
 }
+.reaction-box{
+  display: flex;
+  flex-direction: row;
+}
+
+.reactions-display{
+  margin: 0 10px 0 10px;
+  max-width: fit-content;
+}

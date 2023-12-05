@@ -16,14 +16,13 @@
     <h1><img src="/images/icon1.png" alt="Icon1"/>Chirp!</h1>
     
     <div class=navigation>
-        @User.Identity.Name
-        @User.Identity.IsAuthenticated
-        @SignInManager.IsSignedIn(User)
-        @if (SignInManager.IsSignedIn(User))
+        @if (SignInManager.IsSignedIn(User) && User.Identity != null)
         {
             <div>
+
                 <a href="/@(User.Identity.Name)">My timeline</a> |
                 <a href="/@(User.Identity.Name)/AboutMe">About Me</a> |
+
                 <a href="/">Public timeline</a> |
                 <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
                     <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
@@ -33,7 +32,7 @@
         else
         {
             <div>
-                <a href="/">public timeline</a> |
+                <a href="/">Public timeline</a> |
                 <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
                 <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
             </div>

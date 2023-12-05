@@ -13,10 +13,10 @@
                 @cheep.Message
                 <small>&mdash; @cheep.Timestamp</small>
             </p>
-            <div style="display: flex; flex-direction: row;">
+            <div class="reaction-box">
             @foreach (var reaction in cheep.Reactions)
             {
-                <p style="margin: 0 10px 0 10px"><u>@reaction.reactionType:  @reaction.count</u></p>
+                <u class="reactions-display">@reaction.reactionType:  @reaction.count</u>
             }
             </div>
         </li>

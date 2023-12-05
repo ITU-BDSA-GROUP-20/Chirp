@@ -30,7 +30,7 @@ builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 
 //builder.Services.AddDistributedMemoryCache();
-
+//TODO databaseMigrate(context) lad være med at kalde ensure created før der bliver kaldt migrate
 
 builder.Services.AddSession(
 	options =>
