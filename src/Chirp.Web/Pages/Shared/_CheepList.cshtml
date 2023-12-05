@@ -6,18 +6,24 @@
     @foreach (CheepViewModel cheep in Model.Cheeps)
     {
         <li>
-            <p>
-                <strong>
-                    <a href="/@cheep.Author">@cheep.Author</a>
-                </strong>
-                @cheep.Message
-                <small>&mdash; @cheep.Timestamp</small>
-            </p>
+            <div class="cheep-view">
+                <div class="cheep-info">
+                    
+                    <strong>
+                        <a href="/@cheep.Author">@cheep.Author</a>
+                    </strong>
+                    <p class="cheep-message">
+                        @cheep.Message
+                    </p>
+
+                    <small>&mdash; @cheep.Timestamp</small>
+                </div>
             <div class="reaction-box">
-            @foreach (var reaction in cheep.Reactions)
-            {
-                <u class="reactions-display">@reaction.reactionType:  @reaction.count</u>
-            }
+                @foreach (var reaction in cheep.Reactions)
+                {
+                    <u class="reactions-display">@reaction.reactionType: @reaction.count</u>
+                }
+            </div>
             </div>
         </li>
     }
