@@ -4,23 +4,46 @@
     ViewData["Title"] = "About Me";
 }
 
-<h2>About Me - @Model.UserModel.Username</h2>
+<h2>About Me</h2>
 
-<form>
-    <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" class="form-control" value="@Model.UserModel.Username" readonly />
+<div class="cheepbox">
+    <div>
+        <span class="">Username:</span> 
+        <span class="">@Model.UserModel.Username</span>
     </div>
     
     <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email" class="form-control" value="@Model.UserModel.Email" readonly />
+        <span>Email:</span>
+        <span class="">@Model.UserModel.Email</span>
     </div>
-
-    <!-- Add more fields here as needed -->
-    
-    
+   
     <!-- TODO Create a red "Forget Me" button -->
+    
+    <hr/>
+    
+    <!-- TODO Create following stats -->
+    
+    <hr/>
+    
+    <!-- TODO Create a list of cheeps -->
+    
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div>
+            <h2>My Cheeps </h2>
+            
+            @if (!Model.Cheeps.Any())
+            {
+                <div>
+                    <p>@Model.Authorname has no cheeps so far.</p>
+                </div>
+            }
+            else
+            {
+                @await Html.PartialAsync("Shared/_CheepList", Model)
+            }
+        </div>
+    }
 
-</form>
+</div>
 
