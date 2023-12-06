@@ -20,6 +20,7 @@ public class PublicModel : PageModel
     private readonly UserManager<Author> _userManager;
     public required ICollection<CheepViewModel> Cheeps { get; set; }
     public required int totalPages { get; set; }
+    public required int currentPage { get; set; }
    
 
 
@@ -33,18 +34,9 @@ public class PublicModel : PageModel
     }
 
     public ActionResult OnGet()
-    { 
-        int page;
-        if(Request.Query.ContainsKey("page")){
-            page = int.Parse(Request.Query["page"]! );
-        } else{
-            page = 1;
-        }
-        Cheeps = _service.GetCheeps(page);
+    {
 
-        user = _userManager.GetUserAsync(User).Result;
-        totalPages = _cheepRepository.GetPageCount();
-
+        InitializeVariables();
         return Page();
     }
     
@@ -110,8 +102,27 @@ public class PublicModel : PageModel
         await _authrepository.RemoveFollowing(author!, authorToUnfollow);
         return Page();
     }
+
+    public void InitializeVariables()
+    {
+        int page;
+        if (Request.Query.ContainsKey("page"))
+        {
+            page = int.Parse(Request.Query["page"]!);
+        }
+        else
+        {
+            page = 1;
+        }
+        Cheeps = _service.GetCheeps(page);
+
+        user = _userManager.GetUserAsync(User).Result;
+        totalPages = _cheepRepository.GetPageCount();
+        currentPage = page;
+    }
    
 }
+
 
 public class NewCheep
 {

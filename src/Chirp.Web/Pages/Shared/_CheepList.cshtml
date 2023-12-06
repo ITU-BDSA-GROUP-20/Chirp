@@ -47,16 +47,37 @@
         </li>
     }
 </ul>
+
 <div>
 
     @{
+
         var currentUrl = Context.Request.Path;
 
-        for (int i = 1; i <= Model.totalPages; i++)
-        {
-            var newUrl = $"{currentUrl}?page={i}";
-            <a href="@newUrl">@i</a>
-        }
+        var newUrl1 = $"{currentUrl}?page=1";
+        var newUrl2 = $"{currentUrl}?page={@Model.currentPage-1}";
+        var newUrl3 = $"{currentUrl}?page={@Model.currentPage}";
+        var newUrl4 = $"{currentUrl}?page={@Model.currentPage+1}";
+        var newUrl5 = $"{currentUrl}?page={@Model.totalPages}";
+
+        //string name1 = "[1]";
+        string name1 = $"[<<]";
+        string name2 = $"[{@Model.currentPage - 1}]";
+        string name3 = $"[{@Model.currentPage}]";
+        string name4 = $"[{@Model.currentPage + 1}]";
+        //string name5 = $"[{@Model.totalPages}]";
+        string name5 = $"[>>]";
+
+        
+        if (@Model.currentPage > 1) {<a href="@newUrl1">@name1</a>}
+        if (@Model.currentPage != 1) {<a href="@newUrl2">@name2</a>}
+
+        <a href="@newUrl3" style="margin-inline:10px">@name3</a>
+
+        if (@Model.currentPage != @Model.totalPages) {<a href="@newUrl4">@name4</a>}
+        if (@Model.currentPage < @Model.totalPages) {<a href="@newUrl5">@name5</a>}
+
+
     }
 
 
