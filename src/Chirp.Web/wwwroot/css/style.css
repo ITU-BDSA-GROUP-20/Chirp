@@ -230,7 +230,7 @@ li.topic {
   display: flex;
   flex-direction: row;
 }
-.reacted{
+input.reacted{
   color: #105714;
 }
 
