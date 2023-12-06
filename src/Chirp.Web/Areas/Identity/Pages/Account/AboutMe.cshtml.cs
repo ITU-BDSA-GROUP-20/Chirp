@@ -40,16 +40,10 @@ public class AboutMeModel : PageModel
         UserModel = new UserModel(user);
         
         // Retrieve the followers and following of the user
-        try
-        {
-            Followers = _service.GetFollowers(UserModel.Id);
-            Following = _service.GetFollowing(UserModel.Id);
-        }
-        catch (Exception e)
-        {
-            Followers = new List<Author>();
-            Following = new List<Author>();
-        }
+        
+        Followers = _service.GetFollowers(UserModel.Username);
+        Following = _service.GetFollowing(UserModel.Id);
+        
         
         int page;
         if(Request.Query.ContainsKey("page")){

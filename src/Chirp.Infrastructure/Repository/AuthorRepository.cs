@@ -112,7 +112,6 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         if(cheeps.Count < pageSizeIndex + PageSize) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,cheeps.Count - pageSizeIndex);
         if(cheeps.Count > 32) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize);
         return cheeps;
-        
     }
 
     public ICollection<Author> GetFollowersByAuthor(Guid id)
