@@ -49,29 +49,23 @@
 </ul>
 <div>
 
-    <form method="post" asp-page="public" asp-page-handler="GoToPage" id="goToPageForm">
-        <input type="hidden" name="NewPage" value="1" />
-        <input type="submit" value="1" />
-    </form>
 
-    <form method="post" asp-page="public" asp-page-handler="GoToPage" id="goToPageForm">
-        <input type="hidden" name="NewPage" value="1" />
-        <input type="submit" value="Prev" />
-    </form>
+    @{
+        string handlerPage;
+        if (HttpContext.GetRouteValue("author") == null) {
+            handlerPage = "public";
+        } else {
+            handlerPage = "userTimeline";
+        }
 
-    <form method="post" asp-page="public" asp-page-handler="GoToPage" id="goToPageForm">
-        <input type="hidden" name="NewPage" value="1" />
-        <input type="submit" value="current" />
-    </form>
+        for (int i = 1; i <= Model.totalPages; i++)
+        {
 
-    <form method="post" asp-page="public" asp-page-handler="GoToPage" id="goToPageForm">
-        <input type="hidden" name="NewPage" value="1" />
-        <input type="submit" value="Next" />
-    </form>
-
-    <form method="post" asp-page="public" asp-page-handler="GoToPage" id="goToPageForm">
-        <input type="hidden" name="NewPage" value="@ViewData["totalPages"]" />
-        <input type="submit" value="@ViewData["totalPages"]" />
-    </form>
+        <form method="post" asp-page="@handlerPage" asp-page-handler="GoToPage" id="goToPageForm" style="display:inline">
+            <input type="hidden" name="NewPage" value="@i" />
+            <input type="submit" value="@i" />
+        </form>
+        }
+    }
 
 </div>

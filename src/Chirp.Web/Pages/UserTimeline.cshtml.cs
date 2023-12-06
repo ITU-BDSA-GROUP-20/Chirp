@@ -13,16 +13,22 @@ public class UserTimelineModel : PageModel
 {
     private readonly ICheepService _service;
     private readonly UserManager<Author> _userManager;
-    
+    private readonly IAuthorRepository _authorRepository;
+
+
     public ICollection<CheepViewModel> Cheeps { get; set; }
     public string Authorname;
     
     public required Author user { get; set; }
+    public required int totalPages { get; set; }
 
-    public UserTimelineModel(ICheepService service, UserManager<Author> userManager)
+
+
+    public UserTimelineModel(ICheepService service, UserManager<Author> userManager, IAuthorRepository authorRepository)
     {
         _service = service;
         _userManager = userManager;
+        _authorRepository = authorRepository;
     }
 
     public ActionResult OnGet(string author)
@@ -46,6 +52,8 @@ public class UserTimelineModel : PageModel
         }
 
         user = _userManager.GetUserAsync(User).Result;
+
+        totalPages = _authorRepository.GetPageCountByAuthor(author);
 
         return Page();
     }

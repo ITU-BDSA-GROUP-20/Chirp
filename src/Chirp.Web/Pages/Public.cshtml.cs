@@ -19,6 +19,7 @@ public class PublicModel : PageModel
     public required Author user { get; set; }
     private readonly UserManager<Author> _userManager;
     public required ICollection<CheepViewModel> Cheeps { get; set; }
+    public required int totalPages { get; set; }
    
 
 
@@ -42,8 +43,7 @@ public class PublicModel : PageModel
         Cheeps = _service.GetCheeps(page);
 
         user = _userManager.GetUserAsync(User).Result;
-        ViewData.TryAdd("totalPages", _cheepRepository.GetPageCount());
-
+        totalPages = _cheepRepository.GetPageCount();
 
         return Page();
     }
@@ -63,7 +63,7 @@ public class PublicModel : PageModel
 
         await CreateCheep(cheep);
         
-        return RedirectToPage("/UserTimeline", new { author = User.Identity?.Name });;
+        return RedirectToPage("/UserTimeline", new { author = User.Identity?.Name });
         
     }
     
@@ -121,7 +121,9 @@ public class PublicModel : PageModel
         Cheeps = _service.GetCheeps(page);
         user = _userManager.GetUserAsync(User).Result;
 
-        ViewData.TryAdd("totalPages", _cheepRepository.GetPageCount());
+        totalPages = _cheepRepository.GetPageCount();
+
+        
 
         return Page();
     }
