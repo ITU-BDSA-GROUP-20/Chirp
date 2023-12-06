@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using SQLitePCL;
 using ValidationException = FluentValidation.ValidationException;
 
 namespace Chirp.Web.Pages;
@@ -14,7 +15,7 @@ public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
     private readonly ICheepRepository _cheepRepository;
-    private readonly IAuthorRepository _autherrepository;
+    private readonly IAuthorRepository _autherRepository;
     private readonly IValidator<CreateCheep> _validator;
     public required Author user { get; set; }
     
@@ -24,11 +25,11 @@ public class PublicModel : PageModel
    
 
 
-    public PublicModel(ICheepService service, ICheepRepository cheeprepository, IAuthorRepository autherrepository, IValidator<CreateCheep> validator , UserManager<Author> userManager)
+    public PublicModel(ICheepService service, ICheepRepository cheeprepository, IAuthorRepository autherRepository, IValidator<CreateCheep> validator , UserManager<Author> userManager)
     {
         _service = service;
         _cheepRepository = cheeprepository;
-        _autherrepository = autherrepository;
+        _autherRepository = autherRepository;
         _validator = validator;
         _userManager = userManager;
     }
@@ -43,7 +44,7 @@ public class PublicModel : PageModel
        }
         Cheeps = _service.GetCheeps(page);
 
-        user = _autherrepository.GetAuthorByName(_userManager.GetUserAsync(User).Result.UserName);
+        user = _autherRepository.GetAuthorByName(_userManager.GetUserAsync(User).Result.UserName);
         
         return Page();
     }
@@ -84,29 +85,30 @@ public class PublicModel : PageModel
     [BindProperty] public string Author2FollowInput { get; set; }
     public async Task<IActionResult> OnPostFollow()
     {
-        Guid author2FollowId = Guid.Parse(Author2FollowInput);
-        Author? author = await _userManager.GetUserAsync(User);
-        Author authorToFollow = await _autherrepository.GetAuthorByIdAsync(author2FollowId);
+        Guid authorId = user.Id;
+        Guid authorFollowedId = Guid.Parse(Author2FollowInput);
+        
+        Author author = await _autherRepository.GetAuthorByIdAsync(authorId);
+        Author authorToFollow = await _autherRepository.GetAuthorByIdAsync(authorFollowedId);
 
         if (author == null) return Page();
-        if (author.Following.Contains(authorToFollow)) return Page();
 
-
-        await _autherrepository.AddFollowing(author, authorToFollow);
+        await _autherRepository.AddFollowing(author, authorToFollow);
         return Page();
     }
 
     [BindProperty] public string Author2UnfollowInput { get; set; }
     public async Task<IActionResult> OnPostUnfollow()
     {
-        Guid author2UnfollowId = Guid.Parse(Author2UnfollowInput);
-        Author author = _autherrepository.GetAuthorByName(_userManager.GetUserAsync(User).Result.UserName);
-        Author authorToUnfollow = await _autherrepository.GetAuthorByIdAsync(author2UnfollowId);
+        Guid authorId = user.Id;
+        Guid authorFollowedId = Guid.Parse(Author2UnfollowInput);
+
+        Author author = await _autherRepository.GetAuthorByIdAsync(authorId);
+        Author authorToUnfollow = await _autherRepository.GetAuthorByIdAsync(authorFollowedId);
 
         if (authorToUnfollow == null || author == null) return Page();
-        //if (!author.Following.Contains(authorToUnfollow)) return Page();
 
-        await _autherrepository.RemoveFollowing(author!, authorToUnfollow);
+        await _autherRepository.RemoveFollowing(author!, authorToUnfollow);
         return Page();
     }
    
