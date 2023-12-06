@@ -31,6 +31,11 @@ public class CheepRepository : BaseRepository, ICheepRepository
         return db.Cheeps.Count();
     }
 
+    public int GetPageCount()
+    {
+        return GetCheepCount()/PageSize+1;
+    }
+
     public void DeleteCheepById(Guid cheepId)
     {
         //Delete the specified cheep from the database

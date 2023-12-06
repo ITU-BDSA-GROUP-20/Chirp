@@ -17,9 +17,7 @@ public class PublicModel : PageModel
     private readonly IAuthorRepository _authrepository;
     private readonly IValidator<CreateCheep> _validator;
     public required Author user { get; set; }
-    
     private readonly UserManager<Author> _userManager;
-    
     public required ICollection<CheepViewModel> Cheeps { get; set; }
    
 
@@ -44,7 +42,9 @@ public class PublicModel : PageModel
         Cheeps = _service.GetCheeps(page);
 
         user = _userManager.GetUserAsync(User).Result;
-        
+        ViewData.TryAdd("totalPages", _cheepRepository.GetPageCount());
+
+
         return Page();
     }
     
@@ -120,6 +120,8 @@ public class PublicModel : PageModel
         if (page < 1) page = 1;
         Cheeps = _service.GetCheeps(page);
         user = _userManager.GetUserAsync(User).Result;
+
+        ViewData.TryAdd("totalPages", _cheepRepository.GetPageCount());
 
         return Page();
     }
