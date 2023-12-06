@@ -32,7 +32,7 @@ public class UserTimelineModel : PageModel
         _authorRepository = authorRepository;
     }
 
-    public ActionResult OnGet()
+    public ActionResult OnGet(string author)
     {
         user = _userManager.GetUserAsync(User).Result;
         if (user == null)
