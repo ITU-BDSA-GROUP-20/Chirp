@@ -31,22 +31,12 @@
                     }
                 </div>
                 @if (SigninManager.IsSignedIn(User) || cheep.Author == User.Identity?.Name){
-<<<<<<< Updated upstream
-                    if (!Model.user.Following.Contains(await AuthorRepository.GetAuthorByIdAsync(cheep.AuthorId))) {
-                        <p>@Model.user</p>
-                        <p>@await AuthorRepository.GetAuthorByIdAsync(cheep.AuthorId)</p>
-                        <p>@cheep.AuthorId</p>
-=======
                     if (!Model.user.Following.Contains(cheepAuthor)) {
->>>>>>> Stashed changes
                         <form asp-page-handler="Follow" method="post">
                             <input type="hidden" id="author2FollowId" name="Author2FollowInput" value="@cheep.AuthorId.ToString()" />
                             <input type="submit" value="Follow" />
                         </form>
                     } else {
-                        <p>@Model.user</p>
-                        <p>@await AuthorRepository.GetAuthorByIdAsync(cheep.AuthorId)</p>
-                        <p>@cheep.AuthorId</p>
                         <form asp-page-handler="Unfollow" method="post">
                             <input type="hidden" id="author2UnfollowId" name="Author2UnfollowInput" value="@cheep.AuthorId.ToString()" />
                             <input type="submit" value="Unfollow" />
