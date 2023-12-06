@@ -57,6 +57,5 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
         modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(e => e.UserId);
         modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(e => e.RoleId);
         modelBuilder.Entity<IdentityUserToken<Guid>>().HasKey(e => e.UserId);
-
     }
 }
