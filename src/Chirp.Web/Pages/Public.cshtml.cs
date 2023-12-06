@@ -36,11 +36,11 @@ public class PublicModel : PageModel
     public ActionResult OnGet()
     { 
         int page;
-       if(Request.Query.ContainsKey("page")){
+        if(Request.Query.ContainsKey("page")){
             page = int.Parse(Request.Query["page"]! );
-       } else{
+        } else{
             page = 1;
-       }
+        }
         Cheeps = _service.GetCheeps(page);
 
         user = _userManager.GetUserAsync(User).Result;

@@ -1,26 +1,53 @@
 ﻿@page "/{author}/AboutMe"
+@using Chirp.Core.Entities
 @model Chirp.Web.Pages.AboutMeModel
 @{
     ViewData["Title"] = "About Me";
 }
+@inject SignInManager<Author> SignInManager
 
-<h2>About Me - @Model.UserModel.Username</h2>
+<h2>About Me</h2>
 
-<form>
-    <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" class="form-control" value="@Model.UserModel.Username" readonly />
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="cheepbox">
+        <div>
+            <span class="">Username:</span> 
+            <span class="">@Model.UserModel.Username</span>
+        </div>
+    
+        <div class="form-group">
+            <span>Email:</span>
+            <span class="">@Model.UserModel.Email</span>
+        </div>
+   
+        <!-- TODO Create a red "Forget Me" button -->
     </div>
-    
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email" class="form-control" value="@Model.UserModel.Email" readonly />
+
+    <hr/>
+
+    <div class="cheepbox">
+        <div>
+            
+        </div>
     </div>
 
-    <!-- Add more fields here as needed -->
+    <hr/>
     
-    
-    <!-- TODO Create a red "Forget Me" button -->
+    <h3>My Cheeps</h3>
 
-</form>
+    @if (Model.Cheeps == null || !Model.Cheeps.Any())
+    {
+        <div>
+            <p>You have no cheeps so far.</p>
+        </div>
+    }
+    else 
+    {
+        @await Html.PartialAsync("~/Pages/Shared/_CheepList.cshtml", Model)
+    }
+}
+
+
+
 
