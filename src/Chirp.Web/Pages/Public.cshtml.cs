@@ -107,8 +107,6 @@ public class PublicModel : PageModel
         await _authorRepository.RemoveFollowing(author!, authorToUnfollow);
         return Page();
     }
-   
-   
 }
 
 public class NewCheep
