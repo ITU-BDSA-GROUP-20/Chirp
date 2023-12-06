@@ -82,24 +82,20 @@ public class PublicModel : PageModel
 
          await _cheepRepository.AddCreateCheep(newCheep);
     }
-    [BindProperty] public NewReaction NewReaction { get; set; }
+  
     public async Task<IActionResult> OnPostReaction(Guid cheepId, ReactionType reactionType)
     {
        
         Author? author = await _userManager.GetUserAsync(User);
         if (await _reactionRepository.HasUserReacted(cheepId, author!.Id)) return Page();
-        
-        await _reactionRepository.AddReaction(NewReaction.ReactionType, NewReaction.CheepId, author!.Id);
-        
+        await _reactionRepository.AddReaction(reactionType, cheepId, author!.Id);
         return Page();
     }
     public async Task<IActionResult> OnPostRemoveReaction(Guid cheepId, ReactionType reactionType)
     {
         Author? author = await _userManager.GetUserAsync(User);
         if (!await _reactionRepository.HasUserReacted(cheepId, author!.Id)) return Page();
-        
-        await _reactionRepository.RemoveReaction(NewReaction.ReactionType, NewReaction.CheepId, author!.Id);
-        
+        await _reactionRepository.RemoveReaction(reactionType, cheepId, author!.Id);
         return Page();
     }
     
@@ -145,11 +141,5 @@ public class NewCheep
 
 }
 
-public class NewReaction
-{
-    [Required]
-    public Guid CheepId { get; set; }
-    public ReactionType ReactionType { get; set; }
-}
 
 
