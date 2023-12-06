@@ -110,24 +110,6 @@ public class PublicModel : PageModel
         await _authrepository.RemoveFollowing(author!, authorToUnfollow);
         return Page();
     }
-
-
-    [BindProperty] public string NewPage { get; set; }
-    public IActionResult OnPostGoToPage()
-    {
-        int page = int.Parse(NewPage);
-
-        if (page < 1) page = 1;
-        Cheeps = _service.GetCheeps(page);
-        user = _userManager.GetUserAsync(User).Result;
-
-        totalPages = _cheepRepository.GetPageCount();
-
-        
-
-        return Page();
-    }
-   
    
 }
 
