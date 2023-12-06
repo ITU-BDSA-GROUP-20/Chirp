@@ -79,14 +79,16 @@ public class CheepServiceUnitTests
                 Author = author1,
                 AuthorId = author1.Id,
                 Text = "Cheep 1",
-                TimeStamp = DateTime.Now
+                TimeStamp = DateTime.Now,
+                Reactions = new List<Reaction>()
             },
             new Cheep
             {
                 Author = author2,
                 AuthorId = author2.Id,
                 Text = "Cheep 2",
-                TimeStamp = DateTime.Now
+                TimeStamp = DateTime.Now,
+                Reactions = new List<Reaction>()
             }
         };
 
