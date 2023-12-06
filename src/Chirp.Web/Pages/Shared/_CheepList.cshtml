@@ -7,7 +7,7 @@
 @inject IAuthorRepository AuthorRepository
 @model dynamic
 
- 
+
 <ul id="messagelist" class="cheeps">
     @foreach (CheepViewModel cheep in Model.Cheeps)
     {
@@ -24,10 +24,11 @@
                     <small>&mdash; @cheep.Timestamp</small>
                 </div>
                 <div class="reaction-box">
-                    @if(SigninManager.IsSignedIn(User)){
+                    @if (SigninManager.IsSignedIn(User))
+                    {
                         @foreach (var reaction in @cheep.Reactions)
                         {
-                            @if (reaction.AuthorIds.Contains( UserManager.GetUserAsync(User).Result!.Id))
+                            @if (reaction.AuthorIds.Contains(UserManager.GetUserAsync(User).Result!.Id))
                             {
                                 <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@reaction.ReactionType">
                                     <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="@reaction.ReactionType: @reaction.Count"/>
@@ -40,27 +41,32 @@
                                 </form>
                             }
                         }
-                    } else {
+                    }
+                    else
+                    {
                         @foreach (var reaction in cheep.Reactions)
                         {
                             <u class="reactions-display">@reaction.ReactionType: @reaction.Count</u>
                         }
                     }
                 </div>
-                                @if (SigninManager.IsSignedIn(User) || cheep.Author == User.Identity?.Name){
-                                    if (!Model.user.Following.Contains(UserManager.GetUserAsync(User).Result)) {
-                                <form method="post" asp-page="public" asp-page-handler="Follow">
-                                    <input  type="hidden" id="author2FollowId" name="Author2FollowInput" value="@AuthorRepository.GetAuthorByName(cheep.Author).Id" />
-                                    <input type="submit" value="Follow" />
-                                </form>
-                                            } else {
-                                <form method="post" asp-page="public" asp-page-handler="Unfollow">
-                                    <input type="hidden" id="author2UnfollowId" name="Author2UnfollowInput" value="@AuthorRepository.GetAuthorByName(cheep.Author).Id" />
-                                    <input type="submit" value="Unfollow" />
-                                </form>
-                                    }
-                
-                                }
+                @if (SigninManager.IsSignedIn(User) || cheep.Author == User.Identity?.Name)
+                {
+                    if (!Model.user.Following.Contains(UserManager.GetUserAsync(User).Result))
+                    {
+                        <form method="post" asp-page="public" asp-page-handler="Follow">
+                            <input type="hidden" id="author2FollowId" name="Author2FollowInput" value="@AuthorRepository.GetAuthorByName(cheep.Author).Id"/>
+                            <input type="submit" value="Follow"/>
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post" asp-page="public" asp-page-handler="Unfollow">
+                            <input type="hidden" id="author2UnfollowId" name="Author2UnfollowInput" value="@AuthorRepository.GetAuthorByName(cheep.Author).Id"/>
+                            <input type="submit" value="Unfollow"/>
+                        </form>
+                    }
+                }
             </div>
         </li>
     }
