@@ -5,8 +5,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using SQLitePCL;
 using ValidationException = FluentValidation.ValidationException;
 
 namespace Chirp.Web.Pages;
@@ -17,7 +15,7 @@ public class PublicModel : PageModel
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
     private readonly IValidator<CreateCheep> _validator;
-    public required Author user { get; set; }
+    public Author user { get; set; }
     
     private readonly UserManager<Author> _userManager;
     
@@ -43,7 +41,7 @@ public class PublicModel : PageModel
             page = 1;
         }
         Cheeps = _service.GetCheeps(page);
-
+        
         user = _authorRepository.GetAuthorByName(_userManager.GetUserAsync(User).Result.UserName);
         
         return Page();
@@ -54,10 +52,10 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnPostCreateCheep()
     {   
         
-         if (!ModelState.IsValid)
-         { 
+        if (!ModelState.IsValid)
+        { 
             return Page();
-         }
+        }
        
         var author = await _userManager.GetUserAsync(User);
         var cheep = new CreateCheep(author!, NewCheep.Text!);
@@ -70,25 +68,24 @@ public class PublicModel : PageModel
     
     public async Task CreateCheep(CreateCheep newCheep)
     {
-         var validationResult = await _validator.ValidateAsync(newCheep);
+        var validationResult = await _validator.ValidateAsync(newCheep);
          
-          if (!validationResult.IsValid)
-          {
-              Console.WriteLine(validationResult);
-              //Fatal exception
-              throw new ValidationException("The Cheep must be between 5 and 160 characters.(CreateCheep)");
-         }
+        if (!validationResult.IsValid)
+        {
+            Console.WriteLine(validationResult);
+            //Fatal exception
+            throw new ValidationException("The Cheep must be between 5 and 160 characters.(CreateCheep)");
+        }
 
-         await _cheepRepository.AddCreateCheep(newCheep);
+        await _cheepRepository.AddCreateCheep(newCheep);
     }
     
     [BindProperty] public string Author2FollowInput { get; set; }
     public async Task<IActionResult> OnPostFollow()
     {
-        Guid authorId = user.Id;
         Guid authorFollowedId = Guid.Parse(Author2FollowInput);
         
-        Author author = await _authorRepository.GetAuthorByIdAsync(authorId);
+        Author author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
         Author authorToFollow = await _authorRepository.GetAuthorByIdAsync(authorFollowedId);
 
         if (author == null) return Page();
@@ -100,12 +97,11 @@ public class PublicModel : PageModel
     [BindProperty] public string Author2UnfollowInput { get; set; }
     public async Task<IActionResult> OnPostUnfollow()
     {
-        Guid authorId = user.Id;
-        Guid authorFollowedId = Guid.Parse(Author2UnfollowInput);
+        Guid authorUnfollowedId = Guid.Parse(Author2UnfollowInput);
 
-        Author author = await _authorRepository.GetAuthorByIdAsync(authorId);
-        Author authorToUnfollow = await _authorRepository.GetAuthorByIdAsync(authorFollowedId);
-
+        Author author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
+        Author authorToUnfollow = await _authorRepository.GetAuthorByIdAsync(authorUnfollowedId);
+   
         if (authorToUnfollow == null || author == null) return Page();
 
         await _authorRepository.RemoveFollowing(author!, authorToUnfollow);
@@ -122,6 +118,3 @@ public class NewCheep
     public string? Text { get; set; }
 
 }
-
-
-
