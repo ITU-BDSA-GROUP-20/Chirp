@@ -23,6 +23,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = db.Users
             .Include(e => e.Cheeps)
+            .Include(e => e.Following)
+            .Include(e => e.Followers)
             .Where(a => a.Id == authorId).FirstOrDefault()!;
             
         return author;
