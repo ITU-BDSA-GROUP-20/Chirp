@@ -43,7 +43,7 @@ public class AboutMeModel : PageModel
         
         try
         {
-            Cheeps = _service.GetCheepsFromAuthor(UserModel.Username, 1);
+            Cheeps = _service.GetCheepsFromAuthor(UserModel.Username, page);
         }
         catch (Exception e)
         {
