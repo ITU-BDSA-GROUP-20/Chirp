@@ -15,7 +15,7 @@ public class UserTimelineModel : PageModel
     private readonly UserManager<Author> _userManager;
     
     public ICollection<CheepViewModel> Cheeps { get; set; }
-    public string Authorname;
+    public Guid AuthorId;
     
     public required Author user { get; set; }
 
@@ -25,7 +25,7 @@ public class UserTimelineModel : PageModel
         _userManager = userManager;
     }
 
-    public ActionResult OnGet(string author)
+    public ActionResult OnGet(Guid authorId)
     {
         int page;
         if(Request.Query.ContainsKey("page")){
@@ -34,11 +34,11 @@ public class UserTimelineModel : PageModel
             page = 1;
         }
 
-        Authorname = author;
+        AuthorId = authorId;
         
         try
         {
-            Cheeps = _service.GetCheepsFromAuthor(author, page);
+            Cheeps = _service.GetCheepsFromAuthor(AuthorId, page);
         }
         catch (Exception e)
         {
