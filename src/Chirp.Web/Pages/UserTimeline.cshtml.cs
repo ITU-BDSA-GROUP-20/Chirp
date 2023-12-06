@@ -57,4 +57,19 @@ public class UserTimelineModel : PageModel
 
         return Page();
     }
+
+    [BindProperty] public string NewPage { get; set; }
+    public IActionResult OnPostGoToPage(string author)
+    {
+        int page = int.Parse(NewPage);
+
+        Cheeps = _service.GetCheepsFromAuthor(author, page);
+        user = _userManager.GetUserAsync(User).Result;
+
+        totalPages = _authorRepository.GetPageCountByAuthor(author);
+
+
+
+        return Page();
+    }
 }
