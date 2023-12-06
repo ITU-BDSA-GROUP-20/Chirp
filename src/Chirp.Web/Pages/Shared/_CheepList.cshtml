@@ -50,22 +50,15 @@
 <div>
 
     @{
-        string handlerPage;
-        string authorName = Context.Request.RouteValues["author"]?.ToString();
-        if (string.IsNullOrEmpty(authorName)) {
-            handlerPage = "public";
-        } else {
-            handlerPage = "userTimeline";
-        }
+        var currentUrl = Context.Request.Path;
 
         for (int i = 1; i <= Model.totalPages; i++)
         {
-
-        <form method="post" asp-page="@handlerPage" asp-page-handler="GoToPage" id="goToPageForm" style="display:inline">
-            <input type="hidden" name="NewPage" value="@i" />
-            <input type="submit" value="@i"/>
-        </form>
+            var newUrl = $"{currentUrl}?page={i}";
+            <a href="@newUrl">@i</a>
         }
     }
+
+
 
 </div>
