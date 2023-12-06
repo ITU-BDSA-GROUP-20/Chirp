@@ -35,16 +35,23 @@ public class CheepService : ICheepService
                 
             Console.WriteLine("VI PRINTER CHEEPs");
                 
-            foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
+            if (cheepDto.Reactions != null)
             {
-                    
-                Console.WriteLine(reactionType);
-                    
-                int count = cheepDto.Reactions
-                    .Where(r => r.ReactionType == reactionType)
-                    .Count();
-                    
-                reactionTypeCounts.Add(new ReactionDTO(reactionType, count));                
+                // Group and count the reactions by their type
+                var reactionCounts = cheepDto.Reactions
+                    .GroupBy(r => r.ReactionType)
+                    .ToDictionary(g => g.Key, g => g.Count());
+
+                // Iterate over each ReactionType in the enum
+                foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
+                {
+                    Console.WriteLine(reactionType);
+
+                    // Get the count for this reaction type, defaulting to 0 if it's not in the dictionary
+                    int count = reactionCounts.TryGetValue(reactionType, out var reactionCount) ? reactionCount : 0;
+
+                    reactionTypeCounts.Add(new ReactionDTO(reactionType, count));
+                }
             }
             cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
         }
@@ -63,21 +70,25 @@ public class CheepService : ICheepService
                 
                 Console.WriteLine("VI PRINTER CHEEPs");
                 
-                foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
+                if (cheepDto.Reactions != null)
                 {
-                    
-                    Console.WriteLine(reactionType);
+                    // Group and count the reactions by their type
+                    var reactionCounts = cheepDto.Reactions
+                        .GroupBy(r => r.ReactionType)
+                        .ToDictionary(g => g.Key, g => g.Count());
 
-                    int count = 0;
-                    
-                    if (cheepDto.Reactions != null)
+                    // Iterate over each ReactionType in the enum
+                    foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
                     {
-                        count = cheepDto.Reactions
-                            .Where(r => r.ReactionType == reactionType)
-                            .Count();
-                        reactionTypeCounts.Add(new ReactionDTO(reactionType, count));       
+                        Console.WriteLine(reactionType);
+
+                        // Get the count for this reaction type, defaulting to 0 if it's not in the dictionary
+                        int count = reactionCounts.TryGetValue(reactionType, out var reactionCount) ? reactionCount : 0;
+
+                        reactionTypeCounts.Add(new ReactionDTO(reactionType, count));
                     }
                 }
+
                 cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
             }
         
