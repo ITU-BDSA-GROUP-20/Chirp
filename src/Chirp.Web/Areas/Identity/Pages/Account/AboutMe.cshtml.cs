@@ -41,7 +41,7 @@ public class AboutMeModel : PageModel
         
         // Retrieve the followers and following of the user
         
-        Followers = _service.GetFollowers(UserModel.Username);
+        Followers = _service.GetFollowers(UserModel.Id);
         Following = _service.GetFollowing(UserModel.Id);
         
         
