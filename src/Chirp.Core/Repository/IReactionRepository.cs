@@ -8,4 +8,5 @@ public interface IReactionRepository
     public Task RemoveReaction(ReactionType reaction, Guid cheepId, Guid authorId);
     
     public Task<int> GetReactionCount(Guid cheepId, ReactionType reactionType);
+    public Task<bool> HasUserReacted(Guid cheepId, Guid authorId);
 }

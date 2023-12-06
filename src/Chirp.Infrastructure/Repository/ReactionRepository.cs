@@ -54,5 +54,12 @@ public class ReactionRepository: BaseRepository, IReactionRepository
            }
             return count;
     }
+    public async Task<bool> HasUserReacted(Guid cheepId, Guid authorId)
+    {
+        //check if the user has reacted to the cheep
+        bool hasReacted = await db.Reactions.AnyAsync(r => r.ChirpId == cheepId && r.AuthorId == authorId);
+      
+        return hasReacted;
+    }
 }
 
