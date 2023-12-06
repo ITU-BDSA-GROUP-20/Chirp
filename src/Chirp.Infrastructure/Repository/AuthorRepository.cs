@@ -23,6 +23,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = db.Users
             .Include(e => e.Cheeps)
+            .Include(e => e.Following)
+            .Include(e => e.Followers)
             .Where(a => a.Id == authorId).FirstOrDefault()!;
             
         return author;
@@ -112,7 +114,6 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         if(cheeps.Count < pageSizeIndex + PageSize) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,cheeps.Count - pageSizeIndex);
         if(cheeps.Count > 32) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize);
         return cheeps;
-        
     }
 
     public ICollection<Author> GetFollowersByAuthor(Guid id)

@@ -88,11 +88,11 @@ public class CheepService : ICheepService
     
     public ICollection<Author> GetFollowers(Guid id)
     {
-        return _authorRepository.GetFollowersByAuthor(id);
+        return _authorRepository.GetAuthorById(id).Followers;
     }
     
     public ICollection<Author> GetFollowing(Guid id)
     {
-        return _authorRepository.GetFollowingByAuthor(id);
+        return _authorRepository.GetAuthorById(id).Following;
     }
 }
