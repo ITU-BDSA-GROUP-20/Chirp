@@ -1,6 +1,6 @@
 ﻿@page "/{author}/AboutMe"
 @using Chirp.Core.Entities
-@model Chirp.Web.Pages.AboutMeModel
+@model AboutMeModel
 @{
     ViewData["Title"] = "About Me";
 }
@@ -23,12 +23,44 @@
    
         <!-- TODO Create a red "Forget Me" button -->
     </div>
-
+    
     <hr/>
 
     <div class="cheepbox">
-        <div>
-            
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Following</h3>
+                @if (Model.UserModel.Following == null || !Model.UserModel.Following.Any())
+                {
+                    <p>You are not following anyone yet.</p>
+                }
+                else
+                {
+                    <ul>
+                        @foreach (var followingUser in Model.UserModel.Following)
+                        {
+                            <li>@followingUser.UserName</li>
+                        }
+                    </ul>
+                }
+            </div>
+        
+            <div class="col-md-6">
+                <h3>Followers</h3>
+                @if (Model.UserModel.Followers == null || !Model.UserModel.Followers.Any())
+                {
+                    <p>No followers yet.</p>
+                }
+                else
+                {
+                    <ul>
+                        @foreach (var follower in Model.UserModel.Followers)
+                        {
+                            <li>@follower.UserName</li>
+                        }
+                    </ul>
+                }
+            </div>
         </div>
     </div>
 
