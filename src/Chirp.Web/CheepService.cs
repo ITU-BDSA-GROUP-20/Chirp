@@ -4,13 +4,15 @@ using Chirp.Core.Repository;
 
 namespace Chirp.Web;
 
-public record CheepViewModel(string Author, string Message, string Timestamp, ICollection<ReactionDTO> Reactions);
+public record CheepViewModel(string Author, Guid AuthorId, string Message, string Timestamp, ICollection<ReactionDTO> Reactions);
 
 
 public interface ICheepService
 {
     public ICollection<CheepViewModel> GetCheeps(int page);
-    public ICollection<CheepViewModel> GetCheepsFromAuthor(string author, int page);
+    public ICollection<CheepViewModel> GetCheepsFromAuthor(Guid authorId, int page);
+    public ICollection<Author> GetFollowers(Guid id);
+    public ICollection<Author> GetFollowing(Guid id);
 }
 
 public class CheepService : ICheepService
@@ -46,15 +48,15 @@ public class CheepService : ICheepService
                     
                 reactionTypeCounts.Add(new ReactionDTO(reactionType, count));                
             }
-            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
+            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
         }
         
         return cheeps;
     }
     
-    public ICollection<CheepViewModel> GetCheepsFromAuthor(string author, int page)
+    public ICollection<CheepViewModel> GetCheepsFromAuthor(Guid id, int page)
     {
-        ICollection<Cheep> cheepDtos = _authorRepository.GetCheepsByAuthor(author, page);
+        ICollection<Cheep> cheepDtos = _authorRepository.GetCheepsByAuthor(id, page);
         ICollection<CheepViewModel> cheeps = new List<CheepViewModel>();
 
             foreach (Cheep cheepDto in cheepDtos)
@@ -78,9 +80,19 @@ public class CheepService : ICheepService
                         reactionTypeCounts.Add(new ReactionDTO(reactionType, count));       
                     }
                 }
-                cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
+                cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
             }
         
         return cheeps;
+    }
+    
+    public ICollection<Author> GetFollowers(Guid id)
+    {
+        return _authorRepository.GetAuthorById(id).Followers;
+    }
+    
+    public ICollection<Author> GetFollowing(Guid id)
+    {
+        return _authorRepository.GetAuthorById(id).Following;
     }
 }

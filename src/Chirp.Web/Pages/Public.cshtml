@@ -18,12 +18,6 @@
 
 <div>
     <h2> Public Timeline </h2>
-    
-    @if (SignInManager.IsSignedIn(User))  
-    {
-        @await Html.PartialAsync("Shared/_CheepBox", new NewCheep { Text = "" } )
-    } 
-    
     @if (Model.Cheeps?.Any() == true)
     {
         @await Html.PartialAsync("Shared/_CheepList", Model)

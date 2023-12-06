@@ -1,6 +1,7 @@
 ﻿using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Chirp.Web;
+using Chirp.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ public class UserTimelineModel : PageModel
 
 
     public ICollection<CheepViewModel> Cheeps { get; set; }
-    public string Authorname;
+    public UserModel UserModel { get; set; }
     
     public required Author user { get; set; }
     public required int totalPages { get; set; }
@@ -31,27 +32,33 @@ public class UserTimelineModel : PageModel
         _authorRepository = authorRepository;
     }
 
-    public ActionResult OnGet(string author)
+    public ActionResult OnGet()
     {
+        user = _userManager.GetUserAsync(User).Result;
+        if (user == null)
+        {
+            return NotFound();
+        }
+        
+        UserModel = new UserModel(user);
+        
         int page;
         if(Request.Query.ContainsKey("page")){
             page = int.Parse(Request.Query["page"]);
         } else{
             page = 1;
         }
-
-        Authorname = author;
         
         try
         {
-            Cheeps = _service.GetCheepsFromAuthor(author, page);
+            Cheeps = _service.GetCheepsFromAuthor(UserModel.Id, page);
         }
         catch (Exception e)
         {
             Cheeps = new List<CheepViewModel>();
         }
 
-        user = _userManager.GetUserAsync(User).Result;
+        
 
         totalPages = _authorRepository.GetPageCountByAuthor(author);
 
