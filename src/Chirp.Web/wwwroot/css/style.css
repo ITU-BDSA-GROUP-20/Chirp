@@ -230,6 +230,9 @@ li.topic {
   display: flex;
   flex-direction: row;
 }
+.reacted{
+  color: #105714;
+}
 
 .reactions-display{
   margin: 0 10px 0 10px;

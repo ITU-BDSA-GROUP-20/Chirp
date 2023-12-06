@@ -26,21 +26,33 @@
                 <div class="reaction-box">
                     @if (SigninManager.IsSignedIn(User))
                     {
-                        @foreach (var reaction in @cheep.Reactions)
-                        {
-                            @if (reaction.AuthorIds.Contains(UserManager.GetUserAsync(User).Result!.Id))
-                            {
-                                <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@reaction.ReactionType">
-                                    <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="@reaction.ReactionType: @reaction.Count"/>
-                                </form>
-                            }
-                            else
-                            {
-                                <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@reaction.ReactionType">
-                                    <input type="submit" id="reactionId" name="ReactionIdInput" value="@reaction.ReactionType: @reaction.Count"/>
-                                </form>
-                            }
-                        }
+                        @* @foreach (var reaction in @cheep.Reactions) *@
+                        @* { *@
+                        @*     @if (reaction.AuthorIds.Contains(UserManager.GetUserAsync(User).Result!.Id)) *@
+                        @*     { *@
+                        @*         <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@reaction.ReactionType"> *@
+                        @*             <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="@reaction.ReactionType: @reaction.Count"/> *@
+                        @*         </form> *@
+                        @*     } *@
+                        @*     else *@
+                        @*     { *@
+                        @*         <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@reaction.ReactionType"> *@
+                        @*             <input type="submit" id="reactionId" name="ReactionIdInput" value="@reaction.ReactionType: @reaction.Count"/> *@
+                        @*         </form> *@
+                        @*     } *@
+                        @* } *@
+                        
+                         @if (@cheep.Reactions.First().AuthorIds.Contains(UserManager.GetUserAsync(User).Result!.Id)) 
+                             { 
+                               <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType"> 
+                                     <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().Count"/> 
+                                </form> 
+                            } else 
+                            { 
+                                <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType"> 
+                                     <input type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().Count"/> 
+                                 </form> 
+                             } 
                     }
                     else
                     {
