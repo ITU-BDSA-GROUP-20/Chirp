@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Chirp.Web.Pages;
+namespace Chirp.Web.Areas.Identity.Pages.Account;
 
 public class AboutMeModel : PageModel
 {
@@ -14,6 +14,8 @@ public class AboutMeModel : PageModel
     private readonly ICheepService _service;
     public UserModel UserModel { get; set; }
     public ICollection<CheepViewModel> Cheeps { get; set; }
+    public ICollection<Author> Followers { get; set; }
+    public ICollection<Author> Following { get; set; }
 
     public AboutMeModel(UserManager<Author> userManager, ICheepService service)
     {
@@ -23,6 +25,7 @@ public class AboutMeModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
+        Console.WriteLine("It reached this point");
         // Fetch user information from the database
         var authorEntity = await _userManager.GetUserAsync(User);
 
@@ -34,6 +37,10 @@ public class AboutMeModel : PageModel
         // Create a UserModel based on the Author entity
         UserModel = new UserModel(authorEntity);
         
+        // Retrieve the followers and following of the user
+        Followers = _service.GetFollowers(UserModel.Id);
+        Following = _service.GetFollowing(UserModel.Id);
+        
         int page;
         if(Request.Query.ContainsKey("page")){
             page = int.Parse(Request.Query["page"]);
@@ -43,7 +50,7 @@ public class AboutMeModel : PageModel
         
         try
         {
-            Cheeps = _service.GetCheepsFromAuthor(UserModel.Username, page);
+            Cheeps = _service.GetCheepsFromAuthor(UserModel.Id, page);
         }
         catch (Exception e)
         {
