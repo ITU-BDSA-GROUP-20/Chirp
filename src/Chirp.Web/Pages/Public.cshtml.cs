@@ -86,13 +86,21 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnPostReaction(Guid cheepId, ReactionType reactionType)
     {
         Author? author = await _userManager.GetUserAsync(User);
-        if (author == null) return Page();
+        if (await _reactionRepository.HasUserReacted(cheepId, author!.Id)) return Page();
         
         await _reactionRepository.AddReaction(NewReaction.ReactionType, NewReaction.CheepId, author!.Id);
         
         return Page();
     }
- 
+    public async Task<IActionResult> OnPostRemoveReaction(Guid cheepId, ReactionType reactionType)
+    {
+        Author? author = await _userManager.GetUserAsync(User);
+        if (!await _reactionRepository.HasUserReacted(cheepId, author!.Id)) return Page();
+        
+        await _reactionRepository.RemoveReaction(NewReaction.ReactionType, NewReaction.CheepId, author!.Id);
+        
+        return Page();
+    }
     
     
     [BindProperty] public string Author2FollowInput { get; set; }
