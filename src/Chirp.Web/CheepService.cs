@@ -4,7 +4,8 @@ using Chirp.Core.Repository;
 
 namespace Chirp.Web;
 
-public record CheepViewModel(string Author, string Message, string Timestamp, ICollection<ReactionDTO> Reactions, Guid CheepId);
+public record CheepViewModel(string Author, Guid AuthorId, string Message, string Timestamp, ICollection<ReactionDTO> Reactions, Guid CheepId);
+
 
 
 public interface ICheepService
@@ -46,7 +47,10 @@ public class CheepService : ICheepService
                     .ToList();    
                 reactionTypeCounts.Add(new ReactionDTO(reactionType, count, authorsThatReacted));                
             }
-            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts, cheepDto.CheepId));
+
+            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName,cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts, cheepDto.CheepId));
+
+
         }
         
         return cheeps;
@@ -80,7 +84,8 @@ public class CheepService : ICheepService
                         reactionTypeCounts.Add(new ReactionDTO(reactionType, count, authorsThatReacted));       
                     }
                 }
-                cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts, cheepDto.CheepId));
+                cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId,cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts, cheepDto.CheepId));
+
             }
         
         return cheeps;

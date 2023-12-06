@@ -9,6 +9,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 {
     public AuthorRepository(ChirpDbContext chirpDbContext) : base(chirpDbContext)
     {
+        db.Users.Include(e => e.Following);
+        db.Users.Include(e => e.Followers);
     }
 
     public void AddAuthor(Author author)
@@ -28,7 +30,10 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     
     public async Task<Author> GetAuthorByIdAsync(Guid authorId)
     {
-        Author author = await db.Users.Include( e => e.Cheeps)
+        Author author = await db.Users
+            .Include( e => e.Cheeps)
+            .Include(e => e.Following)
+            .Include(e => e.Followers)
             .Where(a => a.Id == authorId).FirstOrDefaultAsync()!;
          
          
@@ -39,6 +44,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = db.Users
             .Include(e => e.Cheeps)
+            .Include(e => e.Following)
+            .Include(e => e.Followers)
             .Where(a => a.UserName == name).FirstOrDefault()!;
             
         return author;
@@ -55,7 +62,6 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
     public ICollection<Cheep> GetCheepsByAuthor(string name, int page)
     {
-        
         Author author = GetAuthorByName(name);
         
         //Check that author has cheeps
