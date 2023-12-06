@@ -16,6 +16,8 @@ public class AboutMeModel : PageModel
     public ICollection<CheepViewModel> Cheeps { get; set; }
     public ICollection<Author> Followers { get; set; }
     public ICollection<Author> Following { get; set; }
+    // This is the user that the _CheepList is expected to find to create the cheeps
+    public Author user { get; set; }
 
     public AboutMeModel(UserManager<Author> userManager, ICheepService service)
     {
@@ -27,15 +29,15 @@ public class AboutMeModel : PageModel
     {
         Console.WriteLine("It reached this point");
         // Fetch user information from the database
-        var authorEntity = await _userManager.GetUserAsync(User);
+        user = await _userManager.GetUserAsync(User);
 
-        if (authorEntity == null)
+        if (user == null)
         {
             return NotFound();
         }
 
         // Create a UserModel based on the Author entity
-        UserModel = new UserModel(authorEntity);
+        UserModel = new UserModel(user);
         
         // Retrieve the followers and following of the user
         try
@@ -48,6 +50,7 @@ public class AboutMeModel : PageModel
             Followers = new List<Author>();
             Following = new List<Author>();
         }
+        
         
         int page;
         if(Request.Query.ContainsKey("page")){

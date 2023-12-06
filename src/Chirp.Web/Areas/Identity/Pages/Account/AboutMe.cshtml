@@ -5,6 +5,7 @@
     ViewData["Title"] = "About Me";
 }
 @inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
 
 <h2>About Me</h2>
 
@@ -30,14 +31,14 @@
         <div class="row">
             <div class="col-md-6">
                 <h3>Following</h3>
-                @if (Model.UserModel.Following == null || !Model.UserModel.Following.Any())
+                @if (Model.Following == null || !Model.Following.Any())
                 {
                     <p>You are not following anyone yet.</p>
                 }
                 else
                 {
                     <ul>
-                        @foreach (var followingUser in Model.UserModel.Following)
+                        @foreach (var followingUser in Model.Following)
                         {
                             <li>@followingUser.UserName</li>
                         }
@@ -47,14 +48,14 @@
         
             <div class="col-md-6">
                 <h3>Followers</h3>
-                @if (Model.UserModel.Followers == null || !Model.UserModel.Followers.Any())
+                @if (Model.Followers == null || !Model.Followers.Any())
                 {
                     <p>No followers yet.</p>
                 }
                 else
                 {
                     <ul>
-                        @foreach (var follower in Model.UserModel.Followers)
+                        @foreach (var follower in Model.Followers)
                         {
                             <li>@follower.UserName</li>
                         }
