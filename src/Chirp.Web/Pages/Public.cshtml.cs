@@ -116,7 +116,12 @@ public class PublicModel : PageModel
     public IActionResult OnPostGoToPage()
     {
         int page = int.Parse(NewPage);
-        return Page(new {page});
+
+        if (page < 1) page = 1;
+        Cheeps = _service.GetCheeps(page);
+        user = _userManager.GetUserAsync(User).Result;
+
+        return Page();
     }
    
    

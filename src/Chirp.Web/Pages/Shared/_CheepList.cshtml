@@ -29,21 +29,27 @@
                         <u class="reactions-display">@reaction.reactionType: @reaction.count</u>
                     }
                 </div>
-                                @if (SigninManager.IsSignedIn(User) || cheep.Author == User.Identity?.Name){
-                                    if (!Model.user.Following.Contains(UserManager.GetUserAsync(User).Result)) {
-                                <form method="post" asp-page="public" asp-page-handler="Follow">
-                                    <input type="hidden" id="author2FollowId" name="Author2FollowInput" value="@AuthorRepository.GetAuthorByName(cheep.Author).Id" />
-                                    <input type="submit" value="Follow" />
-                                </form>
-                                            } else {
-                                <form method="post" asp-page="public" asp-page-handler="Unfollow">
-                                    <input type="hidden" id="author2UnfollowId" name="Author2UnfollowInput" value="@AuthorRepository.GetAuthorByName(cheep.Author).Id" />
-                                    <input type="submit" value="Unfollow" />
-                                </form>
-                                    }
+                @if (SigninManager.IsSignedIn(User) || cheep.Author == User.Identity?.Name){
+                    if (!Model.user.Following.Contains(UserManager.GetUserAsync(User).Result)) {
+                <form method="post" asp-page="public" asp-page-handler="Follow">
+                    <input type="hidden" id="author2FollowId" name="Author2FollowInput" value="@AuthorRepository.GetAuthorByName(cheep.Author).Id" />
+                    <input type="submit" value="Follow" />
+                </form>
+                            } else {
+                <form method="post" asp-page="public" asp-page-handler="Unfollow">
+                    <input type="hidden" id="author2UnfollowId" name="Author2UnfollowInput" value="@AuthorRepository.GetAuthorByName(cheep.Author).Id" />
+                    <input type="submit" value="Unfollow" />
+                </form>
+                    }
                 
-                                }
+                }
             </div>
         </li>
     }
 </ul>
+<div>
+    <form method="post" asp-page="public" asp-page-handler="GoToPage" id="goToPageForm">
+        <input type="hidden" name="NewPage" value="2" />
+        <input type="submit" value="2" />
+    </form>
+</div>
