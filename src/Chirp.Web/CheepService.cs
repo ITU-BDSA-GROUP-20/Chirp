@@ -31,31 +31,11 @@ public class CheepService : ICheepService
 
         foreach (Cheep cheepDto in cheepDtos)
         {
-            List<ReactionDTO> reactionTypeCounts = new List<ReactionDTO>();
-                
-            Console.WriteLine("VI PRINTER CHEEPs");
-                
-            if (cheepDto.Reactions != null)
-            {
-                // Group and count the reactions by their type
-                var reactionCounts = cheepDto.Reactions
-                    .GroupBy(r => r.ReactionType)
-                    .ToDictionary(g => g.Key, g => g.Count());
-
-                // Iterate over each ReactionType in the enum
-                foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
-                {
-                    Console.WriteLine(reactionType);
-
-                    // Get the count for this reaction type, defaulting to 0 if it's not in the dictionary
-                    int count = reactionCounts.TryGetValue(reactionType, out var reactionCount) ? reactionCount : 0;
-
-                    reactionTypeCounts.Add(new ReactionDTO(reactionType, count));
-                }
-            }
+            List<ReactionDTO> reactionTypeCounts = cheepReactions(cheepDto);
+            
             cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
         }
-        
+
         return cheeps;
     }
     
@@ -64,34 +44,36 @@ public class CheepService : ICheepService
         ICollection<Cheep> cheepDtos = _authorRepository.GetCheepsByAuthor(author, page);
         ICollection<CheepViewModel> cheeps = new List<CheepViewModel>();
 
-            foreach (Cheep cheepDto in cheepDtos)
-            {
-                List<ReactionDTO> reactionTypeCounts = new List<ReactionDTO>();
-                
-                Console.WriteLine("VI PRINTER CHEEPs");
-                
-                if (cheepDto.Reactions != null)
-                {
-                    // Group and count the reactions by their type
-                    var reactionCounts = cheepDto.Reactions
-                        .GroupBy(r => r.ReactionType)
-                        .ToDictionary(g => g.Key, g => g.Count());
+        foreach (Cheep cheepDto in cheepDtos)
+        {
+            List<ReactionDTO> reactionTypeCounts = cheepReactions(cheepDto);
 
-                    // Iterate over each ReactionType in the enum
-                    foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
-                    {
-                        Console.WriteLine(reactionType);
-
-                        // Get the count for this reaction type, defaulting to 0 if it's not in the dictionary
-                        int count = reactionCounts.TryGetValue(reactionType, out var reactionCount) ? reactionCount : 0;
-
-                        reactionTypeCounts.Add(new ReactionDTO(reactionType, count));
-                    }
-                }
-
-                cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
-            }
+            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
+        }
         
         return cheeps;
+    }
+
+    private List<ReactionDTO> cheepReactions(Cheep cheepDto)
+    {
+
+        List<ReactionDTO> reactions = new List<ReactionDTO>();
+
+        var reactionCounts = cheepDto.Reactions
+            .GroupBy(r => r.ReactionType)
+            .ToDictionary(g => g.Key, g => g.Count());
+
+        // Iterate over each ReactionType in the enum
+        foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
+        {
+            Console.WriteLine(reactionType);
+
+            // Get the count for this reaction type, defaulting to 0 if it's not in the dictionary
+            int count = reactionCounts.TryGetValue(reactionType, out var reactionCount) ? reactionCount : 0;
+
+            reactions.Add(new ReactionDTO(reactionType, count));
+        }
+
+        return reactions;
     }
 }
