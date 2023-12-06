@@ -40,9 +40,15 @@ public class PublicModel : PageModel
         } else{
             page = 1;
         }
-        Cheeps = _service.GetCheeps(page);
         
-        user = _authorRepository.GetAuthorByName(_userManager.GetUserAsync(User).Result.UserName);
+        // Check if the user is authenticated
+        if (User?.Identity?.IsAuthenticated == true)
+        {
+            // Retrieve the authenticated user
+            user = _authorRepository.GetAuthorByName(_userManager.GetUserAsync(User).Result.UserName);
+        }
+        
+        Cheeps = _service.GetCheeps(page);
         
         return Page();
     }
@@ -107,8 +113,6 @@ public class PublicModel : PageModel
         await _authorRepository.RemoveFollowing(author!, authorToUnfollow);
         return Page();
     }
-   
-   
 }
 
 public class NewCheep

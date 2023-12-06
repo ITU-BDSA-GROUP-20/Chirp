@@ -10,7 +10,9 @@ public record CheepViewModel(string Author, Guid AuthorId, string Message, strin
 public interface ICheepService
 {
     public ICollection<CheepViewModel> GetCheeps(int page);
-    public ICollection<CheepViewModel> GetCheepsFromAuthor(string author, int page);
+    public ICollection<CheepViewModel> GetCheepsFromAuthor(Guid authorId, int page);
+    public ICollection<Author> GetFollowers(Guid id);
+    public ICollection<Author> GetFollowing(Guid id);
 }
 
 public class CheepService : ICheepService
@@ -52,9 +54,9 @@ public class CheepService : ICheepService
         return cheeps;
     }
     
-    public ICollection<CheepViewModel> GetCheepsFromAuthor(string author, int page)
+    public ICollection<CheepViewModel> GetCheepsFromAuthor(Guid id, int page)
     {
-        ICollection<Cheep> cheepDtos = _authorRepository.GetCheepsByAuthor(author, page);
+        ICollection<Cheep> cheepDtos = _authorRepository.GetCheepsByAuthor(id, page);
         ICollection<CheepViewModel> cheeps = new List<CheepViewModel>();
 
             foreach (Cheep cheepDto in cheepDtos)
@@ -82,5 +84,15 @@ public class CheepService : ICheepService
             }
         
         return cheeps;
+    }
+    
+    public ICollection<Author> GetFollowers(Guid id)
+    {
+        return _authorRepository.GetFollowersByAuthor(id);
+    }
+    
+    public ICollection<Author> GetFollowing(Guid id)
+    {
+        return _authorRepository.GetFollowingByAuthor(id);
     }
 }
