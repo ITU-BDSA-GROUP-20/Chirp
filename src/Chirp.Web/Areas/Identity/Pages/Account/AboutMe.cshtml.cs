@@ -51,7 +51,6 @@ public class AboutMeModel : PageModel
             Following = new List<Author>();
         }
         
-        
         int page;
         if(Request.Query.ContainsKey("page")){
             page = int.Parse(Request.Query["page"]);
