@@ -1,11 +1,8 @@
 ﻿using Chirp.Core.Entities;
-using Chirp.Core.Repository;
 using Chirp.Web;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.CodeAnalysis.Elfie.Serialization;
 
 namespace Chirp.Razor.Pages;
 
