@@ -76,7 +76,7 @@ public class PublicModel : PageModel
         await _cheepRepository.AddCreateCheep(newCheep);
     }
   
-    public async Task<IActionResult> OnPostReaction(Guid cheepId, ReactionType reactionType)
+    public async Task<IActionResult> OnPostReaction(Guid cheepId, ReactionType reactionType, int currentPage)
     {
        
         Author? author = await _userManager.GetUserAsync(User);
@@ -84,7 +84,7 @@ public class PublicModel : PageModel
         await _reactionRepository.AddReaction(reactionType, cheepId, author!.Id);
         return Page();
     }
-    public async Task<IActionResult> OnPostRemoveReaction(Guid cheepId, ReactionType reactionType)
+    public async Task<IActionResult> OnPostRemoveReaction(Guid cheepId, ReactionType reactionType, int currentPage)
     {
         Author? author = await _userManager.GetUserAsync(User);
         if (!await _reactionRepository.HasUserReacted(cheepId, author!.Id)) return Page();
