@@ -14,6 +14,7 @@ public class PublicModel : PageModel
     private readonly ICheepService _service;
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
+    private readonly IReactionRepository _reactionRepository;
     private readonly IValidator<CreateCheep> _validator;
     public required Author user { get; set; }
     private readonly UserManager<Author> _userManager;
@@ -23,13 +24,16 @@ public class PublicModel : PageModel
    
 
 
-    public PublicModel(ICheepService service, ICheepRepository cheepRepository, IAuthorRepository authorRepository, IValidator<CreateCheep> validator , UserManager<Author> userManager)
+
+    public PublicModel(ICheepService service, ICheepRepository cheepRepository, IAuthorRepository authorRepository, IValidator<CreateCheep> validator , UserManager<Author> userManager, IReactionRepository reactionRepository)
+
     {
         _service = service;
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
         _validator = validator;
         _userManager = userManager;
+        _reactionRepository = reactionRepository;
     }
 
     public ActionResult OnGet()
@@ -71,6 +75,23 @@ public class PublicModel : PageModel
 
         await _cheepRepository.AddCreateCheep(newCheep);
     }
+  
+    public async Task<IActionResult> OnPostReaction(Guid cheepId, ReactionType reactionType)
+    {
+       
+        Author? author = await _userManager.GetUserAsync(User);
+        if (await _reactionRepository.HasUserReacted(cheepId, author!.Id)) return Page();
+        await _reactionRepository.AddReaction(reactionType, cheepId, author!.Id);
+        return Page();
+    }
+    public async Task<IActionResult> OnPostRemoveReaction(Guid cheepId, ReactionType reactionType)
+    {
+        Author? author = await _userManager.GetUserAsync(User);
+        if (!await _reactionRepository.HasUserReacted(cheepId, author!.Id)) return Page();
+        await _reactionRepository.RemoveReaction(reactionType, cheepId, author!.Id);
+        return Page();
+    }
+    
     
     [BindProperty] public string Author2FollowInput { get; set; }
     public async Task<IActionResult> OnPostFollow()

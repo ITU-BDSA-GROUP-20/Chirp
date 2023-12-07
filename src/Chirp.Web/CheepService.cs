@@ -4,7 +4,8 @@ using Chirp.Core.Repository;
 
 namespace Chirp.Web;
 
-public record CheepViewModel(string Author, Guid AuthorId, string Message, string Timestamp, ICollection<ReactionDTO> Reactions);
+public record CheepViewModel(string Author, Guid AuthorId, string Message, string Timestamp, ICollection<ReactionDTO> Reactions, Guid CheepId);
+
 
 
 public interface ICheepService
@@ -19,11 +20,13 @@ public class CheepService : ICheepService
 {
     private readonly IAuthorRepository _authorRepository;
     private readonly ICheepRepository _cheepRepository;
-
-    public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
+    private readonly IReactionRepository _reactionRepository;
+    
+    public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IReactionRepository reactionRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
+        _reactionRepository = reactionRepository;
     }
     
     public ICollection<CheepViewModel> GetCheeps(int page)
@@ -33,9 +36,21 @@ public class CheepService : ICheepService
 
         foreach (Cheep cheepDto in cheepDtos)
         {
-            List<ReactionDTO> reactionTypeCounts = CheepReactions(cheepDto);
+            List<ReactionDTO> reactionTypeCounts = new List<ReactionDTO>();
             
-            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
+            foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
+            {
+                int count = cheepDto.Reactions
+                    .Where(r => r.ReactionType == reactionType)
+                    .Count();
+                List<Guid> authorsThatReacted = cheepDto.Reactions
+                    .Where(r => r.ReactionType == reactionType)
+                    .Select(r => r.AuthorId)
+                    .ToList();    
+                reactionTypeCounts.Add(new ReactionDTO(reactionType, count));                
+            }
+
+            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName,cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts, cheepDto.CheepId));
         }
 
         return cheeps;
@@ -46,12 +61,32 @@ public class CheepService : ICheepService
         ICollection<Cheep> cheepDtos = _authorRepository.GetCheepsByAuthor(id, page);
         ICollection<CheepViewModel> cheeps = new List<CheepViewModel>();
 
-        foreach (Cheep cheepDto in cheepDtos)
-        {
-            List<ReactionDTO> reactionTypeCounts = CheepReactions(cheepDto);
+            foreach (Cheep cheepDto in cheepDtos)
+            {
+                List<ReactionDTO> reactionTypeCounts = new List<ReactionDTO>();
+                
+                foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
+                {
+                    int count = 0;
+                    
+                    if (cheepDto.Reactions != null)
+                    {
+                        count = cheepDto.Reactions
+                            .Where(r => r.ReactionType == reactionType)
+                            .Count();
+                        
+                            List<Guid> authorsThatReacted = cheepDto.Reactions
+                            .Where(r => r.ReactionType == reactionType)
+                            .Select(r => r.AuthorId)
+                            .ToList();
+                            
+                        reactionTypeCounts.Add(new ReactionDTO(reactionType, count));       
+                    }
+                }
+                
+                cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId,cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts, cheepDto.CheepId));
 
-            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
-        }
+            }
         
         return cheeps;
     }

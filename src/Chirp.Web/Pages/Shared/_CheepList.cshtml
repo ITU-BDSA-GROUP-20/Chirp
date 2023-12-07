@@ -4,9 +4,10 @@
 @inject SignInManager<Author> SigninManager
 @inject UserManager<Author> UserManager
 @inject IAuthorRepository AuthorRepository
+@inject IReactionRepository ReactionRepository
 @model dynamic
 
- 
+
 <ul id="messagelist" class="cheeps">
     @foreach (CheepViewModel cheep in Model.Cheeps)
     {
@@ -25,11 +26,46 @@
                     <small>&mdash; @cheep.Timestamp</small>
                 </div>
                 <div class="reaction-box">
-                    @foreach (var reaction in cheep.Reactions)
+                    @if (SigninManager.IsSignedIn(User))
                     {
-                        <u class="reactions-display">@reaction.reactionType: @reaction.count</u>
+                        // Draft on multiple reactions 
+                        @* @foreach (var reaction in @cheep.Reactions) *@
+                        @* { *@
+                        @*     @if (reaction.AuthorIds.Contains(UserManager.GetUserAsync(User).Result!.Id)) *@
+                        @*     { *@
+                        @*         <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@reaction.ReactionType"> *@
+                        @*             <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="@reaction.ReactionType: @reaction.Count"/> *@
+                        @*         </form> *@
+                        @*     } *@
+                        @*     else *@
+                        @*     { *@
+                        @*         <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@reaction.ReactionType"> *@
+                        @*             <input type="submit" id="reactionId" name="ReactionIdInput" value="@reaction.ReactionType: @reaction.Count"/> *@
+                        @*         </form> *@
+                        @*     } *@
+                        @* } *@
+                        
+                         @if (ReactionRepository.HasUserReacted(@cheep.CheepId, UserManager.GetUserAsync(User).Result!.Id).Result) 
+                             { 
+                               <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType"> 
+                                     <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().Count"/> 
+                                </form> 
+                            } else 
+                            { 
+                                <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType"> 
+                                     <input type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().Count"/> 
+                                 </form> 
+                             } 
+                    }
+                    else
+                    {
+                        @foreach (var reaction in cheep.Reactions)
+                        {
+                            <u class="reactions-display">@reaction.ReactionType: @reaction.Count</u>
+                        }
                     }
                 </div>
+
                 @if (SigninManager.IsSignedIn(User) || cheep.Author == User.Identity?.Name){
                     if (!Model.user.Following.Contains(cheepAuthor)) {
                         <form asp-page-handler="Follow" method="post">
@@ -42,7 +78,6 @@
                             <input type="submit" value="Unfollow" />
                         </form>
                     }
-                
                 }
             </div>
         </li>
