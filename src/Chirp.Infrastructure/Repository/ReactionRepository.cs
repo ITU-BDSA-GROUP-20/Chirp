@@ -36,8 +36,12 @@ public class ReactionRepository: BaseRepository, IReactionRepository
     public async Task RemoveReaction(ReactionType reaction, Guid cheepId, Guid authorId)
     {
             Reaction? entity = await db.Reactions.FindAsync(cheepId, authorId);
-            if (entity != null) db.Reactions.Remove(entity);
-            await db.SaveChangesAsync();
+            if (entity != null)
+            {
+                db.Reactions.Remove(entity); 
+                await db.SaveChangesAsync();
+            }
+            
         
     }
     public async Task<int> GetReactionCount(Guid cheepId, ReactionType reactionType)
