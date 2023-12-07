@@ -14,6 +14,7 @@ public class CheepServiceUnitTests
     private readonly ChirpDbContext context;
     private ICheepRepository _cheepRepository;
     private IAuthorRepository _authorRepository;
+    private IReactionRepository _reactionRepository;
 
     public CheepServiceUnitTests()
     {
@@ -26,7 +27,8 @@ public class CheepServiceUnitTests
         // Arrange
         _cheepRepository = new CheepRepository(context);
         _authorRepository = new AuthorRepository(context);
-        ICheepService service = new CheepService(_cheepRepository, _authorRepository);
+        _reactionRepository = new ReactionRepository(context);
+        ICheepService service = new CheepService(_cheepRepository, _authorRepository, _reactionRepository);
         
         // Mock data
         Author author1 = new Author { Id = Guid.NewGuid(), UserName = "Author1", Email = "email1" };
@@ -68,7 +70,8 @@ public class CheepServiceUnitTests
         // Arrange
         var cheepRepositoryMock = new Mock<ICheepRepository>();
         var authorRepositoryMock = new Mock<IAuthorRepository>();
-        var cheepService = new CheepService(cheepRepositoryMock.Object, authorRepositoryMock.Object);
+        var reactionRepositoryMock = new Mock<IReactionRepository>();
+        var cheepService = new CheepService(cheepRepositoryMock.Object, authorRepositoryMock.Object, reactionRepositoryMock.Object );
         
         var author1 = new Author { Id = Guid.NewGuid(), UserName = "Author1", Email = "email1" };
         var author2 = new Author { Id = Guid.NewGuid(), UserName = "Author2", Email = "email2" };

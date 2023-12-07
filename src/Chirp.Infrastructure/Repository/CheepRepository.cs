@@ -26,6 +26,17 @@ public class CheepRepository : BaseRepository, ICheepRepository
         return cheeps;
     }
 
+    public int GetCheepCount()
+    {
+        //Use EF to get the total number of cheeps from the database
+        return db.Cheeps.Count();
+    }
+
+    public int GetPageCount()
+    {
+        return GetCheepCount()/PageSize+1;
+    }
+
     public void DeleteCheepById(Guid cheepId)
     {
         //Delete the specified cheep from the database

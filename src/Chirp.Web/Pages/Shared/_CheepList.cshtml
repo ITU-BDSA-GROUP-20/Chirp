@@ -6,9 +6,10 @@
 @inject SignInManager<Author> SigninManager
 @inject UserManager<Author> UserManager
 @inject IAuthorRepository AuthorRepository
+@inject IReactionRepository ReactionRepository
 @model dynamic
 
- 
+
 <ul id="messagelist" class="cheeps">
     @foreach (CheepViewModel cheep in Model.Cheeps)
     {
@@ -26,7 +27,38 @@
                     <small>&mdash; @cheep.Timestamp</small>
                 </div>
                 <div class="reaction-box">
-                    @foreach (var reaction in cheep.Reactions)
+                    @if (SigninManager.IsSignedIn(User))
+                    {
+                        // Draft on multiple reactions 
+                        @* @foreach (var reaction in @cheep.Reactions) *@
+                        @* { *@
+                        @*     @if (reaction.AuthorIds.Contains(UserManager.GetUserAsync(User).Result!.Id)) *@
+                        @*     { *@
+                        @*         <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@reaction.ReactionType"> *@
+                        @*             <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="@reaction.ReactionType: @reaction.Count"/> *@
+                        @*         </form> *@
+                        @*     } *@
+                        @*     else *@
+                        @*     { *@
+                        @*         <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@reaction.ReactionType"> *@
+                        @*             <input type="submit" id="reactionId" name="ReactionIdInput" value="@reaction.ReactionType: @reaction.Count"/> *@
+                        @*         </form> *@
+                        @*     } *@
+                        @* } *@
+                        
+                         @if (ReactionRepository.HasUserReacted(@cheep.CheepId, UserManager.GetUserAsync(User).Result!.Id).Result) 
+                             { 
+                               <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType" asp-route-currentPage="@Model.currentPage"> 
+                                     <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().Count"/> 
+                                </form> 
+                            } else 
+                            { 
+                                <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType" asp-route-currentPage="@Model.currentPage"> 
+                                     <input type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().Count"/> 
+                                 </form> 
+                             } 
+                    }
+                    else
                     {
                         <u class="reactions-display">@reaction.ReactionType: @reaction.ReactionCount</u>
                     }
@@ -43,9 +75,44 @@
                             <input type="submit" value="Unfollow" />
                         </form>
                     }
-                
                 }
             </div>
         </li>
     }
 </ul>
+
+<div style="display:flex;justify-content:center">
+
+    @{
+
+        var currentUrl = Context.Request.Path;
+
+        var newUrl1 = $"{currentUrl}?page=1";
+        var newUrl2 = $"{currentUrl}?page={@Model.currentPage-1}";
+        var newUrl3 = $"{currentUrl}?page={@Model.currentPage}";
+        var newUrl4 = $"{currentUrl}?page={@Model.currentPage+1}";
+        var newUrl5 = $"{currentUrl}?page={@Model.totalPages}";
+
+        //string name1 = "[1]";
+        string name1 = $"[<<]";
+        string name2 = $"[{@Model.currentPage - 1}]";
+        string name3 = $"[{@Model.currentPage}]";
+        string name4 = $"[{@Model.currentPage + 1}]";
+        //string name5 = $"[{@Model.totalPages}]";
+        string name5 = $"[>>]";
+
+        
+        if (@Model.currentPage > 1) {<a href="@newUrl1">@name1</a>}
+        if (@Model.currentPage != 1) {<a href="@newUrl2">@name2</a>}
+
+        <a href="@newUrl3" style="margin-inline:10px">@name3</a>
+
+        if (@Model.currentPage != @Model.totalPages) {<a href="@newUrl4">@name4</a>}
+        if (@Model.currentPage < @Model.totalPages) {<a href="@newUrl5">@name5</a>}
+
+
+    }
+
+
+
+</div>

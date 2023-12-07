@@ -15,42 +15,32 @@ public class PublicModel : PageModel
     private readonly ICheepService _service;
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
+    private readonly IReactionRepository _reactionRepository;
     private readonly IValidator<CreateCheep> _validator;
-    public Author user { get; set; }
-    
+    public required Author user { get; set; }
     private readonly UserManager<Author> _userManager;
-    
     public required ICollection<CheepViewModel> Cheeps { get; set; }
+    public required int totalPages { get; set; }
+    public required int currentPage { get; set; }
    
 
 
-    public PublicModel(ICheepService service, ICheepRepository cheepRepository, IAuthorRepository authorRepository, IValidator<CreateCheep> validator , UserManager<Author> userManager)
+
+    public PublicModel(ICheepService service, ICheepRepository cheepRepository, IAuthorRepository authorRepository, IValidator<CreateCheep> validator , UserManager<Author> userManager, IReactionRepository reactionRepository)
+
     {
         _service = service;
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
         _validator = validator;
         _userManager = userManager;
+        _reactionRepository = reactionRepository;
     }
 
     public ActionResult OnGet()
-    { 
-        int page;
-        if(Request.Query.ContainsKey("page")){
-            page = int.Parse(Request.Query["page"]! );
-        } else{
-            page = 1;
-        }
-        
-        // Check if the user is authenticated
-        if (User?.Identity?.IsAuthenticated == true)
-        {
-            // Retrieve the authenticated user
-            user = _authorRepository.GetAuthorByName(_userManager.GetUserAsync(User).Result.UserName);
-        }
-        
-        Cheeps = _service.GetCheeps(page);
-        
+    {
+
+        InitializeVariables();
         return Page();
     }
     
@@ -69,7 +59,7 @@ public class PublicModel : PageModel
 
         await CreateCheep(cheep);
         
-        return RedirectToPage("/UserTimeline", new { author = User.Identity?.Name });;
+        return RedirectToPage("/UserTimeline", new { author = User.Identity?.Name });
         
     }
     
@@ -86,14 +76,37 @@ public class PublicModel : PageModel
 
         await _cheepRepository.AddCreateCheep(newCheep);
     }
+  
+    public async Task<IActionResult> OnPostReaction(Guid cheepId, ReactionType reactionType, int currentPage)
+    {
+       
+        Author? author = await _userManager.GetUserAsync(User);
+        if (await _reactionRepository.HasUserReacted(cheepId, author!.Id)) return Page();
+        await _reactionRepository.AddReaction(reactionType, cheepId, author!.Id);
+        InitializeVariables(currentPage);
+        return Page();
+    }
+    public async Task<IActionResult> OnPostRemoveReaction(Guid cheepId, ReactionType reactionType, int currentPage)
+    {
+        Author? author = await _userManager.GetUserAsync(User);
+        if (!await _reactionRepository.HasUserReacted(cheepId, author!.Id)) return Page();
+        await _reactionRepository.RemoveReaction(reactionType, cheepId, author!.Id);
+        InitializeVariables(currentPage);
+        return Page();
+    }
+    
     
     [BindProperty] public string Author2FollowInput { get; set; }
+    [BindProperty] public string currentPageFollowInput { get; set; }
     public async Task<IActionResult> OnPostFollow()
     {
         Guid authorFollowedId = Guid.Parse(Author2FollowInput);
         
         Author author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
         Author authorToFollow = await _authorRepository.GetAuthorByIdAsync(authorFollowedId);
+        InitializeVariables(int.Parse(currentPageFollowInput));
+
+
 
         if (author == null) return Page();
 
@@ -102,19 +115,49 @@ public class PublicModel : PageModel
     }
 
     [BindProperty] public string Author2UnfollowInput { get; set; }
+    [BindProperty] public string currentPageUnfollowInput { get; set; }
     public async Task<IActionResult> OnPostUnfollow()
     {
         Guid authorUnfollowedId = Guid.Parse(Author2UnfollowInput);
 
         Author author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
         Author authorToUnfollow = await _authorRepository.GetAuthorByIdAsync(authorUnfollowedId);
-   
+        
+        InitializeVariables(int.Parse(currentPageUnfollowInput));
+
+
         if (authorToUnfollow == null || author == null) return Page();
 
         await _authorRepository.RemoveFollowing(author!, authorToUnfollow);
         return Page();
     }
+
+    public void InitializeVariables()
+    {
+        int page;
+        if (Request.Query.ContainsKey("page"))
+        {
+            page = int.Parse(Request.Query["page"]!);
+        }
+        else
+        {
+            page = 1;
+        }
+        InitializeVariables(page);
+    }
+
+    public void InitializeVariables(int page)
+    {
+        Cheeps = _service.GetCheeps(page);
+
+        user = _userManager.GetUserAsync(User).Result;
+        totalPages = _cheepRepository.GetPageCount();
+        currentPage = page;
+    }
+
+
 }
+
 
 public class NewCheep
 {
