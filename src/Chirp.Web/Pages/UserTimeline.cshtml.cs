@@ -1,6 +1,7 @@
 ﻿using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Chirp.Web;
+using Chirp.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -52,8 +53,11 @@ public class UserTimelineModel : PageModel
         }
 
         user = _userManager.GetUserAsync(User).Result;
-
-        totalPages = _authorRepository.GetPageCountByAuthor(author);
+        
+        //Get author object to allow the get page count method to be called on ID
+        Author authorObject = _authorRepository.GetAuthorByName(author);
+        
+        totalPages = _authorRepository.GetPageCountByAuthor(authorObject.Id);
 
         return Page();
     }

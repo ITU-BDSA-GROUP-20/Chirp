@@ -14,7 +14,7 @@ public interface IAuthorRepository
     public Task AddFollowing(Author author, Author author2Follow);
     public Task RemoveFollowing(Author author, Author author2remove);
     public Task<Author> GetAuthorByIdAsync(Guid authorId);
-    public int GetCheepCountByAuthor(string name);
-    public int GetPageCountByAuthor(string name);
+    public int GetCheepCountByAuthor(Guid authorId);
+    public int GetPageCountByAuthor(Guid authorId);
 
 }

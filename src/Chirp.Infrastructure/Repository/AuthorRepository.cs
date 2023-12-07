@@ -17,9 +17,9 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         db.SaveChanges();
     }
 
-    public int GetCheepCountByAuthor(string name)
+    public int GetCheepCountByAuthor(Guid authorId)
     {
-        Author author = GetAuthorByName(name);
+        Author author = GetAuthorById(authorId);
         //Check that author has cheeps
         if (author.Cheeps == null || !(author.Cheeps.Any()))
         {
@@ -29,9 +29,9 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return author.Cheeps.Count;
     }
 
-    public int GetPageCountByAuthor(string name)
+    public int GetPageCountByAuthor(Guid authorId)
     {
-        return GetCheepCountByAuthor(name) / PageSize + 1;
+        return GetCheepCountByAuthor(authorId) / PageSize + 1;
     }
 
     public Author GetAuthorById(Guid authorId)
