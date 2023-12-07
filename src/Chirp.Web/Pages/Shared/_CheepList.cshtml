@@ -5,6 +5,7 @@
 @inject SignInManager<Author> SigninManager
 @inject UserManager<Author> UserManager
 @inject IAuthorRepository AuthorRepository
+@inject IReactionRepository ReactionRepository
 @model dynamic
 
 
@@ -44,7 +45,7 @@
                         @*     } *@
                         @* } *@
                         
-                         @if (@cheep.Reactions.First().AuthorIds.Contains(UserManager.GetUserAsync(User).Result!.Id)) 
+                         @if (ReactionRepository.HasUserReacted(@cheep.CheepId, UserManager.GetUserAsync(User).Result!.Id).Result) 
                              { 
                                <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType"> 
                                      <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().Count"/> 

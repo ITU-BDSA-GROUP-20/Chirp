@@ -45,7 +45,7 @@ public class CheepService : ICheepService
                     .Where(r => r.ReactionType == reactionType)
                     .Select(r => r.AuthorId)
                     .ToList();    
-                reactionTypeCounts.Add(new ReactionDTO(reactionType, count, authorsThatReacted));                
+                reactionTypeCounts.Add(new ReactionDTO(reactionType, count));                
             }
 
             cheeps.Add(new CheepViewModel(cheepDto.Author.UserName,cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts, cheepDto.CheepId));
@@ -81,7 +81,7 @@ public class CheepService : ICheepService
                             .Select(r => r.AuthorId)
                             .ToList();
                             
-                        reactionTypeCounts.Add(new ReactionDTO(reactionType, count, authorsThatReacted));       
+                        reactionTypeCounts.Add(new ReactionDTO(reactionType, count));       
                     }
                 }
                 cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId,cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts, cheepDto.CheepId));
