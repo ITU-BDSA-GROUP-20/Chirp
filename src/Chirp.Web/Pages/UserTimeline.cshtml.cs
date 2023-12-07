@@ -58,9 +58,12 @@ public class UserTimelineModel : PageModel
             Cheeps = new List<CheepViewModel>();
         }
 
+        user = _userManager.GetUserAsync(User).Result;
         
-
-        totalPages = _authorRepository.GetPageCountByAuthor(author);
+        //Get author object to allow the get page count method to be called on ID
+        Author authorObject = _authorRepository.GetAuthorByName(author);
+        
+        totalPages = _authorRepository.GetPageCountByAuthor(authorObject.Id);
 
         return Page();
     }
