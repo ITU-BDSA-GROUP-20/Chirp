@@ -15,11 +15,11 @@ public class PublicModel : PageModel
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
     private readonly IValidator<CreateCheep> _validator;
-    public Author user { get; set; }
-    
+    public required Author user { get; set; }
     private readonly UserManager<Author> _userManager;
-    
     public required ICollection<CheepViewModel> Cheeps { get; set; }
+    public required int totalPages { get; set; }
+    public required int currentPage { get; set; }
    
 
 
@@ -33,23 +33,9 @@ public class PublicModel : PageModel
     }
 
     public ActionResult OnGet()
-    { 
-        int page;
-        if(Request.Query.ContainsKey("page")){
-            page = int.Parse(Request.Query["page"]! );
-        } else{
-            page = 1;
-        }
-        
-        // Check if the user is authenticated
-        if (User?.Identity?.IsAuthenticated == true)
-        {
-            // Retrieve the authenticated user
-            user = _authorRepository.GetAuthorByName(_userManager.GetUserAsync(User).Result.UserName);
-        }
-        
-        Cheeps = _service.GetCheeps(page);
-        
+    {
+
+        InitializeVariables();
         return Page();
     }
     
@@ -68,7 +54,7 @@ public class PublicModel : PageModel
 
         await CreateCheep(cheep);
         
-        return RedirectToPage("/UserTimeline", new { author = User.Identity?.Name });;
+        return RedirectToPage("/UserTimeline", new { author = User.Identity?.Name });
         
     }
     
@@ -113,7 +99,27 @@ public class PublicModel : PageModel
         await _authorRepository.RemoveFollowing(author!, authorToUnfollow);
         return Page();
     }
+
+    public void InitializeVariables()
+    {
+        int page;
+        if (Request.Query.ContainsKey("page"))
+        {
+            page = int.Parse(Request.Query["page"]!);
+        }
+        else
+        {
+            page = 1;
+        }
+        Cheeps = _service.GetCheeps(page);
+
+        user = _userManager.GetUserAsync(User).Result;
+        totalPages = _cheepRepository.GetPageCount();
+        currentPage = page;
+    }
+   
 }
+
 
 public class NewCheep
 {
