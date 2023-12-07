@@ -19,5 +19,5 @@ public interface IAuthorRepository
     public Task RemoveAllFollowRelationsById(Guid authorId);
     public Task DeleteCheepsByAuthorId(Guid authorId);
     public Task SaveContext();
-
+    public Task DeleteUserByName(Guid authorId);
 }
