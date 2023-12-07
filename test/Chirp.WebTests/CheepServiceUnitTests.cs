@@ -82,21 +82,23 @@ public class CheepServiceUnitTests
                 Author = author1,
                 AuthorId = author1.Id,
                 Text = "Cheep 1",
-                TimeStamp = DateTime.Now
+                TimeStamp = DateTime.Now,
+                Reactions = new List<Reaction>()
             },
             new Cheep
             {
                 Author = author2,
                 AuthorId = author2.Id,
                 Text = "Cheep 2",
-                TimeStamp = DateTime.Now
+                TimeStamp = DateTime.Now,
+                Reactions = new List<Reaction>()
             }
         };
 
-        authorRepositoryMock.Setup(repo => repo.GetCheepsByAuthor(author1.UserName, It.IsAny<int>())).Returns(cheeps);
+        authorRepositoryMock.Setup(repo => repo.GetCheepsByAuthor(author1.Id, It.IsAny<int>())).Returns(cheeps);
 
         // Act
-        ICollection<CheepViewModel> result = cheepService.GetCheepsFromAuthor(author1.UserName, 1);
+        ICollection<CheepViewModel> result = cheepService.GetCheepsFromAuthor(author1.Id, 1);
 
         CheepViewModel returnedCheep = result.ElementAt(0);
         
