@@ -21,8 +21,6 @@
             <span>Email:</span>
             <span class="">@Model.UserModel.Email</span>
         </div>
-   
-        <!-- TODO Create a red "Forget Me" button -->
     </div>
     
     <hr/>
@@ -79,6 +77,17 @@
     {
         @await Html.PartialAsync("~/Pages/Shared/_CheepList.cshtml", Model)
     }
+    
+    <hr/>
+    
+    <h3>Delete account</h3>
+    <div class="cheepbox">
+        <p>Click the button below to delete your account permanently</p>
+        
+        <form method="post">
+            <button type="submit" asp-page-handler="ForgetMe" class="forgetMe">Forget Me</button>
+        </form>
+    </div>
 }
 
 

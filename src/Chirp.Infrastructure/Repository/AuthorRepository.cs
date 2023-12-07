@@ -182,7 +182,6 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         user.Followers.Add(follower);
         db.Users.Update(user);
         await db.SaveChangesAsync();
-
     }
 
     private async Task RemoveFollower(Author user, Author follower)
@@ -193,6 +192,21 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         user.Followers.Remove(follower);
         db.Users.Update(user);
         await db.SaveChangesAsync();
-
+    }
+    
+    public async Task ForgetAuthorInfo(Guid id)
+    {
+        Author author = await GetAuthorByIdAsync(id);
+        // Remove all followers
+        foreach (var follower in author.Followers)
+        {
+            await RemoveFollower(author, follower);
+        }
+        
+        // Remove all following
+        foreach (var following in author.Following)
+        {
+            await RemoveFollowing(author, following);
+        }
     }
 }
