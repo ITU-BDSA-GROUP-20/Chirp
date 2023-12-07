@@ -25,7 +25,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         //Check that author has cheeps
         if (author.Cheeps == null || !(author.Cheeps.Any()))
         {
-            throw new Exception("Author " + author.UserName + " has no cheeps");
+            return 0;
         }
 
         return author.Cheeps.Count;
