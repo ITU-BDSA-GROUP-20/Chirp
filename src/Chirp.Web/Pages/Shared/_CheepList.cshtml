@@ -1,6 +1,8 @@
 ﻿@using Chirp.Web
 @using Chirp.Core.Entities
 @using Chirp.Core.Repository
+@using Chirp.Web.Models
+@using System.Linq
 @inject SignInManager<Author> SigninManager
 @inject UserManager<Author> UserManager
 @inject IAuthorRepository AuthorRepository
@@ -10,13 +12,12 @@
 <ul id="messagelist" class="cheeps">
     @foreach (CheepViewModel cheep in Model.Cheeps)
     {
-        Author cheepAuthor = AuthorRepository.GetAuthorByIdAsync(cheep.AuthorId).Result;
         <li>
             <div class="cheep-view">
                 <div class="cheep-info">
                     <strong>
-                        <a href="/@cheep.Author">@cheep.Author</a>
-                        <p>Followers: @cheepAuthor.Followers.Count</p>
+                        <a href="/@cheep.User.Username">@cheep.User.Username</a>
+                        <p>Followers: @cheep.User.Followers.Count</p>
                     </strong>
                     <p class="cheep-message">
                         @cheep.Message
@@ -27,18 +28,18 @@
                 <div class="reaction-box">
                     @foreach (var reaction in cheep.Reactions)
                     {
-                        <u class="reactions-display">@reaction.reactionType: @reaction.count</u>
+                        <u class="reactions-display">@reaction.ReactionType: @reaction.ReactionCount</u>
                     }
                 </div>
-                @if (SigninManager.IsSignedIn(User) || cheep.Author == User.Identity?.Name){
-                    if (!Model.user.Following.Contains(cheepAuthor)) {
+                @if (SigninManager.IsSignedIn(User) || cheep.User.Username == User.Identity?.Name){
+                    if (!cheep.User.UserHasFollower(Model.user.Id)) {
                         <form asp-page-handler="Follow" method="post">
-                            <input type="hidden" id="author2FollowId" name="Author2FollowInput" value="@cheep.AuthorId.ToString()" />
+                            <input type="hidden" id="author2FollowId" name="Author2FollowInput" value="@cheep.User.Id" />
                             <input type="submit" value="Follow" />
                         </form>
                     } else {
                         <form asp-page-handler="Unfollow" method="post">
-                            <input type="hidden" id="author2UnfollowId" name="Author2UnfollowInput" value="@cheep.AuthorId.ToString()" />
+                            <input type="hidden" id="author2UnfollowId" name="Author2UnfollowInput" value="@cheep.User.Id" />
                             <input type="submit" value="Unfollow" />
                         </form>
                     }

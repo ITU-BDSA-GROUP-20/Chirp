@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Chirp.Core.Entities;
 
 [Index(nameof(Id), IsUnique = true)]
-public class Author : IdentityUser<Guid> {
+public class Author : IdentityUser<Guid>
+{
     
     [StringLength(50)]
     [Required]
