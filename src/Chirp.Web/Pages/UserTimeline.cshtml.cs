@@ -1,4 +1,5 @@
 using Chirp.Core.Entities;
+using Chirp.Core.Repository;
 using Chirp.Web;
 using Chirp.Web.Models;
 using Microsoft.AspNetCore.Authorization;
