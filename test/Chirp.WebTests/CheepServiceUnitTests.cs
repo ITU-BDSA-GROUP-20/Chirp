@@ -3,6 +3,7 @@ using Chirp.Core.Repository;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
 using Chirp.Web;
+using Chirp.Web.Models;
 using Moq;
 using Test_Utilities;
 
@@ -51,11 +52,11 @@ public class CheepServiceUnitTests
         // Act
         List<CheepViewModel> result = service.GetCheeps(0).ToList();
 
-        result.Sort((a, b) => String.Compare(a.Author, b.Author, StringComparison.Ordinal));
+        result.Sort((a, b) => String.Compare(a.User.Username, b.User.Username, StringComparison.Ordinal));
             
         // Assert
         Assert.Equal(2, result.Count);
-        Assert.Equal("Author1", result[0].Author);
+        Assert.Equal("Author1", result[0].User.Username);
         Assert.Equal("Cheep 1", result[0].Message);
         Assert.NotNull(result[0].Timestamp);
     }
@@ -101,7 +102,7 @@ public class CheepServiceUnitTests
         
         // Assert
         Assert.Equal(2, result.Count);
-        Assert.Equal(author1.UserName, returnedCheep.Author);
+        Assert.Equal(author1.UserName, returnedCheep.User.Username);
         Assert.Equal("Cheep 1", returnedCheep.Message);
         Assert.NotNull(returnedCheep.Timestamp);
     }
