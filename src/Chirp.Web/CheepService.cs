@@ -33,24 +33,11 @@ public class CheepService : ICheepService
 
         foreach (Cheep cheepDto in cheepDtos)
         {
-            List<ReactionDTO> reactionTypeCounts = new List<ReactionDTO>();
-                
-            Console.WriteLine("VI PRINTER CHEEPs");
-                
-            foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
-            {
-                    
-                Console.WriteLine(reactionType);
-                    
-                int count = cheepDto.Reactions
-                    .Where(r => r.ReactionType == reactionType)
-                    .Count();
-                    
-                reactionTypeCounts.Add(new ReactionDTO(reactionType, count));                
-            }
+            List<ReactionDTO> reactionTypeCounts = CheepReactions(cheepDto);
+            
             cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
         }
-        
+
         return cheeps;
     }
     
@@ -59,33 +46,45 @@ public class CheepService : ICheepService
         ICollection<Cheep> cheepDtos = _authorRepository.GetCheepsByAuthor(id, page);
         ICollection<CheepViewModel> cheeps = new List<CheepViewModel>();
 
-            foreach (Cheep cheepDto in cheepDtos)
-            {
-                List<ReactionDTO> reactionTypeCounts = new List<ReactionDTO>();
-                
-                Console.WriteLine("VI PRINTER CHEEPs");
-                
-                foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
-                {
-                    
-                    Console.WriteLine(reactionType);
+        foreach (Cheep cheepDto in cheepDtos)
+        {
+            List<ReactionDTO> reactionTypeCounts = CheepReactions(cheepDto);
 
-                    int count = 0;
-                    
-                    if (cheepDto.Reactions != null)
-                    {
-                        count = cheepDto.Reactions
-                            .Where(r => r.ReactionType == reactionType)
-                            .Count();
-                        reactionTypeCounts.Add(new ReactionDTO(reactionType, count));       
-                    }
-                }
-                cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
-            }
+            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
+        }
         
         return cheeps;
     }
     
+    private List<ReactionDTO> CheepReactions(Cheep cheepDto)
+    {
+        var reactions = new List<ReactionDTO>();
+
+        // Check if cheepDto.Reactions is null
+        if (cheepDto.Reactions == null || !cheepDto.Reactions.Any())
+        {
+            // If cheepDto.Reactions is null or empty, initialize reaction counts to 0 for each ReactionType
+            foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
+            {
+                reactions.Add(new ReactionDTO(reactionType, 0));
+            }
+        }
+        else
+        {
+            var reactionCounts = cheepDto.Reactions
+                .GroupBy(r => r.ReactionType)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
+            {
+                int count = reactionCounts.TryGetValue(reactionType, out var reactionCount) ? reactionCount : 0;
+                reactions.Add(new ReactionDTO(reactionType, count));
+            }
+        }
+
+        return reactions;
+    }
+
     public ICollection<Author> GetFollowers(Guid id)
     {
         return _authorRepository.GetAuthorById(id).Followers;
