@@ -82,6 +82,7 @@ public class PublicModel : PageModel
         Author? author = await _userManager.GetUserAsync(User);
         if (await _reactionRepository.HasUserReacted(cheepId, author!.Id)) return Page();
         await _reactionRepository.AddReaction(reactionType, cheepId, author!.Id);
+        InitializeVariables(currentPage);
         return Page();
     }
     public async Task<IActionResult> OnPostRemoveReaction(Guid cheepId, ReactionType reactionType, int currentPage)
@@ -89,6 +90,7 @@ public class PublicModel : PageModel
         Author? author = await _userManager.GetUserAsync(User);
         if (!await _reactionRepository.HasUserReacted(cheepId, author!.Id)) return Page();
         await _reactionRepository.RemoveReaction(reactionType, cheepId, author!.Id);
+        InitializeVariables(currentPage);
         return Page();
     }
     
