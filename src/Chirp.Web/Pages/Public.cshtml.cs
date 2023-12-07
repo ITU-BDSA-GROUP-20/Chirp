@@ -126,6 +126,7 @@ public class PublicModel : PageModel
         if (authorToUnfollow == null || author == null) return Page();
 
         await _authorRepository.RemoveFollowing(author!, authorToUnfollow);
+        await _authorRepository.SaveContext();
         return Page();
     }
 

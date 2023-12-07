@@ -76,7 +76,7 @@ public class AboutMeModel : PageModel
     public async Task<IActionResult> OnPostForgetMe()
     {
         await _authorRepository.DeleteCheepsByAuthorId(UserModel.Id);
-        await _authorRepository.ForgetAuthorInfo(UserModel.Id);
+        await _authorRepository.RemoveAllFollowRelationsById(UserModel.Id);
         
         await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
         return Redirect("/");

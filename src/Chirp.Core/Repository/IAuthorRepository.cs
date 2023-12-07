@@ -16,7 +16,8 @@ public interface IAuthorRepository
     public Task<Author> GetAuthorByIdAsync(Guid authorId);
     public int GetCheepCountByAuthor(Guid authorId);
     public int GetPageCountByAuthor(Guid authorId);
-    public Task ForgetAuthorInfo(Guid authorId);
+    public Task RemoveAllFollowRelationsById(Guid authorId);
     public Task DeleteCheepsByAuthorId(Guid authorId);
+    public Task SaveContext();
 
 }

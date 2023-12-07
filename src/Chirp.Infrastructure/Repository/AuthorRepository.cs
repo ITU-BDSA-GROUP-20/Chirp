@@ -173,9 +173,12 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         user.Following.Add(following);
         await AddFollower(following, user);
         db.Users.Update(user);
+        db.Users.Update(following);
         await db.SaveChangesAsync();
     }
     public async Task RemoveFollowing(Author user, Author following) {
+        // ------- THIS METHOD DOES NOT SAVE THE CHANGES TO THE DATABASE --------
+        
         user.Following.Remove(following);
         await RemoveFollower(following, user);
 
@@ -183,7 +186,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         await db.Entry(user).Collection(u => u.Followers).LoadAsync();
 
         db.Users.Update(user);
-        await db.SaveChangesAsync();
+        //await db.SaveChangesAsync();
     }
 
     private async Task AddFollower(Author user, Author follower)
@@ -195,27 +198,39 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
     private async Task RemoveFollower(Author user, Author follower)
     {
+        // ------- THIS METHOD DOES NOT SAVE THE CHANGES TO THE DATABASE --------
+        
         // Load the Followers collection explicitly
         await db.Entry(user).Collection(u => u.Followers).LoadAsync();
 
         user.Followers.Remove(follower);
         db.Users.Update(user);
-        await db.SaveChangesAsync();
     }
     
-    public async Task ForgetAuthorInfo(Guid id)
+    public async Task RemoveAllFollowRelationsById(Guid id)
     {
         Author author = await GetAuthorByIdAsync(id);
+        
+        List<Author> followers = author.Followers.ToList();
+        List<Author> following = author.Following.ToList();
+        
         // Remove all followers
-        foreach (var follower in author.Followers)
+        foreach (var follower in followers)
         {
             await RemoveFollower(author, follower);
         }
         
         // Remove all following
-        foreach (var following in author.Following)
+        foreach (var follower in following)
         {
-            await RemoveFollowing(author, following);
+            await RemoveFollowing(author, follower);
         }
+
+        await db.SaveChangesAsync();
+    }
+    
+    public async Task SaveContext()
+    {
+        await db.SaveChangesAsync();
     }
 }
