@@ -33,10 +33,12 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
             modelBuilder.Entity<IdentityUserToken<Guid>>().HasKey(p => new { p.UserId, p.LoginProvider, p.Name });
 
             entity.Property(e => e.Id);
+            
             entity.HasMany(e => e.Cheeps)
                 .WithOne() 
                 .HasForeignKey(c => c.AuthorId) 
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Cheep>(entity =>
@@ -44,9 +46,11 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
             entity.HasKey(e => e.CheepId);
             entity.Property(e => e.Text).IsRequired();
             entity.Property(e => e.TimeStamp).IsRequired();
+            
             entity.HasOne(c => c.Author)
                 .WithMany(a => a.Cheeps)
-                .HasForeignKey(c => c.AuthorId); 
+                .HasForeignKey(c => c.AuthorId)
+                .OnDelete(DeleteBehavior.Cascade); 
         });
         
         modelBuilder.Entity<Reaction>().Property(m => m.ReactionType)

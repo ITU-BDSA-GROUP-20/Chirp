@@ -99,6 +99,15 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         if(author.Cheeps.Count > 32) return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize);
         return author.Cheeps;
     }
+
+    public async Task DeleteCheepsByAuthorId(Guid id)
+    {
+        Author author = await GetAuthorByIdAsync(id);
+        foreach (var cheep in author.Cheeps)
+        {
+            db.Cheeps.Remove(cheep);
+        }
+    }
     
     public ICollection<Cheep> GetCheepsByAuthorAndFollowing(Guid id, int page)
     {
