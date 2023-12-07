@@ -47,12 +47,12 @@
                         
                          @if (ReactionRepository.HasUserReacted(@cheep.CheepId, UserManager.GetUserAsync(User).Result!.Id).Result) 
                              { 
-                               <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType"> 
+                               <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType" asp-route-currentPage="@Model.currentPage"> 
                                      <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().Count"/> 
                                 </form> 
                             } else 
                             { 
-                                <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType"> 
+                                <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType" asp-route-currentPage="@Model.currentPage"> 
                                      <input type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().Count"/> 
                                  </form> 
                              } 
