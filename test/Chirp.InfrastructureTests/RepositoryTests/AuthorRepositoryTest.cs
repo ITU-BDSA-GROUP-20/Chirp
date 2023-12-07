@@ -86,7 +86,7 @@ public class AuthorRepositoryTest
         ICollection<Cheep> expectedCheep = new List<Cheep>();
         expectedCheep.Add(cheep1);
 
-        ICollection<Cheep> returnedCheep = authorRepository.GetCheepsByAuthor(author1.UserName, 0);
+        ICollection<Cheep> returnedCheep = authorRepository.GetCheepsByAuthor(author1.Id, 0);
 
         //Assert
         Assert.Equal(expectedCheep, returnedCheep);
@@ -345,7 +345,7 @@ public class AuthorRepositoryTest
         expectedFollowers.Add(author2);
         expectedFollowers.Add(author3);
 
-        ICollection<Author> returnedFollowers = authorRepository.GetFollowersByAuthor(author1.UserName);
+        ICollection<Author> returnedFollowers = authorRepository.GetFollowersByAuthor(author1.Id);
 
         //Assert
         Assert.Equal(expectedFollowers, returnedFollowers);
@@ -384,7 +384,7 @@ public class AuthorRepositoryTest
         expectedFollowing.Add(author2);
         expectedFollowing.Add(author3);
 
-        ICollection<Author> returnedFollowing = authorRepository.GetFollowingByAuthor(author1.UserName);
+        ICollection<Author> returnedFollowing = authorRepository.GetFollowingByAuthor(author1.Id);
 
         //Assert
         Assert.Equal(expectedFollowing, returnedFollowing);

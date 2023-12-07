@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDbContext))]
-    [Migration("20231123203356_InitialMigrations")]
-    partial class InitialMigrations
+    [Migration("20231207100325_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,21 @@ namespace Chirp.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AuthorAuthor", b =>
+                {
+                    b.Property<Guid>("FollowersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FollowingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("FollowersId", "FollowingId");
+
+                    b.HasIndex("FollowingId");
+
+                    b.ToTable("AuthorAuthor");
+                });
 
             modelBuilder.Entity("Chirp.Core.Entities.Author", b =>
                 {
@@ -252,6 +267,21 @@ namespace Chirp.Infrastructure.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("UserTokens");
+                });
+
+            modelBuilder.Entity("AuthorAuthor", b =>
+                {
+                    b.HasOne("Chirp.Core.Entities.Author", null)
+                        .WithMany()
+                        .HasForeignKey("FollowersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Chirp.Core.Entities.Author", null)
+                        .WithMany()
+                        .HasForeignKey("FollowingId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Chirp.Core.Entities.Cheep", b =>

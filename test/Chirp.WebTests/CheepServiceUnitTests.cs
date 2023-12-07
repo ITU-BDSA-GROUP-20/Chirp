@@ -92,10 +92,10 @@ public class CheepServiceUnitTests
             }
         };
 
-        authorRepositoryMock.Setup(repo => repo.GetCheepsByAuthor(author1.UserName, It.IsAny<int>())).Returns(cheeps);
+        authorRepositoryMock.Setup(repo => repo.GetCheepsByAuthor(author1.Id, It.IsAny<int>())).Returns(cheeps);
 
         // Act
-        ICollection<CheepViewModel> result = cheepService.GetCheepsFromAuthor(author1.UserName, 1);
+        ICollection<CheepViewModel> result = cheepService.GetCheepsFromAuthor(author1.Id, 1);
 
         CheepViewModel returnedCheep = result.ElementAt(0);
         

@@ -23,6 +23,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = db.Users
             .Include(e => e.Cheeps)
+            .Include(e => e.Following)
+            .Include(e => e.Followers)
             .Where(a => a.Id == authorId).FirstOrDefault()!;
             
         return author;
@@ -60,9 +62,9 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return author;
     }
 
-    public ICollection<Cheep> GetCheepsByAuthor(string name, int page)
+    public ICollection<Cheep> GetCheepsByAuthor(Guid id, int page)
     {
-        Author author = GetAuthorByName(name);
+        Author author = GetAuthorById(id);
         
         //Check that author has cheeps
         if (author.Cheeps == null || !(author.Cheeps.Any()))
@@ -81,12 +83,12 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return author.Cheeps;
     }
     
-    public ICollection<Cheep> GetCheepsByAuthorAndFollowing(string name, int page)
+    public ICollection<Cheep> GetCheepsByAuthorAndFollowing(Guid id, int page)
     {
-        Author author = GetAuthorByName(name);
+        Author author = GetAuthorById(id);
         //Get cheeps from the author, and append cheeps from followers to that list
-        ICollection<Author> following = GetFollowingByAuthor(name);
-        ICollection<Cheep> cheeps = GetCheepsByAuthor(name, page);
+        ICollection<Author> following = GetFollowingByAuthor(id);
+        ICollection<Cheep> cheeps = GetCheepsByAuthor(id, page);
 
         foreach (Author follower in following)
         {   
@@ -112,12 +114,11 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         if(cheeps.Count < pageSizeIndex + PageSize) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,cheeps.Count - pageSizeIndex);
         if(cheeps.Count > 32) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize);
         return cheeps;
-        
     }
 
-    public ICollection<Author> GetFollowersByAuthor(string name)
+    public ICollection<Author> GetFollowersByAuthor(Guid id)
     {
-        Author author = GetAuthorByName(name);
+        Author author = GetAuthorById(id);
 
         //Check that author has followers
         if (author.Followers == null || !(author.Followers.Any()))
@@ -128,9 +129,9 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return author.Followers;
     }
 
-    public ICollection<Author> GetFollowingByAuthor(string name)
+    public ICollection<Author> GetFollowingByAuthor(Guid id)
     {
-        Author author = GetAuthorByName(name);
+        Author author = GetAuthorById(id);
 
         //Check that author has following
         if (author.Following == null || !(author.Following.Any()))
