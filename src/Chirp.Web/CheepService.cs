@@ -1,9 +1,12 @@
 using System.Globalization;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
-using Chirp.Web.Models;
 
 namespace Chirp.Web;
+
+public record CheepViewModel(string Author, Guid AuthorId, string Message, string Timestamp, ICollection<ReactionDTO> Reactions, Guid CheepId);
+
+
 
 public interface ICheepService
 {
@@ -35,7 +38,19 @@ public class CheepService : ICheepService
         {
             List<ReactionDTO> reactionTypeCounts = new List<ReactionDTO>();
             
-            cheeps.Add(new CheepViewModel(new UserModel(cheepDto.Author), cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
+            foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
+            {
+                int count = cheepDto.Reactions
+                    .Where(r => r.ReactionType == reactionType)
+                    .Count();
+                List<Guid> authorsThatReacted = cheepDto.Reactions
+                    .Where(r => r.ReactionType == reactionType)
+                    .Select(r => r.AuthorId)
+                    .ToList();    
+                reactionTypeCounts.Add(new ReactionDTO(reactionType, count));                
+            }
+
+            cheeps.Add(new CheepViewModel(cheepDto.Author.UserName,cheepDto.AuthorId, cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts, cheepDto.CheepId));
         }
 
         return cheeps;
@@ -71,32 +86,39 @@ public class CheepService : ICheepService
                 
                 cheeps.Add(new CheepViewModel(cheepDto.Author.UserName, cheepDto.AuthorId,cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts, cheepDto.CheepId));
 
-            cheeps.Add(new CheepViewModel(new UserModel(cheepDto.Author), cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
-        }
-
+            }
         
         return cheeps;
     }
     
     private List<ReactionDTO> CheepReactions(Cheep cheepDto)
     {
-        // Initialize reactions with all reaction types set to count 0.
-        var reactions = Enum.GetValues(typeof(ReactionType))
-            .Cast<ReactionType>()
-            .ToDictionary(rt => rt, rt => new ReactionDTO(rt, 0));
+        var reactions = new List<ReactionDTO>();
 
-        // If cheepDto.Reactions is not null and has elements, process them.
-        if (cheepDto.Reactions?.Any() == true)
+        // Check if cheepDto.Reactions is null
+        if (cheepDto.Reactions == null || !cheepDto.Reactions.Any())
         {
-            foreach (Reaction reaction in cheepDto.Reactions)
+            // If cheepDto.Reactions is null or empty, initialize reaction counts to 0 for each ReactionType
+            foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
             {
-                reactions[reaction.ReactionType].ReactionCount++;
+                reactions.Add(new ReactionDTO(reactionType, 0));
+            }
+        }
+        else
+        {
+            var reactionCounts = cheepDto.Reactions
+                .GroupBy(r => r.ReactionType)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            foreach (ReactionType reactionType in Enum.GetValues(typeof(ReactionType)))
+            {
+                int count = reactionCounts.TryGetValue(reactionType, out var reactionCount) ? reactionCount : 0;
+                reactions.Add(new ReactionDTO(reactionType, count));
             }
         }
 
-        return reactions.Values.ToList();
+        return reactions;
     }
-
 
     public ICollection<Author> GetFollowers(Guid id)
     {
