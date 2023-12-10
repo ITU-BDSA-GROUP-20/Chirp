@@ -37,8 +37,7 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
             entity.HasMany(e => e.Cheeps)
                 .WithOne() 
                 .HasForeignKey(c => c.AuthorId) 
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .IsRequired();
         });
 
         modelBuilder.Entity<Cheep>(entity =>
@@ -49,8 +48,7 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
             
             entity.HasOne(c => c.Author)
                 .WithMany(a => a.Cheeps)
-                .HasForeignKey(c => c.AuthorId)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .HasForeignKey(c => c.AuthorId); 
         });
         
         modelBuilder.Entity<Reaction>().Property(m => m.ReactionType)
