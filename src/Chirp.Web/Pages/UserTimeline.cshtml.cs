@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Chirp.Web.Pages;
 
-public class UserTimelineModel : BasePageModel
+public class UserTimelineModel : TimeLineModel
 {
     public UserTimelineModel(ICheepService cheepService,
         ICheepRepository cheepRepository,

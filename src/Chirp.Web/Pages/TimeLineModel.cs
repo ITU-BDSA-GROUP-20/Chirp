@@ -10,7 +10,7 @@ using ValidationException = System.ComponentModel.DataAnnotations.ValidationExce
 
 namespace Chirp.Web.Pages;
 
-public abstract class BasePageModel : PageModel
+public abstract class TimeLineModel : PageModel
 {
     protected readonly ICheepService _cheepService;
     protected readonly ICheepRepository _cheepRepository;
@@ -25,7 +25,7 @@ public abstract class BasePageModel : PageModel
     public required Author SignedInUser;
     public required ICollection<CheepViewModel> Cheeps;
 
-    public BasePageModel(ICheepService cheepService,
+    public TimeLineModel(ICheepService cheepService,
         ICheepRepository cheepRepository,
         IAuthorRepository authorRepository,
         IReactionRepository reactionRepository,

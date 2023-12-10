@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Chirp.Web.Pages;
 
-public class PublicModel : BasePageModel
+public class PublicModel : TimeLineModel
 {
     public PublicModel(ICheepService cheepService,
         ICheepRepository cheepRepository,
