@@ -1,7 +1,6 @@
 ﻿@page "/"
 @using Chirp.Core.Entities
 @using Chirp.Core.Repository
-@using Chirp.Web.Models
 @using Chirp.Web.Pages
 
 @using FluentValidation
@@ -21,7 +20,7 @@
     <h2> Public Timeline </h2>
     @if (SignInManager.IsSignedIn(User))
     {
-        @await Html.PartialAsync("Shared/_CheepBox")        
+        @await Html.PartialAsync("Shared/_CheepBox", new NewCheep())        
     }
     @if (Model.Cheeps?.Any() == true)
     {
