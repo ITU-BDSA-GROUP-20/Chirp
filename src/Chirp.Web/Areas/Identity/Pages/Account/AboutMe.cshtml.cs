@@ -75,7 +75,10 @@ public class AboutMeModel : PageModel
     // Forget me method
     public async Task<IActionResult> OnPostForgetMe()
     {
-        await _authorRepository.DeleteUserByName(_userManager.GetUserAsync(User).Result.Id);
+        Guid userId = _userManager.GetUserAsync(User).Result.Id;
+        
+        await _authorRepository.RemoveAllFollowRelationsById(userId);
+        await _authorRepository.DeleteUserById(userId);
         
         await HttpContext.SignOutAsync();
         

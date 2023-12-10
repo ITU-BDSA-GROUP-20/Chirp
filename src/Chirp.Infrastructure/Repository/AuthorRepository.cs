@@ -229,9 +229,9 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         await db.SaveChangesAsync();
     }
     
-    public async Task DeleteUserByName(Guid id)
+    public async Task DeleteUserById(Guid id)
     {
-        var existingUser = await db.Users.SingleOrDefaultAsync(u => u.Id == id);
+        var existingUser = await GetAuthorByIdAsync(id);
         
         if (existingUser is null)
         {
