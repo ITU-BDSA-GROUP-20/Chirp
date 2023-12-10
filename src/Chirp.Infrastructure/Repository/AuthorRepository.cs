@@ -83,11 +83,12 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = GetAuthorById(id);
         
+        /*
         //Check that author has cheeps
         if (author.Cheeps == null || !(author.Cheeps.Any()))
         {
             throw new Exception("Author " + author.UserName + " has no cheeps");
-        }
+        }*/
 
         if(page==0){
             page=1;

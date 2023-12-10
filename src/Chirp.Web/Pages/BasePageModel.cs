@@ -1,13 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Chirp.Core.Entities;
+﻿using Chirp.Core.Entities;
 using Chirp.Core.Repository;
+using Chirp.Web.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
-namespace Chirp.Web.Pages.Shared;
+namespace Chirp.Web.Pages;
 
 public abstract class BasePageModel : PageModel
 {
@@ -38,8 +38,7 @@ public abstract class BasePageModel : PageModel
         _cheepValidator = cheepValidator;
         _userManager = userManager;
     }
-
-
+    
     public ActionResult OnGet()
     {
         InitializeVariables();

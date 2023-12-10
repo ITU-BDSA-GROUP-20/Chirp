@@ -6,7 +6,7 @@
 @inject UserManager<Author> UserManager
 @inject IAuthorRepository AuthorRepository
 @inject IReactionRepository ReactionRepository
-@model dynamic
+@model Chirp.Web.Pages.BasePageModel
 
 
 <ul id="messagelist" class="cheeps">
@@ -45,14 +45,14 @@
                         @*     } *@
                         @* } *@
                         
-                        @if (ReactionRepository.HasUserReacted(@cheep.CheepId, UserManager.GetUserAsync(User).Result!.Id).Result) 
+                        @if (ReactionRepository.HasUserReacted(@cheep.CheepId, Model.SignedInUser.Id).Result) 
                         { 
-                            <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType" asp-route-currentPage="@Model.currentPage"> 
+                            <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType" asp-route-currentPage="@Model.CurrentPage"> 
                                 <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().ReactionCount"/> 
                             </form> 
                         } else 
                         { 
-                            <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType" asp-route-currentPage="@Model.currentPage"> 
+                            <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType" asp-route-currentPage="@Model.CurrentPage"> 
                                 <input type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().ReactionCount"/> 
                             </form> 
                         } 
@@ -65,17 +65,17 @@
                 </div>
 
                 @if (SigninManager.IsSignedIn(User) || cheep.User.Username == User.Identity?.Name){
-                    if (!cheep.User.UserHasFollower(Model.user.Id)) {
+                    if (!cheep.User.UserHasFollower(Model.SignedInUser.Id)) {
                         <form asp-page-handler="Follow" method="post">
                             <input type="hidden" id="author2FollowId" name="Author2FollowInput" value="@cheep.User.Id" />
-                            <input type="hidden" id="author2FollowId" name="currentPageFollowInput" value="@Model.currentPage" />
+                            <input type="hidden" id="author2FollowId" name="currentPageFollowInput" value="@Model.CurrentPage" />
 
                             <input type="submit" value="Follow" />
                         </form>
                     } else {
                         <form asp-page-handler="Unfollow" method="post">
                             <input type="hidden" id="author2UnfollowId" name="Author2UnfollowInput" value="@cheep.User.Id" />
-                            <input type="hidden" id="author2FollowId" name="currentPageUnfollowInput" value="@Model.currentPage" />
+                            <input type="hidden" id="author2FollowId" name="currentPageUnfollowInput" value="@Model.CurrentPage" />
 
                             <input type="submit" value="Unfollow" />
                         </form>
