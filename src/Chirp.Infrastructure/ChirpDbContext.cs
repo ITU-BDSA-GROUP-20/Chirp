@@ -24,38 +24,51 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
+    {   
+
+        // Author entity
         modelBuilder.Entity<Author>(entity =>
         {
-            
             modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(p => new { p.LoginProvider, p.ProviderKey });
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(p => new { p.UserId, p.RoleId });
             modelBuilder.Entity<IdentityUserToken<Guid>>().HasKey(p => new { p.UserId, p.LoginProvider, p.Name });
 
             entity.Property(e => e.Id);
-            
+
             entity.HasMany(e => e.Cheeps)
-                .WithOne() 
-                .HasForeignKey(c => c.AuthorId) 
-                .IsRequired();
+                .WithOne(c => c.Author)
+                .HasForeignKey(c => c.AuthorId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(e => e.Followers);
         });
 
+        // Follow entity
+        modelBuilder.Entity<Follow>()
+            .HasOne(f => f.Following)
+            .WithMany(a => a.Followers)
+            .HasForeignKey(f => f.FollowingId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Cheep entity
         modelBuilder.Entity<Cheep>(entity =>
         {
             entity.HasKey(e => e.CheepId);
             entity.Property(e => e.Text).IsRequired();
             entity.Property(e => e.TimeStamp).IsRequired();
-            
+
             entity.HasOne(c => c.Author)
                 .WithMany(a => a.Cheeps)
-                .HasForeignKey(c => c.AuthorId); 
+                .HasForeignKey(c => c.AuthorId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
-        
+
         modelBuilder.Entity<Reaction>().Property(m => m.ReactionType)
             .HasConversion<string>();
-        
-        modelBuilder.Entity<Reaction>().HasKey(r => new { r.ChirpId, r.AuthorId} );
-        
+
+        modelBuilder.Entity<Reaction>().HasKey(r => new { r.ChirpId, r.AuthorId });
+
         modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(e => e.UserId);
         modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(e => e.RoleId);
         modelBuilder.Entity<IdentityUserToken<Guid>>().HasKey(e => e.UserId);

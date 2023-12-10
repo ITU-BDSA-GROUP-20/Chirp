@@ -9,7 +9,7 @@
 
 <h2>About Me</h2>
 
-@if (SignInManager.IsSignedIn(User))
+@if (SignInManager.IsSignedIn(User) && (User.Identity?.IsAuthenticated ?? false))
 {
     <div class="cheepbox">
         <div>
@@ -85,7 +85,7 @@
         <p>Click the button below to delete your account permanently</p>
         
         <form method="post">
-            <button type="submit" asp-page-handler="ForgetMe" class="forgetMe">Forget Me</button>
+            <button type="submit" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" class="forgetMe">Forget Me</button>
         </form>
     </div>
 }

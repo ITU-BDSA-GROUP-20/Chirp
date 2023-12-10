@@ -186,7 +186,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         await db.Entry(user).Collection(u => u.Followers).LoadAsync();
 
         db.Users.Update(user);
-        //await db.SaveChangesAsync();
+        await SaveContext();
     }
 
     private async Task AddFollower(Author user, Author follower)
@@ -205,6 +205,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
         user.Followers.Remove(follower);
         db.Users.Update(user);
+        await SaveContext();
     }
     
     public async Task RemoveAllFollowRelationsById(Guid id)

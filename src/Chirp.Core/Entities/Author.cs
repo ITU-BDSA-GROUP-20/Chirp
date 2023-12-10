@@ -21,6 +21,6 @@ public class Author : IdentityUser<Guid> {
     
     public ICollection<Reaction>? Reactions { get; set; }
     
-    public ICollection<Author> Followers { get; set; } = new List<Author>();
-    public ICollection<Author> Following { get; set; } = new List<Author>();
+    public ICollection<Follow> Followers { get; set; } = new List<Follow>();
+    public ICollection<Follow> Following { get; set; } = new List<Follow>();
 }

@@ -13,6 +13,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account;
 public class AboutMeModel : PageModel
 {
     private readonly UserManager<Author> _userManager;
+    private readonly SignInManager<Author> _signInManager;
+    private readonly ILogger<AboutMeModel> _logger;
     private readonly ICheepService _service;
     private IAuthorRepository _authorRepository;
     private ICheepRepository _cheepRepository;
@@ -73,16 +75,28 @@ public class AboutMeModel : PageModel
     }
     
     // Forget me method
-    public async Task<IActionResult> OnPostForgetMe()
+    public async Task<IActionResult> OnPost(string returnUrl = null)
     {
         Guid userId = _userManager.GetUserAsync(User).Result.Id;
         
+        await _signInManager.SignOutAsync();
+        
         await _authorRepository.RemoveAllFollowRelationsById(userId);
         await _authorRepository.DeleteUserById(userId);
+
+        await _authorRepository.SaveContext();
         
-        await HttpContext.SignOutAsync();
-        
-        return RedirectToPage("/");
+        _logger.LogInformation("User logged out.");
+        if (returnUrl != null)
+        {
+            return LocalRedirect(returnUrl);
+        }
+        else
+        {
+            // This needs to be a redirect so that the browser performs a new
+            // request and the identity for the user gets updated.
+            return RedirectToPage();
+        }
     }
   
 }
