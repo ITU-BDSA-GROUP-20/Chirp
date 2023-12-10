@@ -150,9 +150,6 @@ public abstract class TimeLineModel : PageModel
     public void InitializeVariables(int page)
     {
         SignedInUser = _userManager.GetUserAsync(User).Result;
-        
-        //Fetch user again to eagerly load followers
-        SignedInUser = _authorRepository.GetAuthorById(SignedInUser.Id);
         TotalPages = _cheepRepository.GetPageCount();
         CurrentPage = page;
     }
