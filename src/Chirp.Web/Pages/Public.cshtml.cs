@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
+using Chirp.Web.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -76,19 +77,21 @@ public class PublicModel : PageModel
         await _cheepRepository.AddCreateCheep(newCheep);
     }
   
-    public async Task<IActionResult> OnPostReaction(Guid cheepId, ReactionType reactionType)
+    public async Task<IActionResult> OnPostReaction(Guid cheepId, ReactionType reactionType, int currentPage)
     {
        
         Author? author = await _userManager.GetUserAsync(User);
         if (await _reactionRepository.HasUserReacted(cheepId, author!.Id)) return Page();
         await _reactionRepository.AddReaction(reactionType, cheepId, author!.Id);
+        InitializeVariables(currentPage);
         return Page();
     }
-    public async Task<IActionResult> OnPostRemoveReaction(Guid cheepId, ReactionType reactionType)
+    public async Task<IActionResult> OnPostRemoveReaction(Guid cheepId, ReactionType reactionType, int currentPage)
     {
         Author? author = await _userManager.GetUserAsync(User);
         if (!await _reactionRepository.HasUserReacted(cheepId, author!.Id)) return Page();
         await _reactionRepository.RemoveReaction(reactionType, cheepId, author!.Id);
+        InitializeVariables(currentPage);
         return Page();
     }
     
