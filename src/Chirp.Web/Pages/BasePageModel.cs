@@ -1,4 +1,5 @@
-﻿using Chirp.Core.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Chirp.Web.Models;
 using FluentValidation;
@@ -48,8 +49,8 @@ public abstract class BasePageModel : PageModel
 
     protected abstract void InitializeCheepList();
     
-    [BindProperty] 
-    public string Text { get; set; }
+    [BindProperty] public NewCheep Cheep { get; set; }
+
     public async Task<IActionResult> OnPostCreateCheep()
     {   
         
@@ -59,7 +60,7 @@ public abstract class BasePageModel : PageModel
         }
        
         var author = await _userManager.GetUserAsync(User);
-        var cheep = new CreateCheep(author!, Text!);
+        var cheep = new CreateCheep(author!, Cheep.Text!);
 
         await CreateCheep(cheep);
         
@@ -151,5 +152,17 @@ public abstract class BasePageModel : PageModel
         SignedInUser = _userManager.GetUserAsync(User).Result;
         TotalPages = _cheepRepository.GetPageCount();
         CurrentPage = page;
+    }
+    
+    public class NewCheep
+    {
+        [Required]
+        [StringLength(160, MinimumLength = 5, ErrorMessage = "The Cheep must be between 5 and 160 characters(NewCheep).")]
+        public string? Text { get; set; }
+
+        public override string ToString()
+        {
+            return Text;
+        }
     }
 }
