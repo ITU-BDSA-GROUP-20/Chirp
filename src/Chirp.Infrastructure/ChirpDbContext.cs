@@ -52,17 +52,20 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
         });
 
         // Follow entity
-        modelBuilder.Entity<Follow>()
-            .HasOne(f => f.Following)
-            .WithMany(a => a.Followers)
-            .HasForeignKey(f => f.FollowingId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<Follow>()
-            .HasOne(f => f.Follower)
-            .WithMany(a => a.Following)
-            .HasForeignKey(f => f.FollowerId)
-            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<Follow>(entity =>
+        {
+            entity.HasKey(e => new { e.FollowerId, e.FollowingId });
+            
+            entity.HasOne(f => f.Following)
+                .WithMany(a => a.Followers)
+                .HasForeignKey(f => f.FollowingId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            entity.HasOne(f => f.Follower)
+                .WithMany(a => a.Following)
+                .HasForeignKey(f => f.FollowerId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
         
         // Cheep entity
         modelBuilder.Entity<Cheep>(entity =>
