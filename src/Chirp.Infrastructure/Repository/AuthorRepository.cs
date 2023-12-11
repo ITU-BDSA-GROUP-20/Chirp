@@ -113,20 +113,20 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = GetAuthorById(id);
         //Get cheeps from the author, and append cheeps from followers to that list
-        ICollection<Author> following = GetFollowingByAuthor(id);
+        ICollection<Follow> following = GetFollowingByAuthor(id);
         ICollection<Cheep> cheeps = GetCheepsByAuthor(id, page);
 
-        foreach (Author follower in following)
+        foreach (Follow follower in following)
         {   
             //If follower has no cheeps, skip them
-            if (follower.Cheeps == null || !(follower.Cheeps.Any()))
+            if (follower.Follower.Cheeps == null || !(follower.Follower.Cheeps.Any()))
             {
                continue;
             }
      
             //Add each cheep from the follower to the list
             //TODO Try to find alternative to foreach
-            foreach (var cheepDto in follower.Cheeps)
+            foreach (var cheepDto in follower.Follower.Cheeps)
             {
                 cheeps.Add(cheepDto);
             }
@@ -142,7 +142,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return cheeps;
     }
 
-    public ICollection<Author> GetFollowersByAuthor(Guid id)
+    public ICollection<Follow> GetFollowersByAuthor(Guid id)
     {
         Author author = GetAuthorById(id);
 
@@ -155,7 +155,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return author.Followers;
     }
 
-    public ICollection<Author> GetFollowingByAuthor(Guid id)
+    public ICollection<Follow> GetFollowingByAuthor(Guid id)
     {
         Author author = GetAuthorById(id);
 
@@ -170,7 +170,15 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
     public async Task AddFollowing(Author user, Author following) {
         
-        user.Following.Add(following);
+        Follow follow = new Follow()
+        {
+            FollowingId = following.Id,
+            Following = following,
+            FollowerId = user.Id,
+            Follower = user
+        };
+        
+        user.Following.Add(follow);
         await AddFollower(following, user);
         db.Users.Update(user);
         db.Users.Update(following);
@@ -179,7 +187,15 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     public async Task RemoveFollowing(Author user, Author following) {
         // ------- THIS METHOD DOES NOT SAVE THE CHANGES TO THE DATABASE --------
         
-        user.Following.Remove(following);
+        Follow follow = new Follow()
+        {
+            FollowingId = following.Id,
+            Following = following,
+            FollowerId = user.Id,
+            Follower = user
+        };
+        
+        user.Following.Remove(follow);
         await RemoveFollower(following, user);
 
         // Load the Followers collection explicitly
@@ -191,7 +207,15 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
     private async Task AddFollower(Author user, Author follower)
     {
-        user.Followers.Add(follower);
+        Follow follow = new Follow()
+        {
+            FollowingId = user.Id,
+            Following = user,
+            FollowerId = follower.Id,
+            Follower = follower
+        };
+        
+        user.Followers.Add(follow);
         db.Users.Update(user);
         await db.SaveChangesAsync();
     }
@@ -202,8 +226,16 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         
         // Load the Followers collection explicitly
         await db.Entry(user).Collection(u => u.Followers).LoadAsync();
+        
+        Follow follow = new Follow()
+        {
+            FollowingId = user.Id,
+            Following = user,
+            FollowerId = follower.Id,
+            Follower = follower
+        };
 
-        user.Followers.Remove(follower);
+        user.Followers.Remove(follow);
         db.Users.Update(user);
         await SaveContext();
     }
@@ -212,19 +244,19 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = await GetAuthorByIdAsync(id);
         
-        List<Author> followers = author.Followers.ToList();
-        List<Author> following = author.Following.ToList();
+        List<Follow> followers = author.Followers.ToList();
+        List<Follow> following = author.Following.ToList();
         
         // Remove all followers
-        foreach (var follower in followers)
+        foreach (Follow follower in followers)
         {
-            await RemoveFollower(author, follower);
+            await RemoveFollower(author, follower.Follower);
         }
         
         // Remove all following
         foreach (var follower in following)
         {
-            await RemoveFollowing(author, follower);
+            await RemoveFollowing(author, follower.Following);
         }
 
         await db.SaveChangesAsync();

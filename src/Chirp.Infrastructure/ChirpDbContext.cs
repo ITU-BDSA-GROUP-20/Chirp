@@ -47,7 +47,7 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
         // Follow entity
         modelBuilder.Entity<Follow>()
             .HasOne(f => f.Following)
-            .WithMany(a => a.Followers)
+            .WithOne(a => a.Followers)
             .HasForeignKey(f => f.FollowingId)
             .OnDelete(DeleteBehavior.Cascade);
 
