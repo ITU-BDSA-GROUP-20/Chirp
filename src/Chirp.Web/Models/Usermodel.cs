@@ -11,8 +11,8 @@ public class UserModel
     public Guid Id { get; set; }
     public string Username { get; set; }
     public string Email { get; set; }
-    public ICollection<Author> Followers { get; set; }
-    public ICollection<Author> Following { get; set; }
+    public ICollection<Follow> Followers { get; set; }
+    public ICollection<Follow> Following { get; set; }
     
     // Constructor to initialize properties based on an Author entity
     public UserModel(Author author)
@@ -26,6 +26,14 @@ public class UserModel
 
     public bool UserHasFollower(Guid userId)
     {
-        return Followers.Any(author => author.Id == userId);
+        foreach (Follow follower in Followers)
+        {
+            if (follower.FollowerId == userId)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
