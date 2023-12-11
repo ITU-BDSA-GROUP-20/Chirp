@@ -36,9 +36,9 @@
                 else
                 {
                     <ul>
-                        @foreach (var followingUser in Model.Following)
+                        @foreach (Follow followingUser in Model.Following)
                         {
-                            <li>@followingUser.UserName</li>
+                            <li>@followingUser.Following.UserName</li>
                         }
                     </ul>
                 }
@@ -53,9 +53,9 @@
                 else
                 {
                     <ul>
-                        @foreach (var follower in Model.Followers)
+                        @foreach (Follow follower in Model.Followers)
                         {
-                            <li>@follower.UserName</li>
+                            <li>@follower.Follower.UserName</li>
                         }
                     </ul>
                 }
