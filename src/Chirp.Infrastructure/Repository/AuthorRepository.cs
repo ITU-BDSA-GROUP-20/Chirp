@@ -264,15 +264,20 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     
     public async Task DeleteUserById(Guid id)
     {
-        var existingUser = await GetAuthorByIdAsync(id);
-        
-        if (existingUser is null)
+        Author user = await GetAuthorByIdAsync(id);
+    
+        if (user is null)
         {
             throw new Exception("User not found");
         }
         
-        db.Users.Remove(existingUser);
+        // Remove all followers
+        var followers = user.Followers.ToList();
+        db.Follows.RemoveRange(followers);
         
+        var following = user.Following.ToList();
+        db.Follows.RemoveRange(following);
+
         await db.SaveChangesAsync();
     }
     
