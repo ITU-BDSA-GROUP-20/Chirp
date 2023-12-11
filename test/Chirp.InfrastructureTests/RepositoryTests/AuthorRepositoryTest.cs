@@ -429,15 +429,15 @@ public class AuthorRepositoryTest
         // Author2 follows author1
         await authorRepository.AddFollowing(author2, author1);
 
-        ICollection<Author> expectedFollowing = new List<Author>();
+        ICollection<Follow> expectedFollowing = new List<Follow>();
         expectedFollowing.Add(author2);
         expectedFollowing.Add(author3);
         
-        ICollection<Author> expectedFollowers = new List<Author>();
+        ICollection<Follow> expectedFollowers = new List<Follow>();
         expectedFollowers.Add(author2);
 
-        ICollection<Author> returnedFollowing = authorRepository.GetFollowingByAuthor(author1.Id);
-        ICollection<Author> returnedFollowers = authorRepository.GetFollowersByAuthor(author1.Id);
+        ICollection<Follow> returnedFollowing = authorRepository.GetFollowingByAuthor(author1.Id);
+        ICollection<Follow> returnedFollowers = authorRepository.GetFollowersByAuthor(author1.Id);
 
         //Assert 1
         Assert.Equal(expectedFollowing, returnedFollowing);
