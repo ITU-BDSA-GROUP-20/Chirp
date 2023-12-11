@@ -33,24 +33,37 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(p => new { p.UserId, p.RoleId });
             modelBuilder.Entity<IdentityUserToken<Guid>>().HasKey(p => new { p.UserId, p.LoginProvider, p.Name });
 
-            entity.Property(e => e.Id);
+            modelBuilder.Entity<Author>(entity =>
+            {
+                entity.Property(e => e.Id);
 
-            entity.HasMany(e => e.Cheeps)
-                .WithOne(c => c.Author)
-                .HasForeignKey(c => c.AuthorId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(e => e.Cheeps)
+                    .WithOne(c => c.Author)
+                    .HasForeignKey(c => c.AuthorId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade); // Cascade delete for Cheeps
 
-            entity.HasMany(e => e.Followers);
+                entity.HasMany(e => e.Followers)
+                    .WithOne(f => f.Following)
+                    .HasForeignKey(f => f.FollowingId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade); // Cascade delete for Followers
+            });
         });
 
         // Follow entity
         modelBuilder.Entity<Follow>()
             .HasOne(f => f.Following)
-            .WithOne(a => a.Followers)
+            .WithMany(a => a.Followers)
             .HasForeignKey(f => f.FollowingId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<Follow>()
+            .HasOne(f => f.Follower)
+            .WithMany(a => a.Following)
+            .HasForeignKey(f => f.FollowerId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         // Cheep entity
         modelBuilder.Entity<Cheep>(entity =>
         {
@@ -61,13 +74,19 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
             entity.HasOne(c => c.Author)
                 .WithMany(a => a.Cheeps)
                 .HasForeignKey(c => c.AuthorId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Cascade); // Cascade delete for Cheeps
+
+            entity.HasMany(c => c.Reactions)
+                .WithOne(r => r.Cheep)
+                .HasForeignKey(r => r.CheepId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade); // Cascade delete for Reactions
         });
 
         modelBuilder.Entity<Reaction>().Property(m => m.ReactionType)
             .HasConversion<string>();
 
-        modelBuilder.Entity<Reaction>().HasKey(r => new { r.ChirpId, r.AuthorId });
+        modelBuilder.Entity<Reaction>().HasKey(r => new { r.CheepId, r.AuthorId });
 
         modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(e => e.UserId);
         modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(e => e.RoleId);
