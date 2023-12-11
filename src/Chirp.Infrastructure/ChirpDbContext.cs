@@ -41,7 +41,7 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
                     .WithOne(c => c.Author)
                     .HasForeignKey(c => c.AuthorId)
                     .IsRequired()
-                    .OnDelete(DeleteBehavior.Restrict); // Cascade delete for Cheeps
+                    .OnDelete(DeleteBehavior.Cascade); // Cascade delete for Cheeps
 
                 entity.HasMany(e => e.Followers)
                     .WithOne(f => f.Following)
@@ -59,7 +59,7 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
             entity.HasOne(f => f.Following)
                 .WithMany(a => a.Followers)
                 .HasForeignKey(f => f.FollowingId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
             
             entity.HasOne(f => f.Follower)
                 .WithMany(a => a.Following)
