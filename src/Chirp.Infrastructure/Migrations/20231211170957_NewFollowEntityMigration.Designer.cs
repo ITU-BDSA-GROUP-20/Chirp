@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDbContext))]
-    [Migration("20231211154251_FollowEntityMigration")]
-    partial class FollowEntityMigration
+    [Migration("20231211170957_NewFollowEntityMigration")]
+    partial class NewFollowEntityMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,7 +124,7 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.HasIndex("FollowingId");
 
-                    b.ToTable("Follow");
+                    b.ToTable("Follows");
                 });
 
             modelBuilder.Entity("Chirp.Core.Entities.Reaction", b =>

@@ -121,7 +121,7 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.HasIndex("FollowingId");
 
-                    b.ToTable("Follow");
+                    b.ToTable("Follows");
                 });
 
             modelBuilder.Entity("Chirp.Core.Entities.Reaction", b =>
