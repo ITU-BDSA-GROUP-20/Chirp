@@ -113,13 +113,13 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = GetAuthorById(id);
         //Get cheeps from the author, and append cheeps from followers to that list
-        ICollection<Author> following = GetFollowingByAuthor(id);
+        ICollection<Follow> following = GetFollowingByAuthor(id);
         ICollection<Cheep> cheeps = GetCheepsByAuthor(id, page);
 
-        foreach (Author follower in following)
+        foreach (Follow follower in following)
         {   
             //If follower has no cheeps, skip them
-            if (follower.Cheeps == null || !(follower.Cheeps.Any()))
+            if (follower. == null || !(follower.Cheeps.Any()))
             {
                continue;
             }
@@ -142,7 +142,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return cheeps;
     }
 
-    public ICollection<Author> GetFollowersByAuthor(Guid id)
+    public ICollection<Follow> GetFollowersByAuthor(Guid id)
     {
         Author author = GetAuthorById(id);
 
@@ -155,7 +155,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return author.Followers;
     }
 
-    public ICollection<Author> GetFollowingByAuthor(Guid id)
+    public ICollection<Follow> GetFollowingByAuthor(Guid id)
     {
         Author author = GetAuthorById(id);
 
@@ -186,17 +186,16 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         await db.Entry(user).Collection(u => u.Followers).LoadAsync();
 
         db.Users.Update(user);
-        await SaveContext();
     }
 
-    private async Task AddFollower(Author user, Author follower)
+    private async Task AddFollower(Author user, Follow follower)
     {
         user.Followers.Add(follower);
         db.Users.Update(user);
         await db.SaveChangesAsync();
     }
 
-    private async Task RemoveFollower(Author user, Author follower)
+    private async Task RemoveFollower(Author user, Follow follower)
     {
         // ------- THIS METHOD DOES NOT SAVE THE CHANGES TO THE DATABASE --------
         
@@ -205,15 +204,14 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
         user.Followers.Remove(follower);
         db.Users.Update(user);
-        await SaveContext();
     }
     
     public async Task RemoveAllFollowRelationsById(Guid id)
     {
         Author author = await GetAuthorByIdAsync(id);
         
-        List<Author> followers = author.Followers.ToList();
-        List<Author> following = author.Following.ToList();
+        List<Follow> followers = author.Followers.ToList();
+        List<Follow> following = author.Following.ToList();
         
         // Remove all followers
         foreach (var follower in followers)
