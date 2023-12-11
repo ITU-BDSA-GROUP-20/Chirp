@@ -110,15 +110,7 @@ public class PublicModel : PageModel
 
         if (author == null) return Page();
         
-        Follow follow = new Follow()
-        {
-            FollowingId = authorToFollow.Id,
-            Following = authorToFollow,
-            FollowerId = author.Id,
-            Follower = author
-        };
-
-        await _authorRepository.AddFollowing(author, follow);
+        await _authorRepository.AddFollowing(author, authorToFollow!);
         return Page();
     }
 
@@ -135,16 +127,8 @@ public class PublicModel : PageModel
 
 
         if (authorToUnfollow == null || author == null) return Page();
-        
-        Follow unFollow = new Follow()
-        {
-            FollowingId = authorToUnfollow.Id,
-            Following = authorToUnfollow,
-            FollowerId = author.Id,
-            Follower = author
-        };
 
-        await _authorRepository.RemoveFollowing(author!, unFollow);
+        await _authorRepository.RemoveFollowing(author!, authorToUnfollow!);
         await _authorRepository.SaveContext();
         return Page();
     }
