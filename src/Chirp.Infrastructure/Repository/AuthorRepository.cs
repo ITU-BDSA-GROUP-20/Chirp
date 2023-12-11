@@ -278,6 +278,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         var following = user.Following.ToList();
         db.Follows.RemoveRange(following);
 
+        db.Users.Remove(user);
+
         await db.SaveChangesAsync();
     }
     
