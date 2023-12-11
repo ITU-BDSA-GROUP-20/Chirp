@@ -14,7 +14,7 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
 {
     public DbSet<Cheep> Cheeps {get; set;} = null!;
     
-    
+    public DbSet<Follow> Follows { get; set; } = null!;
     public DbSet<Reaction> Reactions { get; set; }
     //Source for methods:
     //https://www.c-sharpcorner.com/article/get-started-with-entity-framework-core-using-sqlite/
@@ -41,7 +41,7 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
                     .WithOne(c => c.Author)
                     .HasForeignKey(c => c.AuthorId)
                     .IsRequired()
-                    .OnDelete(DeleteBehavior.Cascade); // Cascade delete for Cheeps
+                    .OnDelete(DeleteBehavior.Restrict); // Cascade delete for Cheeps
 
                 entity.HasMany(e => e.Followers)
                     .WithOne(f => f.Following)
