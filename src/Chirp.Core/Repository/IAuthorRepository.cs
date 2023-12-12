@@ -9,14 +9,13 @@ public interface IAuthorRepository
     public Author GetAuthorByName(string name);
     public Author GetAuthorByEmail(string email);
     public void AddAuthor(Author authorDto);
-    public ICollection<Follow> GetFollowersByAuthor(Guid authorId);
-    public ICollection<Follow> GetFollowingByAuthor(Guid authorId);
-    public Task AddFollowing(Author author, Author author2Follow);
-    public Task RemoveFollowing(Author author, Author author2remove);
+    public ICollection<Author> GetFollowersById(Guid authorId);
+    public ICollection<Author> GetFollowingById(Guid authorId);
+    public Task AddFollowing(Author followingAuthor, Author followedAuthor);
+    public Task RemoveFollow(Author followingAuthor, Author followedAuthor);
     public Task<Author> GetAuthorByIdAsync(Guid authorId);
     public int GetCheepCountByAuthor(Guid authorId);
     public int GetPageCountByAuthor(Guid authorId);
-    public Task RemoveAllFollowRelationsById(Guid authorId);
     public Task DeleteCheepsByAuthorId(Guid authorId);
     public Task SaveContext();
     public Task DeleteUserById(Guid authorId);

@@ -4,5 +4,5 @@ namespace Chirp.Core.Repository;
 
 public interface IFollowRepository
 {
-    public Follow CreateFollow(Author follower, Author following);
+    public Follow CreateFollow(Author followingAuthor, Author followedAuthor);
 }

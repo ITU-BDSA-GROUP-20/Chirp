@@ -7,10 +7,11 @@ namespace Chirp.Infrastructure.Repository;
 
 public class AuthorRepository : BaseRepository, IAuthorRepository
 {
+    private readonly IFollowRepository _followRepository;
     public AuthorRepository(ChirpDbContext chirpDbContext) : base(chirpDbContext)
     {
-        db.Users.Include(e => e.Following);
-        db.Users.Include(e => e.Followers);
+        db.Users.Include(e => e.Follows);
+        _followRepository = new FollowRepository(chirpDbContext);
     }
 
     public void AddAuthor(Author author)
@@ -40,8 +41,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = db.Users
             .Include(e => e.Cheeps)
-            .Include(e => e.Following)
-            .Include(e => e.Followers)
+            .Include(e => e.Follows)
             .Where(a => a.Id == authorId).FirstOrDefault()!;
             
         return author;
@@ -51,8 +51,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = await db.Users
             .Include( e => e.Cheeps)
-            .Include(e => e.Following)
-            .Include(e => e.Followers)
+            .Include(e => e.Follows)
             .Where(a => a.Id == authorId).FirstOrDefaultAsync()!;
          
          
@@ -63,8 +62,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = db.Users
             .Include(e => e.Cheeps)
-            .Include(e => e.Following)
-            .Include(e => e.Followers)
+            .Include(e => e.Follows)
             .Where(a => a.UserName == name).FirstOrDefault()!;
             
         return author;
@@ -113,20 +111,20 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = GetAuthorById(id);
         //Get cheeps from the author, and append cheeps from followers to that list
-        ICollection<Follow> following = GetFollowingByAuthor(id);
+        ICollection<Author> following = GetFollowingById(id);
         ICollection<Cheep> cheeps = GetCheepsByAuthor(id, page);
 
-        foreach (Follow follower in following)
+        foreach (Author follower in following)
         {   
             //If follower has no cheeps, skip them
-            if (follower.Follower.Cheeps == null || !(follower.Follower.Cheeps.Any()))
+            if (follower.Cheeps == null || !(follower.Cheeps.Any()))
             {
                continue;
             }
      
             //Add each cheep from the follower to the list
             //TODO Try to find alternative to foreach
-            foreach (var cheepDto in follower.Follower.Cheeps)
+            foreach (var cheepDto in follower.Cheeps)
             {
                 cheeps.Add(cheepDto);
             }
@@ -142,124 +140,77 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return cheeps;
     }
 
-    public ICollection<Follow> GetFollowersByAuthor(Guid id)
+    public ICollection<Author> GetFollowersById(Guid id)
     {
         Author author = GetAuthorById(id);
 
         //Check that author has followers
-        if (author.Followers == null || !(author.Followers.Any()))
+        if (author.Follows == null || !(author.Follows.Any()))
         {
             throw new Exception("Author " + author.UserName + " has no followers");
         }
-
-        return author.Followers;
+        
+        ICollection<Author> followers = new List<Author>();
+        
+        foreach (Follow follow in author.Follows)
+        {
+            if (follow.FollowingAuthorId != id) 
+            {
+                followers.Add(follow.FollowingAuthor);
+            }
+        }
+        
+        return followers;
     }
 
-    public ICollection<Follow> GetFollowingByAuthor(Guid id)
+    public ICollection<Author> GetFollowingById(Guid id)
     {
         Author author = GetAuthorById(id);
 
-        //Check that author has following
-        if (author.Following == null || !(author.Following.Any()))
+        //Check that author has followers
+        if (author.Follows == null || !(author.Follows.Any()))
         {
-            throw new Exception("Author " + author.UserName + " has no following");
+            throw new Exception("Author " + author.UserName + " has no followers");
         }
-
-        return author.Following;
-    }
-
-    public async Task AddFollowing(Author user, Author following) {
         
-        Follow follow = new Follow()
+        ICollection<Author> followers = new List<Author>();
+        
+        foreach (Follow follow in author.Follows)
         {
-            FollowingId = following.Id,
-            Following = following,
-            FollowerId = user.Id,
-            Follower = user
-        };
+            if (follow.FollowingAuthorId.Equals(id)) 
+            {
+                followers.Add(follow.FollowingAuthor);
+            }
+        }
         
-        user.Following.Add(follow);
-        await AddFollower(following, user);
-        db.Users.Update(user);
-        db.Users.Update(following);
-        await db.SaveChangesAsync();
-    }
-    public async Task RemoveFollowing(Author user, Author following) {
-        // ------- THIS METHOD DOES NOT SAVE THE CHANGES TO THE DATABASE --------
-        
-        Follow follow = new Follow()
-        {
-            FollowingId = following.Id,
-            Following = following,
-            FollowerId = user.Id,
-            Follower = user
-        };
-        
-        user.Following.Remove(follow);
-        await RemoveFollower(following, user);
-
-        // Load the Followers collection explicitly
-        await db.Entry(user).Collection(u => u.Followers).LoadAsync();
-
-        db.Users.Update(user);
-        await SaveContext();
+        return followers;
     }
 
-    private async Task AddFollower(Author user, Author follower)
+    public async Task AddFollowing(Author followingAuthor, Author followedAuthor)
     {
-        Follow follow = new Follow()
-        {
-            FollowingId = user.Id,
-            Following = user,
-            FollowerId = follower.Id,
-            Follower = follower
-        };
+        Follow follow = _followRepository.CreateFollow(followingAuthor, followedAuthor);
         
-        user.Followers.Add(follow);
-        db.Users.Update(user);
+        followingAuthor.Follows.Add(follow);
+        followedAuthor.Follows.Add(follow);
+        
+        db.Users.Update(followingAuthor);
+        db.Users.Update(followedAuthor);
+        
         await db.SaveChangesAsync();
-    }
-
-    private async Task RemoveFollower(Author user, Author follower)
-    {
-        // ------- THIS METHOD DOES NOT SAVE THE CHANGES TO THE DATABASE --------
-        
-        // Load the Followers collection explicitly
-        await db.Entry(user).Collection(u => u.Followers).LoadAsync();
-        
-        Follow follow = new Follow()
-        {
-            FollowingId = user.Id,
-            Following = user,
-            FollowerId = follower.Id,
-            Follower = follower
-        };
-
-        user.Followers.Remove(follow);
-        db.Users.Update(user);
-        await SaveContext();
     }
     
-    public async Task RemoveAllFollowRelationsById(Guid id)
-    {
-        Author author = await GetAuthorByIdAsync(id);
-        
-        List<Follow> followers = author.Followers.ToList();
-        List<Follow> following = author.Following.ToList();
-        
-        // Remove all followers
-        foreach (Follow follower in followers)
-        {
-            await RemoveFollower(author, follower.Follower);
-        }
-        
-        // Remove all following
-        foreach (var follower in following)
-        {
-            await RemoveFollowing(author, follower.Following);
-        }
+    public async Task RemoveFollow(Author followingAuthor, Author followedAuthor) {
+        // Load the Follow collections explicitly
+        await db.Entry(followingAuthor).Collection(f => f.Follows).LoadAsync();
+        await db.Entry(followedAuthor).Collection(u => u.Follows).LoadAsync();
 
-        await db.SaveChangesAsync();
+        followingAuthor.Follows.Remove(followingAuthor.Follows.FirstOrDefault(f => f.FollowedAuthorId == followedAuthor.Id));
+        followedAuthor.Follows.Remove(followedAuthor.Follows.FirstOrDefault(f => f.FollowingAuthorId == followingAuthor.Id));
+
+        db.Users.Update(followingAuthor);
+        db.Users.Update(followedAuthor);
+        
+        await SaveContext();
     }
     
     public async Task DeleteUserById(Guid id)
@@ -272,10 +223,10 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         }
         
         // Remove all followers
-        var followers = user.Followers.ToList();
+        var followers = user.Follows.ToList();
         db.Follows.RemoveRange(followers);
         
-        var following = user.Following.ToList();
+        var following = user.Follows.ToList();
         db.Follows.RemoveRange(following);
 
         db.Users.Remove(user);

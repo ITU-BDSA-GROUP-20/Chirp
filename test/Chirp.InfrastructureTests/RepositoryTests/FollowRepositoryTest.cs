@@ -35,8 +35,8 @@ public class FollowRepositoryTest
         
         Follow manuelFollow = new()
         {
-            Follower = follower,
-            Following = following
+            FollowingAuthor = follower,
+            FollowedAuthor = following
         };
         
         // Act

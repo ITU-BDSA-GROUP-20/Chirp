@@ -22,8 +22,8 @@ public class AboutMeModel : PageModel
     // 
     public UserModel UserModel { get; set; }
     public ICollection<CheepViewModel> Cheeps { get; set; }
-    public ICollection<Follow> Followers { get; set; }
-    public ICollection<Follow> Following { get; set; }
+    public ICollection<Author> Followers { get; set; }
+    public ICollection<Author> Following { get; set; }
     // This is the user that the _CheepList is expected to find to create the cheeps
     public Author user { get; set; }
 
@@ -81,7 +81,6 @@ public class AboutMeModel : PageModel
         
         await _signInManager.SignOutAsync();
         
-        await _authorRepository.RemoveAllFollowRelationsById(userId);
         await _authorRepository.DeleteUserById(userId);
 
         await _authorRepository.SaveContext();
