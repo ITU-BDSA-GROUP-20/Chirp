@@ -39,7 +39,7 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
             .HasForeignKey(f => f.FollowingAuthorId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        entity.HasMany(a => a.Follows)
+            entity.HasMany(a => a.Follows)
             .WithOne(f => f.FollowedAuthor)
             .HasForeignKey(f => f.FollowedAuthorId)
             .OnDelete(DeleteBehavior.Cascade);
@@ -64,12 +64,14 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
             entity.HasOne(f => f.FollowingAuthor)
                 .WithMany(a => a.Follows)
                 .HasForeignKey(f => f.FollowingAuthorId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Follows_FollowingAuthor");
 
             entity.HasOne(f => f.FollowedAuthor)
-                .WithMany()
+                .WithMany(a => a.Follows)
                 .HasForeignKey(f => f.FollowedAuthorId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Follows_FollowedAuthor");
         });
         
         // Cheep entity
