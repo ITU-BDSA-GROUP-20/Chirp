@@ -34,12 +34,12 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
             
             entity.Property(e => e.Id);
 
-            entity.HasMany(a => a.Follows)
+             entity.HasMany(a => a.Following)
             .WithOne(f => f.FollowingAuthor)
             .HasForeignKey(f => f.FollowingAuthorId)
             .OnDelete(DeleteBehavior.Cascade);
 
-            entity.HasMany(a => a.Follows)
+            entity.HasMany(a => a.Followers)
             .WithOne(f => f.FollowedAuthor)
             .HasForeignKey(f => f.FollowedAuthorId)
             .OnDelete(DeleteBehavior.Cascade);
@@ -56,22 +56,19 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
                 .IsRequired();
         });
 
-        // Follow entity
         modelBuilder.Entity<Follow>(entity =>
         {
             entity.HasKey(f => new { f.FollowingAuthorId, f.FollowedAuthorId });
 
             entity.HasOne(f => f.FollowingAuthor)
-                .WithMany(a => a.Follows)
-                .HasForeignKey(f => f.FollowingAuthorId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_Follows_FollowingAuthor");
+            .WithMany(a => a.Following)
+            .HasForeignKey(f => f.FollowingAuthorId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             entity.HasOne(f => f.FollowedAuthor)
-                .WithMany(a => a.Follows)
-                .HasForeignKey(f => f.FollowedAuthorId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_Follows_FollowedAuthor");
+            .WithMany(a => a.Followers)
+            .HasForeignKey(f => f.FollowedAuthorId)
+            .OnDelete(DeleteBehavior.Restrict);
         });
         
         // Cheep entity
@@ -96,7 +93,16 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
         modelBuilder.Entity<Reaction>().Property(m => m.ReactionType)
             .HasConversion<string>();
 
-        modelBuilder.Entity<Reaction>().HasKey(r => new { r.CheepId, r.AuthorId });
+        modelBuilder.Entity<Reaction>(entity =>
+        {
+            entity.HasKey(r => new { r.CheepId, r.AuthorId });
+
+            entity.HasOne(r => r.Author)
+                .WithMany(a => a.Reactions)
+                .HasForeignKey(r => r.AuthorId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict); // Restrict delete for Reactions
+        });
 
         modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(e => e.UserId);
         modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(e => e.RoleId);

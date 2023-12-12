@@ -17,7 +17,7 @@
                 <div class="cheep-info">
                     <strong>
                         <a href="/@cheep.User.Username">@cheep.User.Username</a>
-                        <p>Followers: @cheep.User.Follows.Count</p>
+                        <p>Followers: @cheep.User.Followers.Count</p>
                     </strong>
                     <p class="cheep-message">
                         @cheep.Message
@@ -65,7 +65,7 @@
                 </div>
 
                 @if (SigninManager.IsSignedIn(User) || cheep.User.Username == User.Identity?.Name){
-                    if (!cheep.User.UserHasFollower(Model.user.Id)) {
+                    if (!cheep.User.UserHasFollowers(Model.user.Id)) {
                         <form asp-page-handler="Follow" method="post">
                             <input type="hidden" id="author2FollowId" name="Author2FollowInput" value="@cheep.User.Id" />
                             <input type="hidden" id="author2FollowId" name="currentPageFollowInput" value="@Model.currentPage" />

@@ -273,8 +273,8 @@ public class AuthorRepositoryTest
         authorRepository.AddFollowing(author1, author2);
         
         //Assert
-        Assert.True(author1.Follows.FirstOrDefault().FollowedAuthor == author2);
-        Assert.True(author2.Follows.FirstOrDefault().FollowingAuthor == author1);
+        Assert.True(author1.Followers.FirstOrDefault().FollowedAuthor == author2);
+        Assert.True(author2.Followers.FirstOrDefault().FollowingAuthor == author1);
     }
 
     [Fact]
@@ -304,16 +304,16 @@ public class AuthorRepositoryTest
 
         authorRepository.AddFollowing(author1, author2);
 
-        Assert.Equal(author2.Id, author1.Follows.FirstOrDefault().FollowedAuthor.Id);
-        Assert.Equal(author1.Id, author2.Follows.FirstOrDefault().FollowingAuthor.Id);
+        Assert.Equal(author2.Id, author1.Followers.FirstOrDefault().FollowedAuthor.Id);
+        Assert.Equal(author1.Id, author2.Followers.FirstOrDefault().FollowingAuthor.Id);
 
         await authorRepository.RemoveFollow(author1, author2);
 
         await context.SaveChangesAsync();
 
         //Assert
-        Assert.True(author1.Follows.IsNullOrEmpty());
-        Assert.True(author2.Follows.IsNullOrEmpty());
+        Assert.True(author1.Followers.IsNullOrEmpty());
+        Assert.True(author2.Followers.IsNullOrEmpty());
     }
 
     [Fact]
