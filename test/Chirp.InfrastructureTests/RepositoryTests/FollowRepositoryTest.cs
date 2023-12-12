@@ -20,29 +20,34 @@ public class FollowRepositoryTest
         // Arrange
         FollowRepository followRepository = new(context);
         
-        Author follower = new Author()
+        Author authorThatFollows = new Author()
         {
             Id = Guid.NewGuid(),
-            UserName = "Follower",
+            UserName = "authorThatFollows",
             Email = "Follower@mail.com",
         };
-        Author following = new Author()
+        Author authorBeingFollowed = new Author()
         {
             Id = Guid.NewGuid(),
-            UserName = "Following",
+            UserName = "authorBeingFollowed",
             Email = "Following@mail.com"
         };
         
         Follow manuelFollow = new()
         {
-            FollowingAuthor = follower,
-            FollowedAuthor = following
+            FollowingAuthor = authorThatFollows,
+            FollowingAuthorId = authorThatFollows.Id,
+            FollowedAuthor = authorBeingFollowed,
+            FollowedAuthorId = authorBeingFollowed.Id
         };
         
         // Act
-        Follow generatedFollow = followRepository.CreateFollow(follower, following);
+        Follow generatedFollow = followRepository.CreateFollow(authorThatFollows, authorBeingFollowed);
         
         // Assert
-        Assert.Equal(generatedFollow, manuelFollow);
+        Assert.Equal(generatedFollow.FollowingAuthor, manuelFollow.FollowingAuthor);
+        Assert.Equal(generatedFollow.FollowingAuthorId, manuelFollow.FollowingAuthorId);
+        Assert.Equal(generatedFollow.FollowedAuthor, manuelFollow.FollowedAuthor);
+        Assert.Equal(generatedFollow.FollowedAuthorId, manuelFollow.FollowedAuthorId);
     }
 }

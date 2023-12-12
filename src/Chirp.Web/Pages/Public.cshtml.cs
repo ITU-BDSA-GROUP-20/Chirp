@@ -110,7 +110,7 @@ public class PublicModel : PageModel
 
         if (author == null) return Page();
         
-        await _authorRepository.AddFollowing(author, authorToFollow!);
+        await _authorRepository.AddFollow(author, authorToFollow!);
         return Page();
     }
 
