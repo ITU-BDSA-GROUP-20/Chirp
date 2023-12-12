@@ -15,6 +15,7 @@ public class SqliteInMemoryBuilder
     public SqliteInMemoryBuilder()
     {  
     }
+    
     public static ChirpDbContext GetContext()
     {
         var connection = new SqliteConnection("Filename=:memory:");
