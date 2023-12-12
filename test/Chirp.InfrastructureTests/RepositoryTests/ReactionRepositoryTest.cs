@@ -140,7 +140,7 @@ public class ReactionRepositoryTest
         //Adding reactions to cheep, 2 likes, 2 dislike, 1 love 
         for (int i = 0; i < 4; i++)
         {
-            ReactionType reactionType; 
+            ReactionType reactionType = ReactionType.Like; 
             if (i%2 == 0)
             {
                 reactionType = ReactionType.Dislike;
@@ -148,10 +148,11 @@ public class ReactionRepositoryTest
             {
                 reactionType = ReactionType.Love;
             }
-            else
+            else if(i == 0 || i == 1)
             {
                 reactionType = ReactionType.Like;
             }
+            
             Reaction reaction = new Reaction
             {
                 CheepId = cheepDto.CheepId,
