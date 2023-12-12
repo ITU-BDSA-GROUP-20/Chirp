@@ -2,4 +2,14 @@
 
 namespace Chirp.Web.Models;
 
-public record ReactionModel(ReactionType ReactionType, int ReactionCount);
+public record ReactionModel
+{
+    public ReactionType ReactionType;
+    public int ReactionCount;
+
+    public ReactionModel(ReactionType reactionType, int reactionCount)
+    {
+        ReactionType = reactionType;
+        ReactionCount = reactionCount;
+    }
+}
