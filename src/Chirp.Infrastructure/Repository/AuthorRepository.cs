@@ -143,7 +143,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     public ICollection<Author> GetFollowersById(Guid id)
     {
         Author author = GetAuthorById(id);
-
+        
         //Check that author has followers
         if (author.Followers == null || !(author.Followers.Any()))
         {
@@ -152,14 +152,11 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         
         ICollection<Author> followers = new List<Author>();
         
-        foreach (Follow follow in author.Followers)
+        foreach (var follow in author.Followers)
         {
-            if (follow.FollowingAuthorId != id) 
-            {
-                followers.Add(follow.FollowingAuthor);
-            }
+            followers.Add(follow.FollowingAuthor);
         }
-        
+
         return followers;
     }
 
@@ -168,14 +165,14 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         Author author = GetAuthorById(id);
 
         //Check that author has followers
-        if (author.Followers == null || !(author.Followers.Any()))
+        if (author.Following == null || !(author.Following.Any()))
         {
             throw new Exception("Author " + author.UserName + " has no followers");
         }
         
         ICollection<Author> followers = new List<Author>();
         
-        foreach (Follow follow in author.Followers)
+        foreach (Follow follow in author.Following)
         {
             if (follow.FollowingAuthorId.Equals(id)) 
             {
