@@ -109,7 +109,7 @@ public class ReactionRepositoryTest
         Assert.Equal(0, cheepDto.Reactions.Count);
     }
     [Fact]
-    public void GetReactionCount_ShouldReturnTheCorrectAmountOfReactions()
+    public async Task GetReactionCount_ShouldReturnTheCorrectAmountOfReactions()
     {
         //Arrange
         _ReactionRepository = new ReactionRepository(db);
@@ -133,11 +133,11 @@ public class ReactionRepositoryTest
             CheepId = Guid.NewGuid(),
             AuthorId =authors.First().Id, 
             Text = "TestCheep1", 
-            Author = db.Users.First(),
+            Author = authors.First(),
         };
         db.Cheeps.Add(cheepDto);
         
-        //Adding reactions to cheep, 2 likes, 2 dislike, 1 love 
+        //Adding reactions to cheep, 1 likes, 2 dislike, 1 love 
         for (int i = 0; i < 4; i++)
         {
             ReactionType reactionType = ReactionType.Like; 
@@ -156,16 +156,16 @@ public class ReactionRepositoryTest
             Reaction reaction = new Reaction
             {
                 CheepId = cheepDto.CheepId,
-                AuthorId = db.Users.First().Id,
-                Author = db.Users.First(),
+                AuthorId = authors[i].Id,
+                Author = authors[i],
                 ReactionType = reactionType
             };
             db.Reactions.Add(reaction);
         }
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         
         //Act&Assert
-        Assert.Equal(2, _ReactionRepository.GetReactionCount(cheepDto.CheepId, ReactionType.Like).Result);
+        Assert.Equal(1, _ReactionRepository.GetReactionCount(cheepDto.CheepId, ReactionType.Like).Result);
         Assert.Equal(2, _ReactionRepository.GetReactionCount(cheepDto.CheepId, ReactionType.Dislike).Result);
         Assert.Equal(1, _ReactionRepository.GetReactionCount(cheepDto.CheepId, ReactionType.Love).Result);
         
