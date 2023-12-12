@@ -1,29 +1,24 @@
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
-using Chirp.Web;
 using Chirp.Web.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Chirp.Razor.Pages;
+namespace Chirp.Web.Pages;
 
 public class UserTimelineModel : PageModel
 {
     private readonly ICheepService _service;
     private readonly UserManager<Author> _userManager;
     private readonly IAuthorRepository _authorRepository;
-
-
+    
     public Guid AuthorGuid;
     public ICollection<CheepViewModel> Cheeps { get; set; }
-    public UserModel UserModel { get; set; }
     public required Author user { get; set; }
-
     public required int currentPage;
     public required int totalPages { get; set; }
-
+    
     public UserTimelineModel(ICheepService service, UserManager<Author> userManager, IAuthorRepository authorRepository)
     {
         _service = service;
