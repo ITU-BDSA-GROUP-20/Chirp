@@ -4,10 +4,12 @@ namespace Chirp.Core.Entities;
 
 public class Follow
 {
-    public Guid FollowerId { get; set; }
     [Required]
-    public Author Follower { get; set; }
-    public Guid FollowingId { get; set; }
+    public Guid FollowingAuthorId { get; set; }
     [Required]
-    public Author Following { get; set; }
+    public Author FollowingAuthor { get; set; }
+    [Required]
+    public Guid FollowedAuthorId { get; set; }
+    [Required]
+    public Author FollowedAuthor { get; set; }
 }
