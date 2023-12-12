@@ -30,10 +30,33 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
         return author.Cheeps.Count;
     }
+    
+    public int GetCheepCountByAuthorAndFollowed(Guid authorId)
+    {
+        Author author = GetAuthorById(authorId);
+        int amountOfCheeps = 0;
+        //Check that author has cheeps
+        if (author.Cheeps == null || !(author.Cheeps.Any()))
+        {
+            amountOfCheeps = 0;
+        }
+        amountOfCheeps += GetCheepCountByAuthor(authorId);
+        foreach (Author a in author.Following)
+        {
+            amountOfCheeps += GetCheepCountByAuthor(a.Id);
+        }
+
+        return amountOfCheeps;
+    }
 
     public int GetPageCountByAuthor(Guid authorId)
     {
         return GetCheepCountByAuthor(authorId) / PageSize + 1;
+    }
+    
+    public int GetPageCountByAuthorAndFollowed(Guid authorId)
+    {
+        return GetCheepCountByAuthorAndFollowed(authorId) / PageSize + 1;
     }
 
     public Author GetAuthorById(Guid authorId)
