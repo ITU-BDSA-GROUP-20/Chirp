@@ -51,8 +51,9 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     public async Task<Author> GetAuthorByIdAsync(Guid authorId)
     {
         Author author = await db.Users
-            .Include( e => e.Cheeps)
+            .Include(e => e.Cheeps)
             .Include(e => e.Followers)
+            .Include(e => e.Following)
             .Where(a => a.Id == authorId).FirstOrDefaultAsync()!;
          
          
@@ -143,9 +144,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
     public ICollection<Author> GetFollowersById(Guid id)
     {
-        db.Users.Include(e => e.Followers);
-        
-        Author author = GetAuthorById(id);
+        Author author = db.Users.Include(a => a.Followers).ThenInclude(f => f.FollowingAuthor).SingleOrDefault(a => a.Id == id);
         
         ICollection<Author> followers = new List<Author>();
         
@@ -159,7 +158,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
     public ICollection<Author> GetFollowingById(Guid id)
     {
-        Author author = GetAuthorById(id);
+        Author author = db.Users.Include(a => a.Following).ThenInclude(f => f.FollowedAuthor).SingleOrDefault(a => a.Id == id);
         
         ICollection<Author> following = new List<Author>();
         
