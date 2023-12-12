@@ -102,15 +102,16 @@ public class PublicModel : PageModel
     {
         Guid authorFollowedId = Guid.Parse(Author2FollowInput);
         
-        Author author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
+        var user = await _userManager.GetUserAsync(User);
+        
+        Author author = await _authorRepository.GetAuthorByIdAsync(user.Id);
         Author authorToFollow = await _authorRepository.GetAuthorByIdAsync(authorFollowedId);
         InitializeVariables(int.Parse(currentPageFollowInput));
-
-
 
         if (author == null) return Page();
         
         await _authorRepository.AddFollow(author, authorToFollow!);
+        await _authorRepository.SaveContext();
         return Page();
     }
 
@@ -119,8 +120,10 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnPostUnfollow()
     {
         Guid authorUnfollowedId = Guid.Parse(Author2UnfollowInput);
+        
+        var user = await _userManager.GetUserAsync(User);
 
-        Author author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
+        Author author = await _authorRepository.GetAuthorByIdAsync(user.Id);
         Author authorToUnfollow = await _authorRepository.GetAuthorByIdAsync(authorUnfollowedId);
         
         InitializeVariables(int.Parse(currentPageUnfollowInput));
