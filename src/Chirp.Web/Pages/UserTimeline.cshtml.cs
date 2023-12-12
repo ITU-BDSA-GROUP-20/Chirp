@@ -16,13 +16,13 @@ public class UserTimelineModel : PageModel
     private readonly IAuthorRepository _authorRepository;
 
 
+    public Guid AuthorGuid;
     public ICollection<CheepViewModel> Cheeps { get; set; }
     public UserModel UserModel { get; set; }
-    
     public required Author user { get; set; }
+
+    public required int currentPage;
     public required int totalPages { get; set; }
-
-
 
     public UserTimelineModel(ICheepService service, UserManager<Author> userManager, IAuthorRepository authorRepository)
     {
@@ -33,36 +33,25 @@ public class UserTimelineModel : PageModel
 
     public ActionResult OnGet(string author)
     {
-        user = _userManager.GetUserAsync(User).Result;
-        if (user == null)
-        {
-            return NotFound();
-        }
-        
-        UserModel = new UserModel(user);
-        
-        int page;
         if(Request.Query.ContainsKey("page")){
-            page = int.Parse(Request.Query["page"]);
+            currentPage = int.Parse(Request.Query["page"]);
         } else{
-            page = 1;
+            currentPage = 1;
         }
+
+        user = _userManager.GetUserAsync(User).Result;
+        Author timelineUser = _authorRepository.GetAuthorById(AuthorGuid);
         
         try
         {
-            Cheeps = _service.GetCheepsFromAuthor(UserModel.Id, page);
+            Cheeps = _service.GetCheepsFromAuthor(timelineUser.Id, currentPage);
         }
         catch (Exception e)
         {
             Cheeps = new List<CheepViewModel>();
         }
-
-        user = _userManager.GetUserAsync(User).Result;
         
-        //Get author object to allow the get page count method to be called on ID
-        Author authorObject = _authorRepository.GetAuthorByName(author);
-        
-        totalPages = _authorRepository.GetPageCountByAuthor(authorObject.Id);
+        totalPages = _authorRepository.GetPageCountByAuthor(timelineUser.Id);
 
         return Page();
     }
