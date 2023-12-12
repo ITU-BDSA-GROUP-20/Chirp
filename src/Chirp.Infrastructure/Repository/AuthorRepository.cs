@@ -54,6 +54,11 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return GetCheepCountByAuthor(authorId) / PageSize + 1;
     }
     
+    public int GetPageCountByAuthorAndFollowed(Guid authorId)
+    {
+        return GetCheepCountByAuthorAndFollowed(authorId) / PageSize + 1;
+    }
+
     public Author GetAuthorById(Guid authorId)
     {
         Author author = db.Users
