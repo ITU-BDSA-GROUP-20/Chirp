@@ -129,10 +129,64 @@ public class ReactionRepositoryTest
     public void GetReactionCount_ShouldReturnTheCorrectAmountOfReactions()
     {
         //Arrange
+        _ReactionRepository = new ReactionRepository(db);
         
-        //Act
+        //List inorder to use specific authors when adding reactions
+        List<Author> authors = new();
+        for (int i = 0; i < 4; i++)
+        {
+            Author authorDto = new Author
+            {
+                UserName = "TestAuthor" + i, 
+                Email = "mock"+ i + "@email.com"
+            };
+            db.Users.Add(authorDto);
+            authors.Add(authorDto);
+        }
+       
+        //Cheep to be reacted to
+        Cheep cheepDto = new Cheep
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = db.Users.First().Id, 
+            Text = "TestCheep1", 
+            Author = db.Users.First(),
+        };
+        db.Cheeps.Add(cheepDto);
         
-        //Assert
+        //Adding reactions to cheep, 2 likes, 2 dislike, 1 love 
+        for (int i = 0; i < 4; i++)
+        {
+            ReactionType reactionType; 
+            if (i%2 == 0)
+            {
+                reactionType = ReactionType.Dislike;
+            } else if (i%3 == 0)
+            {
+                reactionType = ReactionType.Love;
+            }
+            else
+            {
+                reactionType = ReactionType.Like;
+            }
+            
+            Reaction reaction = new Reaction
+            {
+                CheepId = cheepDto.CheepId,
+                AuthorId = db.Users.First().Id,
+                Author = db.Users.First(),
+                ReactionType = reactionType
+            };
+            
+            db.Reactions.Add(reaction);
+        }
+        db.SaveChanges();
+        
+        //Act&Assert
+        
+        Assert.Equal(2, _ReactionRepository.GetReactionCount(cheepDto.CheepId, ReactionType.Like).Result);
+        Assert.Equal(2, _ReactionRepository.GetReactionCount(cheepDto.CheepId, ReactionType.Dislike).Result);
+        Assert.Equal(1, _ReactionRepository.GetReactionCount(cheepDto.CheepId, ReactionType.Love).Result);
         
     }
     
