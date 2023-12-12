@@ -52,7 +52,7 @@ public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid
         modelBuilder.Entity<Reaction>().Property(m => m.ReactionType)
             .HasConversion<string>();
         
-        modelBuilder.Entity<Reaction>().HasKey(r => new { r.ChirpId, r.AuthorId} );
+        modelBuilder.Entity<Reaction>().HasKey(r => new { r.CheepId, r.AuthorId} );
         
         modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(e => e.UserId);
         modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(e => e.RoleId);

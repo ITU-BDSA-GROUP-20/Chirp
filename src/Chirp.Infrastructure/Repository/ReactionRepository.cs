@@ -18,7 +18,7 @@ public class ReactionRepository: BaseRepository, IReactionRepository
         {
             Reaction entity = new Reaction()
             {
-                ChirpId = cheepId,
+                CheepId = cheepId,
                 Cheep = cheep,
                 AuthorId = authorId,
                 Author = author,
@@ -61,7 +61,7 @@ public class ReactionRepository: BaseRepository, IReactionRepository
     public async Task<bool> HasUserReacted(Guid cheepId, Guid authorId)
     {
         //check if the user has reacted to the cheep
-        bool hasReacted = await db.Reactions.AnyAsync(r => r.ChirpId == cheepId && r.AuthorId == authorId);
+        bool hasReacted = await db.Reactions.AnyAsync(r => r.CheepId == cheepId && r.AuthorId == authorId);
       
         return hasReacted;
     }
