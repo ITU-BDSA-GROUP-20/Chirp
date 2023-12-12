@@ -1,11 +1,13 @@
-﻿namespace Chirp.Core.Entities;
+﻿using Chirp.Core.Entities;
 
-public record ReactionDTO
+namespace Chirp.Web.Models;
+
+public record ReactionModel
 {
     public ReactionType ReactionType;
     public int ReactionCount;
 
-    public ReactionDTO(ReactionType reactionType, int reactionCount)
+    public ReactionModel(ReactionType reactionType, int reactionCount)
     {
         ReactionType = reactionType;
         ReactionCount = reactionCount;
