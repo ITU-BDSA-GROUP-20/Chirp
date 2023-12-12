@@ -39,12 +39,7 @@ public class AboutMeModel : PageModel
     {
         Console.WriteLine("It reached this point");
         // Fetch user information from the database
-        user = await _userManager.GetUserAsync(User);
-
-        if (user == null)
-        {
-            return NotFound();
-        }
+        var user = await _userManager.GetUserAsync(User);
 
         // Create a UserModel based on the Author entity
         UserModel = new UserModel(user);
@@ -70,7 +65,7 @@ public class AboutMeModel : PageModel
         {
             Cheeps = new List<CheepViewModel>();
         }
-
+        
         return Page();
     }
     
