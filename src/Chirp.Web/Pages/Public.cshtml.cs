@@ -16,7 +16,7 @@ public class PublicModel : PageModel
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
     private readonly IReactionRepository _reactionRepository;
-    private readonly IValidator<CreateCheep> _validator;
+    private readonly IValidator<CreateCheepModel> _validator;
     public required Author user { get; set; }
     private readonly UserManager<Author> _userManager;
     public required ICollection<CheepViewModel> Cheeps { get; set; }
@@ -26,7 +26,7 @@ public class PublicModel : PageModel
 
 
 
-    public PublicModel(ICheepService service, ICheepRepository cheepRepository, IAuthorRepository authorRepository, IValidator<CreateCheep> validator , UserManager<Author> userManager, IReactionRepository reactionRepository)
+    public PublicModel(ICheepService service, ICheepRepository cheepRepository, IAuthorRepository authorRepository, IValidator<CreateCheepModel> validator , UserManager<Author> userManager, IReactionRepository reactionRepository)
 
     {
         _service = service;
@@ -55,7 +55,7 @@ public class PublicModel : PageModel
         }
        
         var author = await _userManager.GetUserAsync(User);
-        var cheep = new CreateCheep(author!, NewCheep.Text!);
+        var cheep = new CreateCheepModel(author!, NewCheep.Text!);
 
         await CreateCheep(cheep);
         
@@ -63,9 +63,9 @@ public class PublicModel : PageModel
         
     }
     
-    public async Task CreateCheep(CreateCheep newCheep)
+    public async Task CreateCheep(CreateCheepModel newCheepModel)
     {
-        var validationResult = await _validator.ValidateAsync(newCheep);
+        var validationResult = await _validator.ValidateAsync(newCheepModel);
          
         if (!validationResult.IsValid)
         {
@@ -74,7 +74,7 @@ public class PublicModel : PageModel
             throw new ValidationException("The Cheep must be between 5 and 160 characters.(CreateCheep)");
         }
 
-        await _cheepRepository.AddCreateCheep(newCheep);
+        await _cheepRepository.AddCreateCheep(newCheepModel);
     }
   
     public async Task<IActionResult> OnPostReaction(Guid cheepId, ReactionType reactionType, int currentPage)
