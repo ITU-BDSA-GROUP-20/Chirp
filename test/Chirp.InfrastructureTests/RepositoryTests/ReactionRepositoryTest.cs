@@ -131,7 +131,7 @@ public class ReactionRepositoryTest
         Cheep cheepDto = new Cheep
         {
             CheepId = Guid.NewGuid(),
-            AuthorId = db.Users.First().Id, 
+            AuthorId =authors.First().Id, 
             Text = "TestCheep1", 
             Author = db.Users.First(),
         };
