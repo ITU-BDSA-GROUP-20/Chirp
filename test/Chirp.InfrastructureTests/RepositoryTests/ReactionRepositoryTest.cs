@@ -66,20 +66,70 @@ public class ReactionRepositoryTest
     }
     
     //public Task RemoveReaction(ReactionType reaction, Guid cheepId, Guid authorId);
-    [Fact]
-    public void RemoveReaction_ShouldAddRemoveReactionFromCheep()
+    [Theory]
+    [InlineData(ReactionType.Like)]
+    [InlineData(ReactionType.Dislike)]
+    [InlineData(ReactionType.Love)]
+    public async Task RemoveReaction_ShouldAddRemoveReactionFromCheep(ReactionType reactionType)
     {
         //Arrange
+        _ReactionRepository = new ReactionRepository(db);
+
+
+        Author authorDto = new Author
+        {
+            UserName = "TestAuthor1", 
+            Email = "mock1@email.com"
+        };
+        Author authorDto1 = new Author
+        { 
+            UserName = "TestAuthor2", 
+            Email = "mock2@email.com" 
+        };
+        Cheep cheepDto = new Cheep
+        {
+            CheepId = Guid.Parse("6e579f4c-c2da-420d-adad-40797a71d217"),
+            AuthorId = authorDto1.Id, 
+            Text = "TestCheep1", 
+            Author = authorDto,
+            Reactions = new List<Reaction>
+            {
+                new Reaction
+                {
+                    CheepId = Guid.Parse("6e579f4c-c2da-420d-adad-40797a71d217"),
+                    AuthorId = authorDto.Id,
+                    Author = authorDto,
+                    ReactionType = reactionType
+                }
+            }
+        };
+            
+        db.Users.Add(authorDto);
+        db.Cheeps.Add(cheepDto);
+        
+
+        db.SaveChanges(); 
         
         //Act
-        
+        await _ReactionRepository.RemoveReaction(
+            reactionType,
+            cheepDto.CheepId,
+            authorDto.Id
+        );
+
         //Assert
+        Assert.Equal(1, cheepDto.Reactions.Count);
+        Assert.Equal(cheepDto.CheepId, db.Reactions.First().CheepId);
+        Assert.Equal(authorDto.Id, cheepDto.Reactions.First().AuthorId);
+        Assert.Equal(reactionType, cheepDto.Reactions.First().ReactionType);
         
     }
+        
+    
     
     //public Task<int> GetReactionCount(Guid cheepId, ReactionType reactionType);
     [Fact]
-    public void GetReactionCount_ShouldAddReturnTheCorrectAmountOfReactions()
+    public void GetReactionCount_ShouldReturnTheCorrectAmountOfReactions()
     {
         //Arrange
         
