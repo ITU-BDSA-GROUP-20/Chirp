@@ -113,7 +113,7 @@ public class PublicModel : PageModel
         if (author == null) return Page();
         
         await _authorRepository.AddFollow(author, authorToFollow!);
-        await _authorRepository.SaveContext();
+        await _authorRepository.SaveContextAsync();
         return Page();
     }
 
@@ -134,7 +134,7 @@ public class PublicModel : PageModel
         if (authorToUnfollow == null || author == null) return Page();
 
         await _authorRepository.RemoveFollow(author!, authorToUnfollow!);
-        await _authorRepository.SaveContext();
+        await _authorRepository.SaveContextAsync();
         return Page();
     }
 
