@@ -92,5 +92,4 @@ public class AboutMeModel : PageModel
             return RedirectToPage();
         }
     }
-  
 }

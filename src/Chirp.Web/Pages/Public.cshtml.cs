@@ -16,6 +16,7 @@ public class PublicModel : PageModel
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
     private readonly IReactionRepository _reactionRepository;
+    private readonly IFollowRepository _followRepository;
     private readonly IValidator<CreateCheep> _validator;
     public required Author user { get; set; }
     private readonly UserManager<Author> _userManager;
@@ -26,12 +27,13 @@ public class PublicModel : PageModel
 
 
 
-    public PublicModel(ICheepService service, ICheepRepository cheepRepository, IAuthorRepository authorRepository, IValidator<CreateCheep> validator , UserManager<Author> userManager, IReactionRepository reactionRepository)
+    public PublicModel(ICheepService service, ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository, IValidator<CreateCheep> validator , UserManager<Author> userManager, IReactionRepository reactionRepository)
 
     {
         _service = service;
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
+        _followRepository = followRepository;
         _validator = validator;
         _userManager = userManager;
         _reactionRepository = reactionRepository;
@@ -161,7 +163,6 @@ public class PublicModel : PageModel
 
 
 }
-
 
 public class NewCheep
 {

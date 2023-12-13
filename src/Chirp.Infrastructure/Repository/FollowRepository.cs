@@ -22,5 +22,13 @@ public class FollowRepository : BaseRepository, IFollowRepository
         return follow;
     }
     
-    // TODO implement equals method
+    public bool IsFollowing(Guid followingUserId, Guid followedUserId)
+    {
+        Author author = db.Users
+            .Include(e => e.Following)
+            .Where(a => a.Id == followingUserId).FirstOrDefault()!;
+        
+        return author.Following.Any(f => f.FollowedAuthor.Id == followedUserId);
+    }
+        // TODO implement equals method
 }

@@ -30,7 +30,7 @@ public class UserModel
         return Following.Any(Follow => Follow.FollowingAuthor.Id == userId);
     }
     
-    public bool UserIsFollowing(Guid userId)
+    public bool UserIsFollowing(Guid followedUser)
     {
         if (Following != null && Following.Any())
         {
@@ -39,4 +39,9 @@ public class UserModel
 
         return false;
     }
+
+    public bool IsFollowing(Guid followedUserId)
+    {
+        return Following.Any(f => f.FollowedAuthor.Id == followedUserId);
+    }   
 }

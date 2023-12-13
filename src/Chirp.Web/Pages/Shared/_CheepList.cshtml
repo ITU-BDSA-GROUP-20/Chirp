@@ -65,7 +65,7 @@
                 </div>
 
                 @if (SigninManager.IsSignedIn(User) || cheep.User.Username == User.Identity?.Name){
-                    if (!cheep.User.UserHasFollowers(Model.user.Id)) {
+                    if (!Model.IsFollowing(UserManager.GetUserAsync(User).Result!.Id, cheep.User.Id)) {
                         <form asp-page-handler="Follow" method="post">
                             <input type="hidden" id="author2FollowId" name="Author2FollowInput" value="@cheep.User.Id" />
                             <input type="hidden" id="author2FollowId" name="currentPageFollowInput" value="@Model.currentPage" />
