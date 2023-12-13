@@ -78,7 +78,7 @@ public class AboutMeModel : PageModel
         
         await _authorRepository.DeleteUserById(userId);
 
-        await _authorRepository.SaveContext();
+        await _authorRepository.SaveContextAsync();
         
         _logger.LogInformation("User logged out.");
         if (returnUrl != null)
