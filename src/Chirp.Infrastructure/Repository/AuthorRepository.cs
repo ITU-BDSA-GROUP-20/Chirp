@@ -188,13 +188,13 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         await db.Entry(followingAuthor).Collection(f => f.Followers).LoadAsync();
         await db.Entry(followedAuthor).Collection(u => u.Followers).LoadAsync();
 
-        followingAuthor.Following.Remove(followingAuthor.Followers.FirstOrDefault(f => f.FollowedAuthorId == followedAuthor.Id));
-        followedAuthor.Followers.Remove(followedAuthor.Followers.FirstOrDefault(f => f.FollowingAuthorId == followingAuthor.Id));
+        followingAuthor.Following.Remove(followingAuthor.Followers.FirstOrDefault(f => f.FollowedAuthorId == followedAuthor.Id)!);
+        followedAuthor.Followers.Remove(followedAuthor.Followers.FirstOrDefault(f => f.FollowingAuthorId == followingAuthor.Id)!);
 
         db.Users.Update(followingAuthor);
         db.Users.Update(followedAuthor);
         
-        await SaveContext();
+        await SaveContextAsync();
     }
     
     public async Task DeleteUserById(Guid id)
@@ -218,7 +218,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         await db.SaveChangesAsync();
     }
     
-    public async Task SaveContext()
+    public async Task SaveContextAsync()
     {
         await db.SaveChangesAsync();
     }
