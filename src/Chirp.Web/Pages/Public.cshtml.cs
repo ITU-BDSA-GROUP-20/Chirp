@@ -160,8 +160,7 @@ public class PublicModel : PageModel
         totalPages = _cheepRepository.GetPageCount();
         currentPage = page;
     }
-
-
+    
 }
 
 public class NewCheep
