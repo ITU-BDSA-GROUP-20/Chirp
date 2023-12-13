@@ -299,7 +299,7 @@ public class AuthorRepositoryTest
             context.Users.Add(authorDto);
         }
 
-        context.SaveChanges();
+        await context.SaveChangesAsync();
 
         //Act
         Author author1 = context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault();
@@ -395,5 +395,41 @@ public class AuthorRepositoryTest
 
         //Assert
         Assert.Equal(expectedFollowing, returnedFollowing);
+    }
+
+    [Fact]
+    public async void DeleteUserById_ShouldDeleteUser()
+    {
+        // Arrange
+        var authorRepository = new AuthorRepository(context);
+
+        // Create 3 authors
+        for (int i = 0; i < 3; i++)
+        {
+            Author authorDto = new Author
+            {
+                Id = Guid.NewGuid(),
+                UserName = "TestAuthor" + i,
+                Email = "mock" + i + "@test.com"
+            };
+
+            context.Users.Add(authorDto);
+        }
+
+        await context.SaveChangesAsync();
+
+        //Act
+        Author author1 = context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault();
+        Author author2 = context.Users.Where(a => a.UserName == "TestAuthor1").FirstOrDefault();
+        Author author3 = context.Users.Where(a => a.UserName == "TestAuthor2").FirstOrDefault();
+
+        // await authorRepository.DeleteUserById(author1.Id);
+        context.Remove(author1);
+
+        await context.SaveChangesAsync();
+
+        //Assert
+        Assert.True(context.Users.Count() == 2);
+        Assert.True(context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault() == null);
     }
 }
