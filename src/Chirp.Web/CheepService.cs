@@ -34,7 +34,7 @@ public class CheepService : ICheepService
 
         foreach (Cheep cheepDto in cheepDtos)
         {
-            List<ReactionDTO> reactionTypeCounts = CheepReactions(cheepDto);
+            List<ReactionModel> reactionTypeCounts = CheepReactions(cheepDto);
             
             cheeps.Add(new CheepViewModel(cheepDto.CheepId, new UserModel(cheepDto.Author), cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
         }
@@ -49,7 +49,7 @@ public class CheepService : ICheepService
 
         foreach (Cheep cheepDto in cheepDtos)
         {
-            List<ReactionDTO> reactionTypeCounts = CheepReactions(cheepDto);
+            List<ReactionModel> reactionTypeCounts = CheepReactions(cheepDto);
 
             cheeps.Add(new CheepViewModel(cheepDto.CheepId, new UserModel(cheepDto.Author), cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
         }
@@ -72,13 +72,12 @@ public class CheepService : ICheepService
         return cheeps;
     }
 
-
-    private List<ReactionDTO> CheepReactions(Cheep cheepDto)
+    private List<ReactionModel> CheepReactions(Cheep cheepDto)
     {
         // Initialize reactions with all reaction types set to count 0.
         var reactions = Enum.GetValues(typeof(ReactionType))
             .Cast<ReactionType>()
-            .ToDictionary(rt => rt, rt => new ReactionDTO(rt, 0));
+            .ToDictionary(rt => rt, rt => new ReactionModel(rt, 0));
 
         // If cheepDto.Reactions is not null and has elements, process them.
         if (cheepDto.Reactions?.Any() == true)
