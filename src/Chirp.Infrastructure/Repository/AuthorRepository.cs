@@ -103,8 +103,9 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     public async Task DeleteCheepsByAuthorId(Guid id)
     {
         Author author = await GetAuthorByIdAsync(id);
-        foreach (var cheep in author.Cheeps)
+        foreach (var cheep in author.Cheeps.ToList())
         {
+            cheep.Reactions.Clear();
             db.Cheeps.Remove(cheep);
         }
     }
