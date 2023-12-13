@@ -105,8 +105,12 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         Author author = await GetAuthorByIdAsync(id);
         foreach (var cheep in author.Cheeps.ToList())
         {
-            cheep.Reactions.Clear();
-            db.Cheeps.Remove(cheep);
+            if (cheep.Reactions != null && cheep.Reactions.Any())    
+            {
+                db.Reactions.RemoveRange(cheep.Reactions);
+            }
+            
+            author.Cheeps.Remove(cheep);
         }
     }
     
