@@ -432,4 +432,61 @@ public class AuthorRepositoryTest
         Assert.True(context.Users.Count() == 2);
         Assert.True(context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault() == null);
     }
+
+   [Fact]
+    public async Task DeleteCheepsByAuthorId_ShouldRemoveAllCheepsByAuthor()
+    {
+        // Arrange
+        var authorRepository = new AuthorRepository(context);
+
+        // Create an author with cheeps
+        Author author = new Author
+        {
+            Id = Guid.NewGuid(),
+            UserName = "TestAuthor",
+            Email = "testauthor@test.com",
+            Cheeps = new List<Cheep>()
+        };
+
+        Cheep cheep1 = new Cheep
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = author.Id,
+            Text = "TestCheep1",
+            Author = author
+        };
+        Cheep cheep2 = new Cheep
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = author.Id,
+            Text = "TestCheep2",
+            Author = author
+        };
+        Cheep cheep3 = new Cheep
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = author.Id,
+            Text = "TestCheep3",
+            Author = author
+        };
+
+        author.Cheeps.Add(cheep1);
+        author.Cheeps.Add(cheep2);
+        author.Cheeps.Add(cheep3);
+        
+        context.Users.Add(author);
+        
+        await context.SaveChangesAsync();
+
+        Assert.Equal(3, context.Cheeps.Count());
+
+        // Act
+        await authorRepository.DeleteCheepsByAuthorId(author.Id);
+        
+        await context.SaveChangesAsync();
+
+        // Assert
+        Assert.Empty(author.Cheeps);
+        Assert.Empty(context.Cheeps);
+    }
 }
