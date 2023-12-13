@@ -1,10 +1,10 @@
-﻿@page "/{author}"
+﻿@page "/{AuthorGuid}"
 @using Chirp.Core.Entities
 @using Chirp.Core.Repository
 @using Chirp.Web.Pages
 
 @using FluentValidation
-@model Chirp.Razor.Pages.UserTimelineModel
+@model UserTimelineModel
 @inject SignInManager<Author> SignInManager
 @inject UserManager<Author> UserManager
 @inject IValidator<CreateCheep> Validator
