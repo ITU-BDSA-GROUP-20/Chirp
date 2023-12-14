@@ -64,7 +64,7 @@ public class CheepService : ICheepService
 
         foreach (Cheep cheepDto in cheepDtos)
         {
-            List<ReactionDTO> reactionTypeCounts = CheepReactions(cheepDto);
+            List<ReactionModel> reactionTypeCounts = CheepReactions(cheepDto);
 
             cheeps.Add(new CheepViewModel(cheepDto.CheepId, new UserModel(cheepDto.Author), cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
         }
