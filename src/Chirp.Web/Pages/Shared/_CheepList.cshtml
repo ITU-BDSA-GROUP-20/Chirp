@@ -8,14 +8,15 @@
 @inject IReactionRepository ReactionRepository
 @model dynamic
 
-
 <ul id="messagelist" class="cheeps">
+    
     @foreach (CheepViewModel cheep in Model.Cheeps)
     {
         <li>
             <div class="cheep-view">
                 <div class="cheep-info">
                     <strong>
+                        
                         <a href="/@cheep.User.Id">@cheep.User.Username</a>
                         <p>Followers: @cheep.User.Followers.Count</p>
                     </strong>
@@ -28,34 +29,18 @@
                 <div class="reaction-box">
                     @if (SigninManager.IsSignedIn(User))
                     {
-                        // Draft on multiple reactions 
-                        @* @foreach (var reaction in @cheep.Reactions) *@
-                        @* { *@
-                        @*     @if (reaction.AuthorIds.Contains(UserManager.GetUserAsync(User).Result!.Id)) *@
-                        @*     { *@
-                        @*         <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@reaction.ReactionType"> *@
-                        @*             <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="@reaction.ReactionType: @reaction.Count"/> *@
-                        @*         </form> *@
-                        @*     } *@
-                        @*     else *@
-                        @*     { *@
-                        @*         <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@reaction.ReactionType"> *@
-                        @*             <input type="submit" id="reactionId" name="ReactionIdInput" value="@reaction.ReactionType: @reaction.Count"/> *@
-                        @*         </form> *@
-                        @*     } *@
-                        @* } *@
-                        
-                        @if (ReactionRepository.HasUserReacted(@cheep.CheepId, UserManager.GetUserAsync(User).Result!.Id).Result) 
-                        { 
-                            <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType" asp-route-currentPage="@Model.currentPage"> 
-                                <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().ReactionCount"/> 
-                            </form> 
-                        } else 
-                        { 
-                            <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType" asp-route-currentPage="@Model.currentPage"> 
-                                <input type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().ReactionCount"/> 
-                            </form> 
-                        } 
+                        @if (ReactionRepository.HasUserReacted(@cheep.CheepId, UserManager.GetUserAsync(User).Result!.Id).Result)
+                        {
+                            <form asp-page="public" asp-page-handler="RemoveReaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType" asp-route-currentPage="@Model.currentPage">
+                                <input class="reacted" type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().ReactionCount"/>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-page="public" asp-page-handler="Reaction" method="post" asp-route-cheepId="@cheep.CheepId" asp-route-reaction="@cheep.Reactions.First().ReactionType" asp-route-currentPage="@Model.currentPage">
+                                <input type="submit" id="reactionId" name="ReactionIdInput" value="Like: @cheep.Reactions.First().ReactionCount"/>
+                            </form>
+                        }
                     }
                     else
                     {
@@ -64,20 +49,24 @@
                     }
                 </div>
 
-                @if (SigninManager.IsSignedIn(User) || cheep.User.Username == User.Identity?.Name){
-                    if (!cheep.User.UserHasFollower(Model.user.Id)) {
+                @if (SigninManager.IsSignedIn(User) || cheep.User.Username == User.Identity?.Name)
+                {
+                    if (!cheep.User.UserHasFollower(Model.user.Id))
+                    {
                         <form asp-page-handler="Follow" method="post">
-                            <input type="hidden" id="author2FollowId" name="Author2FollowInput" value="@cheep.User.Id" />
-                            <input type="hidden" id="author2FollowId" name="currentPageFollowInput" value="@Model.currentPage" />
+                            <input type="hidden" id="author2FollowId" name="Author2FollowInput" value="@cheep.User.Id"/>
+                            <input type="hidden" id="author2FollowId" name="currentPageFollowInput" value="@Model.currentPage"/>
 
-                            <input type="submit" value="Follow" />
+                            <input type="submit" value="Follow"/>
                         </form>
-                    } else {
+                    }
+                    else
+                    {
                         <form asp-page-handler="Unfollow" method="post">
-                            <input type="hidden" id="author2UnfollowId" name="Author2UnfollowInput" value="@cheep.User.Id" />
-                            <input type="hidden" id="author2FollowId" name="currentPageUnfollowInput" value="@Model.currentPage" />
+                            <input type="hidden" id="author2UnfollowId" name="Author2UnfollowInput" value="@cheep.User.Id"/>
+                            <input type="hidden" id="author2FollowId" name="currentPageUnfollowInput" value="@Model.currentPage"/>
 
-                            <input type="submit" value="Unfollow" />
+                            <input type="submit" value="Unfollow"/>
                         </form>
                     }
                 }
