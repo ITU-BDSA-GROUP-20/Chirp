@@ -9,7 +9,6 @@ public interface ICheepService
 {
     public ICollection<CheepViewModel> GetCheeps(int page);
     public ICollection<CheepViewModel> GetCheepsFromAuthor(Guid authorId, int page);
-    public ICollection<CheepViewModel> GetCheepsFromAuthorAndFollowing(Guid authorId, int page);
     public ICollection<Author> GetFollowers(Guid id);
     public ICollection<Author> GetFollowing(Guid id);
 }
@@ -45,21 +44,6 @@ public class CheepService : ICheepService
     public ICollection<CheepViewModel> GetCheepsFromAuthor(Guid id, int page)
     {
         ICollection<Cheep> cheepDtos = _authorRepository.GetCheepsByAuthor(id, page);
-        ICollection<CheepViewModel> cheeps = new List<CheepViewModel>();
-
-        foreach (Cheep cheepDto in cheepDtos)
-        {
-            List<ReactionModel> reactionTypeCounts = CheepReactions(cheepDto);
-
-            cheeps.Add(new CheepViewModel(cheepDto.CheepId, new UserModel(cheepDto.Author), cheepDto.Text, cheepDto.TimeStamp.ToString(CultureInfo.InvariantCulture), reactionTypeCounts));
-        }
-        
-        return cheeps;
-    }
-
-    public ICollection<CheepViewModel> GetCheepsFromAuthorAndFollowing(Guid authorId, int page)
-    {
-        ICollection<Cheep> cheepDtos = _authorRepository.GetCheepsByAuthorAndFollowing(authorId, page);
         ICollection<CheepViewModel> cheeps = new List<CheepViewModel>();
 
         foreach (Cheep cheepDto in cheepDtos)

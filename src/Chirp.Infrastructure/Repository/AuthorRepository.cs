@@ -122,39 +122,6 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         if(author.Cheeps.Count > 32) return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize);
         return author.Cheeps;
     }
-    
-    public ICollection<Cheep> GetCheepsByAuthorAndFollowing(Guid id, int page)
-    {
-        Author author = GetAuthorById(id);
-        //Get cheeps from the author, and append cheeps from followers to that list
-        ICollection<Author> following = GetFollowingByAuthor(id);
-        ICollection<Cheep> cheeps = GetCheepsByAuthor(id, page);
-
-        foreach (Author follower in following)
-        {   
-            //If follower has no cheeps, skip them
-            if (follower.Cheeps == null || !(follower.Cheeps.Any()))
-            {
-               continue;
-            }
-     
-            //Add each cheep from the follower to the list
-            //TODO Try to find alternative to foreach
-            foreach (var cheepDto in follower.Cheeps)
-            {
-                cheeps.Add(cheepDto);
-            }
-            
-        }
-        //Sort the cheeps according to timestamp, latest first
-        cheeps = cheeps.OrderByDescending(c => c.TimeStamp).ToList();
-        
-        int pageSizeIndex = (page - 1) * PageSize;
-        
-        if(cheeps.Count < pageSizeIndex + PageSize) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,cheeps.Count - pageSizeIndex);
-        if(cheeps.Count > 32) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize);
-        return cheeps;
-    }
 
     public ICollection<Author> GetFollowersByAuthor(Guid id)
     {

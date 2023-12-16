@@ -9,7 +9,6 @@ public interface IAuthorRepository
     public Author GetAuthorByName(string name);
     public Author GetAuthorByEmail(string email);
     public void AddAuthor(Author authorDto);
-    public ICollection<Cheep> GetCheepsByAuthorAndFollowing(Guid id, int page);
     public ICollection<Author> GetFollowersByAuthor(Guid authorId);
     public ICollection<Author> GetFollowingByAuthor(Guid authorId);
     public Task AddFollowing(Author author, Author author2Follow);
