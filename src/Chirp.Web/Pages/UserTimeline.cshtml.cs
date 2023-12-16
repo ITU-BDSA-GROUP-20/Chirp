@@ -26,7 +26,7 @@ public class UserTimelineModel : PageModel
         _authorRepository = authorRepository;
     }
 
-    public ActionResult OnGet(string author)
+    public ActionResult OnGet(string authorGuid)
     {
         if(Request.Query.ContainsKey("page")){
             currentPage = int.Parse(Request.Query["page"]);
