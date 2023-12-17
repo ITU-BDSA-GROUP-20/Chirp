@@ -6,6 +6,7 @@
 @inject UserManager<Author> UserManager
 @inject IReactionRepository ReactionRepository
 @inject IFollowRepository FollowRepository
+@inject IAuthorRepository AuthorRepository
 @model dynamic
 
 <ul id="messagelist" class="cheeps">
@@ -18,7 +19,7 @@
                     <strong>
                         
                         <a href="/@cheep.User.Id">@cheep.User.Username</a>
-                        <p>Followers: @cheep.User.Followers.Count</p>
+                        <p>Followers: @AuthorRepository.GetFollowersById(cheep.User.Id).Count()</p>
                     </strong>
                     <p class="cheep-message">
                         @cheep.Message

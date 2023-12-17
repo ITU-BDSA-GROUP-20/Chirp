@@ -10,21 +10,24 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace Chirp.Infrastructure;
 
-public class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid>
+public sealed class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid>
 {
     public DbSet<Cheep> Cheeps {get; set;} = null!;
     
     public DbSet<Follow> Follows { get; set; } = null!;
-    public DbSet<Reaction> Reactions { get; set; }
+
+    public DbSet<Reaction> Reactions { get; set; } = null!;
     //Source for methods:
     //https://www.c-sharpcorner.com/article/get-started-with-entity-framework-core-using-sqlite/
 
     public ChirpDbContext(DbContextOptions<ChirpDbContext> dbContextOptions) : base(dbContextOptions)
     {
+        ChangeTracker.LazyLoadingEnabled = false;
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {   
+        
         // Author entity
         modelBuilder.Entity<Author>(entity =>
         {
