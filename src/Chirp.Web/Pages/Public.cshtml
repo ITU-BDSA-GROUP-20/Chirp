@@ -20,7 +20,7 @@
     <h2> Public Timeline </h2>
     @if (SignInManager.IsSignedIn(User))
     {
-        @await Html.PartialAsync("Shared/_CheepBox", new NewCheep())        
+        @await Html.PartialAsync("Shared/_CheepBox", new NewCheep())
     }
     @if (Model.Cheeps?.Any() == true)
     {

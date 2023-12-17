@@ -1,11 +1,12 @@
-﻿@using Chirp.Web
+﻿
 @using Chirp.Core.Entities
 @using Chirp.Core.Repository
 @using Chirp.Web.Models
 @inject SignInManager<Author> SigninManager
 @inject UserManager<Author> UserManager
-@inject IAuthorRepository AuthorRepository
 @inject IReactionRepository ReactionRepository
+@inject IFollowRepository FollowRepository
+@inject IAuthorRepository AuthorRepository
 @model dynamic
 
 <ul id="messagelist" class="cheeps">
@@ -18,7 +19,7 @@
                     <strong>
                         
                         <a href="/@cheep.User.Id">@cheep.User.Username</a>
-                        <p>Followers: @cheep.User.Followers.Count</p>
+                        <p>Followers: @AuthorRepository.GetFollowersById(cheep.User.Id).Count()</p>
                     </strong>
                     <p class="cheep-message">
                         @cheep.Message
@@ -27,7 +28,7 @@
                     <small>&mdash; @cheep.Timestamp</small>
                 </div>
                 <div class="reaction-box">
-                    @if (SigninManager.IsSignedIn(User))
+                    @if (SigninManager.IsSignedIn(User) && cheep.User.Username != User.Identity?.Name)
                     {
                         @if (ReactionRepository.HasUserReacted(@cheep.CheepId, UserManager.GetUserAsync(User).Result!.Id).Result)
                         {
@@ -51,7 +52,7 @@
 
                 @if (SigninManager.IsSignedIn(User) && cheep.User.Username != User.Identity?.Name)
                 {
-                    if (!cheep.User.UserHasFollower(Model.user.Id))
+                    if (!FollowRepository.IsFollowing(Model.user.Id, cheep.User.Id))
                     {
                         <form asp-page="public" asp-page-handler="Follow" method="post" asp-route-CurrentPage="@Model.currentPage" asp-route-Author2Follow="@cheep.User.Id">
                             <input type="submit" value="Follow"/>

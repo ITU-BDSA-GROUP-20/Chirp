@@ -1,4 +1,4 @@
-﻿    using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
     using Chirp.Core.Entities;
     using Chirp.Core.Repository;
     using Chirp.Web.Models;
@@ -15,6 +15,7 @@
         private readonly ICheepService _service;
         private readonly ICheepRepository _cheepRepository;
         private readonly IAuthorRepository _authorRepository;
+        private readonly IFollowRepository _followRepository;
         private readonly IReactionRepository _reactionRepository;
         private readonly IValidator<CreateCheep> _validator;
         public required Author user { get; set; }
@@ -23,12 +24,13 @@
         public required int totalPages { get; set; }
         public required int currentPage { get; set; }
         
-        public PublicModel(ICheepService service, ICheepRepository cheepRepository, IAuthorRepository authorRepository, IValidator<CreateCheep> validator , UserManager<Author> userManager, IReactionRepository reactionRepository)
+        public PublicModel(ICheepService service, ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository, IValidator<CreateCheep> validator , UserManager<Author> userManager, IReactionRepository reactionRepository)
 
         {
             _service = service;
             _cheepRepository = cheepRepository;
             _authorRepository = authorRepository;
+            _followRepository = followRepository;
             _validator = validator;
             _userManager = userManager;
             _reactionRepository = reactionRepository;
@@ -96,30 +98,30 @@
         public async Task<IActionResult> OnPostFollow(int currentPage, Guid Author2Follow)
         {
             
-            Author author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
-            Author authorToFollow = await _authorRepository.GetAuthorByIdAsync(Author2Follow);
+            Author? author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
+            Author? authorToFollow = await _authorRepository.GetAuthorByIdAsync(Author2Follow);
             InitializeVariables(currentPage);
 
 
 
             if (author == null) return Page();
 
-            await _authorRepository.AddFollowing(author, authorToFollow);
+            await _authorRepository.AddFollow(author, authorToFollow);
             return Page();
         }
         
         public async Task<IActionResult> OnPostUnfollow(int currentPage, Guid Author2Unfollow)
         {
 
-            Author author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
-            Author authorToUnfollow = await _authorRepository.GetAuthorByIdAsync(Author2Unfollow);
+            Author? author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
+            Author? authorToUnfollow = await _authorRepository.GetAuthorByIdAsync(Author2Unfollow);
             
             InitializeVariables(currentPage);
 
 
             if (authorToUnfollow == null || author == null) return Page();
 
-            await _authorRepository.RemoveFollowing(author!, authorToUnfollow);
+            await _authorRepository.RemoveFollow(author!, authorToUnfollow);
             return Page();
         }
 

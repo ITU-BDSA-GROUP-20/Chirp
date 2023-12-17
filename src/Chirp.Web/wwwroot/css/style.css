@@ -242,3 +242,13 @@ li.topic {
 .cheep-message {
   overflow-wrap: break-word;
 }
+
+.forgetMe{
+  background-color: #571010;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+}

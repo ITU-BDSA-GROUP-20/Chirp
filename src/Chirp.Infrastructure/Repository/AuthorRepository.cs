@@ -1,4 +1,4 @@
-using System.Globalization;
+
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -7,10 +7,12 @@ namespace Chirp.Infrastructure.Repository;
 
 public class AuthorRepository : BaseRepository, IAuthorRepository
 {
+    private readonly IFollowRepository _followRepository;
     public AuthorRepository(ChirpDbContext chirpDbContext) : base(chirpDbContext)
     {
-        db.Users.Include(e => e.Following);
         db.Users.Include(e => e.Followers);
+        db.Users.Include(e => e.Following);
+        _followRepository = new FollowRepository(chirpDbContext);
     }
 
     public void AddAuthor(Author author)
@@ -23,7 +25,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = GetAuthorById(authorId);
         //Check that author has cheeps
-        if (author.Cheeps == null || !(author.Cheeps.Any()))
+        if (!author.Cheeps.Any())
         {
             return 0;
         }
@@ -36,14 +38,14 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         Author author = GetAuthorById(authorId);
         int amountOfCheeps = 0;
         //Check that author has cheeps
-        if (author.Cheeps == null || !(author.Cheeps.Any()))
+        if (!author.Cheeps.Any())
         {
             amountOfCheeps = 0;
         }
         amountOfCheeps += GetCheepCountByAuthor(authorId);
-        foreach (Author a in author.Following)
+        foreach (Follow follow in author.Following)
         {
-            amountOfCheeps += GetCheepCountByAuthor(a.Id);
+            amountOfCheeps += GetCheepCountByAuthor(follow.FollowedAuthorId);
         }
 
         return amountOfCheeps;
@@ -63,20 +65,19 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = db.Users
             .Include(e => e.Cheeps)
-            .Include(e => e.Following)
             .Include(e => e.Followers)
             .Where(a => a.Id == authorId).FirstOrDefault()!;
             
         return author;
     }
     
-    public async Task<Author> GetAuthorByIdAsync(Guid authorId)
+    public async Task<Author?> GetAuthorByIdAsync(Guid authorId)
     {
-        Author author = await db.Users
-            .Include( e => e.Cheeps)
-            .Include(e => e.Following)
+        Author? author = await db.Users
+            .Include(e => e.Cheeps)
             .Include(e => e.Followers)
-            .Where(a => a.Id == authorId).FirstOrDefaultAsync()!;
+            .Include(e => e.Following)
+            .Where(a => a.Id == authorId).FirstOrDefaultAsync();
          
          
         return author!;
@@ -86,9 +87,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = db.Users
             .Include(e => e.Cheeps)
-            .Include(e => e.Following)
-            .Include(e => e.Followers)
-            .Where(a => a.UserName == name).FirstOrDefault()!;
+            .Include(e => e.Followers).FirstOrDefault(a => a.UserName == name)!;
             
         return author;
     }
@@ -96,8 +95,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     public Author GetAuthorByEmail(string email)
     {
         Author author = db.Users
-            .Include(e => e.Cheeps)
-            .Where(a => a.Email == email).FirstOrDefault()!;
+            .Include(e => e.Cheeps).FirstOrDefault(a => a.Email == email)!;
             
         return author;
     }
@@ -123,66 +121,134 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return author.Cheeps;
     }
 
-    public ICollection<Author> GetFollowersByAuthor(Guid id)
+    public async Task DeleteCheepsByAuthorId(Guid id)
+    {
+        Author? author = await GetAuthorByIdAsync(id);
+        foreach (var cheep in author.Cheeps.ToList())
+        {
+            if (cheep.Reactions != null && cheep.Reactions.Any())    
+            {
+                db.Reactions.RemoveRange(cheep.Reactions);
+            }
+            
+            author.Cheeps.Remove(cheep);
+        }
+    }
+    
+    public ICollection<Cheep> GetCheepsByAuthorAndFollowing(Guid id, int page)
     {
         Author author = GetAuthorById(id);
+        //Get cheeps from the author, and append cheeps from followers to that list
+        ICollection<Author?> following = GetFollowingById(id);
+        ICollection<Cheep> cheeps = GetCheepsByAuthor(id, page);
 
-        //Check that author has followers
-        if (author.Followers == null || !(author.Followers.Any()))
-        {
-            throw new Exception("Author " + author.UserName + " has no followers");
+        foreach (Author? follower in following)
+        {   
+            //If follower has no cheeps, skip them
+            if (follower.Cheeps == null || !(follower.Cheeps.Any()))
+            {
+               continue;
+            }
+     
+            //Add each cheep from the follower to the list
+            //TODO Try to find alternative to foreach
+            foreach (var cheepDto in follower.Cheeps)
+            {
+                cheeps.Add(cheepDto);
+            }
+            
         }
-
-        return author.Followers;
-    }
-
-    public ICollection<Author> GetFollowingByAuthor(Guid id)
-    {
-        Author author = GetAuthorById(id);
-
-        //Check that author has following
-        if (author.Following == null || !(author.Following.Any()))
-        {
-            throw new Exception("Author " + author.UserName + " has no following");
-        }
-
-        return author.Following;
-    }
-
-    public async Task AddFollowing(Author user, Author following) {
+        //Sort the cheeps according to timestamp, latest first
+        cheeps = cheeps.OrderByDescending(c => c.TimeStamp).ToList();
         
-        user.Following.Add(following);
-        await AddFollower(following, user);
-        db.Users.Update(user);
-        await db.SaveChangesAsync();
-    }
-    public async Task RemoveFollowing(Author user, Author following) {
-        user.Following.Remove(following);
-        await RemoveFollower(following, user);
-
-        // Load the Followers collection explicitly
-        await db.Entry(user).Collection(u => u.Followers).LoadAsync();
-
-        db.Users.Update(user);
-        await db.SaveChangesAsync();
+        int pageSizeIndex = (page - 1) * PageSize;
+        
+        if(cheeps.Count < pageSizeIndex + PageSize) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,cheeps.Count - pageSizeIndex);
+        if(cheeps.Count > 32) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize);
+        return cheeps;
     }
 
-    private async Task AddFollower(Author user, Author follower)
+    public ICollection<Author?> GetFollowersById(Guid id)
     {
-        user.Followers.Add(follower);
-        db.Users.Update(user);
-        await db.SaveChangesAsync();
+        Author author = db.Users.Include(a => a.Followers).ThenInclude(f => f.FollowingAuthor).SingleOrDefault(a => a.Id == id);
+        
+        ICollection<Author?> followers = new List<Author?>();
+        
+        foreach (var follow in author.Followers)
+        {
+            followers.Add(follow.FollowingAuthor);
+        }
 
+        return followers;
     }
 
-    private async Task RemoveFollower(Author user, Author follower)
+    public ICollection<Author?> GetFollowingById(Guid id)
     {
-        // Load the Followers collection explicitly
-        await db.Entry(user).Collection(u => u.Followers).LoadAsync();
+        Author author = db.Users.Include(a => a.Following).ThenInclude(f => f.FollowedAuthor).SingleOrDefault(a => a.Id == id);
+        
+        ICollection<Author?> following = new List<Author?>();
+        
+        foreach (Follow follow in author.Following)
+        {
+            following.Add(follow.FollowedAuthor);
+        }
+        
+        return following;
+    }
 
-        user.Followers.Remove(follower);
-        db.Users.Update(user);
+    public async Task AddFollow(Author? followingAuthor, Author? followedAuthor)
+    {
+        Follow follow = _followRepository.CreateFollow(followingAuthor, followedAuthor);
+        
+        followingAuthor.Following.Add(follow);
+        followedAuthor.Followers.Add(follow);
+        
+        db.Users.Update(followingAuthor);
+        db.Users.Update(followedAuthor);
+        
         await db.SaveChangesAsync();
+    }
+    
+    public async Task RemoveFollow(Author? followingAuthor, Author? followedAuthor) {
+        // Load the Follow collections explicitly
+        await db.Entry(followingAuthor).Collection(f => f.Followers).LoadAsync();
+        await db.Entry(followedAuthor).Collection(u => u.Followers).LoadAsync();
 
+        followingAuthor.Following.Remove(followingAuthor.Followers.FirstOrDefault(f => f.FollowedAuthorId == followedAuthor.Id)!);
+        followedAuthor.Followers.Remove(followedAuthor.Followers.FirstOrDefault(f => f.FollowingAuthorId == followingAuthor.Id)!);
+
+        db.Users.Update(followingAuthor);
+        db.Users.Update(followedAuthor);
+        
+        await SaveContextAsync();
+    }
+    
+    public async Task DeleteUserById(Guid id)
+    {
+        Author? user = await GetAuthorByIdAsync(id);
+    
+        if (user is null)
+        {
+            throw new Exception("User not found");
+        }
+        
+        // Remove all cheeps
+        await DeleteCheepsByAuthorId(id);
+        
+        // Remove all followers
+        var followers = user.Followers.ToList();
+        db.Follows.RemoveRange(followers);
+        
+        var following = user.Followers.ToList();
+        db.Follows.RemoveRange(following);
+
+        db.Users.Remove(user);
+
+        await db.SaveChangesAsync();
+    }
+    
+    public async Task SaveContextAsync()
+    {
+        await db.SaveChangesAsync();
     }
 }
