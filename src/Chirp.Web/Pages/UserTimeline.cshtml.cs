@@ -61,12 +61,14 @@ public class UserTimelineModel : PageModel
         }
         InitializeVariables(page, userModel, author);
     }
+    
+    
 
     public void InitializeVariables(int page, UserModel userModel, string author)
     {
         try
         {
-            Cheeps = _service.GetCheepsFromAuthor(userModel.Id, page);
+            Cheeps = _service.GetCheepsFromAuthorAndFollowing(userModel.Id, page);
         }
         catch (Exception e)
         {
@@ -75,8 +77,7 @@ public class UserTimelineModel : PageModel
 
         user = _userManager.GetUserAsync(User).Result;
         //Get author object to allow the get page count method to be called on ID
-        Author authorObject = _authorRepository.GetAuthorByName(author);
-        totalPages = _authorRepository.GetPageCountByAuthor(authorObject.Id);
+        totalPages = _authorRepository.GetPageCountByAuthorAndFollowed(user.Id);
         currentPage = page;
     }
 }

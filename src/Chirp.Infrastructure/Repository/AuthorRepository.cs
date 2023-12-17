@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Globalization;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
@@ -121,6 +122,30 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         if(author.Cheeps.Count < pageSizeIndex + PageSize) return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex,author.Cheeps.Count - pageSizeIndex);
         if(author.Cheeps.Count > 32) return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize);
         return author.Cheeps;
+    }
+    
+    public ICollection<Cheep> GetCheepsByAuthorAndFollowing(Guid id, int page)
+    {
+        Author author = GetAuthorById(id);
+        ICollection<Cheep> cheeps = new List<Cheep>(author.Cheeps); 
+
+        foreach (Author follower in author.Following)
+        {
+            ICollection<Cheep> followerCheeps = GetCheepsByAuthor(follower.Id, page);
+
+            foreach (Cheep cheep in followerCheeps)
+            {
+                cheeps.Add(cheep);
+            }
+        }
+        //Sort the cheeps according to timestamp, latest first
+        cheeps = cheeps.OrderByDescending(c => c.TimeStamp).ToList();
+        
+        int pageSizeIndex = (page - 1) * PageSize;
+        
+        if(cheeps.Count < pageSizeIndex + PageSize) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,cheeps.Count - pageSizeIndex);
+        if(cheeps.Count > 32) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize);
+        return cheeps;
     }
 
     public ICollection<Author> GetFollowersByAuthor(Guid id)

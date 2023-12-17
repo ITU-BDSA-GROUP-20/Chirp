@@ -20,6 +20,13 @@
 {
     <div>
         <h2> @routeName's Timeline </h2>
+        <h3>Following:</h3>
+        <ul>
+            @foreach (Author followingAuthor in Model.user.Following)
+            {
+                <li>@followingAuthor.UserName</li>
+            }
+        </ul>
         
         @await Html.PartialAsync("Shared/_CheepBox", new NewCheep {Text = ""})
 
