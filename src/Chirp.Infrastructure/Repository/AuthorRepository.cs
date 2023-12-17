@@ -125,6 +125,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     public async Task DeleteCheepsByAuthorId(Guid id)
     {
         Author? author = await GetAuthorByIdAsync(id);
+        
         foreach (var cheep in author.Cheeps.ToList())
         {
             if (cheep.Reactions.Any())    
@@ -273,6 +274,18 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         db.Users.Remove(user);
         await db.SaveChangesAsync();
         Console.WriteLine("Deleted User");
+    }
+
+    public async Task RemoveAllFollowersByAuthorId(Guid id)
+    {
+        Author? user = await GetAuthorByIdAsync(id);
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+        
+        var follows = await db.Follows.Where(f => f.FollowedAuthorId == id || f.FollowingAuthorId == id).ToListAsync();
+        db.Follows.RemoveRange(follows);
     }
     public async Task SaveContextAsync()
     {

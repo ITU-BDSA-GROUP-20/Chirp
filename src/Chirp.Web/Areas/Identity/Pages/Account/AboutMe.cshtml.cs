@@ -72,25 +72,15 @@ public class AboutMeModel : PageModel
     }
     
     // Forget me method
-    public async Task<IActionResult> OnPostDeleteMe(string returnUrl = null)
+    public async Task<IActionResult> OnPostDeleteMe()
     {
+        // Fetch user information from the database
+        var user = await _userManager.GetUserAsync(User);
         
-
-        
-        //await _authorRepository.DeleteUserById1(user.Id);
         await _authorRepository.DeleteCheepsByAuthorId(user.Id);
-        //await _signInManager.SignOutAsync();
-        
-        // _logger.LogInformation("User logged out.");
-        // if (returnUrl != null)
-        // {
-        //     return LocalRedirect(returnUrl);
-        // }
-        // else
-        // {
-            // This needs to be a redirect so that the browser performs a new
-            // request and the identity for the user gets updated.
-            return RedirectToPage();
-       // }
+        await _authorRepository.RemoveAllFollowersByAuthorId(user.Id);
+        await _authorRepository.SaveContextAsync();
+
+        return RedirectToPage();
     }
 }

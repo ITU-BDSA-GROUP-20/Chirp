@@ -1,9 +1,6 @@
 ﻿@page "/{author}/AboutMe"
 @using Chirp.Core.Entities
 @model AboutMeModel
-@{
-    ViewData["Title"] = "About Me";
-}
 @inject SignInManager<Author> SignInManager
 @inject UserManager<Author> UserManager
 
@@ -85,7 +82,7 @@
         <p>Click the button below to delete your account permanently</p>
         
         <form method="post" asp-page-handler="DeleteMe">
-            <button type="submit" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" class="forgetMe">Forget Me</button>
+            <button type="submit" class="forgetMe">Forget Me</button>
         </form>
     </div>
 }
