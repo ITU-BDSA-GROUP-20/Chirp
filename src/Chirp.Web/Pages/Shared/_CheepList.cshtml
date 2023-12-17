@@ -49,23 +49,17 @@
                     }
                 </div>
 
-                @if (SigninManager.IsSignedIn(User) || cheep.User.Username == User.Identity?.Name)
+                @if (SigninManager.IsSignedIn(User) && cheep.User.Username != User.Identity?.Name)
                 {
                     if (!cheep.User.UserHasFollower(Model.user.Id))
                     {
-                        <form asp-page-handler="Follow" method="post">
-                            <input type="hidden" id="author2FollowId" name="Author2FollowInput" value="@cheep.User.Id"/>
-                            <input type="hidden" id="author2FollowId" name="currentPageFollowInput" value="@Model.currentPage"/>
-
+                        <form asp-page="public" asp-page-handler="Follow" method="post" asp-route-CurrentPage="@Model.currentPage" asp-route-Author2Follow="@cheep.User.Id">
                             <input type="submit" value="Follow"/>
                         </form>
                     }
                     else
                     {
-                        <form asp-page-handler="Unfollow" method="post">
-                            <input type="hidden" id="author2UnfollowId" name="Author2UnfollowInput" value="@cheep.User.Id"/>
-                            <input type="hidden" id="author2FollowId" name="currentPageUnfollowInput" value="@Model.currentPage"/>
-
+                        <form asp-page="public" asp-page-handler="Unfollow" method="post" asp-route-CurrentPage="@Model.currentPage" asp-route-Author2Unfollow="@cheep.User.Id">
                             <input type="submit" value="Unfollow"/>
                         </form>
                     }
