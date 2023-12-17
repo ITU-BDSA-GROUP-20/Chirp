@@ -72,7 +72,7 @@ public class AboutMeModel : PageModel
     }
     
     // Forget me method
-    public async Task<IActionResult> OnPost(string returnUrl = null)
+    public async Task<IActionResult> OnPostDeleteMe(string returnUrl = null)
     {
         Guid userId = _userManager.GetUserAsync(User).Result!.Id;
         

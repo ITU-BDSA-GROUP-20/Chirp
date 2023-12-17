@@ -84,7 +84,7 @@
     <div class="cheepbox">
         <p>Click the button below to delete your account permanently</p>
         
-        <form method="post">
+        <form method="post" asp-page-handler="DeleteMe">
             <button type="submit" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" class="forgetMe">Forget Me</button>
         </form>
     </div>
