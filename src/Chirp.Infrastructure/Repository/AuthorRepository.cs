@@ -211,6 +211,9 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
             throw new Exception("User not found");
         }
         
+        // Remove all cheeps
+        await DeleteCheepsByAuthorId(id);
+        
         // Remove all followers
         var followers = user.Followers.ToList();
         db.Follows.RemoveRange(followers);
