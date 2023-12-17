@@ -27,7 +27,7 @@
                     <small>&mdash; @cheep.Timestamp</small>
                 </div>
                 <div class="reaction-box">
-                    @if (SigninManager.IsSignedIn(User))
+                    @if (SigninManager.IsSignedIn(User) && cheep.User.Username != User.Identity?.Name)
                     {
                         @if (ReactionRepository.HasUserReacted(@cheep.CheepId, UserManager.GetUserAsync(User).Result!.Id).Result)
                         {
