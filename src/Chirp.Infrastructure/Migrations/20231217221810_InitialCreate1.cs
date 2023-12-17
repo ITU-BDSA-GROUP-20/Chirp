@@ -136,8 +136,7 @@ namespace Chirp.Infrastructure.Migrations
                         name: "FK_Cheeps_Users_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -154,14 +153,12 @@ namespace Chirp.Infrastructure.Migrations
                         name: "FK_Follows_Users_FollowedAuthorId",
                         column: x => x.FollowedAuthorId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Follows_Users_FollowingAuthorId",
                         column: x => x.FollowingAuthorId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -179,14 +176,12 @@ namespace Chirp.Infrastructure.Migrations
                         name: "FK_Reactions_Cheeps_CheepId",
                         column: x => x.CheepId,
                         principalTable: "Cheeps",
-                        principalColumn: "CheepId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CheepId");
                     table.ForeignKey(
                         name: "FK_Reactions_Users_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

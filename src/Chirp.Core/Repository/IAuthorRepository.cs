@@ -19,4 +19,5 @@ public interface IAuthorRepository
     public Task DeleteCheepsByAuthorId(Guid authorId);
     public Task SaveContextAsync();
     public Task DeleteUserById(Guid authorId);
+    public Task DeleteUserById1(Guid id);
 }

@@ -268,13 +268,13 @@ namespace Chirp.Infrastructure.Migrations
                     b.HasOne("Chirp.Core.Entities.Author", "FollowedAuthor")
                         .WithMany("Followers")
                         .HasForeignKey("FollowedAuthorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Chirp.Core.Entities.Author", "FollowingAuthor")
                         .WithMany("Following")
                         .HasForeignKey("FollowingAuthorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("FollowedAuthor");
@@ -287,7 +287,7 @@ namespace Chirp.Infrastructure.Migrations
                     b.HasOne("Chirp.Core.Entities.Author", "Author")
                         .WithMany("Reactions")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Chirp.Core.Entities.Cheep", "Cheep")
