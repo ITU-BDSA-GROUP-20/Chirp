@@ -1,5 +1,7 @@
 ﻿namespace Chirp.Core.Entities;
-
+/// <summary>
+/// This class represents the reaction a User can give to a cheep.
+/// </summary>
 public class Reaction {
     public Guid CheepId { get; set; }
     public Cheep Cheep { get; set; }
