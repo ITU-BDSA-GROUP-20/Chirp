@@ -53,13 +53,13 @@
                 {
                     if (!cheep.User.UserHasFollower(Model.user.Id))
                     {
-                        <form asp-page-handler="Follow" method="post" asp-route-CurrentPage="@Model.CurrentPage" asp-route-Author2Unfollow="@cheep.User.Id">
+                        <form asp-page="public" asp-page-handler="Follow" method="post" asp-route-CurrentPage="@Model.currentPage" asp-route-Author2Follow="@cheep.User.Id">
                             <input type="submit" value="Follow"/>
                         </form>
                     }
                     else
                     {
-                        <form asp-page-handler="Unfollow" method="post" asp-route-CurrentPage="@Model.CurrentPage" asp-route-Author2Unfollow="@cheep.User.Id">
+                        <form asp-page="public" asp-page-handler="Unfollow" method="post" asp-route-CurrentPage="@Model.currentPage" asp-route-Author2Unfollow="@cheep.User.Id">
                             <input type="submit" value="Unfollow"/>
                         </form>
                     }
