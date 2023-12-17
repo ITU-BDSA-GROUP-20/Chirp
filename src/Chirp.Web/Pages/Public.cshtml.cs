@@ -93,15 +93,12 @@
         }
         
         
-        [BindProperty] public string Author2FollowInput { get; set; }
-        [BindProperty] public string currentPageFollowInput { get; set; }
-        public async Task<IActionResult> OnPostFollow()
+        public async Task<IActionResult> OnPostFollow(int currentPage, Guid Author2Follow)
         {
-            Guid authorFollowedId = Guid.Parse(Author2FollowInput);
             
             Author author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
-            Author authorToFollow = await _authorRepository.GetAuthorByIdAsync(authorFollowedId);
-            InitializeVariables(int.Parse(currentPageFollowInput));
+            Author authorToFollow = await _authorRepository.GetAuthorByIdAsync(Author2Follow);
+            InitializeVariables(currentPage);
 
 
 
@@ -110,17 +107,14 @@
             await _authorRepository.AddFollowing(author, authorToFollow);
             return Page();
         }
-
-        [BindProperty] public string Author2UnfollowInput { get; set; }
-        [BindProperty] public string currentPageUnfollowInput { get; set; }
-        public async Task<IActionResult> OnPostUnfollow()
+        
+        public async Task<IActionResult> OnPostUnfollow(int currentPage, Guid Author2Unfollow)
         {
-            Guid authorUnfollowedId = Guid.Parse(Author2UnfollowInput);
 
             Author author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
-            Author authorToUnfollow = await _authorRepository.GetAuthorByIdAsync(authorUnfollowedId);
+            Author authorToUnfollow = await _authorRepository.GetAuthorByIdAsync(Author2Unfollow);
             
-            InitializeVariables(int.Parse(currentPageUnfollowInput));
+            InitializeVariables(currentPage);
 
 
             if (authorToUnfollow == null || author == null) return Page();
