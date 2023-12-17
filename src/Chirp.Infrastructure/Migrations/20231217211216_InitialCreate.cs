@@ -121,30 +121,6 @@ namespace Chirp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AuthorAuthor",
-                columns: table => new
-                {
-                    FollowersId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    FollowingId = table.Column<Guid>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AuthorAuthor", x => new { x.FollowersId, x.FollowingId });
-                    table.ForeignKey(
-                        name: "FK_AuthorAuthor_Users_FollowersId",
-                        column: x => x.FollowersId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AuthorAuthor_Users_FollowingId",
-                        column: x => x.FollowingId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Cheeps",
                 columns: table => new
                 {
@@ -162,6 +138,30 @@ namespace Chirp.Infrastructure.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Follows",
+                columns: table => new
+                {
+                    FollowingAuthorId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    FollowedAuthorId = table.Column<Guid>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Follows", x => new { x.FollowingAuthorId, x.FollowedAuthorId });
+                    table.ForeignKey(
+                        name: "FK_Follows_Users_FollowedAuthorId",
+                        column: x => x.FollowedAuthorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Follows_Users_FollowingAuthorId",
+                        column: x => x.FollowingAuthorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,13 +186,8 @@ namespace Chirp.Infrastructure.Migrations
                         column: x => x.AuthorId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AuthorAuthor_FollowingId",
-                table: "AuthorAuthor",
-                column: "FollowingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cheeps_AuthorId",
@@ -204,6 +199,11 @@ namespace Chirp.Infrastructure.Migrations
                 table: "Cheeps",
                 column: "CheepId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Follows_FollowedAuthorId",
+                table: "Follows",
+                column: "FollowedAuthorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reactions_AuthorId",
@@ -221,7 +221,7 @@ namespace Chirp.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AuthorAuthor");
+                name: "Follows");
 
             migrationBuilder.DropTable(
                 name: "Reactions");

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDbContext))]
-    [Migration("20231216143915_InitialCreate")]
+    [Migration("20231217211216_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -19,21 +19,6 @@ namespace Chirp.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
-
-            modelBuilder.Entity("AuthorAuthor", b =>
-                {
-                    b.Property<Guid>("FollowersId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("FollowingId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("FollowersId", "FollowingId");
-
-                    b.HasIndex("FollowingId");
-
-                    b.ToTable("AuthorAuthor");
-                });
 
             modelBuilder.Entity("Chirp.Core.Entities.Author", b =>
                 {
@@ -120,6 +105,21 @@ namespace Chirp.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Cheeps");
+                });
+
+            modelBuilder.Entity("Chirp.Core.Entities.Follow", b =>
+                {
+                    b.Property<Guid>("FollowingAuthorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("FollowedAuthorId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("FollowingAuthorId", "FollowedAuthorId");
+
+                    b.HasIndex("FollowedAuthorId");
+
+                    b.ToTable("Follows");
                 });
 
             modelBuilder.Entity("Chirp.Core.Entities.Reaction", b =>
@@ -255,21 +255,6 @@ namespace Chirp.Infrastructure.Migrations
                     b.ToTable("UserTokens");
                 });
 
-            modelBuilder.Entity("AuthorAuthor", b =>
-                {
-                    b.HasOne("Chirp.Core.Entities.Author", null)
-                        .WithMany()
-                        .HasForeignKey("FollowersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Chirp.Core.Entities.Author", null)
-                        .WithMany()
-                        .HasForeignKey("FollowingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Chirp.Core.Entities.Cheep", b =>
                 {
                     b.HasOne("Chirp.Core.Entities.Author", "Author")
@@ -281,12 +266,31 @@ namespace Chirp.Infrastructure.Migrations
                     b.Navigation("Author");
                 });
 
+            modelBuilder.Entity("Chirp.Core.Entities.Follow", b =>
+                {
+                    b.HasOne("Chirp.Core.Entities.Author", "FollowedAuthor")
+                        .WithMany("Followers")
+                        .HasForeignKey("FollowedAuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Chirp.Core.Entities.Author", "FollowingAuthor")
+                        .WithMany("Following")
+                        .HasForeignKey("FollowingAuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("FollowedAuthor");
+
+                    b.Navigation("FollowingAuthor");
+                });
+
             modelBuilder.Entity("Chirp.Core.Entities.Reaction", b =>
                 {
                     b.HasOne("Chirp.Core.Entities.Author", "Author")
                         .WithMany("Reactions")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Chirp.Core.Entities.Cheep", "Cheep")
@@ -303,6 +307,10 @@ namespace Chirp.Infrastructure.Migrations
             modelBuilder.Entity("Chirp.Core.Entities.Author", b =>
                 {
                     b.Navigation("Cheeps");
+
+                    b.Navigation("Followers");
+
+                    b.Navigation("Following");
 
                     b.Navigation("Reactions");
                 });
