@@ -20,7 +20,7 @@ public class UserTimelineModel : PageModel
     public UserModel UserModel { get; set; }
     
     public required Author user { get; set; }
-    public required int currentPages { get; set; }
+    public required int currentPage { get; set; }
     public required int totalPages { get; set; }
 
 
@@ -39,19 +39,34 @@ public class UserTimelineModel : PageModel
         {
             return NotFound();
         }
-        
+
         UserModel = new UserModel(user);
-        
+
+        InitializeVariables(UserModel, author);
+
+        return Page();
+    }
+
+
+    public void InitializeVariables(UserModel userModel, string author)
+    {
         int page;
-        if(Request.Query.ContainsKey("page")){
-            page = int.Parse(Request.Query["page"]);
-        } else{
+        if (Request.Query.ContainsKey("page"))
+        {
+            page = int.Parse(Request.Query["page"]!);
+        }
+        else
+        {
             page = 1;
         }
-        
+        InitializeVariables(page, userModel, author);
+    }
+
+    public void InitializeVariables(int page, UserModel userModel, string author)
+    {
         try
         {
-            Cheeps = _service.GetCheepsFromAuthor(UserModel.Id, page);
+            Cheeps = _service.GetCheepsFromAuthor(userModel.Id, page);
         }
         catch (Exception e)
         {
@@ -59,12 +74,9 @@ public class UserTimelineModel : PageModel
         }
 
         user = _userManager.GetUserAsync(User).Result;
-        
         //Get author object to allow the get page count method to be called on ID
         Author authorObject = _authorRepository.GetAuthorByName(author);
-        
         totalPages = _authorRepository.GetPageCountByAuthor(authorObject.Id);
-
-        return Page();
+        currentPage = page;
     }
 }

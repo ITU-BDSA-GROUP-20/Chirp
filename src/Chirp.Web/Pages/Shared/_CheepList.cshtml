@@ -49,7 +49,7 @@
                     }
                 </div>
 
-                @if (SigninManager.IsSignedIn(User) || cheep.User.Username == User.Identity?.Name)
+                @if (SigninManager.IsSignedIn(User) && cheep.User.Username != User.Identity?.Name)
                 {
                     if (!cheep.User.UserHasFollower(Model.user.Id))
                     {
