@@ -74,11 +74,10 @@ public class AboutMeModel : PageModel
     // Forget me method
     public async Task<IActionResult> OnPostDeleteMe(string returnUrl = null)
     {
-        Guid userId = _userManager.GetUserAsync(User).Result!.Id;
         
         await _signInManager.SignOutAsync();
         
-        await _authorRepository.DeleteUserById(userId);
+        await _authorRepository.DeleteUserById(user.Id);
 
         await _authorRepository.SaveContextAsync();
         
