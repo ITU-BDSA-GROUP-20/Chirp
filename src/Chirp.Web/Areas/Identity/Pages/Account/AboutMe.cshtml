@@ -36,7 +36,7 @@
                 else
                 {
                     <ul>
-                        @foreach (Author followingUser in Model.Following)
+                        @foreach (Author? followingUser in Model.Following)
                         {
                             <li>@followingUser.UserName</li>
                         }
@@ -53,7 +53,7 @@
                 else
                 {
                     <ul>
-                        @foreach (Author follower in Model.Followers)
+                        @foreach (Author? follower in Model.Followers)
                         {
                             <li>@follower.UserName</li>
                         }

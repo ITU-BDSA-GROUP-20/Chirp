@@ -20,13 +20,13 @@ public class FollowRepositoryTest
         // Arrange
         FollowRepository followRepository = new(context);
         
-        Author authorThatFollows = new Author()
+        Author? authorThatFollows = new Author()
         {
             Id = Guid.NewGuid(),
             UserName = "authorThatFollows",
             Email = "Follower@mail.com",
         };
-        Author authorBeingFollowed = new Author()
+        Author? authorBeingFollowed = new Author()
         {
             Id = Guid.NewGuid(),
             UserName = "authorBeingFollowed",

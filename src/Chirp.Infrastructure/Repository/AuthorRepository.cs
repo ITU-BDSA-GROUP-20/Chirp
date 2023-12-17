@@ -1,4 +1,4 @@
-using System.Globalization;
+
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -25,17 +25,40 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = GetAuthorById(authorId);
         //Check that author has cheeps
-        if (author.Cheeps == null || !(author.Cheeps.Any()))
+        if (!author.Cheeps.Any())
         {
             return 0;
         }
 
         return author.Cheeps.Count;
     }
+    
+    public int GetCheepCountByAuthorAndFollowed(Guid authorId)
+    {
+        Author author = GetAuthorById(authorId);
+        int amountOfCheeps = 0;
+        //Check that author has cheeps
+        if (!author.Cheeps.Any())
+        {
+            amountOfCheeps = 0;
+        }
+        amountOfCheeps += GetCheepCountByAuthor(authorId);
+        foreach (Follow follow in author.Following)
+        {
+            amountOfCheeps += GetCheepCountByAuthor(follow.FollowedAuthorId);
+        }
+
+        return amountOfCheeps;
+    }
 
     public int GetPageCountByAuthor(Guid authorId)
     {
         return GetCheepCountByAuthor(authorId) / PageSize + 1;
+    }
+    
+    public int GetPageCountByAuthorAndFollowed(Guid authorId)
+    {
+        return GetCheepCountByAuthorAndFollowed(authorId) / PageSize + 1;
     }
 
     public Author GetAuthorById(Guid authorId)
@@ -48,13 +71,13 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return author;
     }
     
-    public async Task<Author> GetAuthorByIdAsync(Guid authorId)
+    public async Task<Author?> GetAuthorByIdAsync(Guid authorId)
     {
-        Author author = await db.Users
+        Author? author = await db.Users
             .Include(e => e.Cheeps)
             .Include(e => e.Followers)
             .Include(e => e.Following)
-            .Where(a => a.Id == authorId).FirstOrDefaultAsync()!;
+            .Where(a => a.Id == authorId).FirstOrDefaultAsync();
          
          
         return author!;
@@ -64,8 +87,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = db.Users
             .Include(e => e.Cheeps)
-            .Include(e => e.Followers)
-            .Where(a => a.UserName == name).FirstOrDefault()!;
+            .Include(e => e.Followers).FirstOrDefault(a => a.UserName == name)!;
             
         return author;
     }
@@ -73,8 +95,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     public Author GetAuthorByEmail(string email)
     {
         Author author = db.Users
-            .Include(e => e.Cheeps)
-            .Where(a => a.Email == email).FirstOrDefault()!;
+            .Include(e => e.Cheeps).FirstOrDefault(a => a.Email == email)!;
             
         return author;
     }
@@ -102,7 +123,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
     public async Task DeleteCheepsByAuthorId(Guid id)
     {
-        Author author = await GetAuthorByIdAsync(id);
+        Author? author = await GetAuthorByIdAsync(id);
         foreach (var cheep in author.Cheeps.ToList())
         {
             if (cheep.Reactions != null && cheep.Reactions.Any())    
@@ -118,10 +139,10 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author author = GetAuthorById(id);
         //Get cheeps from the author, and append cheeps from followers to that list
-        ICollection<Author> following = GetFollowingById(id);
+        ICollection<Author?> following = GetFollowingById(id);
         ICollection<Cheep> cheeps = GetCheepsByAuthor(id, page);
 
-        foreach (Author follower in following)
+        foreach (Author? follower in following)
         {   
             //If follower has no cheeps, skip them
             if (follower.Cheeps == null || !(follower.Cheeps.Any()))
@@ -147,11 +168,11 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return cheeps;
     }
 
-    public ICollection<Author> GetFollowersById(Guid id)
+    public ICollection<Author?> GetFollowersById(Guid id)
     {
         Author author = db.Users.Include(a => a.Followers).ThenInclude(f => f.FollowingAuthor).SingleOrDefault(a => a.Id == id);
         
-        ICollection<Author> followers = new List<Author>();
+        ICollection<Author?> followers = new List<Author?>();
         
         foreach (var follow in author.Followers)
         {
@@ -161,11 +182,11 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return followers;
     }
 
-    public ICollection<Author> GetFollowingById(Guid id)
+    public ICollection<Author?> GetFollowingById(Guid id)
     {
         Author author = db.Users.Include(a => a.Following).ThenInclude(f => f.FollowedAuthor).SingleOrDefault(a => a.Id == id);
         
-        ICollection<Author> following = new List<Author>();
+        ICollection<Author?> following = new List<Author?>();
         
         foreach (Follow follow in author.Following)
         {
@@ -175,7 +196,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return following;
     }
 
-    public async Task AddFollow(Author followingAuthor, Author followedAuthor)
+    public async Task AddFollow(Author? followingAuthor, Author? followedAuthor)
     {
         Follow follow = _followRepository.CreateFollow(followingAuthor, followedAuthor);
         
@@ -188,7 +209,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         await db.SaveChangesAsync();
     }
     
-    public async Task RemoveFollow(Author followingAuthor, Author followedAuthor) {
+    public async Task RemoveFollow(Author? followingAuthor, Author? followedAuthor) {
         // Load the Follow collections explicitly
         await db.Entry(followingAuthor).Collection(f => f.Followers).LoadAsync();
         await db.Entry(followedAuthor).Collection(u => u.Followers).LoadAsync();
@@ -204,7 +225,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     
     public async Task DeleteUserById(Guid id)
     {
-        Author user = await GetAuthorByIdAsync(id);
+        Author? user = await GetAuthorByIdAsync(id);
     
         if (user is null)
         {

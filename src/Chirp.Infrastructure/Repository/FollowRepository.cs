@@ -10,7 +10,7 @@ public class FollowRepository : BaseRepository, IFollowRepository
     public FollowRepository(ChirpDbContext chirpDbContext) : base(chirpDbContext)
     {
     }
-    public Follow CreateFollow(Author followingAuthor, Author followedAuthor)
+    public Follow CreateFollow(Author? followingAuthor, Author? followedAuthor)
     {
         Follow follow = new()
         {
@@ -25,8 +25,7 @@ public class FollowRepository : BaseRepository, IFollowRepository
     public bool IsFollowing(Guid followingUserId, Guid followedUserId)
     {
         Author author = db.Users
-            .Include(e => e.Following)
-            .Where(a => a.Id == followingUserId).FirstOrDefault()!;
+            .Include(e => e.Following).FirstOrDefault(a => a.Id == followingUserId)!;
         
         return author.Following.Any(f => f.FollowedAuthor.Id == followedUserId);
     }

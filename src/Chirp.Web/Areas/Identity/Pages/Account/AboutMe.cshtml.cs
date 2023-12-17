@@ -22,10 +22,12 @@ public class AboutMeModel : PageModel
     // 
     public UserModel UserModel { get; set; }
     public ICollection<CheepViewModel> Cheeps { get; set; }
-    public ICollection<Author> Followers { get; set; }
-    public ICollection<Author> Following { get; set; }
+    public ICollection<Author?> Followers { get; set; }
+    public ICollection<Author?> Following { get; set; }
     // This is the user that the _CheepList is expected to find to create the cheeps
     public Author user { get; set; }
+    public required int currentPage { get; set; }
+    public required int totalPages { get; set; }
 
     public AboutMeModel(UserManager<Author> userManager, ICheepService service, IAuthorRepository authorRepository, ICheepRepository cheepRepository)
     {

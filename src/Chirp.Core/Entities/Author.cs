@@ -6,6 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Core.Entities;
 
+/// <summary>
+/// This class represents the user of the _Chirp!_ application. 
+/// All authenticated users are represented by an instance of this class.
+/// Having the ability to create cheeps, react to cheeps,
+/// and follow other users.
+/// </summary>
+
+
 [Index(nameof(Id), IsUnique = true)]
 public class Author : IdentityUser<Guid> {
     

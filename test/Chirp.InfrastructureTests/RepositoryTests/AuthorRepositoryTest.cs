@@ -241,7 +241,7 @@ public class AuthorRepositoryTest
 
         //Act
         Author expectedAuthor = theAuthor;
-        Author returnedAuthor = authorRepository.GetAuthorByIdAsync(theAuthor.Id).Result;
+        Author? returnedAuthor = authorRepository.GetAuthorByIdAsync(theAuthor.Id).Result;
 
         //Assert
         Assert.Equal(expectedAuthor, returnedAuthor);
@@ -254,13 +254,13 @@ public class AuthorRepositoryTest
         var authorRepository = new AuthorRepository(context);
 
         // Create 2 authors
-        Author author1 = new Author()
+        Author? author1 = new Author()
         {
             Id = new Guid(),
             UserName = "author1",
             Email = "author1@mail.com"
         };
-        Author author2 = new Author()
+        Author? author2 = new Author()
         {
             Id = new Guid(),
             UserName = "author2",
@@ -302,8 +302,8 @@ public class AuthorRepositoryTest
         await context.SaveChangesAsync();
 
         //Act
-        Author author1 = context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault();
-        Author author2 = context.Users.Where(a => a.UserName == "TestAuthor1").FirstOrDefault();
+        Author? author1 = context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault();
+        Author? author2 = context.Users.Where(a => a.UserName == "TestAuthor1").FirstOrDefault();
 
         authorRepository.AddFollow(author1, author2);
 
@@ -341,18 +341,18 @@ public class AuthorRepositoryTest
         context.SaveChanges();
 
         //Act
-        Author author1 = context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault();
-        Author author2 = context.Users.Where(a => a.UserName == "TestAuthor1").FirstOrDefault();
-        Author author3 = context.Users.Where(a => a.UserName == "TestAuthor2").FirstOrDefault();
+        Author? author1 = context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault();
+        Author? author2 = context.Users.Where(a => a.UserName == "TestAuthor1").FirstOrDefault();
+        Author? author3 = context.Users.Where(a => a.UserName == "TestAuthor2").FirstOrDefault();
 
         authorRepository.AddFollow(author2, author1);
         authorRepository.AddFollow(author3, author1);
 
-        ICollection<Author> expectedFollowers = new List<Author>();
+        ICollection<Author?> expectedFollowers = new List<Author?>();
         expectedFollowers.Add(author2);
         expectedFollowers.Add(author3);
 
-        ICollection<Author> returnedFollowers = authorRepository.GetFollowersById(author1.Id);
+        ICollection<Author?> returnedFollowers = authorRepository.GetFollowersById(author1.Id);
 
         //Assert
         Assert.Equal(expectedFollowers, returnedFollowers);
@@ -380,18 +380,18 @@ public class AuthorRepositoryTest
         await context.SaveChangesAsync();
 
         //Act
-        Author author1 = context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault();
-        Author author2 = context.Users.Where(a => a.UserName == "TestAuthor1").FirstOrDefault();
-        Author author3 = context.Users.Where(a => a.UserName == "TestAuthor2").FirstOrDefault();
+        Author? author1 = context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault();
+        Author? author2 = context.Users.Where(a => a.UserName == "TestAuthor1").FirstOrDefault();
+        Author? author3 = context.Users.Where(a => a.UserName == "TestAuthor2").FirstOrDefault();
 
         await authorRepository.AddFollow(author1, author2);
         await authorRepository.AddFollow(author1, author3);
 
-        ICollection<Author> expectedFollowing = new List<Author>();
+        ICollection<Author?> expectedFollowing = new List<Author?>();
         expectedFollowing.Add(author2);
         expectedFollowing.Add(author3);
 
-        ICollection<Author> returnedFollowing = authorRepository.GetFollowingById(author1.Id);
+        ICollection<Author?> returnedFollowing = authorRepository.GetFollowingById(author1.Id);
 
         //Assert
         Assert.Equal(expectedFollowing, returnedFollowing);
