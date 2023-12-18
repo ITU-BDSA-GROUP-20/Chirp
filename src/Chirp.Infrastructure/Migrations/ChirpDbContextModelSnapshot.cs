@@ -215,6 +215,9 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("LoginProvider", "ProviderKey")
+                        .IsUnique();
+
                     b.ToTable("UserLogins");
                 });
 
