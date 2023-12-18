@@ -166,11 +166,6 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         return GetCheepCountByAuthorAndFollowed(authorId) / PageSize + 1;
     }
-
-
-
-    
-
     // ----- Get Followers and Following Methods ----- //
     public ICollection<Author?> GetFollowersById(Guid id)
     {
