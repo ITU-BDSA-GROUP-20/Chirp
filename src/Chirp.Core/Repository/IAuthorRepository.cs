@@ -5,6 +5,8 @@ namespace Chirp.Core.Repository;
 public interface IAuthorRepository
 {
     public ICollection<Cheep> GetCheepsByAuthor(Guid authorId, int page);
+    public ICollection<Cheep> GetCheepsByAuthorAndFollowed(Guid authorId, int page);
+    public int GetPageCountByAuthorAndFollowed(Guid authorId);
     public Author GetAuthorById(Guid authorId);
     public Author GetAuthorByName(string name);
     public Author GetAuthorByEmail(string email);
