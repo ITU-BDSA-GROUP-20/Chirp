@@ -287,6 +287,18 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         var follows = await db.Follows.Where(f => f.FollowedAuthorId == id || f.FollowingAuthorId == id).ToListAsync();
         db.Follows.RemoveRange(follows);
     }
+    
+    public async Task RemoveUserById(Guid id)
+    {
+        Author? user = await GetAuthorByIdAsync(id);
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+        
+        db.Users.Remove(user);
+        await db.SaveChangesAsync();
+    }
     public async Task SaveContextAsync()
     {
         await db.SaveChangesAsync();
