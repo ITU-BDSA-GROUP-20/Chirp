@@ -46,7 +46,7 @@ The following describes the sections that your report has to provide. These sect
 # Design and Architecture of _Chirp!_
 
 ## Domain model
-
+![UMLDIAGRAM](diagrams/umlClassDiagram.svg)
 > Provide an illustration of your domain model. Make sure that it is correct and complete. In case you are using ASP.NET Identity, make sure to illustrate that accordingly.
 
 
@@ -56,7 +56,7 @@ Here comes a description of our domain model.
 ![Illustration of the _Chirp!_ data model as UML class diagram.](docs/images/domain_model.png)
 
 ## Architecture — In the small
-![Onion Architecture](docs/diagrams/OnionArchitecture.svg)
+![OnionArchitecture](diagrams/OnionArchitecture.drawio.svg)
 > Illustrate the organization of your code base. That is, illustrate which layers exist in your (onion) architecture. Make sure to illustrate which part of your code is residing in which layer.
 
 
