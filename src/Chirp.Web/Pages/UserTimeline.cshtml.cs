@@ -46,24 +46,18 @@ public class UserTimelineModel : PageModel
 
     public void InitializeVariables(Author user, string author)
     {
-        int page;
         if (Request.Query.ContainsKey("page"))
         {
-            page = int.Parse(Request.Query["page"]!);
+            currentPage = int.Parse(Request.Query["page"]!);
         }
         else
         {
-            page = 1;
-        }
-
-        if (page < 1)
-        {
-            page = 1;
+            currentPage = 1;
         }
 
         Author timelineAuthor = _authorRepository.GetAuthorByName(author);
 
-        LoadCheeps(user, timelineAuthor, page);
+        LoadCheeps(user, timelineAuthor, currentPage);
     }
 
     private void LoadCheeps(Author signedInAuthor, Author timelineAuthor, int page)
