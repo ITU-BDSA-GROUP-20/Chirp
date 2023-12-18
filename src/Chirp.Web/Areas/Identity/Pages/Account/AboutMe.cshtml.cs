@@ -88,6 +88,20 @@ public class AboutMeModel : PageModel
         {
             return RedirectToPage();
         }
+
+        // Get the logins for the user
+        var logins = await _userManager.GetLoginsAsync(user);
+
+         // Remove each login
+        foreach (var login in logins)
+        {
+            var result = await _userManager.RemoveLoginAsync(user, login.LoginProvider, login.ProviderKey);
+            if (!result.Succeeded)
+            {
+                // Handle error
+                throw new InvalidOperationException($"Unexpected error occurred removing external login for user with ID '{user.Id}'.");
+            }
+        }
         
         if (_authorRepository != null)
         {
