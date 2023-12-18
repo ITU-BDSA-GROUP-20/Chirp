@@ -14,6 +14,7 @@ public class UserTimelineModel : PageModel
     private readonly ICheepService _service;
     private readonly UserManager<Author> _userManager;
     private readonly IAuthorRepository _authorRepository;
+    private readonly SignInManager<Author> _signInManager;
 
 
     public ICollection<CheepViewModel> Cheeps { get; set; }
@@ -25,11 +26,12 @@ public class UserTimelineModel : PageModel
 
 
 
-    public UserTimelineModel(ICheepService service, UserManager<Author> userManager, IAuthorRepository authorRepository)
+    public UserTimelineModel(ICheepService service, SignInManager<Author> signInManager, UserManager<Author> userManager, IAuthorRepository authorRepository)
     {
         _service = service;
         _userManager = userManager;
         _authorRepository = authorRepository;
+        _signInManager = signInManager;
     }
 
     public ActionResult OnGet(string author)
@@ -40,15 +42,13 @@ public class UserTimelineModel : PageModel
             return NotFound();
         }
 
-        UserModel = new UserModel(user);
-
-        InitializeVariables(UserModel, author);
+        InitializeVariables(user, author);
 
         return Page();
     }
 
 
-    public void InitializeVariables(UserModel userModel, string author)
+    public void InitializeVariables(Author user, string author)
     {
         int page;
         if (Request.Query.ContainsKey("page"))
@@ -59,25 +59,30 @@ public class UserTimelineModel : PageModel
         {
             page = 1;
         }
-        InitializeVariables(page, userModel, author);
-    }
-    
-    
 
-    public void InitializeVariables(int page, UserModel userModel, string author)
+        Author timelineAuthor = _authorRepository.GetAuthorByName(author);
+        
+        LoadCheeps(user, timelineAuthor, page);
+    }
+
+    private void LoadCheeps(Author signedInAuthor, Author timelineAuthor, int page)
     {
         try
         {
-            Cheeps = _service.GetCheepsFromAuthorAndFollowing(userModel.Id, page);
+            if (_signInManager.IsSignedIn(User) && signedInAuthor.UserName == timelineAuthor.UserName)
+            {
+                Cheeps = _service.GetCheepsFromAuthorAndFollowing(signedInAuthor.Id, page);
+                totalPages = _authorRepository.GetPageCountByAuthorAndFollowed(signedInAuthor.Id);
+            }
+            else
+            {
+                Cheeps = _service.GetCheepsFromAuthor(timelineAuthor.Id, page);
+                totalPages = _authorRepository.GetPageCountByAuthor(timelineAuthor.Id);
+            }
         }
         catch (Exception e)
         {
             Cheeps = new List<CheepViewModel>();
         }
-
-        user = _userManager.GetUserAsync(User).Result;
-        //Get author object to allow the get page count method to be called on ID
-        totalPages = _authorRepository.GetPageCountByAuthorAndFollowed(user.Id);
-        currentPage = page;
     }
 }
