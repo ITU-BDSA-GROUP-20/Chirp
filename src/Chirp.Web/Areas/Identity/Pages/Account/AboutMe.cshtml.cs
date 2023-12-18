@@ -112,6 +112,6 @@ public class AboutMeModel : PageModel
         }
         
         // Redirect to the start page
-        return RedirectToPage("/");
+        return RedirectToPage("/Public");
     }
 }
