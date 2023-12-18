@@ -29,5 +29,4 @@ public class FollowRepository : BaseRepository, IFollowRepository
         
         return author.Following.Any(f => f.FollowedAuthor.Id == followedUserId);
     }
-        // TODO implement equals method
 }
