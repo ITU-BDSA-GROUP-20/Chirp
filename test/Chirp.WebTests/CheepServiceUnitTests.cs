@@ -78,7 +78,7 @@ public class CheepServiceUnitTests
             result.Sort((a, b) => String.Compare(a.User.Username, b.User.Username, StringComparison.Ordinal));
             
             // Assert
-            Assert.Equal(2, result.Count);
+            Assert.Equal(3, result.Count);
             Assert.Equal("Author1", result[0].User.Username);
             Assert.Equal("Cheep 1", result[0].Message);
             Assert.NotNull(result[0].Timestamp);

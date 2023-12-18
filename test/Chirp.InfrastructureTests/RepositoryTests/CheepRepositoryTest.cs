@@ -11,10 +11,18 @@ public class CheepRepositoryTest{
     private readonly CheepRepository CheepRepository;
     private readonly ChirpDbContext db;
 
+    private Author _author;
+
     public CheepRepositoryTest()
     {
         db = SqliteInMemoryBuilder.GetContext();
         CheepRepository = new CheepRepository(db);
+
+        _author = new Author()
+        {
+            UserName = "TestAuthor", 
+            Email = "mock@email.com" 
+        };
         
         for(int i = 0; i < 34; i++)
         {
@@ -70,23 +78,14 @@ public class CheepRepositoryTest{
     [Fact]
     public void addCheep_ShouldAddACheep()
     {
-        Author authorDto1 = new Author
-        { 
-            UserName = "TestAuthor", 
-            Email = "mock@email.com" 
-        };
-        
         Cheep cheepDto = new Cheep
         {
             CheepId = Guid.NewGuid(),
-            AuthorId = authorDto1.Id,
+            AuthorId = _author.Id,
             Text = "TestCheep",
             TimeStamp = DateTime.Now,
-            Author = authorDto1
+            Author = _author
         };
-            
-        db.Users.Add(authorDto1);
-        db.SaveChanges();
 
         CheepRepository.AddCheep(cheepDto).Wait();
 
