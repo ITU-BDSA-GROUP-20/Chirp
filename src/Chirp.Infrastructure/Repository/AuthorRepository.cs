@@ -75,8 +75,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
             throw new Exception("Author " + author.UserName + " has no cheeps");
         }
 
-        if(page==0){
-            page=1;
+        if(page < 1){
+            page = 1;
         }
 
         int pageSizeIndex = (page - 1) * PageSize;
@@ -84,7 +84,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         if (author.Cheeps.Count < pageSizeIndex + PageSize)
             return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex, author.Cheeps.Count - pageSizeIndex)
                 .OrderByDescending(c => c.TimeStamp).ToList();
-        if(author.Cheeps.Count > 32) return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize).OrderByDescending(c => c.TimeStamp).ToList();
+        if(author.Cheeps.Count > PageSize) return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize).OrderByDescending(c => c.TimeStamp).ToList();
         return author.Cheeps.OrderByDescending(c => c.TimeStamp).ToList();
     }
     
@@ -93,7 +93,13 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         Author author = GetAuthorById(id);
         //Get cheeps from the author, and append cheeps from followers to that list
         ICollection<Author?> following = GetFollowingById(id);
-        ICollection<Cheep> cheeps = GetCheepsByAuthor(id, page);
+        ICollection<Cheep> cheeps = new List<Cheep>();
+
+        // Add all the users cheeps to the list without pagination
+        foreach (var cheepDto in author.Cheeps)
+        {
+            cheeps.Add(cheepDto);
+        }
 
         foreach (Author? follower in following)
         {
