@@ -244,6 +244,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
             
             author.Cheeps.Remove(cheep);
         }
+
+        db.SaveChanges();
     }
 
     public async Task RemoveAllFollowersByAuthorId(Guid id)

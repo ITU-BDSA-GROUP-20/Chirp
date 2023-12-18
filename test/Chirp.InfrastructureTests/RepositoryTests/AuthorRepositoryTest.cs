@@ -161,112 +161,45 @@ public class AuthorRepositoryTest
         Assert.Equal(expectedAuthor, returnedAuthor);
     }
     
+    
+    //TODO move addFollow functionality and tests to FollowRepository and FollowRepository Tests
     [Fact]
     public async void AddFollow_ShouldAddFollowingToAuthor()
     {
-        // Arrange
-        var authorRepository = new AuthorRepository(context);
-
-        // Create 2 authors
-        Author? author1 = new Author()
-        {
-            Id = new Guid(),
-            UserName = "author1",
-            Email = "author1@mail.com"
-        };
-        Author? author2 = new Author()
-        {
-            Id = new Guid(),
-            UserName = "author2",
-            Email = "author1@mail.com"
-        };
-        
-        context.Users.Add(author1);
-        context.Users.Add(author2);
-
-        context.SaveChanges();
-
         //Act
-        await authorRepository.AddFollow(author1, author2);
+        await _authorRepository.AddFollow(_author1, _author2);
         
         //Assert
-        Assert.True(author1.Following.FirstOrDefault()!.FollowedAuthorId == author2.Id);
-        Assert.True(author2.Followers.FirstOrDefault()!.FollowingAuthorId == author1.Id);
+        Assert.True(_author1.Following.FirstOrDefault()!.FollowedAuthorId == _author2.Id);
+        Assert.True(_author2.Followers.FirstOrDefault()!.FollowingAuthorId == _author1.Id);
     }
 
     [Fact]
     public async void RemoveFollow_ShouldRemoveFollowingFromAuthor()
     {
-        // Arrange
-        var authorRepository = new AuthorRepository(context);
-
-        // Create 2 authors
-        for (int i = 0; i < 2; i++)
-        {
-            Author authorDto = new Author
-            {
-                Id = Guid.NewGuid(),
-                UserName = "TestAuthor" + i,
-                Email = "mock" + i + "@test.com"
-            };
-
-            context.Users.Add(authorDto);
-        }
-
-        await context.SaveChangesAsync();
-
-        //Act
-        Author? author1 = context.Users.Include(author => author.Following).Include(author => author.Followers).FirstOrDefault(a => a.UserName == "TestAuthor0");
-        Author? author2 = context.Users.Include(author => author.Followers).FirstOrDefault(a => a.UserName == "TestAuthor1");
-
-        await authorRepository.AddFollow(author1, author2);
+        await _authorRepository.AddFollow(_author1, _author2);
         
-        Assert.Equal(author2.Id, author1.Following.FirstOrDefault().FollowedAuthor.Id);
-        Assert.Equal(author1.Id, author2.Followers.FirstOrDefault().FollowingAuthor.Id);
+        Assert.Equal(_author2.Id, _author1.Following.FirstOrDefault().FollowedAuthor.Id);
+        Assert.Equal(_author1.Id, _author2.Followers.FirstOrDefault().FollowingAuthor.Id);
 
-        await authorRepository.RemoveFollow(author1, author2);
-
-        await context.SaveChangesAsync();
+        await _authorRepository.RemoveFollow(_author1, _author2);
 
         //Assert
-        Assert.True(author1.Followers.IsNullOrEmpty());
-        Assert.True(author2.Followers.IsNullOrEmpty());
+        Assert.True(_author1.Followers.IsNullOrEmpty());
+        Assert.True(_author2.Followers.IsNullOrEmpty());
     }
 
     [Fact]
     public async void GetFollowersByAuthor_ShouldReturnCorrectFollowers()
     {
-        // Arrange
-        var authorRepository = new AuthorRepository(context);
-
-        // Create 3 authors
-        for (int i = 0; i < 3; i++)
-        {
-            Author authorDto = new Author
-            {
-                Id = Guid.NewGuid(),
-                UserName = "TestAuthor" + i,
-                Email = "mock" + i + "@test.com"
-            };
-
-            context.Users.Add(authorDto);
-        }
-
-        await context.SaveChangesAsync();
-
-        //Act
-        Author? author1 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor0");
-        Author? author2 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor1");
-        Author? author3 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor2");
-
-        await authorRepository.AddFollow(author2, author1);
-        await authorRepository.AddFollow(author3, author1);
+        await _authorRepository.AddFollow(_author2, _author1);
+        await _authorRepository.AddFollow(_author3, _author1);
 
         ICollection<Author?> expectedFollowers = new List<Author?>();
-        expectedFollowers.Add(author2);
-        expectedFollowers.Add(author3);
+        expectedFollowers.Add(_author2);
+        expectedFollowers.Add(_author3);
 
-        ICollection<Author?> returnedFollowers = authorRepository.GetFollowersById(author1.Id);
+        ICollection<Author?> returnedFollowers = _authorRepository.GetFollowersById(_author1.Id);
 
         //Assert
         Assert.Equal(expectedFollowers, returnedFollowers);
@@ -275,132 +208,32 @@ public class AuthorRepositoryTest
     [Fact]
     public async void GetFollowingByAuthor_ShouldReturnCorrectFollowing()
     {
-        // Arrange
-        var authorRepository = new AuthorRepository(context);
-
-        // Create 3 authors
-        for (int i = 0; i < 3; i++)
-        {
-            Author authorDto = new Author
-            {
-                Id = Guid.NewGuid(),
-                UserName = "TestAuthor" + i,
-                Email = "mock" + i + "@test.com"
-            };
-
-            context.Users.Add(authorDto);
-        }
-
-        await context.SaveChangesAsync();
-
-        //Act
-        Author? author1 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor0");
-        Author? author2 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor1");
-        Author? author3 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor2");
-
-        await authorRepository.AddFollow(author1, author2);
-        await authorRepository.AddFollow(author1, author3);
+        await _authorRepository.AddFollow(_author1, _author2);
+        await _authorRepository.AddFollow(_author1, _author3);
 
         ICollection<Author?> expectedFollowing = new List<Author?>();
-        expectedFollowing.Add(author2);
-        expectedFollowing.Add(author3);
+        expectedFollowing.Add(_author2);
+        expectedFollowing.Add(_author3);
 
-        ICollection<Author?> returnedFollowing = authorRepository.GetFollowingById(author1.Id);
+        ICollection<Author?> returnedFollowing = _authorRepository.GetFollowingById(_author1.Id);
 
         //Assert
         Assert.Equal(expectedFollowing, returnedFollowing);
     }
 
-    [Fact]
-    public async void DeleteUserById_ShouldDeleteUser()
-    {
-        // Arrange
-        var authorRepository = new AuthorRepository(context);
-
-        // Create 3 authors
-        for (int i = 0; i < 3; i++)
-        {
-            Author authorDto = new Author
-            {
-                Id = Guid.NewGuid(),
-                UserName = "TestAuthor" + i,
-                Email = "mock" + i + "@test.com"
-            };
-
-            context.Users.Add(authorDto);
-        }
-
-        await context.SaveChangesAsync();
-
-        //Act
-        Author? author1 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor0");
-        Author? author2 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor1");
-        Author? author3 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor2");
-
-        // await authorRepository.DeleteUserById(author1.Id);
-        context.Remove(author1);
-
-        await context.SaveChangesAsync();
-
-        //Assert
-        Assert.True(context.Users.Count() == 2);
-        Assert.True(context.Users.FirstOrDefault(a => a.UserName == "TestAuthor0") == null);
-    }
-
    [Fact]
     public async Task DeleteCheepsByAuthorId_ShouldRemoveAllCheepsByAuthor()
     {
-        // Arrange
-        var authorRepository = new AuthorRepository(context);
-
-        // Create an author with cheeps
-        Author author = new Author
-        {
-            Id = Guid.NewGuid(),
-            UserName = "TestAuthor",
-            Email = "testauthor@test.com",
-            Cheeps = new List<Cheep>()
-        };
-
-        Cheep cheep1 = new Cheep
-        {
-            CheepId = Guid.NewGuid(),
-            AuthorId = author.Id,
-            Text = "TestCheep1",
-            Author = author
-        };
-        Cheep cheep2 = new Cheep
-        {
-            CheepId = Guid.NewGuid(),
-            AuthorId = author.Id,
-            Text = "TestCheep2",
-            Author = author
-        };
-        Cheep cheep3 = new Cheep
-        {
-            CheepId = Guid.NewGuid(),
-            AuthorId = author.Id,
-            Text = "TestCheep3",
-            Author = author
-        };
-
-        author.Cheeps.Add(cheep1);
-        author.Cheeps.Add(cheep2);
-        author.Cheeps.Add(cheep3);
-        
-        context.Users.Add(author);
-        
-        await context.SaveChangesAsync();
-
         Assert.Equal(3, context.Cheeps.Count());
+        Assert.Equal(1, _author1.Cheeps.Count);
 
         // Act
-        await authorRepository.DeleteCheepsByAuthorId(author.Id);
-        
-        await context.SaveChangesAsync();
+        await _authorRepository.DeleteCheepsByAuthorId(_author1.Id);
 
+        context.SaveChanges();
+        
         // Assert
-        Assert.Empty(author.Cheeps);
-        Assert.Empty(context.Cheeps);
+        Assert.Empty(_author1.Cheeps);
+        Assert.Equal(2, context.Cheeps.Count());
     }
 }
