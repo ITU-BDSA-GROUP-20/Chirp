@@ -98,13 +98,7 @@ public class CheepRepositoryTest{
     [Fact]
     public void CreateCheepCreatesCheep()
     {
-        Author author = new Author
-        { 
-            UserName = "TestAuthor", 
-            Email = "mock@email.com" 
-        };
-
-        CreateCheep createCheep = new CreateCheep(author, "TestCheep");
+        CreateCheep createCheep = new CreateCheep(_author, "TestCheep");
 
         Cheep cheep = CheepRepository.AddCreateCheep(createCheep).Result;
         
