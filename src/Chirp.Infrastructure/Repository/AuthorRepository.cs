@@ -117,7 +117,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         int pageSizeIndex = (page - 1) * PageSize;
 
         if (cheeps.Count < pageSizeIndex + PageSize) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex, cheeps.Count - pageSizeIndex);
-        if (cheeps.Count > 32) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex, PageSize);
+        if (cheeps.Count > PageSize) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex, PageSize);
         return cheeps;
     }
 
@@ -186,7 +186,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
     public ICollection<Author?> GetFollowingById(Guid id)
     {
-        Author author = db.Users.Include(a => a.Following).ThenInclude(f => f.FollowedAuthor).SingleOrDefault(a => a.Id == id);
+        Author author = db.Users.Include(a => a.Following).ThenInclude(f => f.FollowedAuthor).ThenInclude(a => a.Cheeps).SingleOrDefault(a => a.Id == id);
         
         ICollection<Author?> following = new List<Author?>();
         
