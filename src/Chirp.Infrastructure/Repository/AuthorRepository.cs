@@ -90,7 +90,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return author.Cheeps.OrderByDescending(c => c.TimeStamp).ToList();
     }
     
-    public ICollection<Cheep> GetCheepsByAuthorAndFollowed(Guid id, int page)
+    public ICollection<Cheep> GetCheepsByAuthorAndFollowing(Guid id, int page)
     {
         Author author = GetAuthorById(id);
         //Get cheeps from the author, and append cheeps from followers to that list
@@ -137,7 +137,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return author.Cheeps.Count;
     }
     
-    public int GetCheepCountByAuthorAndFollowed(Guid authorId)
+    public int GetCheepCountByAuthorAndFollowing(Guid authorId)
     {
         Author author = GetAuthorById(authorId);
         int amountOfCheeps = 0;
@@ -162,9 +162,9 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return GetCheepCountByAuthor(authorId) / PageSize + 1;
     }
     
-    public int GetPageCountByAuthorAndFollowed(Guid authorId)
+    public int GetPageCountByAuthorAndFollowing(Guid authorId)
     {
-        return GetCheepCountByAuthorAndFollowed(authorId) / PageSize + 1;
+        return GetCheepCountByAuthorAndFollowing(authorId) / PageSize + 1;
     }
 
 

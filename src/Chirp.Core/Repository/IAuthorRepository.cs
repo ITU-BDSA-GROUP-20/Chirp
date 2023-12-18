@@ -15,15 +15,15 @@ public interface IAuthorRepository
 
 
     public ICollection<Cheep> GetCheepsByAuthor(Guid authorId, int page);
-    public ICollection<Cheep> GetCheepsByAuthorAndFollowed(Guid authorId, int page);
+    public ICollection<Cheep> GetCheepsByAuthorAndFollowing(Guid authorId, int page);
     
     
     public int GetCheepCountByAuthor(Guid authorId);
-    public int GetCheepCountByAuthorAndFollowed(Guid authorId);
+    public int GetCheepCountByAuthorAndFollowing(Guid authorId);
     
     
     public int GetPageCountByAuthor(Guid authorId);
-    public int GetPageCountByAuthorAndFollowed(Guid authorId);
+    public int GetPageCountByAuthorAndFollowing(Guid authorId);
 
 
     public ICollection<Author?> GetFollowersById(Guid authorId);
