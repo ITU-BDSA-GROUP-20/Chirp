@@ -16,31 +16,26 @@
     Layout = "Shared/_Layout";
     var routeName = HttpContext.GetRouteValue("author");
 }
-@if (SignInManager.IsSignedIn(User))
-{
-    <div>
-        <h2> @routeName's Timeline </h2>
-        
-        @await Html.PartialAsync("Shared/_CheepBox", new NewCheep {Text = ""})
 
-        @if (!Model.Cheeps.Any() || Model.Cheeps == null)
-        {
-            <div>
-                <p>You have no cheeps so far.</p>
-            </div>
-        }
-        else
-        {
-            @await Html.PartialAsync("Shared/_CheepList", Model)
-        }
-    </div>
-}
-else
-{
-    <div>
-        <em>You have to be logged in to view aggregated author cheeps.</em>
-    </div>
-}
+<div>
+    <h2> @routeName's Timeline </h2>
+    <h3>Following:</h3>
+        
+    @await Html.PartialAsync("Shared/_CheepBox", new NewCheep {Text = ""})
+
+    @if (!Model.Cheeps.Any() || Model.Cheeps == null)
+    {
+        <div>
+            <p>This user has no cheeps so far.</p>
+        </div>
+    }
+    else
+    {
+        @await Html.PartialAsync("Shared/_CheepList", Model)
+    }
+</div>
+
+
 @section Scripts {
     <partial name="/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml" />
 }
