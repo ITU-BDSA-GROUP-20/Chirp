@@ -23,6 +23,9 @@ jobs:
           dotnet-version: '7.x'
           include-prerelease: true
 
+      - name: Restore dependencies
+        run: dotnet restore src/Chirp.Web
+
       - name: Build with dotnet
         run: dotnet build -c Release src/Chirp.Web
 

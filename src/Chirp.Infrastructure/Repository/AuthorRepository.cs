@@ -2,6 +2,7 @@
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Chirp.Infrastructure.Repository;
 
@@ -15,6 +16,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         _followRepository = new FollowRepository(chirpDbContext);
     }
 
+    // ----- Add Author Methods ----- //
     public void AddAuthor(Author author)
     {
         db.Users.Add(author);
@@ -22,7 +24,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     }
 
 
-    
+    // ----- Get Author Methods ----- //
     public Author GetAuthorById(Guid authorId)
     {
         Author author = db.Users
@@ -64,7 +66,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     }
 
 
-
+    // ----- Get Cheeps By Author and Page Methods ----- //
     public ICollection<Cheep> GetCheepsByAuthor(Guid id, int page)
     {
         Author author = GetAuthorById(id);
@@ -128,7 +130,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     }
 
     
-    
+    // ----- Get Cheeps By Author Methods ----- //
     public int GetCheepCountByAuthor(Guid authorId)
     {
         Author author = GetAuthorById(authorId);
@@ -160,7 +162,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     }
 
 
-    
+    // ----- Get Page and Cheep Count Methods ----- //
     public int GetPageCountByAuthor(Guid authorId)
     {
         return GetCheepCountByAuthor(authorId) / PageSize + 1;
@@ -175,7 +177,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
 
     
 
-
+    // ----- Get Followers and Following Methods ----- //
     public ICollection<Author?> GetFollowersById(Guid id)
     {
         Author author = db.Users.Include(a => a.Followers).ThenInclude(f => f.FollowingAuthor).SingleOrDefault(a => a.Id == id);
@@ -205,7 +207,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     }
 
 
-
+    // ----- Add/Remove Follow Methods ----- //
     public async Task AddFollow(Author? followingAuthor, Author? followedAuthor)
     {
         Follow follow = _followRepository.CreateFollow(followingAuthor, followedAuthor);
@@ -234,58 +236,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     }
     
 
-
-    public async Task DeleteUserById(Guid id)
-    {
-        Author? user = await GetAuthorByIdAsync(id);
-    
-        if (user is null)
-        {
-            throw new Exception("User not found");
-        }
-        
-        // Remove all cheeps
-        await DeleteCheepsByAuthorId(id);
-        
-        // Remove all followers
-        var followers = user.Followers.ToList();
-        db.Follows.RemoveRange(followers);
-        
-        var following = user.Following.ToList();
-        db.Follows.RemoveRange(following);
-
-        db.Users.Remove(user);
-
-        await db.SaveChangesAsync();
-    }
-
-    public async Task DeleteUserById1(Guid id)
-    {
-        Author? user = await GetAuthorByIdAsync(id);
-        if (user == null)
-        {
-            throw new Exception("User not found");
-        }
-
-        
-        var reactions = await db.Reactions.Where(r => r.AuthorId == id).ToListAsync();
-        db.Reactions.RemoveRange(reactions);
-        Console.WriteLine("Deleted Reactions");
-        
-        var cheeps = await db.Cheeps.Where(c => c.AuthorId == id).ToListAsync();
-        db.Cheeps.RemoveRange(cheeps);
-        Console.WriteLine("Deleted Cheeps");
-        
-        var follows = await db.Follows.Where(f => f.FollowedAuthorId == id || f.FollowingAuthorId == id).ToListAsync();
-        db.Follows.RemoveRange(follows);
-        Console.WriteLine("Deleted Follows");
-
-        
-        db.Users.Remove(user);
-        await db.SaveChangesAsync();
-        Console.WriteLine("Deleted User");
-    }
-   
+    // ----- Delete Author Data Methods ----- //
     public async Task DeleteCheepsByAuthorId(Guid id)
     {
         Author? author = await GetAuthorByIdAsync(id);
@@ -334,8 +285,14 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         }
         
         var reactions = await db.Reactions.Where(r => r.AuthorId == id).ToListAsync();
-        db.Reactions.RemoveRange(reactions);
+        if (!reactions.IsNullOrEmpty())
+        {
+            db.Reactions.RemoveRange(reactions);
+        }
     }
+    
+    
+    // ----- Save Context Method ----- //
     public async Task SaveContextAsync()
     {
         await db.SaveChangesAsync();
