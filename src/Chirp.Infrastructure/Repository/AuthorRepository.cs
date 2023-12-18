@@ -156,7 +156,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     }
 
 
-    // ----- Get Page and Cheep Count Methods ----- //
+    // ----- Get Page Count Methods ----- //
     public int GetPageCountByAuthor(Guid authorId)
     {
         return GetCheepCountByAuthor(authorId) / PageSize + 1;
