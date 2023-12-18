@@ -37,10 +37,6 @@ public class UserTimelineModel : PageModel
     public ActionResult OnGet(string author)
     {
         user = _userManager.GetUserAsync(User).Result;
-        if (user == null)
-        {
-            return NotFound();
-        }
 
         InitializeVariables(user, author);
 
@@ -69,15 +65,17 @@ public class UserTimelineModel : PageModel
     {
         try
         {
-            if (_signInManager.IsSignedIn(User) && signedInAuthor.UserName == timelineAuthor.UserName)
+            if (user == null)
+            {
+                
+                Cheeps = _service.GetCheepsFromAuthor(timelineAuthor.Id, page);
+                totalPages = _authorRepository.GetPageCountByAuthor(timelineAuthor.Id);
+                
+            }
+            else if (_signInManager.IsSignedIn(User) && signedInAuthor.UserName == timelineAuthor.UserName)
             {
                 Cheeps = _service.GetCheepsFromAuthorAndFollowing(signedInAuthor.Id, page);
                 totalPages = _authorRepository.GetPageCountByAuthorAndFollowed(signedInAuthor.Id);
-            }
-            else
-            {
-                Cheeps = _service.GetCheepsFromAuthor(timelineAuthor.Id, page);
-                totalPages = _authorRepository.GetPageCountByAuthor(timelineAuthor.Id);
             }
         }
         catch (Exception e)
