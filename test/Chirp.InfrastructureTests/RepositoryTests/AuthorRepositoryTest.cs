@@ -70,6 +70,7 @@ public class AuthorRepositoryTest
             Author = _author3
         };
 
+        context.Add(_author1);
         context.Add(_author2);
         context.Add(_author3);
 
