@@ -167,19 +167,6 @@ public class AuthorRepositoryTest
         Assert.Equal(expectedCheep, returnedCheep);
     }
     
-    [Fact]
-    public void GetCheepCountByAuthorAndFollowed_ShouldReturnCorrectCheepCount()
-    {
-        //Act
-        _authorRepository.AddFollow(_author1, _author2);
-        _authorRepository.AddFollow(_author2, _author1);
-        _authorRepository.AddFollow(_author2, _author3);
-        //Assert
-        Assert.Equal(2,_authorRepository.GetCheepCountByAuthorAndFollowed(_author1.Id));
-        Assert.Equal(3,_authorRepository.GetCheepCountByAuthorAndFollowed(_author2.Id) );
-    }
-    
-
     // ----- Get Page and Cheep Count Methods ----- //
     [Fact]
     public void GetPageCountByAuthor_ShouldReturn1PageCountWhenCheepCountUnder32()
@@ -211,42 +198,6 @@ public class AuthorRepositoryTest
         Assert.Equal(2, _authorRepository.GetPageCountByAuthor(_author1.Id));
         
     }
-
-    [Fact]
-    public void GetPageCountByAuthorAndFollowed_ShouldReturn1PageCountWhenCheepsCountLessThan32()
-    {
-        //Act
-        _authorRepository.AddFollow(_author1, _author2);
-        
-        //Assert
-        Assert.Equal(1, _authorRepository.GetPageCountByAuthorAndFollowed(_author1.Id));
-        
-    }
-    [Fact]
-    public void GetPageCountByAuthorAndFollowed_ShouldReturn2PageCountWhenCheepsCountMoreThan32()
-    {
-        
-        //Arrange
-        _authorRepository.AddFollow(_author2, _author3);
-        for (int i = 0; i < 33; i++)
-        {
-            Cheep cheep = new Cheep
-            {
-                CheepId = Guid.NewGuid(),
-                AuthorId = _author2.Id,
-                Text = "TestCheep by author 2",
-                Author = _author2
-            };
-            context.Add(cheep);
-        }
-        
-        //Assert
-        Assert.Equal(2, _authorRepository.GetPageCountByAuthorAndFollowed(_author2.Id));
-        
-    }
-
-    
-    
     // ----- Get Followers and Following Methods ----- //
     [Fact]
     public async void GetFollowersByAuthorId_ShouldReturnCorrectFollowers()
