@@ -162,7 +162,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     }
 
 
-    // ----- Get Page and Cheep Count Methods ----- //
+    // ----- Get Page Count Methods ----- //
     public int GetPageCountByAuthor(Guid authorId)
     {
         return GetCheepCountByAuthor(authorId) / PageSize + 1;
@@ -172,11 +172,6 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         return GetCheepCountByAuthorAndFollowing(authorId) / PageSize + 1;
     }
-
-
-
-    
-
     // ----- Get Followers and Following Methods ----- //
     public ICollection<Author?> GetFollowersById(Guid id)
     {
@@ -250,6 +245,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
             
             author.Cheeps.Remove(cheep);
         }
+
+        db.SaveChanges();
     }
 
     public async Task RemoveAllFollowersByAuthorId(Guid id)
