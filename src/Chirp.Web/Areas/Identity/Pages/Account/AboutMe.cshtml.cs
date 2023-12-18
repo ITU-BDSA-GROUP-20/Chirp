@@ -74,13 +74,43 @@ public class AboutMeModel : PageModel
     // Forget me method
     public async Task<IActionResult> OnPostDeleteMe()
     {
+
+         // Check if the user is authenticated
+        if (!User.Identity.IsAuthenticated)
+        {
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
+        }
+        
         // Fetch user information from the database
         var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return RedirectToPage();
+        }
         
-        await _authorRepository.DeleteCheepsByAuthorId(user.Id);
-        await _authorRepository.RemoveAllFollowersByAuthorId(user.Id);
-        await _authorRepository.SaveContextAsync();
-
-        return RedirectToPage();
+        if (_authorRepository != null)
+        {
+            await _authorRepository.DeleteCheepsByAuthorId(user.Id);
+            await _authorRepository.RemoveAllFollowersByAuthorId(user.Id);
+            await _authorRepository.RemoveUserById(user.Id);
+            await _authorRepository.SaveContextAsync();
+        }
+        else
+        {
+            return BadRequest("_authorRepository is null.");
+        }
+        
+        // log out the user
+        if (_signInManager != null)
+        {
+            await _signInManager.SignOutAsync();
+        }
+        else
+        {
+            return BadRequest("_signInManager is null.");
+        }
+        
+        // Redirect to the start page
+        return RedirectToPage("/");
     }
 }
