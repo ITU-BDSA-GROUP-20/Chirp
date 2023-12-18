@@ -22,51 +22,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     }
 
 
-
-    public int GetCheepCountByAuthor(Guid authorId)
-    {
-        Author author = GetAuthorById(authorId);
-        //Check that author has cheeps
-        if (!author.Cheeps.Any())
-        {
-            return 0;
-        }
-
-        return author.Cheeps.Count;
-    }
     
-    public int GetCheepCountByAuthorAndFollowed(Guid authorId)
-    {
-        Author author = GetAuthorById(authorId);
-        int amountOfCheeps = 0;
-        //Check that author has cheeps
-        if (!author.Cheeps.Any())
-        {
-            amountOfCheeps = 0;
-        }
-        amountOfCheeps += GetCheepCountByAuthor(authorId);
-        foreach (Follow follow in author.Following)
-        {
-            amountOfCheeps += GetCheepCountByAuthor(follow.FollowedAuthorId);
-        }
-
-        return amountOfCheeps;
-    }
-
-
-
-    public int GetPageCountByAuthor(Guid authorId)
-    {
-        return GetCheepCountByAuthor(authorId) / PageSize + 1;
-    }
-    
-    public int GetPageCountByAuthorAndFollowed(Guid authorId)
-    {
-        return GetCheepCountByAuthorAndFollowed(authorId) / PageSize + 1;
-    }
-
-
-
     public Author GetAuthorById(Guid authorId)
     {
         Author author = db.Users
@@ -165,21 +121,52 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return cheeps;
     }
 
-
-    public async Task DeleteCheepsByAuthorId(Guid id)
+    
+    
+    public int GetCheepCountByAuthor(Guid authorId)
     {
-        Author? author = await GetAuthorByIdAsync(id);
-        
-        foreach (var cheep in author.Cheeps.ToList())
+        Author author = GetAuthorById(authorId);
+        //Check that author has cheeps
+        if (!author.Cheeps.Any())
         {
-            if (cheep.Reactions.Any())    
-            {
-                db.Reactions.RemoveRange(cheep.Reactions);
-            }
-            
-            author.Cheeps.Remove(cheep);
+            return 0;
         }
+
+        return author.Cheeps.Count;
     }
+    
+    public int GetCheepCountByAuthorAndFollowed(Guid authorId)
+    {
+        Author author = GetAuthorById(authorId);
+        int amountOfCheeps = 0;
+        //Check that author has cheeps
+        if (!author.Cheeps.Any())
+        {
+            amountOfCheeps = 0;
+        }
+        amountOfCheeps += GetCheepCountByAuthor(authorId);
+        foreach (Follow follow in author.Following)
+        {
+            amountOfCheeps += GetCheepCountByAuthor(follow.FollowedAuthorId);
+        }
+
+        return amountOfCheeps;
+    }
+
+
+    
+    public int GetPageCountByAuthor(Guid authorId)
+    {
+        return GetCheepCountByAuthor(authorId) / PageSize + 1;
+    }
+    
+    public int GetPageCountByAuthorAndFollowed(Guid authorId)
+    {
+        return GetCheepCountByAuthorAndFollowed(authorId) / PageSize + 1;
+    }
+
+
+
     
 
 
@@ -291,6 +278,21 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         db.Users.Remove(user);
         await db.SaveChangesAsync();
         Console.WriteLine("Deleted User");
+    }
+   
+    public async Task DeleteCheepsByAuthorId(Guid id)
+    {
+        Author? author = await GetAuthorByIdAsync(id);
+        
+        foreach (var cheep in author.Cheeps.ToList())
+        {
+            if (cheep.Reactions.Any())    
+            {
+                db.Reactions.RemoveRange(cheep.Reactions);
+            }
+            
+            author.Cheeps.Remove(cheep);
+        }
     }
 
     public async Task RemoveAllFollowersByAuthorId(Guid id)
