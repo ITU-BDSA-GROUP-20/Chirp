@@ -170,21 +170,79 @@ public class AuthorRepositoryTest
     [Fact]
     public void GetCheepCountByAuthorAndFollowed_ShouldReturnCorrectCheepCount()
     {
-        // TODO: Implement
+        //Act
+        _authorRepository.AddFollow(_author1, _author2);
+        _authorRepository.AddFollow(_author2, _author1);
+        _authorRepository.AddFollow(_author2, _author3);
+        //Assert
+        Assert.Equal(2,_authorRepository.GetCheepCountByAuthorAndFollowed(_author1.Id));
+        Assert.Equal(3,_authorRepository.GetCheepCountByAuthorAndFollowed(_author2.Id) );
     }
     
 
     // ----- Get Page and Cheep Count Methods ----- //
     [Fact]
-    public void GetPageCountByAuthor_ShouldReturnCorrectPageCount()
+    public void GetPageCountByAuthor_ShouldReturn1PageCountWhenCheepCountUnder32()
     {
-        // TODO: Implement
+        
+        //Assert
+        Assert.Equal(1, _authorRepository.GetPageCountByAuthor(_author1.Id));
+        
     }
 
     [Fact]
-    public void GetPageCountByAuthorAndFollowed_ShouldReturnCorrectPageCount()
+    public void GetPageCountByAuthor_ShouldReturn2PageCountWhenCheepCountOver32()
     {
-        // TODO: Implement
+        //Arrange
+        for (int i = 0; i < 33; i++)
+        {
+            Cheep cheep = new Cheep
+            {
+                CheepId = Guid.NewGuid(),
+                AuthorId = _author1.Id,
+                Text = "TestCheep by author 1",
+                Author = _author1
+            };
+            context.Add(cheep);
+        }
+        context.SaveChanges();
+        
+        //Assert
+        Assert.Equal(2, _authorRepository.GetPageCountByAuthor(_author1.Id));
+        
+    }
+
+    [Fact]
+    public void GetPageCountByAuthorAndFollowed_ShouldReturn1PageCountWhenCheepsCountLessThan32()
+    {
+        //Act
+        _authorRepository.AddFollow(_author1, _author2);
+        
+        //Assert
+        Assert.Equal(1, _authorRepository.GetPageCountByAuthorAndFollowed(_author1.Id));
+        
+    }
+    [Fact]
+    public void GetPageCountByAuthorAndFollowed_ShouldReturn2PageCountWhenCheepsCountMoreThan32()
+    {
+        
+        //Arrange
+        _authorRepository.AddFollow(_author2, _author3);
+        for (int i = 0; i < 33; i++)
+        {
+            Cheep cheep = new Cheep
+            {
+                CheepId = Guid.NewGuid(),
+                AuthorId = _author2.Id,
+                Text = "TestCheep by author 2",
+                Author = _author2
+            };
+            context.Add(cheep);
+        }
+        
+        //Assert
+        Assert.Equal(2, _authorRepository.GetPageCountByAuthorAndFollowed(_author2.Id));
+        
     }
 
     
@@ -303,9 +361,26 @@ public class AuthorRepositoryTest
     }
     
     [Fact]
-    public async void RemoveReactionsByAuthorId_ShouldRemoveReactionsByAuthorId()
+    public async void RemoveReactionsByAuthorId_ShouldRemoveReactionsByAuthor()
     {
-        // TODO: Implement
+        // Arrange
+        Reaction reaction1 = new Reaction
+        {
+            CheepId = _cheep1.CheepId,
+            AuthorId = _author2.Id,
+            ReactionType = ReactionType.Like
+        };
+        
+        context.Add(reaction1);
+        await context.SaveChangesAsync();
+        // Act
+        await _authorRepository.RemoveReactionsByAuthorId(_author2.Id);
+        await context.SaveChangesAsync();
+        // Assert
+        Assert.Equal(0, context.Reactions.Count());
+        Assert.Null(_author1.Reactions);
+        Assert.Empty(_cheep1.Reactions);
+        
     }
     
     
@@ -313,6 +388,17 @@ public class AuthorRepositoryTest
     [Fact]
     public async void SaveContextAsync_ShouldSaveChanges()
     {
-        // TODO: Implement
+        //Act
+        Author _author4 = new Author {
+            Id = Guid.NewGuid(),
+            UserName = "TestAuthor4",
+            Email = "mock1@email.com"
+        };
+        context.Add(_author4);
+        
+        //Arrange
+        _authorRepository.SaveContextAsync();
+        //Assert
+        Assert.Equal(4, context.Users.Count());
     }
 }
