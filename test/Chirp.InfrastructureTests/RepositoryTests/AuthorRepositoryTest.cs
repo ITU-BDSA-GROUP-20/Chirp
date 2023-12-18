@@ -80,34 +80,9 @@ public class AuthorRepositoryTest
 
         context.SaveChanges();
     }
-
-    [Fact]
-    public void GetAuthorByName_ShouldReturnCorrectAuthorDTO()
-    {
-        //Arange
-        Author expectedAuthor = _author2;
-        
-        //Act
-        Author returnedAuthor = _authorRepository.GetAuthorByName(_author2.UserName);
-
-        //Assert
-        Assert.Equal(expectedAuthor, returnedAuthor);
-
-    }
-
-    [Fact]
-    public void GetCheepsByAuthor_ShouldReturnCorrectCheeps()
-    {
-        //Act
-        ICollection<Cheep> expectedCheep = new List<Cheep>();
-        expectedCheep.Add(_cheep1);
-
-        ICollection<Cheep> returnedCheep = _authorRepository.GetCheepsByAuthor(_author1.Id, 0);
-
-        //Assert
-        Assert.Equal(expectedCheep, returnedCheep);
-    }
-
+    
+    
+    // ----- Add Author Methods ----- //
     [Fact]
     public void addAuthor_ShouldAddAuthorToDatabase()
     {
@@ -127,24 +102,15 @@ public class AuthorRepositoryTest
         // Assert
         Assert.Equal(initialAuthorCount + 1, updatedAuthorCount);
     }
-
+    
+    
+    // ----- Get Author Methods ----- //
     [Fact]
     public void GetAuthorById_ShouldReturnCorrectAuthor()
     {
         //Act
         Author expectedAuthor = _author2;
         Author returnedAuthor = _authorRepository.GetAuthorById(_author2.Id);
-
-        //Assert
-        Assert.Equal(expectedAuthor, returnedAuthor);
-    }
-
-    [Fact]
-    public void GetAuthorByEmail_ShouldReturnCorrectAuthor()
-    {
-        //Act
-        Author expectedAuthor = _author2;
-        Author returnedAuthor = _authorRepository.GetAuthorByEmail(_author2.Email);
 
         //Assert
         Assert.Equal(expectedAuthor, returnedAuthor);
@@ -161,7 +127,103 @@ public class AuthorRepositoryTest
         Assert.Equal(expectedAuthor, returnedAuthor);
     }
     
+    [Fact]
+    public void GetAuthorByName_ShouldReturnCorrectAuthorDTO()
+    {
+        //Arange
+        Author expectedAuthor = _author2;
+        
+        //Act
+        Author returnedAuthor = _authorRepository.GetAuthorByName(_author2.UserName);
+
+        //Assert
+        Assert.Equal(expectedAuthor, returnedAuthor);
+
+    }
     
+    [Fact]
+    public void GetAuthorByEmail_ShouldReturnCorrectAuthor()
+    {
+        //Act
+        Author expectedAuthor = _author2;
+        Author returnedAuthor = _authorRepository.GetAuthorByEmail(_author2.Email);
+
+        //Assert
+        Assert.Equal(expectedAuthor, returnedAuthor);
+    }
+
+    
+    // ----- Get Cheeps By Author and Page Methods ----- //
+    [Fact]
+    public void GetCheepsByAuthor_ShouldReturnCorrectCheeps()
+    {
+        //Act
+        ICollection<Cheep> expectedCheep = new List<Cheep>();
+        expectedCheep.Add(_cheep1);
+
+        ICollection<Cheep> returnedCheep = _authorRepository.GetCheepsByAuthor(_author1.Id, 0);
+
+        //Assert
+        Assert.Equal(expectedCheep, returnedCheep);
+    }
+    
+    [Fact]
+    public void GetCheepCountByAuthorAndFollowed_ShouldReturnCorrectCheepCount()
+    {
+        // TODO: Implement
+    }
+    
+
+    // ----- Get Page and Cheep Count Methods ----- //
+    [Fact]
+    public void GetPageCountByAuthor_ShouldReturnCorrectPageCount()
+    {
+        // TODO: Implement
+    }
+
+    [Fact]
+    public void GetPageCountByAuthorAndFollowed_ShouldReturnCorrectPageCount()
+    {
+        // TODO: Implement
+    }
+
+    
+    
+    // ----- Get Followers and Following Methods ----- //
+    [Fact]
+    public async void GetFollowersByAuthorId_ShouldReturnCorrectFollowers()
+    {
+        await _authorRepository.AddFollow(_author2, _author1);
+        await _authorRepository.AddFollow(_author3, _author1);
+
+        ICollection<Author?> expectedFollowers = new List<Author?>();
+        expectedFollowers.Add(_author2);
+        expectedFollowers.Add(_author3);
+
+        ICollection<Author?> returnedFollowers = _authorRepository.GetFollowersById(_author1.Id);
+
+        //Assert
+        Assert.Equal(expectedFollowers, returnedFollowers);
+    }
+    
+    [Fact]
+    public async void GetFollowingByAuthorId_ShouldReturnCorrectFollowing()
+    {
+        await _authorRepository.AddFollow(_author1, _author2);
+        await _authorRepository.AddFollow(_author1, _author3);
+
+        ICollection<Author?> expectedFollowing = new List<Author?>();
+        expectedFollowing.Add(_author2);
+        expectedFollowing.Add(_author3);
+
+        ICollection<Author?> returnedFollowing = _authorRepository.GetFollowingById(_author1.Id);
+
+        //Assert
+        Assert.Equal(expectedFollowing, returnedFollowing);
+    }
+    
+    
+    // ----- Add/Remove Follow Methods ----- //
     //TODO move addFollow functionality and tests to FollowRepository and FollowRepository Tests
     [Fact]
     public async void AddFollow_ShouldAddFollowingToAuthor()
@@ -189,40 +251,10 @@ public class AuthorRepositoryTest
         Assert.True(_author2.Followers.IsNullOrEmpty());
     }
 
-    [Fact]
-    public async void GetFollowersByAuthor_ShouldReturnCorrectFollowers()
-    {
-        await _authorRepository.AddFollow(_author2, _author1);
-        await _authorRepository.AddFollow(_author3, _author1);
-
-        ICollection<Author?> expectedFollowers = new List<Author?>();
-        expectedFollowers.Add(_author2);
-        expectedFollowers.Add(_author3);
-
-        ICollection<Author?> returnedFollowers = _authorRepository.GetFollowersById(_author1.Id);
-
-        //Assert
-        Assert.Equal(expectedFollowers, returnedFollowers);
-    }
-
-    [Fact]
-    public async void GetFollowingByAuthor_ShouldReturnCorrectFollowing()
-    {
-        await _authorRepository.AddFollow(_author1, _author2);
-        await _authorRepository.AddFollow(_author1, _author3);
-
-        ICollection<Author?> expectedFollowing = new List<Author?>();
-        expectedFollowing.Add(_author2);
-        expectedFollowing.Add(_author3);
-
-        ICollection<Author?> returnedFollowing = _authorRepository.GetFollowingById(_author1.Id);
-
-        //Assert
-        Assert.Equal(expectedFollowing, returnedFollowing);
-    }
-
+    
+    // ----- Delete (All) Author Data Methods ----- //
    [Fact]
-    public async Task DeleteCheepsByAuthorId_ShouldRemoveAllCheepsByAuthor()
+    public async void DeleteCheepsByAuthorId_ShouldRemoveAllCheepsByAuthor()
     {
         Assert.Equal(3, context.Cheeps.Count());
         Assert.Equal(1, _author1.Cheeps.Count);
@@ -235,5 +267,52 @@ public class AuthorRepositoryTest
         // Assert
         Assert.Empty(_author1.Cheeps);
         Assert.Equal(2, context.Cheeps.Count());
+    }
+    
+    [Fact]
+    public async void RemoveAllFollowersByAuthorId_ShouldRemoveAllFollowersByAuthor()
+    {
+        await _authorRepository.AddFollow(_author1, _author2);
+        await _authorRepository.AddFollow(_author1, _author3);
+        
+        Assert.Equal(2, _author1.Following.Count);
+        Assert.Equal(1, _author2.Followers.Count);
+        Assert.Equal(1, _author3.Followers.Count);
+
+        // Act
+        await _authorRepository.RemoveAllFollowersByAuthorId(_author1.Id);
+
+        await context.SaveChangesAsync();
+        
+        // Assert
+        Assert.Empty(_author1.Following);
+        Assert.Empty(_author2.Followers);
+        Assert.Empty(_author3.Followers);
+    }
+    
+    [Fact]
+    public async void RemoveUserById_ShouldRemoveUserById()
+    {
+        // Act
+        await _authorRepository.RemoveUserById(_author1.Id);
+
+        await context.SaveChangesAsync();
+        
+        // Assert
+        Assert.Equal(2, context.Users.Count());
+    }
+    
+    [Fact]
+    public async void RemoveReactionsByAuthorId_ShouldRemoveReactionsByAuthorId()
+    {
+        // TODO: Implement
+    }
+    
+    
+    // ----- Save Context Method ----- //
+    [Fact]
+    public async void SaveContextAsync_ShouldSaveChanges()
+    {
+        // TODO: Implement
     }
 }
