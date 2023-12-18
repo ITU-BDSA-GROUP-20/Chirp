@@ -190,8 +190,8 @@ public class AuthorRepositoryTest
         await authorRepository.AddFollow(author1, author2);
         
         //Assert
-        Assert.True(author1.Following.FirstOrDefault().FollowedAuthorId == author2.Id);
-        Assert.True(author2.Followers.FirstOrDefault().FollowingAuthorId == author1.Id);
+        Assert.True(author1.Following.FirstOrDefault()!.FollowedAuthorId == author2.Id);
+        Assert.True(author2.Followers.FirstOrDefault()!.FollowingAuthorId == author1.Id);
     }
 
     [Fact]
