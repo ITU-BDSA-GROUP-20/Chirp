@@ -32,6 +32,7 @@ public sealed class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid
         modelBuilder.Entity<Author>(entity =>
         {
             modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(p => new { p.LoginProvider, p.ProviderKey });
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().HasIndex(p => new { p.LoginProvider, p.ProviderKey }).IsUnique();
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(p => new { p.UserId, p.RoleId });
             modelBuilder.Entity<IdentityUserToken<Guid>>().HasKey(p => new { p.UserId, p.LoginProvider, p.Name });
             
@@ -102,5 +103,24 @@ public sealed class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid
         modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(e => e.UserId);
         modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(e => e.RoleId);
         modelBuilder.Entity<IdentityUserToken<Guid>>().HasKey(e => e.UserId);
+    }
+
+    public async Task RemoveDuplicateUserLogins()
+    {
+        // Fetch all user logins
+        var userLogins = await Set<IdentityUserLogin<Guid>>().ToListAsync();
+
+        // Group by LoginProvider and ProviderKey
+        var groupedUserLogins = userLogins.GroupBy(l => new { l.LoginProvider, l.ProviderKey });
+
+        // For each group, keep only one record and mark the others for deletion
+        foreach (var group in groupedUserLogins)
+        {
+            var userLoginsToDelete = group.Skip(1).ToList();
+            Set<IdentityUserLogin<Guid>>().RemoveRange(userLoginsToDelete);
+        }
+
+        // Save changes to the database
+        await SaveChangesAsync();
     }
 }
