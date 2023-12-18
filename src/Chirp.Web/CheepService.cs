@@ -10,8 +10,7 @@ public interface ICheepService
     public ICollection<CheepViewModel> GetCheeps(int page);
     public ICollection<CheepViewModel> GetCheepsFromAuthor(Guid authorId, int page);
     public ICollection<CheepViewModel> GetCheepsFromAuthorAndFollowing(Guid authorId, int page);
-    public ICollection<Follow> GetFollowers(Guid id);
-    public ICollection<Follow> GetFollowing(Guid id);
+
 }
 
 public class CheepService : ICheepService
@@ -89,15 +88,5 @@ public class CheepService : ICheepService
         }
 
         return reactions.Values.ToList();
-    }
-
-    public ICollection<Follow> GetFollowers(Guid id)
-    {
-        return _authorRepository.GetAuthorById(id).Followers;
-    }
-    
-    public ICollection<Follow> GetFollowing(Guid id)
-    {
-        return _authorRepository.GetAuthorById(id).Following;
     }
 }
