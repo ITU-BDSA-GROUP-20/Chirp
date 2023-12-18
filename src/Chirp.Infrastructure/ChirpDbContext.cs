@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
-//This file holds the datamodel consisting of Author, Cheep, and ChirpDbContext
-//EF Core will use the properties of these classes to create and control
-//the database, without having the application directly interact with the database. 
-
 namespace Chirp.Infrastructure;
+
+/// <summary>
+///  EF Core will use the properties of the entities to create and control
+///  the database, without having the application directly interact with the database.
+/// </summary>
 
 public sealed class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid>, Guid>
 {
@@ -31,6 +32,7 @@ public sealed class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid
         // Author entity
         modelBuilder.Entity<Author>(entity =>
         {
+            
             modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(p => new { p.LoginProvider, p.ProviderKey });
             modelBuilder.Entity<IdentityUserLogin<Guid>>().HasIndex(p => new { p.LoginProvider, p.ProviderKey }).IsUnique();
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(p => new { p.UserId, p.RoleId });
