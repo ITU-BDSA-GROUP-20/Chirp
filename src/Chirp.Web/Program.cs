@@ -9,6 +9,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
+/// <summary>
+/// This file is the entry point of the application. 
+/// It is responsible for setting up the application and starting it.
+/// </summary>
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
@@ -78,6 +83,7 @@ using (var scope = app.Services.CreateScope())
     // Call the method to remove duplicate user Logins
     await context.RemoveDuplicateUserLogins();
 
+    // Call the method to seed the database
     try {
         DbInitializer.SeedDatabase(context);
     } catch (Exception ex) {
