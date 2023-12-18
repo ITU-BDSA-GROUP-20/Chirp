@@ -19,8 +19,8 @@ public class UserTimelineModel : PageModel
 
     public ICollection<CheepViewModel> Cheeps { get; set; }
     public UserModel UserModel { get; set; }
-    
-    public required Author user { get; set; }
+
+    public required Author? user { get; set; }
     public required int currentPage { get; set; }
     public required int totalPages { get; set; }
 
@@ -57,7 +57,7 @@ public class UserTimelineModel : PageModel
         }
 
         Author timelineAuthor = _authorRepository.GetAuthorByName(author);
-        
+
         LoadCheeps(user, timelineAuthor, page);
     }
 
@@ -65,14 +65,14 @@ public class UserTimelineModel : PageModel
     {
         try
         {
-            if (user == null)
+            if (user == null || _signInManager.IsSignedIn(User) && signedInAuthor.UserName != timelineAuthor.UserName)
             {
-                
+
                 Cheeps = _service.GetCheepsFromAuthor(timelineAuthor.Id, page);
                 totalPages = _authorRepository.GetPageCountByAuthor(timelineAuthor.Id);
-                
+
             }
-            else if (_signInManager.IsSignedIn(User) && signedInAuthor.UserName == timelineAuthor.UserName)
+            else
             {
                 Cheeps = _service.GetCheepsFromAuthorAndFollowing(signedInAuthor.Id, page);
                 totalPages = _authorRepository.GetPageCountByAuthorAndFollowing(signedInAuthor.Id);
