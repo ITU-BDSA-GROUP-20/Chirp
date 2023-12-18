@@ -1,4 +1,5 @@
 using Chirp.Core.Entities;
+using Chirp.Core.Repository;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -14,46 +15,79 @@ public class AuthorRepositoryTest
 {
 
     private readonly ChirpDbContext context;
+    private readonly IAuthorRepository _authorRepository;
+
+    private Author _author1;
+    private Author _author2;
+    private Author _author3;
+    private Cheep _cheep1;
+    private Cheep _cheep2;
+    private Cheep _cheep3;
 
     public AuthorRepositoryTest()
     {
         context = SqliteInMemoryBuilder.GetContext();
+
+        _authorRepository = new AuthorRepository(context);
+        
+        _author1 = new Author {
+            Id = Guid.NewGuid(),
+            UserName = "TestAuthor1",
+            Email = "mock1@email.com"
+        };
+        _author2 = new Author {
+            Id = Guid.NewGuid(),
+            UserName = "TestAuthor2",
+            Email = "mock2@email.com"
+        };
+        _author3 = new Author {
+            Id = Guid.NewGuid(),
+            UserName = "TestAuthor3",
+            Email = "mock3@email.com"
+        };
+        
+        _cheep1 = new Cheep
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = _author1.Id,
+            Text = "TestCheep by author 1",
+            Author = _author1
+        };
+        
+        _cheep2 = new Cheep
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = _author2.Id,
+            Text = "TestCheep by author 2",
+            Author = _author2
+        };
+        
+        _cheep3 = new Cheep
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = _author3.Id,
+            Text = "TestCheep by author 3",
+            Author = _author3
+        };
+
+        context.Add(_author2);
+        context.Add(_author3);
+
+        context.Add(_cheep1);
+        context.Add(_cheep2);
+        context.Add(_cheep3);
+
+        context.SaveChanges();
     }
 
     [Fact]
     public void GetAuthorByName_ShouldReturnCorrectAuthorDTO()
     {
-        // Arrange
-        var authorRepository = new AuthorRepository(context);
+        //Arange
+        Author expectedAuthor = _author2;
         
-        // Created to test for the correct author
-        Author theAuthor = null;
-        
-        // Create 3 authors
-        for (int i = 0; i < 3; i++)
-        {
-            Author authorDto = new Author
-            {
-                Id = Guid.NewGuid(),
-                UserName = "TestAuthor" + i,
-                Email = "mock" + i + "@email.com"
-            };
-            
-            // Set theAuthor to the middle author
-            if (i == 1)
-            {
-                theAuthor = authorDto;
-            }
-      
-            context.Users.Add(authorDto);
-        }
-
-        context.SaveChanges();
-
         //Act
-        string theAuthorName = theAuthor.UserName;
-        Author expectedAuthor = theAuthor;
-        Author returnedAuthor = authorRepository.GetAuthorByName(theAuthorName);
+        Author returnedAuthor = _authorRepository.GetAuthorByName(_author2.UserName);
 
         //Assert
         Assert.Equal(expectedAuthor, returnedAuthor);
@@ -63,35 +97,11 @@ public class AuthorRepositoryTest
     [Fact]
     public void GetCheepsByAuthor_ShouldReturnCorrectCheeps()
     {
-
-        //Arrange
-        var authorRepository = new AuthorRepository(context);
-
-        Author author1 = new Author
-        {
-            Id = Guid.NewGuid(),
-            UserName = "TestAuthor",
-            Email = "mock@email.com",
-            Cheeps = new List<Cheep>()
-        };
-        Cheep cheep1 = new Cheep
-        {
-            CheepId = Guid.NewGuid(),
-            AuthorId = author1.Id,
-            Text = "TestCheep",
-            Author = author1
-        };
-
-        context.Users.Add(author1);
-        context.Cheeps.Add(cheep1);
-
-        context.SaveChanges();
-
         //Act
         ICollection<Cheep> expectedCheep = new List<Cheep>();
-        expectedCheep.Add(cheep1);
+        expectedCheep.Add(_cheep1);
 
-        ICollection<Cheep> returnedCheep = authorRepository.GetCheepsByAuthor(author1.Id, 0);
+        ICollection<Cheep> returnedCheep = _authorRepository.GetCheepsByAuthor(_author1.Id, 0);
 
         //Assert
         Assert.Equal(expectedCheep, returnedCheep);
@@ -100,33 +110,16 @@ public class AuthorRepositoryTest
     [Fact]
     public void addAuthor_ShouldAddAuthorToDatabase()
     {
-        //Arrange
-        var authorRepository = new AuthorRepository(context);
-        
-        Author authorDto1 = new Author
-        {
-            Id = Guid.NewGuid(),
-            UserName = "TestAuthor",
-            Email = "mock@email.com"
-        };
-        
-        context.Users.Add(authorDto1);
-        context.SaveChanges();
-        
-        // Note: authorDto2 is not yet added to context
-        Author authorDto2 = new Author
-        {
-            Id = Guid.NewGuid(),
-            UserName = "TestAuthor2",
-            Email = "TestEmail2@test.com"
-        };
-
         // Act
         int initialAuthorCount = context.Users.Count();
         
-        authorRepository.AddAuthor(authorDto2);
-
-        context.SaveChanges();
+        Author author4 = new Author {
+            Id = Guid.NewGuid(),
+            UserName = "TestAuthor4",
+            Email = "mock4@email.com"
+        };
+        
+        _authorRepository.AddAuthor(author4);
 
         int updatedAuthorCount = context.Users.Count();
 
@@ -137,36 +130,9 @@ public class AuthorRepositoryTest
     [Fact]
     public void GetAuthorById_ShouldReturnCorrectAuthor()
     {
-        // Arrange
-        var authorRepository = new AuthorRepository(context);
-        
-        // Created to test for the correct author
-        Author theAuthor = null;
-        
-        // Create 3 authors
-        for (int i = 0; i < 3; i++)
-        {
-            Author authorDto = new Author
-            {
-                Id = Guid.NewGuid(),
-                UserName = "TestAuthor" + i,
-                Email = "mock" + i + "@email.com"
-            };
-            
-            // Set theAuthor to the middle author
-            if (i == 1)
-            {
-                theAuthor = authorDto;
-            }
-
-            context.Users.Add(authorDto);
-        }
-
-        context.SaveChanges();
-
         //Act
-        Author expectedAuthor = theAuthor;
-        Author returnedAuthor = authorRepository.GetAuthorById(theAuthor.Id);
+        Author expectedAuthor = _author2;
+        Author returnedAuthor = _authorRepository.GetAuthorById(_author2.Id);
 
         //Assert
         Assert.Equal(expectedAuthor, returnedAuthor);
@@ -175,36 +141,9 @@ public class AuthorRepositoryTest
     [Fact]
     public void GetAuthorByEmail_ShouldReturnCorrectAuthor()
     {
-        // Arrange
-        var authorRepository = new AuthorRepository(context);
-        
-        // Created to test for the correct author
-        Author theAuthor = null;
-        
-        // Create 3 authors
-        for (int i = 0; i < 3; i++)
-        {
-            Author authorDto = new Author
-            {
-                Id = Guid.NewGuid(),
-                UserName = "TestAuthor" + i,
-                Email = "mock" + i + "@email.com"
-            };
-            
-            // Set theAuthor to the middle author
-            if (i == 1)
-            {
-                theAuthor = authorDto;
-            }
-
-            context.Users.Add(authorDto);
-        }
-
-        context.SaveChanges();
-
         //Act
-        Author expectedAuthor = theAuthor;
-        Author returnedAuthor = authorRepository.GetAuthorByEmail(theAuthor.Email);
+        Author expectedAuthor = _author2;
+        Author returnedAuthor = _authorRepository.GetAuthorByEmail(_author2.Email);
 
         //Assert
         Assert.Equal(expectedAuthor, returnedAuthor);
@@ -213,36 +152,9 @@ public class AuthorRepositoryTest
     [Fact]
     public void GetAuthorByIdAsync_ShouldReturnCorrectAuthor()
     {
-        // Arrange
-        var authorRepository = new AuthorRepository(context);
-
-        // Created to test for the correct author
-        Author theAuthor = null;
-
-        // Create 3 authors
-        for (int i = 0; i < 3; i++)
-        {
-            Author authorDto = new Author
-            {
-                Id = Guid.NewGuid(),
-                UserName = "TestAuthor" + i,
-                Email = "mock" + i + "@test.com"
-            };
-
-            // Set theAuthor to the middle author
-            if (i == 1)
-            {
-                theAuthor = authorDto;
-            }
-
-            context.Users.Add(authorDto);
-        }
-
-        context.SaveChanges();
-
         //Act
-        Author expectedAuthor = theAuthor;
-        Author? returnedAuthor = authorRepository.GetAuthorByIdAsync(theAuthor.Id).Result;
+        Author expectedAuthor = _author2;
+        Author? returnedAuthor = _authorRepository.GetAuthorByIdAsync(_author2.Id).Result;
 
         //Assert
         Assert.Equal(expectedAuthor, returnedAuthor);
