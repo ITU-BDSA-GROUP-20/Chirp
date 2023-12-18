@@ -29,12 +29,13 @@ public class AboutMeModel : PageModel
     public required int currentPage { get; set; }
     public required int totalPages { get; set; }
 
-    public AboutMeModel(UserManager<Author> userManager, ICheepService service, IAuthorRepository authorRepository, ICheepRepository cheepRepository)
+    public AboutMeModel(UserManager<Author> userManager, SignInManager<Author> signInManager, ICheepService service, IAuthorRepository authorRepository, ICheepRepository cheepRepository)
     {
         _userManager = userManager;
         _service = service;
         _authorRepository = authorRepository;
         _cheepRepository = cheepRepository;
+        _signInManager = signInManager;
     }
 
     public async Task<IActionResult> OnGetAsync()
