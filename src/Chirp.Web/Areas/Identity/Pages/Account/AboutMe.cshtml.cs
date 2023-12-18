@@ -53,22 +53,23 @@ public class AboutMeModel : PageModel
         Following = _authorRepository.GetFollowingById(user.Id);
         
         
-        int page;
         if(Request.Query.ContainsKey("page")){
-            page = int.Parse(Request.Query["page"]);
+            currentPage = int.Parse(Request.Query["page"]);
         } else{
-            page = 1;
+            currentPage = 1;
         }
         
         try
         {
-            Cheeps = _service.GetCheepsFromAuthor(UserModel.Id, page);
+            Cheeps = _service.GetCheepsFromAuthor(UserModel.Id, currentPage);
         }
         catch (Exception e)
         {
             Cheeps = new List<CheepViewModel>();
         }
         
+        totalPages = _authorRepository.GetPageCountByAuthor(UserModel.Id);
+
         return Page();
     }
     
