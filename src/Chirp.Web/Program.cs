@@ -67,10 +67,17 @@ builder.Services.AddAuthentication()
 
 var app = builder.Build();
 
+// Get a scope to manage the liftime of the context
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+
+    // Get an instance of the DbContext
     var context = services.GetRequiredService<ChirpDbContext>();
+
+    // Call the method to remove duplicate user Logins
+    await context.RemoveDuplicateUserLogins();
+
     try {
         DbInitializer.SeedDatabase(context);
     } catch (Exception ex) {

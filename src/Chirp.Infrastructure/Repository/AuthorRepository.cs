@@ -81,6 +81,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         Author? author = await db.Users
             .Include(e => e.Cheeps)
+            .ThenInclude(c => c.Reactions)
             .Include(e => e.Followers)
             .Include(e => e.Following)
             .Where(a => a.Id == authorId).FirstOrDefaultAsync();
@@ -168,9 +169,10 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     public async Task DeleteCheepsByAuthorId(Guid id)
     {
         Author? author = await GetAuthorByIdAsync(id);
+        
         foreach (var cheep in author.Cheeps.ToList())
         {
-            if (cheep.Reactions != null && cheep.Reactions.Any())    
+            if (cheep.Reactions.Any())    
             {
                 db.Reactions.RemoveRange(cheep.Reactions);
             }
@@ -256,14 +258,76 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         var followers = user.Followers.ToList();
         db.Follows.RemoveRange(followers);
         
-        var following = user.Followers.ToList();
+        var following = user.Following.ToList();
         db.Follows.RemoveRange(following);
 
         db.Users.Remove(user);
 
         await db.SaveChangesAsync();
     }
+
+    public async Task DeleteUserById1(Guid id)
+    {
+        Author? user = await GetAuthorByIdAsync(id);
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+
+        
+        var reactions = await db.Reactions.Where(r => r.AuthorId == id).ToListAsync();
+        db.Reactions.RemoveRange(reactions);
+        Console.WriteLine("Deleted Reactions");
+        
+        var cheeps = await db.Cheeps.Where(c => c.AuthorId == id).ToListAsync();
+        db.Cheeps.RemoveRange(cheeps);
+        Console.WriteLine("Deleted Cheeps");
+        
+        var follows = await db.Follows.Where(f => f.FollowedAuthorId == id || f.FollowingAuthorId == id).ToListAsync();
+        db.Follows.RemoveRange(follows);
+        Console.WriteLine("Deleted Follows");
+
+        
+        db.Users.Remove(user);
+        await db.SaveChangesAsync();
+        Console.WriteLine("Deleted User");
+    }
+
+    public async Task RemoveAllFollowersByAuthorId(Guid id)
+    {
+        Author? user = await GetAuthorByIdAsync(id);
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+        
+        var follows = await db.Follows.Where(f => f.FollowedAuthorId == id || f.FollowingAuthorId == id).ToListAsync();
+        db.Follows.RemoveRange(follows);
+    }
     
+    public async Task RemoveUserById(Guid id)
+    {
+        Author? user = await GetAuthorByIdAsync(id);
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+        
+        db.Users.Remove(user);
+        await db.SaveChangesAsync();
+    }
+
+    public async Task RemoveReactionsByAuthorId(Guid id)
+    {
+        Author? user = await GetAuthorByIdAsync(id);
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+        
+        var reactions = await db.Reactions.Where(r => r.AuthorId == id).ToListAsync();
+        db.Reactions.RemoveRange(reactions);
+    }
     public async Task SaveContextAsync()
     {
         await db.SaveChangesAsync();

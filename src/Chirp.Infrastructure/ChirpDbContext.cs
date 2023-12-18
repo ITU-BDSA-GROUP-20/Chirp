@@ -32,6 +32,7 @@ public sealed class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid
         modelBuilder.Entity<Author>(entity =>
         {
             modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(p => new { p.LoginProvider, p.ProviderKey });
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().HasIndex(p => new { p.LoginProvider, p.ProviderKey }).IsUnique();
             modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(p => new { p.UserId, p.RoleId });
             modelBuilder.Entity<IdentityUserToken<Guid>>().HasKey(p => new { p.UserId, p.LoginProvider, p.Name });
             
@@ -39,19 +40,16 @@ public sealed class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid
 
              entity.HasMany(a => a.Following)
             .WithOne(f => f.FollowingAuthor)
-            .HasForeignKey(f => f.FollowingAuthorId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey(f => f.FollowingAuthorId);
 
             entity.HasMany(a => a.Followers)
             .WithOne(f => f.FollowedAuthor)
-            .HasForeignKey(f => f.FollowedAuthorId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey(f => f.FollowedAuthorId);
 
             entity.HasMany(a => a.Cheeps)
                 .WithOne(c => c.Author)
                 .HasForeignKey(c => c.AuthorId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade); // Cascade delete for Cheeps
+                .IsRequired(); // Cascade delete for Cheeps
 
             entity.HasMany(a => a.Reactions)
                 .WithOne(r => r.Author)
@@ -65,13 +63,11 @@ public sealed class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid
 
             entity.HasOne(f => f.FollowingAuthor)
             .WithMany(a => a.Following)
-            .HasForeignKey(f => f.FollowingAuthorId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(f => f.FollowingAuthorId);
 
             entity.HasOne(f => f.FollowedAuthor)
             .WithMany(a => a.Followers)
-            .HasForeignKey(f => f.FollowedAuthorId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(f => f.FollowedAuthorId);
         });
         
         // Cheep entity
@@ -83,14 +79,12 @@ public sealed class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid
 
             entity.HasOne(c => c.Author)
                 .WithMany(a => a.Cheeps)
-                .HasForeignKey(c => c.AuthorId)
-                .OnDelete(DeleteBehavior.Cascade); // Cascade delete for Cheeps
+                .HasForeignKey(c => c.AuthorId); // Cascade delete for Cheeps
 
             entity.HasMany(c => c.Reactions)
                 .WithOne(r => r.Cheep)
                 .HasForeignKey(r => r.CheepId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade); // Cascade delete for Reactions
+                .IsRequired(); // Cascade delete for Reactions
         });
 
         modelBuilder.Entity<Reaction>().Property(m => m.ReactionType)
@@ -103,12 +97,30 @@ public sealed class ChirpDbContext : IdentityDbContext<Author, IdentityRole<Guid
             entity.HasOne(r => r.Author)
                 .WithMany(a => a.Reactions)
                 .HasForeignKey(r => r.AuthorId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict); // Restrict delete for Reactions
+                .IsRequired(); // Restrict delete for Reactions
         });
 
         modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(e => e.UserId);
         modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(e => e.RoleId);
         modelBuilder.Entity<IdentityUserToken<Guid>>().HasKey(e => e.UserId);
+    }
+
+    public async Task RemoveDuplicateUserLogins()
+    {
+        // Fetch all user logins
+        var userLogins = await Set<IdentityUserLogin<Guid>>().ToListAsync();
+
+        // Group by LoginProvider and ProviderKey
+        var groupedUserLogins = userLogins.GroupBy(l => new { l.LoginProvider, l.ProviderKey });
+
+        // For each group, keep only one record and mark the others for deletion
+        foreach (var group in groupedUserLogins)
+        {
+            var userLoginsToDelete = group.Skip(1).ToList();
+            Set<IdentityUserLogin<Guid>>().RemoveRange(userLoginsToDelete);
+        }
+
+        // Save changes to the database
+        await SaveChangesAsync();
     }
 }

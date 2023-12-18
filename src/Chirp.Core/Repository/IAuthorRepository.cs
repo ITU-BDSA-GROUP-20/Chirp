@@ -20,5 +20,9 @@ public interface IAuthorRepository
     public int GetPageCountByAuthor(Guid authorId);
     public Task DeleteCheepsByAuthorId(Guid authorId);
     public Task SaveContextAsync();
+    public Task RemoveAllFollowersByAuthorId(Guid id);
+    public Task RemoveReactionsByAuthorId(Guid id);
+    public Task RemoveUserById(Guid id);
     public Task DeleteUserById(Guid authorId);
+    public Task DeleteUserById1(Guid id);
 }

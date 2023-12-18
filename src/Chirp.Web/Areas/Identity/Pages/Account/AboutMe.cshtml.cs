@@ -29,12 +29,13 @@ public class AboutMeModel : PageModel
     public required int currentPage { get; set; }
     public required int totalPages { get; set; }
 
-    public AboutMeModel(UserManager<Author> userManager, ICheepService service, IAuthorRepository authorRepository, ICheepRepository cheepRepository)
+    public AboutMeModel(UserManager<Author> userManager, SignInManager<Author> signInManager, ICheepService service, IAuthorRepository authorRepository, ICheepRepository cheepRepository)
     {
         _userManager = userManager;
         _service = service;
         _authorRepository = authorRepository;
         _cheepRepository = cheepRepository;
+        _signInManager = signInManager;
     }
 
     public async Task<IActionResult> OnGetAsync()
@@ -72,26 +73,59 @@ public class AboutMeModel : PageModel
     }
     
     // Forget me method
-    public async Task<IActionResult> OnPost(string returnUrl = null)
+    public async Task<IActionResult> OnPostDeleteMe()
     {
-        Guid userId = _userManager.GetUserAsync(User).Result!.Id;
-        
-        await _signInManager.SignOutAsync();
-        
-        await _authorRepository.DeleteUserById(userId);
 
-        await _authorRepository.SaveContextAsync();
-        
-        _logger.LogInformation("User logged out.");
-        if (returnUrl != null)
+         // Check if the user is authenticated
+        if (!User.Identity.IsAuthenticated)
         {
-            return LocalRedirect(returnUrl);
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
+        }
+        
+        // Fetch user information from the database
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return RedirectToPage();
+        }
+
+        // Get the logins for the user
+        var logins = await _userManager.GetLoginsAsync(user);
+
+         // Remove each login
+        foreach (var login in logins)
+        {
+            var result = await _userManager.RemoveLoginAsync(user, login.LoginProvider, login.ProviderKey);
+            if (!result.Succeeded)
+            {
+                // Handle error
+                throw new InvalidOperationException($"Unexpected error occurred removing external login for user with ID '{user.Id}'.");
+            }
+        }
+        
+        if (_authorRepository != null)
+        {
+            await _authorRepository.DeleteCheepsByAuthorId(user.Id);
+            await _authorRepository.RemoveAllFollowersByAuthorId(user.Id);
+            await _authorRepository.RemoveUserById(user.Id);
+            await _authorRepository.SaveContextAsync();
         }
         else
         {
-            // This needs to be a redirect so that the browser performs a new
-            // request and the identity for the user gets updated.
-            return RedirectToPage();
+            return BadRequest("_authorRepository is null.");
         }
+        
+        // log out the user
+        if (_signInManager != null)
+        {
+            await _signInManager.SignOutAsync();
+        }
+        else
+        {
+            return BadRequest("_signInManager is null.");
+        }
+        
+        // Redirect to the start page
+        return RedirectToPage("/Public");
     }
 }
