@@ -34,7 +34,6 @@ public interface IAuthorRepository
     public Task RemoveFollow(Author? followingAuthor, Author? followedAuthor);
     
     
-    public Task DeleteUserById(Guid authorId);
     
     public Task DeleteCheepsByAuthorId(Guid authorId);
     

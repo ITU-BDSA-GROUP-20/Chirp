@@ -107,6 +107,7 @@ public class AboutMeModel : PageModel
         {
             await _authorRepository.DeleteCheepsByAuthorId(user.Id);
             await _authorRepository.RemoveAllFollowersByAuthorId(user.Id);
+            await _authorRepository.RemoveReactionsByAuthorId(user.Id);
             await _authorRepository.RemoveUserById(user.Id);
             await _authorRepository.SaveContextAsync();
         }
