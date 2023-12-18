@@ -56,6 +56,11 @@ public class UserTimelineModel : PageModel
             page = 1;
         }
 
+        if (page < 1)
+        {
+            page = 1;
+        }
+
         Author timelineAuthor = _authorRepository.GetAuthorByName(author);
 
         LoadCheeps(user, timelineAuthor, page);
@@ -65,17 +70,16 @@ public class UserTimelineModel : PageModel
     {
         try
         {
-            if (user == null || _signInManager.IsSignedIn(User) && signedInAuthor.UserName != timelineAuthor.UserName)
+            if (_signInManager.IsSignedIn(User) && signedInAuthor.UserName == timelineAuthor.UserName)
             {
-
-                Cheeps = _service.GetCheepsFromAuthor(timelineAuthor.Id, page);
-                totalPages = _authorRepository.GetPageCountByAuthor(timelineAuthor.Id);
+                Cheeps = _service.GetCheepsFromAuthorAndFollowing(signedInAuthor.Id, page);
+                totalPages = _authorRepository.GetPageCountByAuthorAndFollowing(signedInAuthor.Id);
 
             }
             else
             {
-                Cheeps = _service.GetCheepsFromAuthorAndFollowing(signedInAuthor.Id, page);
-                totalPages = _authorRepository.GetPageCountByAuthorAndFollowing(signedInAuthor.Id);
+                Cheeps = _service.GetCheepsFromAuthor(timelineAuthor.Id, page);
+                totalPages = _authorRepository.GetPageCountByAuthor(timelineAuthor.Id);
             }
         }
         catch (Exception e)
