@@ -2,6 +2,7 @@
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Chirp.Infrastructure.Repository;
 
@@ -328,7 +329,10 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         }
         
         var reactions = await db.Reactions.Where(r => r.AuthorId == id).ToListAsync();
-        db.Reactions.RemoveRange(reactions);
+        if (!reactions.IsNullOrEmpty())
+        {
+            db.Reactions.RemoveRange(reactions);
+        }
     }
     public async Task SaveContextAsync()
     {
