@@ -115,10 +115,12 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         }
 
         int pageSizeIndex = (page - 1) * PageSize;
-        
-        if(author.Cheeps.Count < pageSizeIndex + PageSize) return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex,author.Cheeps.Count - pageSizeIndex);
-        if(author.Cheeps.Count > 32) return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize);
-        return author.Cheeps;
+
+        if (author.Cheeps.Count < pageSizeIndex + PageSize)
+            return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex, author.Cheeps.Count - pageSizeIndex)
+                .OrderByDescending(c => c.TimeStamp).ToList();
+        if(author.Cheeps.Count > 32) return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize).OrderByDescending(c => c.TimeStamp).ToList();
+        return author.Cheeps.OrderByDescending(c => c.TimeStamp).ToList();
     }
 
     public async Task DeleteCheepsByAuthorId(Guid id)
