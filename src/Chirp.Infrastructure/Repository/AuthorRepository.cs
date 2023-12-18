@@ -299,6 +299,18 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         db.Users.Remove(user);
         await db.SaveChangesAsync();
     }
+
+    public async Task RemoveReactionsByAuthorId(Guid id)
+    {
+        Author? user = await GetAuthorByIdAsync(id);
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+        
+        var reactions = await db.Reactions.Where(r => r.AuthorId == id).ToListAsync();
+        db.Reactions.RemoveRange(reactions);
+    }
     public async Task SaveContextAsync()
     {
         await db.SaveChangesAsync();
