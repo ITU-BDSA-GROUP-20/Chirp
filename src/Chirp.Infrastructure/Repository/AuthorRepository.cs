@@ -21,6 +21,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         db.SaveChanges();
     }
 
+
+
     public int GetCheepCountByAuthor(Guid authorId)
     {
         Author author = GetAuthorById(authorId);
@@ -51,6 +53,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return amountOfCheeps;
     }
 
+
+
     public int GetPageCountByAuthor(Guid authorId)
     {
         return GetCheepCountByAuthor(authorId) / PageSize + 1;
@@ -60,6 +64,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
     {
         return GetCheepCountByAuthorAndFollowed(authorId) / PageSize + 1;
     }
+
+
 
     public Author GetAuthorById(Guid authorId)
     {
@@ -100,6 +106,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return author;
     }
 
+
+
     public ICollection<Cheep> GetCheepsByAuthor(Guid id, int page)
     {
         Author author = GetAuthorById(id);
@@ -122,6 +130,40 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         if(author.Cheeps.Count > 32) return author.Cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize).OrderByDescending(c => c.TimeStamp).ToList();
         return author.Cheeps.OrderByDescending(c => c.TimeStamp).ToList();
     }
+    
+    public ICollection<Cheep> GetCheepsByAuthorAndFollowed(Guid id, int page)
+    {
+        Author author = GetAuthorById(id);
+        //Get cheeps from the author, and append cheeps from followers to that list
+        ICollection<Author?> following = GetFollowingById(id);
+        ICollection<Cheep> cheeps = GetCheepsByAuthor(id, page);
+
+        foreach (Author? follower in following)
+        {
+            //If follower has no cheeps, skip them
+            if (follower.Cheeps == null || !(follower.Cheeps.Any()))
+            {
+                continue;
+            }
+
+            //Add each cheep from the follower to the list
+            //TODO Try to find alternative to foreach
+            foreach (var cheepDto in follower.Cheeps)
+            {
+                cheeps.Add(cheepDto);
+            }
+
+        }
+        //Sort the cheeps according to timestamp, latest first
+        cheeps = cheeps.OrderByDescending(c => c.TimeStamp).ToList();
+
+        int pageSizeIndex = (page - 1) * PageSize;
+
+        if (cheeps.Count < pageSizeIndex + PageSize) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex, cheeps.Count - pageSizeIndex);
+        if (cheeps.Count > 32) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex, PageSize);
+        return cheeps;
+    }
+
 
     public async Task DeleteCheepsByAuthorId(Guid id)
     {
@@ -137,38 +179,7 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         }
     }
     
-    public ICollection<Cheep> GetCheepsByAuthorAndFollowing(Guid id, int page)
-    {
-        Author author = GetAuthorById(id);
-        //Get cheeps from the author, and append cheeps from followers to that list
-        ICollection<Author?> following = GetFollowingById(id);
-        ICollection<Cheep> cheeps = GetCheepsByAuthor(id, page);
 
-        foreach (Author? follower in following)
-        {   
-            //If follower has no cheeps, skip them
-            if (follower.Cheeps == null || !(follower.Cheeps.Any()))
-            {
-               continue;
-            }
-     
-            //Add each cheep from the follower to the list
-            //TODO Try to find alternative to foreach
-            foreach (var cheepDto in follower.Cheeps)
-            {
-                cheeps.Add(cheepDto);
-            }
-            
-        }
-        //Sort the cheeps according to timestamp, latest first
-        cheeps = cheeps.OrderByDescending(c => c.TimeStamp).ToList();
-        
-        int pageSizeIndex = (page - 1) * PageSize;
-        
-        if(cheeps.Count < pageSizeIndex + PageSize) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,cheeps.Count - pageSizeIndex);
-        if(cheeps.Count > 32) return cheeps.ToList<Cheep>().GetRange(pageSizeIndex,PageSize);
-        return cheeps;
-    }
 
     public ICollection<Author?> GetFollowersById(Guid id)
     {
@@ -198,6 +209,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         return following;
     }
 
+
+
     public async Task AddFollow(Author? followingAuthor, Author? followedAuthor)
     {
         Follow follow = _followRepository.CreateFollow(followingAuthor, followedAuthor);
@@ -225,6 +238,8 @@ public class AuthorRepository : BaseRepository, IAuthorRepository
         await SaveContextAsync();
     }
     
+
+
     public async Task DeleteUserById(Guid id)
     {
         Author? user = await GetAuthorByIdAsync(id);
