@@ -1,6 +1,7 @@
 using Chirp.Core.Entities;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Test_Utilities;
 using Xunit.Abstractions;
@@ -302,11 +303,11 @@ public class AuthorRepositoryTest
         await context.SaveChangesAsync();
 
         //Act
-        Author? author1 = context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault();
-        Author? author2 = context.Users.Where(a => a.UserName == "TestAuthor1").FirstOrDefault();
+        Author? author1 = context.Users.Include(author => author.Following).Include(author => author.Followers).FirstOrDefault(a => a.UserName == "TestAuthor0");
+        Author? author2 = context.Users.Include(author => author.Followers).FirstOrDefault(a => a.UserName == "TestAuthor1");
 
-        authorRepository.AddFollow(author1, author2);
-
+        await authorRepository.AddFollow(author1, author2);
+        
         Assert.Equal(author2.Id, author1.Following.FirstOrDefault().FollowedAuthor.Id);
         Assert.Equal(author1.Id, author2.Followers.FirstOrDefault().FollowingAuthor.Id);
 
@@ -320,7 +321,7 @@ public class AuthorRepositoryTest
     }
 
     [Fact]
-    public void GetFollowersByAuthor_ShouldReturnCorrectFollowers()
+    public async void GetFollowersByAuthor_ShouldReturnCorrectFollowers()
     {
         // Arrange
         var authorRepository = new AuthorRepository(context);
@@ -338,15 +339,15 @@ public class AuthorRepositoryTest
             context.Users.Add(authorDto);
         }
 
-        context.SaveChanges();
+        await context.SaveChangesAsync();
 
         //Act
-        Author? author1 = context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault();
-        Author? author2 = context.Users.Where(a => a.UserName == "TestAuthor1").FirstOrDefault();
-        Author? author3 = context.Users.Where(a => a.UserName == "TestAuthor2").FirstOrDefault();
+        Author? author1 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor0");
+        Author? author2 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor1");
+        Author? author3 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor2");
 
-        authorRepository.AddFollow(author2, author1);
-        authorRepository.AddFollow(author3, author1);
+        await authorRepository.AddFollow(author2, author1);
+        await authorRepository.AddFollow(author3, author1);
 
         ICollection<Author?> expectedFollowers = new List<Author?>();
         expectedFollowers.Add(author2);
@@ -380,9 +381,9 @@ public class AuthorRepositoryTest
         await context.SaveChangesAsync();
 
         //Act
-        Author? author1 = context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault();
-        Author? author2 = context.Users.Where(a => a.UserName == "TestAuthor1").FirstOrDefault();
-        Author? author3 = context.Users.Where(a => a.UserName == "TestAuthor2").FirstOrDefault();
+        Author? author1 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor0");
+        Author? author2 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor1");
+        Author? author3 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor2");
 
         await authorRepository.AddFollow(author1, author2);
         await authorRepository.AddFollow(author1, author3);
@@ -419,9 +420,9 @@ public class AuthorRepositoryTest
         await context.SaveChangesAsync();
 
         //Act
-        Author author1 = context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault();
-        Author author2 = context.Users.Where(a => a.UserName == "TestAuthor1").FirstOrDefault();
-        Author author3 = context.Users.Where(a => a.UserName == "TestAuthor2").FirstOrDefault();
+        Author? author1 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor0");
+        Author? author2 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor1");
+        Author? author3 = context.Users.FirstOrDefault(a => a.UserName == "TestAuthor2");
 
         // await authorRepository.DeleteUserById(author1.Id);
         context.Remove(author1);
@@ -430,7 +431,7 @@ public class AuthorRepositoryTest
 
         //Assert
         Assert.True(context.Users.Count() == 2);
-        Assert.True(context.Users.Where(a => a.UserName == "TestAuthor0").FirstOrDefault() == null);
+        Assert.True(context.Users.FirstOrDefault(a => a.UserName == "TestAuthor0") == null);
     }
 
    [Fact]
