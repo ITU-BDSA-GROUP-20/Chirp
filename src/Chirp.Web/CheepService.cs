@@ -5,13 +5,6 @@ using Chirp.Web.Models;
 
 namespace Chirp.Web;
 
-/// <summary>
-/// This class is responsible for handling the business logic for cheeps.
-/// It is used by the CheepController to get cheeps from the database.
-/// It is also used by the CheepController to get followers and following from the database.
-/// </summary>
-
-
 public interface ICheepService
 {
     public ICollection<CheepViewModel> GetCheeps(int page);

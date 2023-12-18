@@ -1,10 +1,14 @@
 ﻿using Chirp.Infrastructure;
 using Chirp.Infrastructure.Repository;
+using Chirp.Core.Entities;
+using Chirp.Core.Repository;
 
 namespace Chirp.Web.Models;
 
-using Chirp.Core.Entities;
-using Chirp.Core.Repository;
+/// <summary>
+/// This class represents a model of a user,
+/// and is used in the frontend.
+/// </summary>
 
 public class UserModel
 {
