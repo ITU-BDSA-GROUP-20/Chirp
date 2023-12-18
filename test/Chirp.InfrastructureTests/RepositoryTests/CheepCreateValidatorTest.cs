@@ -15,7 +15,7 @@ public class CheepCreateValidatorTest
         TestAuthor = new Author
         {
             UserName = "TestUserName",
-            Email = "TestEmail"
+            Email = "TestEmail",
         };
     }
 
