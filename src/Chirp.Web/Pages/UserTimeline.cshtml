@@ -24,7 +24,7 @@
                     @await Html.PartialAsync("Shared/_CheepBox", new NewCheep {Text = ""})
                 }
 
-                @if (!Model.Cheeps.Any() || Model.Cheeps == null)
+                @if (!Model.Cheeps!.Any() || Model.Cheeps == null)
     {
                 <div>
                     <p>This user has no cheeps so far.</p>

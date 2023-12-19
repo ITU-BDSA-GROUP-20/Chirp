@@ -43,7 +43,7 @@
             return Page();
         }
         
-        [BindProperty] public NewCheep NewCheep { get; set; }
+        [BindProperty] public NewCheep? NewCheep { get; set; }
 
         public async Task<IActionResult> OnPostCreateCheep()
         {   
@@ -54,7 +54,7 @@
             }
            
             var author = await _userManager.GetUserAsync(User);
-            var cheep = new CreateCheep(author!, NewCheep.Text!);
+            var cheep = new CreateCheep(author!, NewCheep!.Text!);
 
             await CreateCheep(cheep);
             
@@ -98,7 +98,7 @@
         public async Task<IActionResult> OnPostFollow(int currentPage, Guid Author2Follow)
         {
             
-            Author? author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
+            Author? author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result!.Id);
             Author? authorToFollow = await _authorRepository.GetAuthorByIdAsync(Author2Follow);
             InitializeVariables(currentPage);
 
@@ -113,7 +113,7 @@
         public async Task<IActionResult> OnPostUnfollow(int currentPage, Guid Author2Unfollow)
         {
 
-            Author? author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result.Id);
+            Author? author = await _authorRepository.GetAuthorByIdAsync(_userManager.GetUserAsync(User).Result!.Id);
             Author? authorToUnfollow = await _authorRepository.GetAuthorByIdAsync(Author2Unfollow);
             
             InitializeVariables(currentPage);
@@ -143,7 +143,7 @@
         {
             Cheeps = _service.GetCheeps(page);
 
-            user = _userManager.GetUserAsync(User).Result;
+            user = _userManager.GetUserAsync(User).Result!;
             totalPages = _cheepRepository.GetPageCount();
             currentPage = page;
         }

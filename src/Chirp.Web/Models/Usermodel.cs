@@ -31,7 +31,7 @@ public class UserModel
     public bool UserHasFollowers(Guid userId)
     {
         // check if id is in followers
-        return Following.Any(Follow => Follow.FollowingAuthor.Id == userId);
+        return Following.Any(Follow => Follow.FollowingAuthor!.Id == userId);
     }
     
     public bool UserIsFollowing(Guid followedUser)
@@ -46,6 +46,6 @@ public class UserModel
 
     public bool IsFollowing(Guid followedUserId)
     {
-        return Following.Any(f => f.FollowedAuthor.Id == followedUserId);
+        return Following.Any(f => f.FollowedAuthor!.Id == followedUserId);
     }   
 }
