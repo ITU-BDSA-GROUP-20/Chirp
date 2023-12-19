@@ -11,7 +11,7 @@
     <div class="cheepbox">
         <div>
             <span class="">Username:</span> 
-            <span class="">@Model.UserModel.Username</span>
+            <span class="">@Model.UserModel!.Username</span>
         </div>
     
         <div class="form-group">
@@ -35,7 +35,7 @@
                     <ul>
                         @foreach (Author? followingUser in Model.Following)
                         {
-                            <li>@followingUser.UserName</li>
+                            <li>@followingUser!.UserName</li>
                         }
                     </ul>
                 }
@@ -52,7 +52,7 @@
                     <ul>
                         @foreach (Author? follower in Model.Followers)
                         {
-                            <li>@follower.UserName</li>
+                            <li>@follower!.UserName</li>
                         }
                     </ul>
                 }
