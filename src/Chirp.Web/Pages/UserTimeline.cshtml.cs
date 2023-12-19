@@ -17,8 +17,7 @@ public class UserTimelineModel : PageModel
     private readonly SignInManager<Author> _signInManager;
 
 
-    public ICollection<CheepViewModel> Cheeps { get; set; }
-    public UserModel UserModel { get; set; }
+    public ICollection<CheepViewModel>? Cheeps { get; set; }
 
     public required Author? user { get; set; }
     public required int currentPage { get; set; }
@@ -38,7 +37,7 @@ public class UserTimelineModel : PageModel
     {
         user = _userManager.GetUserAsync(User).Result;
 
-        InitializeVariables(user, author);
+        InitializeVariables(user!, author);
 
         return Page();
     }
@@ -76,7 +75,7 @@ public class UserTimelineModel : PageModel
                 totalPages = _authorRepository.GetPageCountByAuthor(timelineAuthor.Id);
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
             Cheeps = new List<CheepViewModel>();
         }
