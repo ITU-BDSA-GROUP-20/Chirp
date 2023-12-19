@@ -14,18 +14,17 @@ public class AboutMeModel : PageModel
 {
     private readonly UserManager<Author> _userManager;
     private readonly SignInManager<Author> _signInManager;
-    private readonly ILogger<AboutMeModel> _logger;
     private readonly ICheepService _service;
     private IAuthorRepository _authorRepository;
     private ICheepRepository _cheepRepository;
     
     // 
-    public UserModel UserModel { get; set; }
-    public ICollection<CheepViewModel> Cheeps { get; set; }
-    public ICollection<Author?> Followers { get; set; }
-    public ICollection<Author?> Following { get; set; }
+    public UserModel? UserModel { get; set; }
+    public ICollection<CheepViewModel>? Cheeps { get; set; }
+    public ICollection<Author?>? Followers { get; set; }
+    public ICollection<Author?>? Following { get; set; }
     // This is the user that the _CheepList is expected to find to create the cheeps
-    public Author user { get; set; }
+    public Author? user { get; set; }
     public required int currentPage { get; set; }
     public required int totalPages { get; set; }
 
@@ -40,21 +39,20 @@ public class AboutMeModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        Console.WriteLine("It reached this point");
         // Fetch user information from the database
-        var user = await _userManager.GetUserAsync(User);
+        user = await _userManager.GetUserAsync(User);
 
         // Create a UserModel based on the Author entity
-        UserModel = new UserModel(user);
+        UserModel = new UserModel(user!);
         
         // Retrieve the followers and following of the user
 
-        Followers = _authorRepository.GetFollowersById(user.Id);
-        Following = _authorRepository.GetFollowingById(user.Id);
+        Followers = _authorRepository.GetFollowersById(user!.Id);
+        Following = _authorRepository.GetFollowingById(user!.Id);
         
         
         if(Request.Query.ContainsKey("page")){
-            currentPage = int.Parse(Request.Query["page"]);
+            currentPage = int.Parse(Request.Query["page"]!);
         } else{
             currentPage = 1;
         }
@@ -63,7 +61,7 @@ public class AboutMeModel : PageModel
         {
             Cheeps = _service.GetCheepsFromAuthor(UserModel.Id, currentPage);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             Cheeps = new List<CheepViewModel>();
         }
@@ -78,7 +76,7 @@ public class AboutMeModel : PageModel
     {
 
          // Check if the user is authenticated
-        if (!User.Identity.IsAuthenticated)
+        if (!User.Identity!.IsAuthenticated)
         {
             return RedirectToPage("/Account/Login", new { area = "Identity" });
         }
