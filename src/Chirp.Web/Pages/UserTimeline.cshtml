@@ -19,9 +19,10 @@
 
             <div>
                 <h2> @routeName's Timeline </h2>
-                <h3>Following:</h3>
 
-                @await Html.PartialAsync("Shared/_CheepBox", new NewCheep {Text = ""})
+                @if (SignInManager.IsSignedIn(User)) {
+                    @await Html.PartialAsync("Shared/_CheepBox", new NewCheep {Text = ""})
+                }
 
                 @if (!Model.Cheeps.Any() || Model.Cheeps == null)
     {
