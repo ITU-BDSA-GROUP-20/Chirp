@@ -9,23 +9,23 @@ author:
 - "Oliver Laursen <olau@itu.dk>"
 numbersections: true
 ---
-
 # Design and Architecture of _Chirp!_
 
 ## Domain model
 
 ![UMLDIAGRAM](diagrams/umlClassDiagram.svg)
->The above image is a UML class diagram depicting the domain model of ***Chirp!***.
+
+> The above image is a UML class diagram depicting the domain model of ***Chirp!***.
 
 ## Architecture — In the small
 
 ![OnionArchitecture](diagrams/OnionArchitecture.drawio.svg)
-> The above image illustrates the architecture of ***Chirp!***. It's onion based and each onion layer represents a package in the "src" folder of the application.  
+
+> The above image illustrates the architecture of ***Chirp!***. It's onion based and each onion layer represents a package in the "src" folder of the application.
 
 ## Architecture of deployed application
 
 > Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other.
->
 >
 > **OBS**: In case you ran out of credits for hosting an Azure SQL database and you switched back to deploying an application with in-process SQLite database, then do the following:
 >
@@ -33,29 +33,22 @@ numbersections: true
 > * Under this section, provide a brief description of the reason for switching again to SQLite as database.
 > * In that description, provide a link to the commit hash in your GitHub repository that points to the latest version of your *Chirp!* application with hosted database (we look at the entire history of your project, so we see that it was there at some point).
 
-
-
 ## User activities
 
 > Illustrate typical scenarios of a user journey through your *Chirp!* application. That is, start illustrating the first page that is presented to a non-authorized user, illustrate what a non-authorized user can do with your *Chirp!* application, and finally illustrate what a user can do after authentication.
 >
->
 > Make sure that the illustrations are in line with the actual behavior of your application.
-
-
 
 ## Sequence of functionality/calls trough _Chirp!_
 
 > With a UML sequence diagram, illustrate the flow of messages and data through your *Chirp!* application. Start with an HTTP request that is send by an unauthorized user to the root endpoint of your application and end with the completely rendered web-page that is returned to the user.
 >
->
 > Make sure that your illustration is complete. That is, likely for many of you there will be different kinds of "calls" and responses. Some HTTP calls and responses, some calls and responses in C# and likely some more. (Note the previous sentence is vague on purpose. I want that you create a complete illustration.)
-
-
 
 # Process
 
 ## Build, test, release, and deployment
+
 ![WorkflowDiagram](diagrams/WorkflowDiagram.drawio.svg)
 
 > Illustrate with a UML activity diagram how your *Chirp!* applications are build, tested, released, and deployed. That is, illustrate the flow of activities in your respective GitHub Actions workflows.
@@ -104,6 +97,6 @@ The test suite can be located in the `Chirp/Test` folder.
 
 > State which LLM(s) were used during development of your project. In case you were not using any, just state so. In case you were using an LLM to support your development, briefly describe when and how it was applied. Reflect in writing to which degree the responses of the LLM were helpful. Discuss briefly if application of LLMs sped up your development or if the contrary was the case.
 
-### LLM's as a debugging tool
+In our project, we have attempted to strategically leverage LLMs to enhance efficiency where reasonable. The LLMs used in the project are \*Chat-GPT\* and \*Github Co-Pilot\*. They served primarily as sparring partners during debugging processes, where they occasionally have proven helpful in interpretting cryptic error messages or identifying the cause of an unexpected result.
 
-### LLM's in our code
+In our experince, the replies recieved from the LLMs have often been inadequate or inaccurate, which is likely due to the LLMs incomplete scope of the project. Despite this, the LLMs have helped the development of the project although it has not been substantially.
