@@ -25,10 +25,18 @@ numbersections: true
 
 ## Architecture of deployed application
 
-> Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other.
->
-> **OBS**: In case you ran out of credits for hosting an Azure SQL database and you switched back to deploying an application with in-process SQLite database, then do the following:
->
+![DeploymentDiagramSqlite](diagrams/DeploymentSqlite.drawio.svg)
+>As we ran out of credits on Azure, we had to switch back to using an in-memory Sqlite database.
+> Which is the setup the deployment diagram above illustrates. The first commit hash after reverting back to in-memory Sqlite database is: eb9b72d3ee52408b700a1912c9be30edc007488e.
+
+![DeploymentDiagramAzure](diagrams/DeploymentSqlserver.drawio.svg)
+> This deployment diagram illustrates our former setup, where we used an Azure hosted SQL server.
+> The hash of the latest commit using Azure SQL server is: e79d7c8bece998633b05939e62f4fe29495a410a.
+> 
+
+
+
+Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other.
 > * Under this section, provide two diagrams, one that shows how *Chirp!* was deployed with hosted database and one that shows how it is now again with SQLite.
 > * Under this section, provide a brief description of the reason for switching again to SQLite as database.
 > * In that description, provide a link to the commit hash in your GitHub repository that points to the latest version of your *Chirp!* application with hosted database (we look at the entire history of your project, so we see that it was there at some point).
