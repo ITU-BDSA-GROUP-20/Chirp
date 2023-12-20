@@ -37,7 +37,7 @@ numbersections: true
 
 ## User activities
 
-![User Journey](diagrams/UserJourneyExport.svg)
+![User Journey](diagrams/UserJourneyExport.png)
 
 > The flowchart above illustrates the user journey through the Chirp! application
 
@@ -53,7 +53,7 @@ Please note, that unauthorized users can access the 'Public Timeline,' 'Register
 
 ## Build, test, release, and deployment
 
-![WorkflowDiagram](diagrams/WorkflowDiagram.svg)
+![WorkflowDiagram](diagrams/WorkflowDiagram.png)
 
 ### Build, and Test
 
