@@ -55,8 +55,6 @@ Please note, that unauthorized users can access the 'Public Timeline,' 'Register
 
 ![WorkflowDiagram](diagrams/WorkflowDiagram.svg)
 
-> Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed.
-
 ### Build, and Test
 
 On pull, and push-requests, the program is built, and tested using the provided test-suite.
