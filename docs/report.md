@@ -41,7 +41,7 @@ numbersections: true
 >
 > Make sure that the illustrations are in line with the actual behavior of your application.
 
-![User Journey](diagrams/UserJourney.svg)
+![User Journey](diagrams/UserJourneyExport.svg)
 
 ## Sequence of functionality/calls trough _Chirp!_
 
@@ -111,6 +111,7 @@ One way of cloning the project is through the Github Desktop application.
 Alternatively, the project can be cloned through the terminal with the following command:
 
 git clone https://github.com/ITU-BDSA23-GROUP20/Chirp.git
+
 ### 2. Setting up user secrets
 
 Once you have the project cloned, make sure that you have your GitHub OAuth secrets ready.
@@ -157,6 +158,7 @@ dotnet test test/Chirp.CoreTests;
 dotnet test test/Chirp.InfrastructureTests; 
 dotnet test test/Chirp.WebTests
 ```
+
 The test suite can be located in the `Chirp/Test` folder. Here you will find 4 folders, `Chirp.CoreTests`, `Chirp.InfrastructureTests`, `Chirp.WebTests` and `Test_Utilities`.
 The `Test_Utilities` folder contains helper classes and methods used in the test suites. The other folders contain the test suites for the respective packages.
 
