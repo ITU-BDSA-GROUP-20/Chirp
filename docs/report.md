@@ -80,7 +80,7 @@ The compressed folders are now released on GitHub.
   * Chirp #156 - Whenever the users follows another user, or likes a cheep the SendCheep validation is triggered.
   * Chirp #218 - When a user unfollows another user, the user(That unfollows) gets redirected to the public page. 
 * Features we would've liked to improve on:
-  * (No issue created) - Extend the functionality of Reactions, so that a user is represented with a selection of reactions. 
+  * (No issue created) - Extend the functionality of Reactions, so that a user is represented with a selection of reactions to use. 
   * Chirp #170 - Adjust the visibility of the cheepbox(Where the user writes a cheep).
 * Chirp #181 - A larger refactorization of the razor pages' models, based on introducing a base Page to hold shared functionality. 
 
