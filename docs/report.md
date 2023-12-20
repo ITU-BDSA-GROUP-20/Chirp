@@ -37,11 +37,9 @@ numbersections: true
 
 ## User activities
 
-> Illustrate typical scenarios of a user journey through your *Chirp!* application. That is, start illustrating the first page that is presented to a non-authorized user, illustrate what a non-authorized user can do with your *Chirp!* application, and finally illustrate what a user can do after authentication.
->
-> Make sure that the illustrations are in line with the actual behavior of your application.
-
 ![User Journey](diagrams/UserJourneyExport.svg)
+
+It is important to note that a non-authorized user can navigate directly to the 'Public Timeline' page, 'Register' page and 'Login' page from each of those pages from the applications navigation bar. Furthermore, an authorized user can directly navigate to the 'Public Timeline' page, 'User timeline' page, 'About Me' page and click the 'Logout' button from the applications navigation bar. Clicking the 'Logout' button will log the user out and end the flow. This is not included explicitly in the User Journey flowchart as this would cause clutter and decrease the readability of the flowchart.
 
 ## Sequence of functionality/calls trough _Chirp!_
 
