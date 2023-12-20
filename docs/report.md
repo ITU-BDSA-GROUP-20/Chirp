@@ -37,7 +37,7 @@ numbersections: true
 
 ## User activities
 
-![User Journey](diagrams/UserJourneyExport.png)
+![User Journey](diagrams/UserJourney.jpg)
 
 > The flowchart above illustrates the user journey through the Chirp! application
 
@@ -73,7 +73,7 @@ The compressed folders are now released on GitHub.
 
 ## Team work
 
-![Projectboard](Images/ProjectBoard20122023.png)
+![Projectboard](Images/ProjectBoard20122023.png){ width=120% }
 
 ### Unresolved tasks
 
@@ -87,7 +87,7 @@ The compressed folders are now released on GitHub.
 * Chirp #181 - A larger refactorization of the razor pages' models, based on introducing a base Page to hold shared functionality.
 
 
-![FromIssueToMergeDiagram](diagrams/FromIssueToMergeDiagram.png)
+![FromIssueToMergeDiagram](diagrams/FromIssueToMergeDiagram.png){ width=110% }
 
 The process of implementing changes to the system starts by defining the wanted changes or the problem at hand and writing an issue describing it. The required workload is assessed for the issue. The issue is then assigned to an appropriate amount of team members. The team member(s) then creates a new branch from main and starts working towards the issue acceptance criteria. The new changes are then tested to see if it works as expected. Once it works, run the system tests to ensure no other functionality has been broken in the process. If any test fails, debugging commences and the test phase repeats. If everything works, the changes are pushed to the branch and a pull request is made. Another team member reviews said pull request. If any changes are requested, those will be acted upon and the test phase repeats. When a pull request is approved, the branch will be merged into main and deleted.
 
@@ -105,7 +105,7 @@ One way of cloning the project is through the Github Desktop application.
 
 - In the Github Desktop application navigate to the '*file*' tab in the top left corner and press 'Clone repository'.
 
-<img src="Images/CloneRepositoryStep1.jpg" alt="CloneRepositoryStep1" style="height:100px;"/>
+![CloneRepositoryStep1](diagrams/CloneRepositoryStep1.jpg)
 
 - Navigate to the 'URL' tab.
 - Input the following URL in the 'URL' input field.
@@ -114,7 +114,7 @@ One way of cloning the project is through the Github Desktop application.
 
 - Input the appropriate filepath for where you want to store the files in 'Local path' input field.
 
-    <img src="Images/CloneRepositoryStep2.jpg" alt="CloneRepositoryStep1" style="height:250px;"/>
+![CloneRepositoryStep1](diagrams/CloneRepositoryStep2.jpg)
 
 - Press the clone button.
 Alternatively, the project can be cloned through the terminal with the following command:
@@ -149,7 +149,7 @@ Where `<YOUR_CLIENT_SECRET>` is your generated client secret.
 > The terminal should output the following lines:
 >
 
-<img src="Images/RunSystemTerminalOutput.jpg" alt="RunSystemTerminalOutput" style="height:300px;"/>
+![RunSystemTerminalOutput](diagrams/RunSystemTerminalOutput.jpg){ width=125% }
 
 - Open your browser of choice and open a page with the following URL.
 
@@ -158,7 +158,9 @@ Where `<YOUR_CLIENT_SECRET>` is your generated client secret.
 > You should be greeted by the following page.
 >
 
-<img src="Images/ChirpFrontPage.jpg" alt="ChirpFrontPage" style="height:500px;"/>
+
+![ChirpFrontPage](diagrams/ChirpFrontPage.jpg)
+
 
 > You are now running the system locally.
 >
