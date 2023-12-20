@@ -99,7 +99,7 @@ One way of cloning the project is through the Github Desktop application.
 
 - Press the clone button.  
 
-Alternatively clone the project through the commandline with the following command:
+Alternatively, the project can be cloned through the terminal with the following command:
 
         git clone https://github.com/ITU-BDSA23-GROUP20/Chirp.git
 
