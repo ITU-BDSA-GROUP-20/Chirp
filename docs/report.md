@@ -205,6 +205,6 @@ This application uses the GPL-2 software license.
 
 ## LLMs, ChatGPT, CoPilot, and others
 
-In our project, we have attempted to strategically leverage LLMs to enhance efficiency where reasonable. The LLMs used in the project are \*Chat-GPT\* and \*Github Co-Pilot\*. They served primarily as sparring partners during debugging processes, where they occasionally have proven helpful in interpreting cryptic error messages or identifying the cause of an unexpected result.
+In our project, we have attempted to strategically leverage LLMs to enhance efficiency where reasonable. The LLMs used in the project are Chat-GPT and Github Co-Pilot. They served primarily as sparring partners during debugging processes, where they occasionally have proven helpful in interpreting cryptic error messages or identifying the cause of an unexpected result.
 
 In our experience, the replies received from the LLMs have often been inadequate or inaccurate, which is likely due to the LLMs incomplete scope of the project. Despite this, the LLMs have helped the development of the project although it has not been substantially.
