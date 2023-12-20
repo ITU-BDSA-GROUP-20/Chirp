@@ -39,6 +39,8 @@ numbersections: true
 
 ![User Journey](diagrams/UserJourneyExport.svg)
 
+> The flowchart above illustrates the user journey through the Chirp! application
+
 It is important to note that a non-authorized user can navigate directly to the 'Public Timeline' page, 'Register' page and 'Login' page from each of those pages from the applications navigation bar. Furthermore, an authorized user can directly navigate to the 'Public Timeline' page, 'User timeline' page, 'About Me' page and click the 'Logout' button from the applications navigation bar. Clicking the 'Logout' button will log the user out and end the flow. This is not included explicitly in the User Journey flowchart as this would cause clutter, thereby decreasing the readability of the flowchart.
 
 ## Sequence of functionality/calls trough _Chirp!_
@@ -111,55 +113,52 @@ One way of cloning the project is through the Github Desktop application.
 - Navigate to the 'URL' tab.
 - Input the following URL in the 'URL' input field.
 
-      https://github.com/ITU-BDSA23-GROUP20/Chirp.git
+  https://github.com/ITU-BDSA23-GROUP20/Chirp.git
 
-
-- Input the appropriate filepath for where you want to store the files in 'Local path' input field.
+  - Input the appropriate filepath for where you want to store the files in 'Local path' input field.
     <img src="Images/CloneRepositoryStep2.jpg" alt="CloneRepositoryStep1" style="height:250px;"/>
-- Press the clone button.
-
+  - Press the clone button.
 Alternatively, the project can be cloned through the terminal with the following command:
 
-    git clone https://github.com/ITU-BDSA23-GROUP20/Chirp.git
-
+git clone https://github.com/ITU-BDSA23-GROUP20/Chirp.git
 ### 2. Setting up user secrets
 
 Once you have the project cloned, make sure that you have your GitHub OAuth secrets ready.
 Once that is done, open a new terminal and navigate to the path `Chirp/src/Chirp.Web`, then run these commands:
 
-    dotnet user-secrets init
+dotnet user-secrets init
 Then
 
-    dotnet user-secrets set "authenticationGithubClientId" "<YOUR_CLIENT_ID>"
+dotnet user-secrets set "authenticationGithubClientId" "<YOUR_CLIENT_ID>"
 Where `<YOUR_CLIENT_ID>` is your generated client ID.
 Then
 
-    dotnet user-secrets set "authenticationGithubClientSecret" "<YOUR_CLIENT_SECRET>"
+dotnet user-secrets set "authenticationGithubClientSecret" "<YOUR_CLIENT_SECRET>"
 Where `<YOUR_CLIENT_SECRET>` is your generated client secret.
 
 ### 3. Running the system
 
 - Open a new terminal and navigate to `Chirp/src/Chirp.Web` in said terminal.
 - Type the following command to run the system locally.
-  
 
-      dotnet run --launch-profile https
-
+  dotnet run --launch-profile https
 > Note: The launch profile argument is only necessary if you intend to use github authentication.
+>
 
->The terminal should output the following lines:
+> The terminal should output the following lines:
+>
 
 <img src="Images/RunSystemTerminalOutput.jpg" alt="RunSystemTerminalOutput" style="height:300px;"/>
-
 - Open your browser of choice and open a page with the following URL.
 
-      localhost:5001    
-
+  localhost:5001
 > You should be greeted by the following page.
+>
 
 <img src="Images/ChirpFrontPage.jpg" alt="ChirpFrontPage" style="height:500px;"/>
 
 > You are now running the system locally.
+>
 
 ## How to run test suite locally
 
@@ -170,17 +169,15 @@ dotnet test test/Chirp.CoreTests;
 dotnet test test/Chirp.InfrastructureTests; 
 dotnet test test/Chirp.WebTests
 ```
-
 The test suite can be located in the `Chirp/Test` folder. Here you will find 4 folders, `Chirp.CoreTests`, `Chirp.InfrastructureTests`, `Chirp.WebTests` and `Test_Utilities`.
 The `Test_Utilities` folder contains helper classes and methods used in the test suites. The other folders contain the test suites for the respective packages.
 
 ### Contents of test suites
 
-#### Chirp.CoreTests
-
-* Testing that records and classes in fact contain the types and attributes defined in the class and record definitions.
+#### Chirp.CoreTests* Testing that records and classes in fact contain the types and attributes defined in the class and record definitions.
 * Testing of constraints on class and record members.
 * Testing of correct instantiation of objects as defined in the `Chirp.Core` package.
+
 
 #### Chirp.InfrastructureTests
 
@@ -201,6 +198,7 @@ This application uses the GPL-2 software license.
 ## LLMs, ChatGPT, CoPilot, and others
 
 > State which LLM(s) were used during development of your project. In case you were not using any, just state so. In case you were using an LLM to support your development, briefly describe when and how it was applied. Reflect in writing to which degree the responses of the LLM were helpful. Discuss briefly if application of LLMs sped up your development or if the contrary was the case.
+>
 
 In our project, we have attempted to strategically leverage LLMs to enhance efficiency where reasonable. The LLMs used in the project are \*Chat-GPT\* and \*Github Co-Pilot\*. They served primarily as sparring partners during debugging processes, where they occasionally have proven helpful in interpreting cryptic error messages or identifying the cause of an unexpected result.
 
