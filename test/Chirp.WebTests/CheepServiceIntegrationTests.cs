@@ -5,6 +5,7 @@ using Chirp.Infrastructure.Repository;
 using Chirp.Web;
 using Chirp.Web.Models;
 using Moq;
+using SQLitePCL;
 using Test_Utilities;
 
 namespace Chirp.WebTests;
@@ -58,13 +59,14 @@ public class CheepServiceIntegrationTests
             Reactions = new List<Reaction>()
         };
 
-        followRepository.CreateFollow(_author1, _author2);
+        Follow f = followRepository.CreateFollow(_author1, _author2);
 
         context.Add(_author1);
         context.Add(_author2);
         context.Add(_cheep1);
         context.Add(_cheep2);
         context.Add(_cheep3);
+        context.Add(f);
 
         context.SaveChanges();
     }
@@ -98,5 +100,19 @@ public class CheepServiceIntegrationTests
             Assert.Equal(_author2.UserName, returnedCheep.User.Username);
             Assert.Equal("Cheep 3", returnedCheep.Message);
             Assert.NotNull(returnedCheep.Timestamp);
+        }
+
+        [Fact]
+        public void GetCheepsFromAuthorAndFollowing_returnsCheepsFromAuthorAndFollowingAuthor()
+        {
+            //act
+            ICollection<CheepViewModel> result = _service.GetCheepsFromAuthorAndFollowing(_author1.Id, 1);
+            
+            //assert
+            Assert.Equal(3, result.Count);
+            Assert.Equal("Author2", result.ElementAt(0).User.Username);
+            Assert.Equal("Author2", result.ElementAt(1).User.Username);
+            Assert.Equal("Author1", result.ElementAt(2).User.Username);
+            
         }
     }
