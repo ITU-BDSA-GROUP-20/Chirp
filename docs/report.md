@@ -13,7 +13,7 @@ numbersections: true
 
 ## Domain model
 
-![UMLDIAGRAM](diagrams/umlClassDiagram.svg)
+![UMLDIAGRAM](diagrams/umlClassDiagram.drawio.svg)
 
 > The above image is a UML class diagram depicting the domain model of ***Chirp!***.
 
@@ -29,7 +29,7 @@ numbersections: true
 >As we ran out of credits on Azure, we had to switch back to using an in-memory Sqlite database.
 > Which is the setup the deployment diagram above illustrates. The first commit hash after reverting back to in-memory Sqlite database is: eb9b72d3ee52408b700a1912c9be30edc007488e.
 
-![DeploymentDiagramAzure](diagrams/DeploymentSqlserver.svg)
+![DeploymentDiagramAzure](diagrams/DeploymentSqlserver.drawio.svg)
 > This deployment diagram illustrates our former setup, where we used an Azure hosted SQL server.
 > The hash of the latest commit using Azure SQL server is: e79d7c8bece998633b05939e62f4fe29495a410a.
 
