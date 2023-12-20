@@ -32,14 +32,6 @@ numbersections: true
 ![DeploymentDiagramAzure](diagrams/DeploymentSqlserver.svg)
 > This deployment diagram illustrates our former setup, where we used an Azure hosted SQL server.
 > The hash of the latest commit using Azure SQL server is: e79d7c8bece998633b05939e62f4fe29495a410a.
-> 
-
-
-
-Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other.
-> * Under this section, provide two diagrams, one that shows how *Chirp!* was deployed with hosted database and one that shows how it is now again with SQLite.
-> * Under this section, provide a brief description of the reason for switching again to SQLite as database.
-> * In that description, provide a link to the commit hash in your GitHub repository that points to the latest version of your *Chirp!* application with hosted database (we look at the entire history of your project, so we see that it was there at some point).
 
 ## User activities
 
@@ -94,26 +86,32 @@ One way of cloning the project is through the Github Desktop application.
 
 
 ## How to run test suite locally
+>To locally run the test suite, simply enter the following commands while being in the root directory of the project:
+>```bash
+>dotnet test test/Chirp.CoreTests; 
+>dotnet test test/Chirp.InfrastructureTests; 
+>dotnet test test/Chirp.WebTests
+>```
 
-> List all necessary steps that Rasmus or Helge have to perform to execute your test suites. Here, you can assume that we already cloned your repository in the step above.
->
 > Briefly describe what kinds of tests you have in your test suites and what they are testing.
 
-The test suite can be located in the `Chirp/Test` folder.
+The test suite can be located in the `Chirp/Test` folder. Here you will find 4 folders, `Chirp.CoreTests`, `Chirp.InfrastructureTests`, `Chirp.WebTests` and `Test_Utilities`. 
+The `Test_Utilities` folder contains helper classes and methods used in the test suites. The other folders contain the test suites for the respective packages.
 
 ### Contents of test suites
 
 #### Chirp.CoreTests
-
 * Testing that records and classes in fact contain the types and attributes defined in the class and record definitions.
 * Testing of constraints on class and record members.
 * Testing of correct instantiation of objects as defined in the `Chirp.Core` package.
 
 #### Chirp.InfrastructureTests
-
+* Testing that repositories(Base-,Cheep-, Author-, Follow- and Reaction-) retrieve, delete, update and add data correctly.
 #### Chirp.WebTests
+* Testing that the application functions as expected across packages. 
 
-#### Test_Utilities
+> The tests located in Chirp.CoreTests and Chirp.InfrastructureTests are all Unit tests.
+
 
 # Ethics
 
