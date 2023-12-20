@@ -45,7 +45,7 @@ Please note, that unauthorized users can access the 'Public Timeline,' 'Register
 
 ## Sequence of functionality/calls trough _Chirp!_
 
-![SequenceCallDiagram](diagrams/SequenceCallDiagram.png)
+![SequenceCallDiagram](diagrams/SequenceCallDiagram.drawio.png)
 
 > Sequence call diagram for an un-authenticated user requesting the root endpoint of the application.
 
@@ -53,7 +53,7 @@ Please note, that unauthorized users can access the 'Public Timeline,' 'Register
 
 ## Build, test, release, and deployment
 
-![WorkflowDiagram](diagrams/WorkflowDiagram.jpg)
+![WorkflowDiagram](diagrams/WorkflowDiagram.jpg){ width=110% }
 
 ### Build, and Test
 
