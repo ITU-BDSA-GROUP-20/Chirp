@@ -107,7 +107,7 @@ Alternatively, the project can be cloned through the terminal with the following
 
 
 ### 2. Setting up user secrets
-Once you have the project cloned, make sure that you have your secrets ready.\
+Once you have the project cloned, make sure that you have your GitHub OAuth secrets ready.\
 Once that is done, open a new terminal and navigate to the path `Chirp/src/Chirp.Web`, then run these commands:
 
         dotnet user-secrets init
@@ -128,7 +128,8 @@ Where `<YOUR_CLIENT_SECRET>` is your generated client secret.
 - Type the following command to run the system locally.
 
         dotnet run --launch-profile https
-Note: The launch profile argument is only necessary if you intend to use github authentication.\
+> Note: The launch profile argument is only necessary if you intend to use github authentication.
+
 The terminal should output the following lines:
 
 <img src="Images/RunSystemTerminalOutput.jpg" alt="RunSystemTerminalOutput" style="height:300px;"/>
