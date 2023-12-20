@@ -56,11 +56,14 @@ numbersections: true
 On pull, and push-requests, the program is built, and tested using the provided test-suite.
 
 ### Deployment of the application
-On push to the "main" branch, the program is built and tested If building and testing the program succeeds, the program is compiled for Linux and uploaded as a artifact to the deployment job.
+On push to the "main" branch, the program is built and tested. If building and testing of the program succeeds, the program is compiled for Linux and uploaded as an artifact to the deployment job.
 
-The deployment job downloads the artifacts, and deploys them to the Azure Web Ser
+The deployment job downloads the artifacts, and deploys them to the Azure Web Service.
 
 ### Release of the application
+On pushes with the tag "v*.*.*", the program is Built. After building of the program succeeds, runtime targets for "osx-arm64", "osx-x64", "win-x64", "linux-x64" are defined, and the program is subsequently compiled for these platforms. 
+After compiling for the platforms, the outputted folders are compressed to .zip or .tar formats, depending on what is appropriate for the targeted platform.
+The compressed folders are now released on GitHub.
 
 ## Team work
 
