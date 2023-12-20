@@ -75,6 +75,24 @@ The process of implementing changes to the system starts by defining the wanted 
 
 > There has to be some documentation on how to come from cloning your project to a running system. That is, Rasmus or Helge have to know precisely what to do in which order. Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then.
 
+
+### 1. cloning the project
+One way of cloning the project is through the Github Desktop application.
+
+- In the Github Desktop application navigate to the '*file*' tab in the top left corner and press 'Clone repository.
+
+<img src="Images/CloneRepositoryStep1.jpg" alt="CloneRepositoryStep1" style="height:100px;"/>\
+
+- Navigate to the 'URL' tab. 
+- Input the following URL in the 'URL' input field and press the clone button.
+
+        https://github.com/ITU-BDSA23-GROUP20/Chirp.git
+
+- Input the appropriate filepath for where you want to store the files in 'Local path' input field. 
+  
+<img src="Images/CloneRepositoryStep2.jpg" alt="CloneRepositoryStep1" style="height:250px;"/>
+
+
 ## How to run test suite locally
 
 > List all necessary steps that Rasmus or Helge have to perform to execute your test suites. Here, you can assume that we already cloned your repository in the step above.
