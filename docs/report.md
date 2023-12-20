@@ -87,7 +87,7 @@ The compressed folders are now released on GitHub.
 * Chirp #181 - A larger refactorization of the razor pages' models, based on introducing a base Page to hold shared functionality.
 
 
-![FromIssueToMergeDiagram](diagrams/FromIssueToMergeDiagram.svg)
+![FromIssueToMergeDiagram](diagrams/FromIssueToMergeDiagram.png)
 
 The process of implementing changes to the system starts by defining the wanted changes or the problem at hand and writing an issue describing it. The required workload is assessed for the issue. The issue is then assigned to an appropriate amount of team members. The team member(s) then creates a new branch from main and starts working towards the issue acceptance criteria. The new changes are then tested to see if it works as expected. Once it works, run the system tests to ensure no other functionality has been broken in the process. If any test fails, debugging commences and the test phase repeats. If everything works, the changes are pushed to the branch and a pull request is made. Another team member reviews said pull request. If any changes are requested, those will be acted upon and the test phase repeats. When a pull request is approved, the branch will be merged into main and deleted.
 
