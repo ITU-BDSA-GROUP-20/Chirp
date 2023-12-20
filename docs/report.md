@@ -75,6 +75,8 @@ The compressed folders are now released on GitHub.
 
 The process of implementing changes to the system starts by defining the wanted changes or the problem at hand and writing an issue describing it. The required workload is assessed for the issue. The issue is then assigned to an appropriate amount of team members. The team member(s) then creates a new branch from main and starts working towards the issue acceptance criteria. The new changes are then tested to see if it works as expected. Once it works, run the system tests to ensure no other functionality has been broken in the process. If any test fails, debugging commences and the test phase repeats. If everything works, the changes are pushed to the branch and a pull request is made. Another team member reviews said pull request. If any changes are requested, those will be acted upon and the test phase repeats. When a pull request is approved, the branch will be merged into main.
 
+### Discrepancies in commit amounts of group members
+When observing the amount of commits made by each group member, some anomalies can be seen. If a team member has a noticeably larger amounts of commits than others, it should be taken into account, that some or many of these extra commits are in regards to the deployment and release workflow files, that where the cause of a lot of commits relating to debugging these workflows.
 
 ## How to make _Chirp!_ work locally
 
@@ -105,7 +107,7 @@ Alternatively, the project can be cloned through the terminal with the following
 
 
 ### 2. Setting up user secrets
-Once you have the project cloned, make sure that you have your secrets ready.\
+Once you have the project cloned, make sure that you have your GitHub OAuth secrets ready.\
 Once that is done, open a new terminal and navigate to the path `Chirp/src/Chirp.Web`, then run these commands:
 
         dotnet user-secrets init
@@ -126,7 +128,8 @@ Where `<YOUR_CLIENT_SECRET>` is your generated client secret.
 - Type the following command to run the system locally.
 
         dotnet run --launch-profile https
-Note: The launch profile argument is only necessary if you intend to use github authentication.\
+> Note: The launch profile argument is only necessary if you intend to use github authentication.
+
 The terminal should output the following lines:
 
 <img src="Images/RunSystemTerminalOutput.jpg" alt="RunSystemTerminalOutput" style="height:300px;"/>
