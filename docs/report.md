@@ -104,7 +104,7 @@ The test suite can be located in the `Chirp/Test` folder.
 
 ## License
 
-> State which software license you chose for your application.
+> This application uses the GLP-2 software license.
 
 ## LLMs, ChatGPT, CoPilot, and others
 
