@@ -39,7 +39,7 @@ numbersections: true
 
 ![User Journey](diagrams/UserJourneyExport.svg)
 
-It is important to note that a non-authorized user can navigate directly to the 'Public Timeline' page, 'Register' page and 'Login' page from each of those pages from the applications navigation bar. Furthermore, an authorized user can directly navigate to the 'Public Timeline' page, 'User timeline' page, 'About Me' page and click the 'Logout' button from the applications navigation bar. Clicking the 'Logout' button will log the user out and end the flow. This is not included explicitly in the User Journey flowchart as this would cause clutter and decrease the readability of the flowchart.
+It is important to note that a non-authorized user can navigate directly to the 'Public Timeline' page, 'Register' page and 'Login' page from each of those pages from the applications navigation bar. Furthermore, an authorized user can directly navigate to the 'Public Timeline' page, 'User timeline' page, 'About Me' page and click the 'Logout' button from the applications navigation bar. Clicking the 'Logout' button will log the user out and end the flow. This is not included explicitly in the User Journey flowchart as this would cause clutter, thereby decreasing the readability of the flowchart.
 
 ## Sequence of functionality/calls trough _Chirp!_
 
@@ -74,16 +74,17 @@ The compressed folders are now released on GitHub.
 ## Team work
 
 ![Projectboard](Images/ProjectBoard20122023.png)
+
 ### Unresolved tasks
+
 * There are a few bugs remaining in the application:
   * Chirp #222 - Sometimes when logging in, the user is not redirected to the home page.
   * Chirp #156 - Whenever the users follows another user, or likes a cheep the SendCheep validation is triggered.
-  * Chirp #218 - When a user unfollows another user, the user(That unfollows) gets redirected to the public page. 
+  * Chirp #218 - When a user unfollows another user, the user(That unfollows) gets redirected to the public page.
 * Features we would've liked to improve on:
-  * (No issue created) - Extend the functionality of Reactions, so that a user is represented with a selection of reactions to use. 
+  * (No issue created) - Extend the functionality of Reactions, so that a user is represented with a selection of reactions to use.
   * Chirp #170 - Adjust the visibility of the cheepbox(Where the user writes a cheep).
-* Chirp #181 - A larger refactorization of the razor pages' models, based on introducing a base Page to hold shared functionality. 
-
+* Chirp #181 - A larger refactorization of the razor pages' models, based on introducing a base Page to hold shared functionality.
 
 > Show a screenshot of your project board right before hand-in. Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
 
