@@ -52,6 +52,16 @@ numbersections: true
 
 > Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed.
 
+### Build, and Test
+On pull, and push-requests, the program is built, and tested using the provided test-suite.
+
+### Deployment of the application
+On push to the "main" branch, the program is built and tested If building and testing the program succeeds, the program is compiled for Linux and uploaded as a artifact to the deployment job.
+
+The deployment job downloads the artifacts, and deploys them to the Azure Web Ser
+
+### Release of the application
+
 ## Team work
 
 > Show a screenshot of your project board right before hand-in. Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
