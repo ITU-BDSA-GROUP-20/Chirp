@@ -13,7 +13,7 @@ numbersections: true
 
 ## Domain model
 
-![UMLDIAGRAM](diagrams/umlClassDiagram.png)
+![UMLDIAGRAM](diagrams/umlClassDiagram.jpg)
 
 > The above image is a UML class diagram depicting the domain model of ***Chirp!***.
 
