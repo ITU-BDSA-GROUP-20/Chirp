@@ -19,7 +19,7 @@ numbersections: true
 
 ## Architecture — In the small
 
-![OnionArchitecture](diagrams/OnionArchitecture.png)
+![OnionArchitecture](diagrams/OnionArchitecture.drawio.png)
 
 > The above image illustrates the architecture of ***Chirp!***. It's onion based and each onion layer represents a package in the "src" folder of the application.
 
@@ -37,7 +37,7 @@ numbersections: true
 
 ## User activities
 
-![User Journey](diagrams/UserJourney.jpg)
+![User Journey](diagrams/UserJourney.drawio.png)
 
 > The flowchart above illustrates the user journey through the Chirp! application
 
