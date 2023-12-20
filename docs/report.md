@@ -97,6 +97,8 @@ When observing the amount of commits made by each group member, some anomalies c
 
 ## How to make _Chirp!_ work locally
 
+> There has to be some documentation on how to come from cloning your project to a running system. That is, Rasmus or Helge have to know precisely what to do in which order. Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then.
+
 ### 1. cloning the project
 
 One way of cloning the project is through the Github Desktop application.
@@ -108,28 +110,30 @@ One way of cloning the project is through the Github Desktop application.
 - Navigate to the 'URL' tab.
 - Input the following URL in the 'URL' input field.
 
-  https://github.com/ITU-BDSA23-GROUP20/Chirp.git
+      https://github.com/ITU-BDSA23-GROUP20/Chirp.git
 
-  - Input the appropriate filepath for where you want to store the files in 'Local path' input field.
+- Input the appropriate filepath for where you want to store the files in 'Local path' input field.
+
     <img src="Images/CloneRepositoryStep2.jpg" alt="CloneRepositoryStep1" style="height:250px;"/>
-  - Press the clone button.
-    Alternatively, the project can be cloned through the terminal with the following command:
 
-`git clone https://github.com/ITU-BDSA23-GROUP20/Chirp.git`
+- Press the clone button.
+Alternatively, the project can be cloned through the terminal with the following command:
+
+        git clone https://github.com/ITU-BDSA23-GROUP20/Chirp.git
 
 ### 2. Setting up user secrets
 
 Once you have the project cloned, make sure that you have your GitHub OAuth secrets ready.
 Once that is done, open a new terminal and navigate to the path `Chirp/src/Chirp.Web`, then run these commands:
 
-`dotnet user-secrets init`
+    dotnet user-secrets init
 Then
 
-`dotnet user-secrets set "authenticationGithubClientId" "your_client_id"`
+    dotnet user-secrets set "authenticationGithubClientId" "<YOUR_CLIENT_ID>"
 Where `<YOUR_CLIENT_ID>` is your generated client ID.
 Then
 
-`dotnet user-secrets set "authenticationGithubClientSecret" "your_client_secret"`
+    dotnet user-secrets set "authenticationGithubClientSecret" "<YOUR_CLIENT_SECRET>"
 Where `<YOUR_CLIENT_SECRET>` is your generated client secret.
 
 ### 3. Running the system
@@ -137,25 +141,27 @@ Where `<YOUR_CLIENT_SECRET>` is your generated client secret.
 - Open a new terminal and navigate to `Chirp/src/Chirp.Web` in said terminal.
 - Type the following command to run the system locally.
 
-  `dotnet run --launch-profile https`
+      dotnet run --launch-profile https
 
 > Note: The launch profile argument is only necessary if you intend to use github authentication.
+>
 
 > The terminal should output the following lines:
-
+>
 
 <img src="Images/RunSystemTerminalOutput.jpg" alt="RunSystemTerminalOutput" style="height:300px;"/>
+
 - Open your browser of choice and open a page with the following URL.
 
-localhost:5001
+      localhost:5001
 
 > You should be greeted by the following page.
-
+>
 
 <img src="Images/ChirpFrontPage.jpg" alt="ChirpFrontPage" style="height:500px;"/>
 
 > You are now running the system locally.
-
+>
 ## How to run test suite locally
 
 To locally run the test suite, simply enter the following commands while being in the root directory of the project:
