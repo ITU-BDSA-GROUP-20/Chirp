@@ -56,7 +56,7 @@ Illustrate the architecture of your deployed application. Remember, you develope
 
 ## Build, test, release, and deployment
 
-![WorkflowDiagram](diagrams/WorkflowDiagram.drawio.svg)
+![WorkflowDiagram](diagrams/WorkflowDiagram.svg)
 
 > Illustrate with a UML activity diagram how your *Chirp!* applications are build, tested, released, and deployed. That is, illustrate the flow of activities in your respective GitHub Actions workflows.
 >
