@@ -77,7 +77,14 @@ The compressed folders are now released on GitHub.
 
 ![Projectboard](Images/ProjectBoard20122023.png)
 ### Unresolved tasks
-*
+* There are a few bugs remaining in the application:
+  * Chirp #222 - Sometimes when logging in, the user is not redirected to the home page.
+  * Chirp #156 - Whenever the users follows another user, or likes a cheep the SendCheep validation is triggered.
+  * Chirp #218 - When a user unfollows another user, the user(That unfollows) gets redirected to the public page. 
+* Features we would've liked to improve on:
+  * (No issue created) - Extend the functionality of Reactions, so that a user is represented with a selection of reactions. 
+  * Chirp #170 - Adjust the visibility of the cheepbox(Where the user writes a cheep).
+* Chirp #181 - A larger refactorization of the razor pages' models, based on introducing a base Page to hold shared functionality. 
 
 
 > Show a screenshot of your project board right before hand-in. Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
@@ -179,8 +186,7 @@ The `Test_Utilities` folder contains helper classes and methods used in the test
 
 #### Chirp.WebTests
 
-* Testing that the application can transition data from data rich entities, residing in the database, to view-models suited for frontend. 
-
+* Testing that the application can transition data from data rich entities, residing in the database, to view-models suited for frontend.
 
 The tests located in Chirp.CoreTests and Chirp.InfrastructureTests are all Unit tests.
 
