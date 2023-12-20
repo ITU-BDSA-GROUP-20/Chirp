@@ -74,6 +74,9 @@ The compressed folders are now released on GitHub.
 ## Team work
 
 ![Projectboard](Images/ProjectBoard20122023.png)
+### Unresolved tasks
+*
+
 
 > Show a screenshot of your project board right before hand-in. Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
 
@@ -174,7 +177,8 @@ The `Test_Utilities` folder contains helper classes and methods used in the test
 
 #### Chirp.WebTests
 
-* Testing that the application functions as expected across packages.
+* Testing that the application can transition data from data rich entities, residing in the database, to view-models suited for frontend. 
+
 
 The tests located in Chirp.CoreTests and Chirp.InfrastructureTests are all Unit tests.
 
