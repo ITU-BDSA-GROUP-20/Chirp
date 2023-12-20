@@ -117,7 +117,7 @@ The `Test_Utilities` folder contains helper classes and methods used in the test
 
 ## License
 
-> This application uses the GPL-2 software license.
+This application uses the GPL-2 software license.
 
 ## LLMs, ChatGPT, CoPilot, and others
 
