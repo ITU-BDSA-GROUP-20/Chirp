@@ -41,7 +41,7 @@ numbersections: true
 
 > The flowchart above illustrates the user journey through the Chirp! application
 
-It is important to note that a non-authorized user can navigate directly to the 'Public Timeline' page, 'Register' page and 'Login' page from each of those pages from the applications navigation bar. Furthermore, an authorized user can directly navigate to the 'Public Timeline' page, 'User timeline' page, 'About Me' page and click the 'Logout' button from the applications navigation bar. Clicking the 'Logout' button will log the user out and end the flow. This is not included explicitly in the User Journey flowchart as this would cause clutter, thereby decreasing the readability of the flowchart.
+Please note, that unauthorized users can access the 'Public Timeline,' 'Register,' and 'Login' pages directly from the navigation bar. Authorized users can navigate to the 'Public Timeline', 'User Timeline',  and 'About Me' pages, and logout from the navigation bar. Clicking 'Logout' ends the flow. This detail is omitted from the User Journey flowchart for clarity and readability.
 
 ## Sequence of functionality/calls trough _Chirp!_
 
@@ -54,8 +54,6 @@ It is important to note that a non-authorized user can navigate directly to the 
 ## Build, test, release, and deployment
 
 ![WorkflowDiagram](diagrams/WorkflowDiagram.svg)
-
-> Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed.
 
 ### Build, and Test
 
@@ -81,18 +79,17 @@ The compressed folders are now released on GitHub.
 
 * There are a few bugs remaining in the application:
   * Chirp #222 - Sometimes when logging in, the user is not redirected to the home page.
-  * Chirp #156 - Whenever the users follows another user, or likes a cheep the SendCheep validation is triggered.
+  * Chirp #156 - Whenever a user follows another user, or likes a cheep, the SendCheep validation is triggered.
   * Chirp #218 - When a user unfollows another user, the user(That unfollows) gets redirected to the public page.
-* Features we would've liked to improve on:
+* Features we would have liked to improve on:
   * (No issue created) - Extend the functionality of Reactions, so that a user is represented with a selection of reactions to use.
   * Chirp #170 - Adjust the visibility of the cheepbox(Where the user writes a cheep).
 * Chirp #181 - A larger refactorization of the razor pages' models, based on introducing a base Page to hold shared functionality.
 
-> Show a screenshot of your project board right before hand-in. Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
 
 ![FromIssueToMergeDiagram](diagrams/FromIssueToMergeDiagram.svg)
 
-The process of implementing changes to the system starts by defining the wanted changes or the problem at hand and writing an issue describing it. The required workload is assessed for the issue. The issue is then assigned to an appropriate amount of team members. The team member(s) then creates a new branch from main and starts working towards the issue acceptance criteria. The new changes are then tested to see if it works as expected. Once it works, run the system tests to ensure no other functionality has been broken in the process. If any test fails, debugging commences and the test phase repeats. If everything works, the changes are pushed to the branch and a pull request is made. Another team member reviews said pull request. If any changes are requested, those will be acted upon and the test phase repeats. When a pull request is approved, the branch will be merged into main.
+The process of implementing changes to the system starts by defining the wanted changes or the problem at hand and writing an issue describing it. The required workload is assessed for the issue. The issue is then assigned to an appropriate amount of team members. The team member(s) then creates a new branch from main and starts working towards the issue acceptance criteria. The new changes are then tested to see if it works as expected. Once it works, run the system tests to ensure no other functionality has been broken in the process. If any test fails, debugging commences and the test phase repeats. If everything works, the changes are pushed to the branch and a pull request is made. Another team member reviews said pull request. If any changes are requested, those will be acted upon and the test phase repeats. When a pull request is approved, the branch will be merged into main and deleted.
 
 ### Discrepancies in commit amounts of group members
 
@@ -100,15 +97,13 @@ When observing the amount of commits made by each group member, some anomalies c
 
 ## How to make _Chirp!_ work locally
 
-> There has to be some documentation on how to come from cloning your project to a running system. That is, Rasmus or Helge have to know precisely what to do in which order. Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then.
-
 ### 1. cloning the project
 
 One way of cloning the project is through the Github Desktop application.
 
 - In the Github Desktop application navigate to the '*file*' tab in the top left corner and press 'Clone repository'.
 
-<img src="Images/CloneRepositoryStep1.jpg" alt="CloneRepositoryStep1" style="height:100px;"/>\
+<img src="Images/CloneRepositoryStep1.jpg" alt="CloneRepositoryStep1" style="height:100px;"/>
 
 - Navigate to the 'URL' tab.
 - Input the following URL in the 'URL' input field.
@@ -118,22 +113,23 @@ One way of cloning the project is through the Github Desktop application.
   - Input the appropriate filepath for where you want to store the files in 'Local path' input field.
     <img src="Images/CloneRepositoryStep2.jpg" alt="CloneRepositoryStep1" style="height:250px;"/>
   - Press the clone button.
-Alternatively, the project can be cloned through the terminal with the following command:
+    Alternatively, the project can be cloned through the terminal with the following command:
 
-git clone https://github.com/ITU-BDSA23-GROUP20/Chirp.git
+`git clone https://github.com/ITU-BDSA23-GROUP20/Chirp.git`
+
 ### 2. Setting up user secrets
 
 Once you have the project cloned, make sure that you have your GitHub OAuth secrets ready.
 Once that is done, open a new terminal and navigate to the path `Chirp/src/Chirp.Web`, then run these commands:
 
-dotnet user-secrets init
+`dotnet user-secrets init`
 Then
 
-dotnet user-secrets set "authenticationGithubClientId" "<YOUR_CLIENT_ID>"
+`dotnet user-secrets set "authenticationGithubClientId" "your_client_id"`
 Where `<YOUR_CLIENT_ID>` is your generated client ID.
 Then
 
-dotnet user-secrets set "authenticationGithubClientSecret" "<YOUR_CLIENT_SECRET>"
+`dotnet user-secrets set "authenticationGithubClientSecret" "your_client_secret"`
 Where `<YOUR_CLIENT_SECRET>` is your generated client secret.
 
 ### 3. Running the system
@@ -141,24 +137,24 @@ Where `<YOUR_CLIENT_SECRET>` is your generated client secret.
 - Open a new terminal and navigate to `Chirp/src/Chirp.Web` in said terminal.
 - Type the following command to run the system locally.
 
-  dotnet run --launch-profile https
+  `dotnet run --launch-profile https`
+
 > Note: The launch profile argument is only necessary if you intend to use github authentication.
->
 
 > The terminal should output the following lines:
->
+
 
 <img src="Images/RunSystemTerminalOutput.jpg" alt="RunSystemTerminalOutput" style="height:300px;"/>
 - Open your browser of choice and open a page with the following URL.
 
-  localhost:5001
+localhost:5001
+
 > You should be greeted by the following page.
->
+
 
 <img src="Images/ChirpFrontPage.jpg" alt="ChirpFrontPage" style="height:500px;"/>
 
 > You are now running the system locally.
->
 
 ## How to run test suite locally
 
@@ -169,15 +165,17 @@ dotnet test test/Chirp.CoreTests;
 dotnet test test/Chirp.InfrastructureTests; 
 dotnet test test/Chirp.WebTests
 ```
+
 The test suite can be located in the `Chirp/Test` folder. Here you will find 4 folders, `Chirp.CoreTests`, `Chirp.InfrastructureTests`, `Chirp.WebTests` and `Test_Utilities`.
 The `Test_Utilities` folder contains helper classes and methods used in the test suites. The other folders contain the test suites for the respective packages.
 
 ### Contents of test suites
 
-#### Chirp.CoreTests* Testing that records and classes in fact contain the types and attributes defined in the class and record definitions.
+#### Chirp.CoreTests
+
+* Testing that records and classes in fact contain the types and attributes defined in the class and record definitions.
 * Testing of constraints on class and record members.
 * Testing of correct instantiation of objects as defined in the `Chirp.Core` package.
-
 
 #### Chirp.InfrastructureTests
 
@@ -196,9 +194,6 @@ The tests located in Chirp.CoreTests and Chirp.InfrastructureTests are all Unit 
 This application uses the GPL-2 software license.
 
 ## LLMs, ChatGPT, CoPilot, and others
-
-> State which LLM(s) were used during development of your project. In case you were not using any, just state so. In case you were using an LLM to support your development, briefly describe when and how it was applied. Reflect in writing to which degree the responses of the LLM were helpful. Discuss briefly if application of LLMs sped up your development or if the contrary was the case.
->
 
 In our project, we have attempted to strategically leverage LLMs to enhance efficiency where reasonable. The LLMs used in the project are \*Chat-GPT\* and \*Github Co-Pilot\*. They served primarily as sparring partners during debugging processes, where they occasionally have proven helpful in interpreting cryptic error messages or identifying the cause of an unexpected result.
 
