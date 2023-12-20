@@ -94,6 +94,22 @@ One way of cloning the project is through the Github Desktop application.
   
 <img src="Images/CloneRepositoryStep2.jpg" alt="CloneRepositoryStep1" style="height:250px;"/>
 
+### 2. Setting up user secrets
+Once you have the project cloned, make sure that you have your secrets ready.\
+Once that is done, open a new terminal and navigate to the path `Chirp/src/Chirp.Web`, then run these commands:
+
+        dotnet user-secrets init
+
+Then
+
+        dotnet user-secrets set "authenticationGithubClientId" "<YOURCLIENTID>"
+
+Where `<YOURCLIENTID>` is your generated client ID.\
+Then
+
+        dotnet user-secrets set "authenticationGithubClientSecret" "<YOURCLIENTSECRET>"
+Where `<YOURCLIENTSECRET>` is your generated client secret.
+
 
 ## How to run test suite locally
 
