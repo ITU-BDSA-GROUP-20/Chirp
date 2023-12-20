@@ -97,6 +97,22 @@ One way of cloning the project is through the Github Desktop application.
   
 <img src="Images/CloneRepositoryStep2.jpg" alt="CloneRepositoryStep1" style="height:250px;"/>
 
+### 2. Setting up user secrets
+Once you have the project cloned, make sure that you have your secrets ready.\
+Once that is done, open a new terminal and navigate to the path `Chirp/src/Chirp.Web`, then run these commands:
+
+        dotnet user-secrets init
+
+Then
+
+        dotnet user-secrets set "authenticationGithubClientId" "<YOURCLIENTID>"
+
+Where `<YOURCLIENTID>` is your generated client ID.\
+Then
+
+        dotnet user-secrets set "authenticationGithubClientSecret" "<YOURCLIENTSECRET>"
+Where `<YOURCLIENTSECRET>` is your generated client secret.
+
 
 ## How to run test suite locally
 >To locally run the test suite, simply enter the following commands while being in the root directory of the project:
@@ -105,24 +121,19 @@ One way of cloning the project is through the Github Desktop application.
 >dotnet test test/Chirp.InfrastructureTests; 
 >dotnet test test/Chirp.WebTests
 >```
-
-> Briefly describe what kinds of tests you have in your test suites and what they are testing.
-
-The test suite can be located in the `Chirp/Test` folder. Here you will find 4 folders, `Chirp.CoreTests`, `Chirp.InfrastructureTests`, `Chirp.WebTests` and `Test_Utilities`. 
-The `Test_Utilities` folder contains helper classes and methods used in the test suites. The other folders contain the test suites for the respective packages.
+>The test suite can be located in the `Chirp/Test` folder. Here you will find 4 folders, `Chirp.CoreTests`, `Chirp.InfrastructureTests`, `Chirp.WebTests` and `Test_Utilities`. 
+>The `Test_Utilities` folder contains helper classes and methods used in the test suites. The other folders contain the test suites for the respective packages.
 
 ### Contents of test suites
 
-#### Chirp.CoreTests
-* Testing that records and classes in fact contain the types and attributes defined in the class and record definitions.
-* Testing of constraints on class and record members.
-* Testing of correct instantiation of objects as defined in the `Chirp.Core` package.
-
-#### Chirp.InfrastructureTests
-* Testing that repositories(Base-,Cheep-, Author-, Follow- and Reaction-) retrieve, delete, update and add data correctly.
-#### Chirp.WebTests
-* Testing that the application functions as expected across packages. 
-
+>#### Chirp.CoreTests
+>* Testing that records and classes in fact contain the types and attributes defined in the class and record definitions.
+>* Testing of constraints on class and record members.
+>* Testing of correct instantiation of objects as defined in the `Chirp.Core` package.
+>#### Chirp.InfrastructureTests
+>* Testing that repositories(Base-,Cheep-, Author-, Follow- and Reaction-) retrieve, delete, update and add data correctly.
+>#### Chirp.WebTests
+>* Testing that the application functions as expected across packages.
 > The tests located in Chirp.CoreTests and Chirp.InfrastructureTests are all Unit tests.
 
 
