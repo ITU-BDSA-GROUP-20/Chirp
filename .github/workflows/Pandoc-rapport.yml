@@ -6,18 +6,9 @@ on:
       - main 
 
 jobs:
-  build:
+  convert_via_pandoc:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Pandoc
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y pandoc
-
-      - name: Convert Markdown to PDF
-        run: |
-          pandoc Chirp/docs/report.md -o Chirp/docs/report.pdf
+      - uses: docker://pandoc/core:2.9
+        with:
+          args: -f markdown -t pdf -o Chirp/docs/report.pdf Chirp/docs/report.md
