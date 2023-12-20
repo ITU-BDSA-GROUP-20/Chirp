@@ -41,7 +41,7 @@ numbersections: true
 
 > The flowchart above illustrates the user journey through the Chirp! application
 
-It is important to note that a non-authorized user can navigate directly to the 'Public Timeline' page, 'Register' page and 'Login' page, from each of those pages, from the applications navigation bar. Furthermore, an authorized user can directly navigate to the 'Public Timeline' page, 'User timeline' page, 'About Me' page and click the 'Logout' button, from each of those pages, from the applications navigation bar. Clicking the 'Logout' button will log the user out and end the flow. This is not included explicitly in the User Journey flowchart as this would cause clutter, thereby decreasing the readability of the flowchart.
+Please note, that unauthorized users can access the 'Public Timeline,' 'Register,' and 'Login' pages directly from the navigation bar. Authorized users can navigate to the 'Public Timeline', 'User Timeline',  and 'About Me' pages, and logout from the navigation bar. Clicking 'Logout' ends the flow. This detail is omitted from the User Journey flowchart for clarity and readability.
 
 ## Sequence of functionality/calls trough _Chirp!_
 
