@@ -11,4 +11,4 @@ jobs:
     steps:
       - uses: docker://pandoc/core:2.9
         with:
-          args: -f markdown -t pdf -o docs/ docs/report.md
+          args: docs/report.md -t docs/report.pdf 
