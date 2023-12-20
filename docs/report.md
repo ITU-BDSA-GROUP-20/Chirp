@@ -50,9 +50,17 @@ numbersections: true
 
 ![WorkflowDiagram](diagrams/WorkflowDiagram.svg)
 
-> Illustrate with a UML activity diagram how your *Chirp!* applications are build, tested, released, and deployed. That is, illustrate the flow of activities in your respective GitHub Actions workflows.
->
 > Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed.
+
+### Build, and Test
+On pull, and push-requests, the program is built, and tested using the provided test-suite.
+
+### Deployment of the application
+On push to the "main" branch, the program is built and tested If building and testing the program succeeds, the program is compiled for Linux and uploaded as a artifact to the deployment job.
+
+The deployment job downloads the artifacts, and deploys them to the Azure Web Ser
+
+### Release of the application
 
 ## Team work
 
@@ -114,7 +122,7 @@ One way of cloning the project is through the Github Desktop application.
 
 ## License
 
-> This application uses the GPL-2 software license.
+This application uses the GPL-2 software license.
 
 ## LLMs, ChatGPT, CoPilot, and others
 
