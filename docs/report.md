@@ -56,11 +56,14 @@ numbersections: true
 On pull, and push-requests, the program is built, and tested using the provided test-suite.
 
 ### Deployment of the application
-On push to the "main" branch, the program is built and tested If building and testing the program succeeds, the program is compiled for Linux and uploaded as a artifact to the deployment job.
+On push to the "main" branch, the program is built and tested. If building and testing of the program succeeds, the program is compiled for Linux and uploaded as an artifact to the deployment job.
 
-The deployment job downloads the artifacts, and deploys them to the Azure Web Ser
+The deployment job downloads the artifacts, and deploys them to the Azure Web Service.
 
 ### Release of the application
+On pushes with the tag "v*.*.*", the program is Built. After building of the program succeeds, runtime targets for "osx-arm64", "osx-x64", "win-x64", "linux-x64" are defined, and the program is subsequently compiled for these platforms. 
+After compiling for the platforms, the outputted folders are compressed to .zip or .tar formats, depending on what is appropriate for the targeted platform.
+The compressed folders are now released on GitHub.
 
 ## Team work
 
@@ -81,19 +84,63 @@ The process of implementing changes to the system starts by defining the wanted 
 ### 1. cloning the project
 One way of cloning the project is through the Github Desktop application.
 
-- In the Github Desktop application navigate to the '*file*' tab in the top left corner and press 'Clone repository.
+- In the Github Desktop application navigate to the '*file*' tab in the top left corner and press 'Clone repository'.
 
 <img src="Images/CloneRepositoryStep1.jpg" alt="CloneRepositoryStep1" style="height:100px;"/>\
 
 - Navigate to the 'URL' tab. 
-- Input the following URL in the 'URL' input field and press the clone button.
+- Input the following URL in the 'URL' input field.
 
         https://github.com/ITU-BDSA23-GROUP20/Chirp.git
 
 - Input the appropriate filepath for where you want to store the files in 'Local path' input field. 
-  
+
 <img src="Images/CloneRepositoryStep2.jpg" alt="CloneRepositoryStep1" style="height:250px;"/>
 
+- Press the clone button.  
+
+Alternatively, the project can be cloned through the terminal with the following command:
+
+        git clone https://github.com/ITU-BDSA23-GROUP20/Chirp.git
+
+
+### 2. Setting up user secrets
+Once you have the project cloned, make sure that you have your secrets ready.\
+Once that is done, open a new terminal and navigate to the path `Chirp/src/Chirp.Web`, then run these commands:
+
+        dotnet user-secrets init
+
+Then
+
+        dotnet user-secrets set "authenticationGithubClientId" "<YOUR_CLIENT_ID>"
+
+Where `<YOUR_CLIENT_ID>` is your generated client ID.\
+Then
+
+        dotnet user-secrets set "authenticationGithubClientSecret" "<YOUR_CLIENT_SECRET>"
+Where `<YOUR_CLIENT_SECRET>` is your generated client secret.
+
+### 3. Running the system
+
+- Open a new terminal and navigate to `Chirp/src/Chirp.Web` in said terminal.
+- Type the following command to run the system locally.
+
+        dotnet run --launch-profile https
+Note: The launch profile argument is only necessary if you intend to use github authentication.\
+The terminal should output the following lines:
+
+<img src="Images/RunSystemTerminalOutput.jpg" alt="RunSystemTerminalOutput" style="height:300px;"/>
+
+
+- Open your browser of choice and open a page with the following URL.
+
+        localhost:5001
+
+- You should be greeted by the following page.
+
+<img src="Images/ChirpFrontPage.jpg" alt="ChirpFrontPage" style="height:500px;"/>
+
+You are now running the system locally.
 
 ## How to run test suite locally
 >To locally run the test suite, simply enter the following commands while being in the root directory of the project:
