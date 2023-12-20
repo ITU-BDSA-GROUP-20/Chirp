@@ -9,7 +9,7 @@ using Test_Utilities;
 
 namespace Chirp.WebTests;
 
-public class CheepServiceUnitTests
+public class CheepServiceIntegrationTests
 {
     private CheepService _service;
 
@@ -19,7 +19,7 @@ public class CheepServiceUnitTests
     private Cheep _cheep2;
     private Cheep _cheep3;
 
-    public CheepServiceUnitTests()
+    public CheepServiceIntegrationTests()
     {
         ChirpDbContext context = SqliteInMemoryBuilder.GetContext();
         IFollowRepository followRepository = new FollowRepository(context);
