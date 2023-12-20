@@ -41,7 +41,7 @@ numbersections: true
 >
 > Make sure that the illustrations are in line with the actual behavior of your application.
 
-![User Journey](diagrams/diagrams/UserJourney.svg)
+![User Journey](diagrams/UserJourney.svg)
 
 ## Sequence of functionality/calls trough _Chirp!_
 
