@@ -66,10 +66,8 @@ After compiling for the platforms, the outputted folders are compressed to .zip 
 The compressed folders are now released on GitHub.
 
 ## Team work
-
+![Projectboard](Images/ProjectBoard20122023.png)
 > Show a screenshot of your project board right before hand-in. Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
->
-> Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the `main` branch of your repository.
 
 ![FromIssueToMergeDiagram](diagrams/FromIssueToMergeDiagram.svg)
 
@@ -162,7 +160,7 @@ The `Test_Utilities` folder contains helper classes and methods used in the test
 * Testing of constraints on class and record members.
 * Testing of correct instantiation of objects as defined in the `Chirp.Core` package.
 #### Chirp.InfrastructureTests
-* Testing that repositories(Base-,Cheep-, Author-, Follow- and Reaction-) retrieve, delete, update and add data correctly.
+* Testing that repositories(Base-,Cheep-, Author-, Follow- and Reaction-repository) retrieve, delete, update and add data correctly.
 #### Chirp.WebTests
 * Testing that the application functions as expected across packages.
 
