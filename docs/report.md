@@ -73,7 +73,8 @@ The compressed folders are now released on GitHub.
 
 ## Team work
 
-![Projectboard](Images/ProjectBoard20122023.png)
+![Projectboard1](Images/projectboard1.png)
+![Projectboard2](Images/projectboard2.png)
 
 ### Unresolved tasks
 
