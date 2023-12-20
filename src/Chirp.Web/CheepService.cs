@@ -71,7 +71,7 @@ public class CheepService : ICheepService
         return cheeps;
     }
 
-    private List<ReactionModel> CheepReactions(Cheep cheepDto)
+    protected List<ReactionModel> CheepReactions(Cheep cheepDto)
     {
         // Initialize reactions with all reaction types set to count 0.
         var reactions = Enum.GetValues(typeof(ReactionType))
