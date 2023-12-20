@@ -11,4 +11,4 @@ jobs:
     steps:
       - uses: docker://pandoc/core:2.9
         with:
-          args: -s docs/report.md -o docs/report.pdf
+          args: -s ./docs/report.md -o docs/report.pdf
