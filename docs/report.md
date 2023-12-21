@@ -27,7 +27,7 @@ numbersections: true
 
 ![DeploymentDiagramSqlite](diagrams/DeploymentSqlite.png){ width=130% }
 
-> As we ran out of credits on Azure, we had to switch back to using an in-memory Sqlite database.
+> As we ran out of credits on Azure, we had to switch back to using an  Sqlite database.
 > Which is the setup the deployment diagram above illustrates. The first commit hash after reverting back to Sqlite database is: eb9b72d3ee52408b700a1912c9be30edc007488e.
 
 ![DeploymentDiagramAzure](diagrams/DeploymentSqlserver.png){ width=130% }
