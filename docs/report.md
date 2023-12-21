@@ -13,7 +13,7 @@ numbersections: true
 
 ## Domain model
 
-![UMLDIAGRAM](diagrams/umlClassDiagram.jpg){ width=120% }
+![UMLDIAGRAM](diagrams/umlClassDiagram.drawio.png){ width=120% }
 
 > The above image is a UML class diagram depicting the domain model of ***Chirp!***.
 
@@ -28,7 +28,7 @@ numbersections: true
 ![DeploymentDiagramSqlite](diagrams/DeploymentSqlite.png){ width=130% }
 
 > As we ran out of credits on Azure, we had to switch back to using an in-memory Sqlite database.
-> Which is the setup the deployment diagram above illustrates. The first commit hash after reverting back to in-memory Sqlite database is: eb9b72d3ee52408b700a1912c9be30edc007488e.
+> Which is the setup the deployment diagram above illustrates. The first commit hash after reverting back to Sqlite database is: eb9b72d3ee52408b700a1912c9be30edc007488e.
 
 ![DeploymentDiagramAzure](diagrams/DeploymentSqlserver.png){ width=130% }
 
@@ -53,7 +53,7 @@ Please note, that unauthorized users can access the 'Public Timeline,' 'Register
 
 ## Build, test, release, and deployment
 
-![WorkflowDiagram](diagrams/WorkflowDiagram.jpg){ width=110% }
+![WorkflowDiagram](diagrams/WorkflowDiagram.jpg){ width=105% }
 
 ### Build, and Test
 
@@ -203,6 +203,6 @@ This application uses the GPL-2 software license.
 
 ## LLMs, ChatGPT, CoPilot, and others
 
-In our project, we have attempted to strategically leverage LLMs to enhance efficiency where reasonable. The LLMs used in the project are \*Chat-GPT\* and \*Github Co-Pilot\*. They served primarily as sparring partners during debugging processes, where they occasionally have proven helpful in interpreting cryptic error messages or identifying the cause of an unexpected result.
+In our project, we have attempted to strategically leverage LLMs to enhance efficiency where reasonable. The LLMs used in the project are Chat-GPT and Github Co-Pilot. They served primarily as sparring partners during debugging processes, where they occasionally have proven helpful in interpreting cryptic error messages or identifying the cause of an unexpected result.
 
 In our experience, the replies received from the LLMs have often been inadequate or inaccurate, which is likely due to the LLMs incomplete scope of the project. Despite this, the LLMs have helped the development of the project although it has not been substantially.
