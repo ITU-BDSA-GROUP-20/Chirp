@@ -53,7 +53,7 @@ Please note, that unauthorized users can access the 'Public Timeline,' 'Register
 
 ## Build, test, release, and deployment
 
-![WorkflowDiagram](diagrams/WorkflowDiagram.jpg){ width=105% }
+![WorkflowDiagram](diagrams/WorkflowDiagram.jpg){ width=90% }
 
 ### Build, and Test
 
