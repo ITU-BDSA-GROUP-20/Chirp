@@ -84,7 +84,7 @@ The compressed folders are now released on GitHub.
   * Chirp #156 - Whenever a user follows another user, or likes a cheep, the SendCheep validation is triggered.
   * Chirp #218 - When a user unfollows another user, the user(That unfollows) gets redirected to the public page.
 * Features we would have liked to improve on:
-  * (No issue created) - Extend the functionality of Reactions, so that a user is represented with a selection of reactions to use.
+  * (No issue created) - Extend the functionality of Reactions, so that a user is presented with a selection of reactions to use.
   * Chirp #170 - Adjust the visibility of the cheepbox(Where the user writes a cheep).
 * Chirp #181 - A larger refactorization of the razor pages' models, based on introducing a base Page to hold shared functionality.
 
@@ -95,11 +95,9 @@ The process of implementing changes to the system starts by defining the wanted 
 
 ### Discrepancies in commit amounts of group members
 
-When observing the amount of commits made by each group member, some anomalies can be seen. If a team member has a noticeably larger amounts of commits than others, it should be taken into account, that some or many of these extra commits are in regards to the deployment and release workflow files, that where the cause of a lot of commits relating to debugging these workflows.
+When observing the amount of commits made by each group member, some anomalies can be seen. If a team member has a noticeably larger amounts of commits than others, it should be taken into account, that some or many of these extra commits are in regards to the deployment and release workflow files, that were the cause of a lot of commits relating to debugging these workflows.
 
 ## How to make _Chirp!_ work locally
-
-> There has to be some documentation on how to come from cloning your project to a running system. That is, Rasmus or Helge have to know precisely what to do in which order. Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then.
 
 ### 1. cloning the project
 
