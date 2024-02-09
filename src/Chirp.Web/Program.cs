@@ -1,4 +1,3 @@
-using System.Configuration;
 using Chirp.Core.Entities;
 using Chirp.Core.Repository;
 using Chirp.Infrastructure;
@@ -6,7 +5,6 @@ using Chirp.Infrastructure.Repository;
 using Chirp.Web;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 /// <summary>
@@ -15,8 +13,6 @@ using Microsoft.EntityFrameworkCore;
 /// </summary>
 
 var builder = WebApplication.CreateBuilder(args);
-
-var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 
 string currentDirectory = Directory.GetCurrentDirectory();
 string dbPath;
@@ -48,9 +44,6 @@ builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
 builder.Services.AddScoped<IFollowRepository, FollowRepository>();
 
-//builder.Services.AddDistributedMemoryCache();
-//TODO databaseMigrate(context) lad være med at kalde ensure created før der bliver kaldt migrate
-
 builder.Services.AddSession(
 	options =>
 	{
@@ -62,13 +55,7 @@ builder.Services.AddSession(
 
 //Github OAuth:
 builder.Services.AddAuthentication()
-    .AddCookie()
-    .AddGitHub(o =>
-    {
-        o.ClientId = builder.Configuration["authenticationGithubClientId"]!;
-        o.ClientSecret = builder.Configuration["authenticationGithubClientSecret"]!;
-        o.CallbackPath = "/signin-github";
-    });
+    .AddCookie();
 
 var app = builder.Build();
 
